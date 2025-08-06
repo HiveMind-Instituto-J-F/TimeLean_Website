@@ -12,6 +12,12 @@ import java.io.IOException;
 public class ServeletTest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        try {
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        }
+        catch (ServletException e) {
+            e.printStackTrace();
+        }
+
     }
 }
