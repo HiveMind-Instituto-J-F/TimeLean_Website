@@ -1,6 +1,6 @@
 package hivemind.hivemindweb.modules;
 
-// Test class
+// Test class for commit :)
 
 public class TestClass {
 }
