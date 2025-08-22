@@ -13,7 +13,7 @@
   - [Estrutura da Classe Tool (Exemplo)](#estrutura-da-classe-tool-exemplo)
   - [Uso da Classe List](#uso-da-classe-list)
 - [Exceções e Logs](#exceções-e-logs) Em Breve
-- [Testes](#testes) Em Breve
+- [Testes](#testes) Em Brevem
 - [Boas Práticas de Commits](#boas-praticas-de-commits)
 
   ## Sistema de Branches
@@ -136,6 +136,8 @@
                   "=======================";
       }
   ```
+
+  
 
   # Padrao de Codigo
 
