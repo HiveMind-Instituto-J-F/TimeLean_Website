@@ -14,7 +14,7 @@ public class ContactServelet extends HttpServlet {
         try {
             req.getRequestDispatcher("index.jsp").forward(req,resp);
         }catch (ServletException se){
-            se.printStackTrace();
+            se.printStackTrace(); 
         }
     }
 }
