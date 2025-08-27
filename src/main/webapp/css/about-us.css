@@ -1,0 +1,121 @@
+/* ===== Base ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#3a3a3a;
+  --muted:#676767;
+  --line:#e6e6e6;
+  --panel:#dcdcdc;
+  --ph:#d5d5d5;
+  --container:1140px;
+}
+html{font-size:16px}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;color:var(--ink);line-height:1.5}
+
+/* ===== Container ===== */
+.container{max-width:var(--container);margin:0 auto;padding:0 24px}
+
+/* ===== Header ===== */
+.site-header{border-bottom:1px solid var(--line);background:#fff}
+.nav-wrap{min-height:68px;display:flex;align-items:center;gap:20px}
+.brand img{height:22px;display:block}
+.main-nav{margin-left:auto;display:flex;align-items:center;gap:14px}
+.main-nav a{text-decoration:none;color:#4d4d4d;font-size:.82rem;white-space:nowrap}
+.main-nav .divider{width:1px;height:12px;background:#cfcfcf;display:inline-block}
+.btn-ghost{
+  margin-left:16px;text-decoration:none;font-size:.72rem;color:#444;
+  border:1px solid #cfcfcf;padding:6px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:8px
+}
+.btn-ghost .dot{width:10px;height:10px;border-radius:2px;background:#8e8e8e;display:inline-block}
+
+/* ===== Hero ===== */
+.hero{padding:72px 0 8px}
+.hero-copy h1{
+  font-size:44px;line-height:1.05;font-weight:700;letter-spacing:.2px;
+  max-width:520px;margin-left:92px
+}
+.hero-copy p{
+  margin:14px 0 0 92px;max-width:520px;color:var(--muted);font-size:1rem
+}
+
+/* ===== Valores ===== */
+.values{padding:54px 0}
+.values .values-panel{
+  /* PAINEL MENOR (igual ao mock): não ocupa toda a largura do container */
+  background:#dedede;border-radius:2px;
+  max-width:920px;   /* << tamanho reduzido */
+  margin:0 auto;     /* centralizado */
+  padding:28px;
+}
+.values-head{
+  display:grid;grid-template-columns: 1.1fr 1fr;gap:28px;align-items:start;margin-bottom:14px
+}
+.values-head h2{
+  font-size:44px;line-height:1.02;font-weight:700
+}
+.values-head p{color:#555;max-width:360px}
+
+/* grid de bullets exatamente em 3 colunas */
+.values-grid{
+  margin-top:10px;
+  display:grid;grid-template-columns: repeat(3, minmax(0,1fr));gap:18px 40px;
+  align-items:start
+}
+.v-item{display:flex;align-items:center;gap:12px;color:#4f4f4f;font-size:.95rem}
+.v-item .sq{width:30px;height:30px;background:#fff;border:1px solid #cfcfcf;border-radius:2px}
+
+/* ===== Team ===== */
+.team{padding:60px 0 28px}
+.team-title{text-align:center;font-size:36px;font-weight:700;margin-bottom:26px}
+.team-grid{
+  display:grid;grid-template-columns: repeat(2, minmax(0,1fr));gap:22px;max-width:860px;margin:0 auto
+}
+.card{background:#e0e0e0;padding:14px}
+.card .ph{background:#cfcfcf;height:138px;margin-bottom:10px}
+.card p{font-size:.95rem}
+.card span{color:#5e5e5e;font-size:.85rem}
+.team .ph {
+  width: 100%;              /* ocupa toda a largura do card */
+  height: 250px;            /* altura fixa como no design */
+  object-fit: cover;        /* corta a imagem sem distorcer */
+  border-radius: 8px;       /* borda arredondada se quiser */
+  display: block;
+}
+
+/* ===== CTA Copy ===== */
+.cta-copy{padding:64px 0 18px}
+.cta-copy h3{font-size:44px;line-height:1.05;font-weight:700;text-align:center}
+.cta-copy p{max-width:560px;margin:12px auto 0;color:#5a5a5a;text-align:center}
+
+/* ===== Footer ===== */
+.site-footer{padding:28px 0 44px;border-top:1px solid var(--line)}
+.footer-grid{
+  display:grid;grid-template-columns: repeat(4, 1fr) 140px;gap:28px;align-items:start
+}
+.f-col h5{font-size:1rem;margin-bottom:8px}
+.f-col p{font-size:.82rem;color:#5e5e5e;line-height:1.35}
+.f-brand{display:flex;align-items:center;justify-content:flex-end}
+
+.f-brand img{ height:50px; margin-left:auto; display:block; }
+
+/* ===== Responsivo ===== */
+@media (max-width: 980px){
+  .hero-copy h1,.hero-copy p{margin-left:0}
+  .values .values-panel{max-width:100%}
+  .values-head{grid-template-columns:1fr}
+  .values-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .team-grid{max-width:100%}
+}
+@media (max-width: 720px){
+  .main-nav{display:none}
+  .btn-ghost{margin-left:auto}
+  .hero{padding-top:48px}
+  .hero-copy h1{font-size:34px}
+  .cta-copy h3{font-size:34px}
+  .values-grid{gap:16px 20px}
+}
+@media (max-width: 520px){
+  .values-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .f-brand{justify-content:center}
+}
