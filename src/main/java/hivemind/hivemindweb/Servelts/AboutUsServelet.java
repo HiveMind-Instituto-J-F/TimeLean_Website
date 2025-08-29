@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelets;
+package hivemind.hivemindweb.Servelts;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,16 +7,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// Nao era nessesario um /home porem caso o usuario queira abrir o site como /home ele tera a posibilidade
-
-@WebServlet("/home")
-public class HomeServelet extends HttpServlet {
+@WebServlet("/about")
+public class AboutUsServelet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.getRequestDispatcher("index.html").forward(req,resp);
+            req.getRequestDispatcher("html\\about-us.html").forward(req,resp);
         }catch (ServletException se){
             se.printStackTrace();
         }
     }
 }
+

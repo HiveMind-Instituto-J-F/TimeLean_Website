@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Test;
+package test;
 
 public class TestEnv {
     //test
