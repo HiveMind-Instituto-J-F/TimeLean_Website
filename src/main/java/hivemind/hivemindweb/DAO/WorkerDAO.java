@@ -5,9 +5,8 @@ import hivemind.hivemindweb.Connection.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
-public class TrabalhadorDAO {
+public class WorkerDAO {
     public static boolean insert(){
         DBConnection db = new DBConnection();
         Connection conn = db.connected();

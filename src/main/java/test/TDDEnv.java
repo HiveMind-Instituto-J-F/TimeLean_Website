@@ -4,7 +4,7 @@ import hivemind.hivemindweb.Connection.DBConnection;
 
 import java.sql.Connection;
 
-public class TestEnv {
+public class TDDEnv {
     public static void main(String[] args) {
         Connection conn = null;
         DBConnection db = new DBConnection();
