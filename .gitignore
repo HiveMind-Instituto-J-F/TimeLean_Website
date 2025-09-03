@@ -43,3 +43,6 @@ build/
 
 # CODEOWNERS
 .CODEOWNERS
+
+#dotenv
+.env

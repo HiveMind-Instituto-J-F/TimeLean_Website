@@ -17,4 +17,11 @@ public class DBConnection {
         }
     return con;
     }
-}
+
+    public void desconect(Connection con) {
+        try {
+            if (con != null && !con.isClosed()){con.close();}
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+        }
+    }}
