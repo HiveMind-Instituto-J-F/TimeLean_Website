@@ -14,7 +14,7 @@
   - [Uso da Classe List](#uso-da-classe-list)
 - [Exceções e Logs](#exceções-e-logs) Em Breve
 - [Testes](#testes) Em Brevem
-- [Boas Práticas de Commits](#boas-praticas-de-commits)
+- [Boas Práticas de Commits](#boas-práticas-de-commits)
 
   ## Sistema de Branches
 
@@ -193,3 +193,98 @@
   ### Descrição breve
   `List` é uma interface em Java que representa uma coleção ordenada de elementos, permitindo acesso por índice e suporte a elementos duplicados.  
   Na prática, ela oferece flexibilidade para armazenar e percorrer dados de forma simples e eficiente.
+
+
+# Boas Práticas de Commits
+
+## Estrutura Recomendada (Conventional Commits)
+
+```
+<type>[optional scope]: <short description>
+[optional body]
+[optional footer(s)]
+```
+
+---
+
+## 1️⃣ Tipos de Commits
+
+| Tipo         | Quando usar                                                        |
+| ------------ | ------------------------------------------------------------------ |
+| **feat**     | Adiciona nova funcionalidade ou recurso                            |
+| **fix**      | Corrige bug                                                        |
+| **docs**     | Alterações na documentação                                         |
+| **style**    | Formatação, espaços, ponto e vírgula, sem alteração de lógica      |
+| **refactor** | Refatoração de código sem alterar comportamento                    |
+| **perf**     | Alteração que melhora performance                                  |
+| **test**     | Adição ou correção de testes                                       |
+| **chore**    | Tarefas de manutenção (build, scripts, configuração, dependências) |
+
+---
+
+## 2️⃣ Regras de Boas Práticas
+
+1. **Mensagem curta e clara**
+
+  * Primeira linha com resumo de até 50 caracteres.
+  * Evite mensagens genéricas como `Update files` ou `Changes`.
+
+2. **Use verbo no imperativo**
+
+  * Ex.: `Add`, `Fix`, `Update`, `Remove`, `Refactor`.
+  * Evite: `Added`, `Fixed`, `I fixed`.
+
+3. **Commits pequenos e focados**
+
+  * Um commit = uma alteração/coisa.
+  * Ex.: `Add insert method to PlantasDAO`
+    Não misture inserção, update e delete em um commit só.
+
+4. **Detalhes opcionais**
+
+  * Linha em branco após o resumo.
+  * Explicação do motivo da mudança e possíveis impactos.
+
+5. **Escopo opcional**
+
+  * Entre parênteses, define o módulo ou parte do projeto.
+  * Ex.: `feat(PlantasDAO): add insert method`.
+
+---
+
+## 3️⃣ Exemplos de Commits
+
+```text
+feat(PlantasDAO): add insert method using Planta object
+```
+
+```text
+fix(PlantasDAO): close database connection properly in select
+```
+
+```text
+refactor(PlantasDAO): update method now accepts Planta object
+```
+
+```text
+docs(Readme): add project structure and class conventions
+```
+
+```text
+style(PlantasDAO): format code and fix indentation
+```
+
+---
+
+## 4️⃣ Dicas Extras
+
+* Sempre revise o commit antes de enviar: `git diff --staged`.
+* Evite commits automáticos sem descrição.
+* Se necessário, use **footer** para fechar issues ou adicionar notas:
+
+```text
+fix(PlantasDAO): handle null values in update method
+
+Closes #42
+```
+s)]
