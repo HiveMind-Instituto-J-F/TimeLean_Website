@@ -3,6 +3,9 @@ package hivemind.hivemindweb.DAO;
 import hivemind.hivemindweb.Connection.DBConnection;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class TrabalhadorDAO {
     public static boolean insert(){
@@ -17,16 +20,18 @@ public class TrabalhadorDAO {
         return false;
     }
 
-    public static boolean select(){
+    public static ResultSet select(){
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
         try {
-            System.out.println((conn));
-            return true;
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Works");
+            ResultSet rs = stmt.executeQuery();
+            conn.close();
+            return rs;
         }catch (Exception sqle){
             sqle.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public static boolean update(){

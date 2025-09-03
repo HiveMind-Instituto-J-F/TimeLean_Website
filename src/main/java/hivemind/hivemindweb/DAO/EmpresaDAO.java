@@ -21,7 +21,8 @@ public class EmpresaDAO {
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
         try {
-            System.out.println((conn));
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE tableTest SET (?) WHERE (?) = (?)");
+            pstmt.setString(1, "hivemind");
         }catch (Exception sqle){
             sqle.printStackTrace();
         }
@@ -40,15 +41,18 @@ public class EmpresaDAO {
         return false;
     }
 
-    public static boolean select(){
+    // Admin Meths
+    public static ResultSet select(){
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
         try {
-            System.out.println((conn));
-            return true;
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Enterprise");
+            ResultSet rs = stmt.executeQuery();
+            conn.close();
+            return rs;
         }catch (Exception sqle){
             sqle.printStackTrace();
         }
-        return false;
+        return null;
     }
 }
