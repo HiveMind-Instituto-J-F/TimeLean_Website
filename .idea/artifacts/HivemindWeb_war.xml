@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="HivemindWeb:war">
+    <output-path>$PROJECT_DIR$/Hivemind_Website/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>HivemindWeb</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="HivemindWeb-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="HivemindWeb:war exploded" />
+    </root>
+  </artifact>
+</component>
