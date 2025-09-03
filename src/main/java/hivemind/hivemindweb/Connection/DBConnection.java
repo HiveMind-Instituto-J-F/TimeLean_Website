@@ -18,9 +18,9 @@ public class DBConnection {
     return con;
     }
 
-    public void desconect(Connection con) {
+    public void desconect(Connection conn) {
         try {
-            if (con != null && !con.isClosed()){con.close();}
+            if (conn != null && !conn.isClosed()){conn.close();}
         }catch (SQLException sqle){
             sqle.printStackTrace();
         }
