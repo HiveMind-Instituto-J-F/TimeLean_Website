@@ -22,9 +22,10 @@ public class PlantasDAO {
         }
     }
 
-    public static boolean update(){
+    public static boolean update(String responsible){
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
+        String sql = "UPDATE Plantas SET responsible = ? WHERE responsible = ?";
         try {
             System.out.println((conn));
         }catch (Exception sqle){

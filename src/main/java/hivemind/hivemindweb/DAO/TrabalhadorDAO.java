@@ -34,11 +34,11 @@ public class TrabalhadorDAO {
         return null;
     }
 
+    //
     public static boolean update(){
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
-        try {
-            System.out.println((conn));
+        String sql = "UPDATE ? SET ? WHERE ?";
+        try(Connection conn = db.connected()) {
             return true;
         }catch (Exception sqle){
             sqle.printStackTrace();
@@ -46,12 +46,16 @@ public class TrabalhadorDAO {
         return false;
     }
 
-    public static boolean delete(){
+    public static boolean delete(String CPF){
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
-        try {
-            System.out.println((conn));
-            return true;
+        String sql = "DELETE FROM Plant WHERE CPF = ?";
+
+        try(Connection conn = db.connected()) { // Create Temp conn
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, CPF);
+            int rowsAffects = pstmt.executeUpdate(); // return rowAffects
+            conn.close();
+            return rowsAffects >= 0;
         }catch (Exception sqle){
             sqle.printStackTrace();
         }
