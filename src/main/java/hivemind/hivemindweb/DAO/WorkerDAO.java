@@ -22,8 +22,9 @@ public class WorkerDAO {
     public static ResultSet select(){
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
+        String sql = "SELECT * FROM Works";
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Works");
+            PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             conn.close();
             return rs;
