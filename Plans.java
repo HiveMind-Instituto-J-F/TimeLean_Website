@@ -19,8 +19,8 @@ public class Plans {
 
     // ToString
     public String toString(){
-        return "ID: "+this.id+"\nNome: "+this.name+"\nDescrição: "+this.description+"\nQuantidade de Vendas: "+qntSales
-                +"\nDuração: "+this.duration+ format("Valor: %.2f", this.value);
+        return "ID: "+this.id+"\nName: "+this.name+"\nDescription: "+this.description+"\nQuantity of Sales: "+qntSales
+                +"\nDuration: "+this.duration+ format("Value: %.2f", this.value);
     }
 
     // Getters e Setters

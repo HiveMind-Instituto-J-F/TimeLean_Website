@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed7e4f19-6ab1-47c4-9e12-7077237af118" name="Changes" comment="" />
+    <list default="true" id="ed7e4f19-6ab1-47c4-9e12-7077237af118" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plans.java" beforeDir="false" afterPath="$PROJECT_DIR$/Plans.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +21,9 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -50,7 +57,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1756894814523</updated>
-      <workItem from="1756894815990" duration="2192000" />
+      <workItem from="1756894815990" duration="3082000" />
     </task>
     <servers />
   </component>
