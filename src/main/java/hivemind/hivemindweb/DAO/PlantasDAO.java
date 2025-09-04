@@ -2,10 +2,7 @@ package hivemind.hivemindweb.DAO;
 
 import hivemind.hivemindweb.Connection.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class PlantasDAO {
     public static boolean insert(){
@@ -54,7 +51,7 @@ public class PlantasDAO {
             ResultSet rs = stmt.executeQuery();
             conn.close();
             return rs;
-        }catch (Exception sqle){
+        }catch (SQLException sqle){
             sqle.printStackTrace();
         }
         return null;

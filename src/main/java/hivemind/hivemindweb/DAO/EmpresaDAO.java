@@ -2,40 +2,43 @@ package hivemind.hivemindweb.DAO;
 
 import java.sql.*;
 import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.models.Company;
 
 public class EmpresaDAO {
-    public static boolean insert(){
+    public static boolean insert(Company company) {
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
-        try {
-            System.out.println((conn));
+        String sql = "INSERT INTO Empresa VALUES ()";
+        try(Connection conn = db.connected()){
+            PreparedStatement psmt = conn.prepareStatement(sql);
             return true;
         }
-        catch (Exception sqle) { // Classe de teste temporária usada apenas para testes e push antes do merge
+        catch (SQLException sqle) { // Classe de teste temporária usada apenas para testes e push antes do merge
             sqle.printStackTrace();
             return false;
         }
     }
 
-    public static boolean update(){
+    public static boolean update(Company companys){
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
         try {
             PreparedStatement pstmt = conn.prepareStatement("UPDATE tableTest SET (?) WHERE (?) = (?)");
             pstmt.setString(1, "hivemind");
-        }catch (Exception sqle){
+        }catch (SQLException sqle){
             sqle.printStackTrace();
         }
         return false;
     }
 
-    public static boolean delete(){
+    public static boolean delete(String CNPJ){
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
+        String sql = "DELETE FROM Enterprise WHERE id = (?)";
         try {
-            System.out.println((conn));
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,CNPJ);
             return true;
-        }catch (Exception sqle){
+        }catch (SQLException sqle){
             sqle.printStackTrace();
         }
         return false;
