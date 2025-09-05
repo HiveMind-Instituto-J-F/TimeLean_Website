@@ -1,16 +1,13 @@
 package hivemind.hivemindweb.DAO;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import hivemind.hivemindweb.Tool.Tool;
+import java.sql.*;
 
 public class WorkerDAO {
     public static boolean insert(){
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
-        try {
+        try(Connection conn = db.connected()){
             System.out.println((conn));
             return true;
         }catch (Exception sqle){
@@ -21,9 +18,8 @@ public class WorkerDAO {
 
     public static ResultSet select(){
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
         String sql = "SELECT * FROM Works";
-        try {
+        try(Connection conn = db.connected()){
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             conn.close();
@@ -34,15 +30,27 @@ public class WorkerDAO {
         return null;
     }
 
-    //
-    public static boolean update(){
-        DBConnection db = new DBConnection();
-        String sql = "UPDATE ? SET ? WHERE ?";
-        try(Connection conn = db.connected()) {
-            return true;
-        }catch (Exception sqle){
-            sqle.printStackTrace();
+    public static boolean update(String column, String value, int id) {
+        if (Tool.verifySQL(column) || Tool.verifySQL(value)) {
+            return false;
         }
+
+        DBConnection db = new DBConnection();
+        String sql = "UPDATE trabalhador SET " + column + " = ? WHERE id = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, value); // só o valor vai como placeholder
+            stmt.setInt(2, id);
+
+            int rowAffects = stmt.executeUpdate();
+            return rowAffects > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
