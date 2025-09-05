@@ -2,7 +2,11 @@ package hivemind.hivemindweb.DAO;
 
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.Tool.Tool;
+import hivemind.hivemindweb.models.Worker;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorkerDAO {
     public static boolean insert(){
@@ -16,19 +20,34 @@ public class WorkerDAO {
         return false;
     }
 
-    public static ResultSet select(){
+    public static List<Worker> select() {
+        List<Worker> workers = new ArrayList<>();
         DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM Works";
-        try(Connection conn = db.connected()){
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            conn.close();
-            return rs;
-        }catch (Exception sqle){
-            sqle.printStackTrace();
+        String sql = "SELECT * FROM trabalhador";
+
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Worker workerLocal = new Worker(
+                        rs.getInt("id")
+//                        rs.getString("name"),
+//                        rs.getString("lastName"),
+//                        rs.getString("password"),
+//                        rs.getString("sector"),
+//                        rs.getString("profileType")
+                );
+                workers.add(workerLocal);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
+
+        return workers;
     }
+
 
     public static boolean update(String column, String value, int id) {
         if (Tool.verifySQL(column) || Tool.verifySQL(value)) {
