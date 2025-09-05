@@ -3,8 +3,11 @@ package test;
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.DAO.WorkerDAO;
 import hivemind.hivemindweb.Tool.Tool;
+import hivemind.hivemindweb.models.Worker;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TDDEnv {
     public static void main(String[] args) {
@@ -24,7 +27,10 @@ public class TDDEnv {
 
             selectTDD(db);
             WorkerDAO.update("tipo_perfil","TESTDEV",999);
-            selectTDD(db);
+            List<Worker> data = WorkerDAO.select();
+            for (Worker worker : data) {
+                System.out.println(worker);
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -49,26 +55,6 @@ public class TDDEnv {
                             rs.getString("time_empresa"));
                 }
             }
-
-            // --- Select trabalhador ---
-            String sqlTrab = "SELECT * FROM trabalhador"; // ambiente de teste
-            try (PreparedStatement pstmtTrab = conn.prepareStatement(sqlTrab);
-                 ResultSet rsTrab = pstmtTrab.executeQuery()) {
-
-                System.out.println("\n=== Trabalhadores ===");
-                while (rsTrab.next()) {
-                    System.out.printf(
-                            "| ID: %-3d | Planta: %-3d | Perfil: %-10s | Login: %-15s | Senha: %-12s | Setor: %-12s |%n",
-                            rsTrab.getInt("id"),
-                            rsTrab.getInt("id_planta"),
-                            rsTrab.getString("tipo_perfil"),
-                            rsTrab.getString("login"),
-                            rsTrab.getString("senha"),
-                            rsTrab.getString("setor")
-                    );
-                }
-            }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

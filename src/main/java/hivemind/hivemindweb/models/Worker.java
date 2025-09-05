@@ -19,6 +19,9 @@ public class Worker {
         this.profileType = profileType;
     }
 
+    public Worker(int id) { // For Teste In TDD
+    }
+
     // ToString
     public String toString(){
         return "CPF: "+this.CPF+"\nName: "+this.name+"\nLast Name: "+this.lastName+"\nPassword: "
