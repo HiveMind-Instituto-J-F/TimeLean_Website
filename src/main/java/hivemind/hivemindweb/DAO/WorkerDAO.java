@@ -9,11 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkerDAO {
-    public static boolean insert(){
+    public static boolean insert(String CPF, String name, String lastName, String sector, String role,int id){
+        if (Tool.verifySQL(CPF) || Tool.verifySQL(name) || Tool.verifySQL(lastName) || Tool.verifySQL(sector) || Tool.verifySQL(role)) {
+            return false;
+        }
         DBConnection db = new DBConnection();
+        String sql = "INSERT INTO trabalhador VALUES (?,?,?,?,?,?)";
         try(Connection conn = db.connected()){
-            System.out.println((conn));
-            return true;
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, id);
+            pstm.setString(2, CPF);
+            pstm.setString(3, name);
+            pstm.setString(4, lastName);
+            pstm.setString(5, sector);
+            pstm.setString(6, role);
+
+            return pstm.executeUpdate() > 0;
         }catch (Exception sqle){
             sqle.printStackTrace();
         }
@@ -32,6 +43,7 @@ public class WorkerDAO {
             while (rs.next()) {
                 Worker workerLocal = new Worker(
                         rs.getInt("id")
+                        //Wait for create DB colums
 //                        rs.getString("name"),
 //                        rs.getString("lastName"),
 //                        rs.getString("password"),
@@ -63,8 +75,7 @@ public class WorkerDAO {
             stmt.setString(1, value); // só o valor vai como placeholder
             stmt.setInt(2, id);
 
-            int rowAffects = stmt.executeUpdate();
-            return rowAffects > 0;
+            return stmt.executeUpdate() >= 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -81,7 +92,6 @@ public class WorkerDAO {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, CPF);
             int rowsAffects = pstmt.executeUpdate(); // return rowAffects
-            conn.close();
             return rowsAffects >= 0;
         }catch (Exception sqle){
             sqle.printStackTrace();

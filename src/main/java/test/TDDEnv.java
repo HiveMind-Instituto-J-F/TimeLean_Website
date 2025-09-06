@@ -25,6 +25,12 @@ public class TDDEnv {
             selectTDD(db);
             WorkerDAO.update("tipo_perfil","TESTDEV",999);
             selectTDD(db);
+            if(WorkerDAO.insert("5849235095","name","riepje","setor","role",798432)){
+                System.out.println("Isnert Beem Sussesdido!");
+            }
+            else {
+                System.out.println("Erro ao inserir");
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
