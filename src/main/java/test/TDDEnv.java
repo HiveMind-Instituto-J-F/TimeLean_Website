@@ -22,6 +22,14 @@ public class TDDEnv {
 //            pstmt2.setString(4, "Backend");
 //            pstmt2.executeUpdate();
 
+            if(WorkerDAO.insert("1234' OR '1'='1", "João", "Silva", "TI", "Dev", 1)){
+                System.out.println("Insert successful (TEst falhou)");
+            }
+            else {
+                System.out.println("Insert failed (Test aprovado)");
+            }
+
+
             selectTDD(db);
             WorkerDAO.update("tipo_perfil","TESTDEV",999);
             selectTDD(db);

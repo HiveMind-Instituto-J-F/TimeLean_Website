@@ -10,9 +10,6 @@ import java.util.List;
 
 public class WorkerDAO {
     public static boolean insert(String CPF, String name, String lastName, String sector, String role,int id){
-        if (Tool.verifySQL(CPF) || Tool.verifySQL(name) || Tool.verifySQL(lastName) || Tool.verifySQL(sector) || Tool.verifySQL(role)) {
-            return false;
-        }
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO trabalhador VALUES (?,?,?,?,?,?)";
         try(Connection conn = db.connected()){
@@ -62,10 +59,6 @@ public class WorkerDAO {
 
 
     public static boolean update(String column, String value, int id) {
-        if (Tool.verifySQL(column) || Tool.verifySQL(value)) {
-            return false;
-        }
-
         DBConnection db = new DBConnection();
         String sql = "UPDATE trabalhador SET " + column + " = ? WHERE id = ?";
 
