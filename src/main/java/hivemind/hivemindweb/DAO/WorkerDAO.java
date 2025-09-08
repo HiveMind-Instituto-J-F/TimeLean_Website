@@ -9,11 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkerDAO {
-    public static boolean insert(){
+    public static boolean insert(String CPF, String name, String lastName, String sector, String role,int id){
         DBConnection db = new DBConnection();
-        try(Connection conn = db.connected()){
-            System.out.println((conn));
-            return true;
+        String sql = "INSERT INTO trabalhador VALUES (?,?,?,?,?,?)";
+        try(Connection conn = db.connected()){ // try-with-resources
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, id);
+            pstm.setString(2, CPF);
+            pstm.setString(3, name);
+            pstm.setString(4, lastName);
+            pstm.setString(5, sector);
+            pstm.setString(6, role);
+
+            return pstm.executeUpdate() > 0;
         }catch (Exception sqle){
             sqle.printStackTrace();
         }
@@ -32,6 +40,7 @@ public class WorkerDAO {
             while (rs.next()) {
                 Worker workerLocal = new Worker(
                         rs.getInt("id")
+                        //Wait for create DB colums
 //                        rs.getString("name"),
 //                        rs.getString("lastName"),
 //                        rs.getString("password"),
@@ -50,10 +59,6 @@ public class WorkerDAO {
 
 
     public static boolean update(String column, String value, int id) {
-        if (Tool.verifySQL(column) || Tool.verifySQL(value)) {
-            return false;
-        }
-
         DBConnection db = new DBConnection();
         String sql = "UPDATE trabalhador SET " + column + " = ? WHERE id = ?";
 
@@ -63,8 +68,7 @@ public class WorkerDAO {
             stmt.setString(1, value); // só o valor vai como placeholder
             stmt.setInt(2, id);
 
-            int rowAffects = stmt.executeUpdate();
-            return rowAffects > 0;
+            return stmt.executeUpdate() >= 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,9 +84,7 @@ public class WorkerDAO {
         try(Connection conn = db.connected()) { // Create Temp conn
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, CPF);
-            int rowsAffects = pstmt.executeUpdate(); // return rowAffects
-            conn.close();
-            return rowsAffects >= 0;
+            return pstmt.executeUpdate() >= 0;
         }catch (Exception sqle){
             sqle.printStackTrace();
         }

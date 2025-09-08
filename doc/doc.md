@@ -276,7 +276,7 @@ style(PlantasDAO): format code and fix indentation
 
 ---
 
-## 4️⃣ Dicas Extras
+## Dicas Extras
 
 * Sempre revise o commit antes de enviar: `git diff --staged`.
 * Evite commits automáticos sem descrição.
@@ -287,4 +287,119 @@ fix(PlantasDAO): handle null values in update method
 
 Closes #42
 ```
-s)]
+
+# DB
+
+A O GRUD esta sendo feito com **JDBC**  e segue os seguitnes padraess de code
+
+## **Classes DAO**
+
+### Retorno de List no select() e Clean Code
+
+Conforme o **Capítulo 7, página 110** do livro **Clean Code (Robert C. Martin)**, **não é recomendado retornar `null`** de métodos de acesso a dados ou coleções. Ao invés disso, sempre retorne uma **coleção vazia** quando não houver resultados. Isso evita `NullPointerException` e facilita a manutenção e testes do código.
+
+No exemplo do `WorkerDAO`, o método `select()` retorna uma `List<Worker>` vazia se nenhum registro for encontrado, seguindo essa recomendação:
+
+```java
+public static List<Worker> select() {
+    List<Worker> workers = new ArrayList<>(); // sempre inicializada, nunca null
+    DBConnection db = new DBConnection();
+    String sql = "SELECT * FROM trabalhador";
+
+    try (Connection conn = db.connected();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Worker workerLocal = new Worker(rs.getInt("id")
+                // colunas adicionais serão mapeadas futuramente
+            );
+            workers.add(workerLocal);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // opcional: log de erro centralizado
+    }
+
+    return workers; // nunca retorna null
+}
+```
+
+---
+
+### Versão Genérica para DAOs
+
+Para padronizar DAOs e reduzir duplicação, é possível criar um **DAO genérico** usando generics e `FunctionalInterface` para mapeamento de resultados. Exemplo simplificado:
+
+```java
+public class GenericDAO<T> {
+
+    public static <T> List<T> select(String sql, ResultSetMapper<T> mapper) {
+        List<T> result = new ArrayList<>();
+        DBConnection db = new DBConnection();
+
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                result.add(mapper.map(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @FunctionalInterface
+    public interface ResultSetMapper<T> {
+        T map(ResultSet rs) throws SQLException;
+    }
+}
+```
+
+Exemplo de uso com `WorkerDAO`:
+
+```java
+List<Worker> workers = GenericDAO.select("SELECT * FROM trabalhador", rs -> new Worker(rs.getInt("id")));
+```
+
+### Benefícios:
+
+* Padroniza todos os DAOs.
+* Evita duplicação de código para `select()`.
+* Facilita a manutenção e testes unitários.
+* Mantém compatibilidade com **Clean Code e TDD**.
+
+---
+
+## Uso e Benefícios do Try-with-Resources em Conexões com DB
+
+O **try-with-resources** é uma funcionalidade do Java introduzida no Java 7 que permite **abrir recursos que implementam a interface `AutoCloseable`** e garantir que sejam **fechados automaticamente** ao final do bloco, sem precisar de `finally`.
+
+### Aplicação em DAOs
+
+Em DAOs que utilizam JDBC, **Connection**, **PreparedStatement** e **ResultSet** são recursos que precisam ser fechados para evitar **vazamento de memória** ou conexões pendentes. O try-with-resources permite:
+
+```java
+try (Connection conn = db.connected();
+     PreparedStatement stmt = conn.prepareStatement(sql);
+     ResultSet rs = stmt.executeQuery()) {
+    // lógica de leitura ou manipulação dos dados
+} catch (SQLException e) {
+    e.printStackTrace();
+}
+// Todos os recursos são fechados automaticamente aqui
+```
+
+> **OBS:** Documentação oficial do try-with-resources: [Oracle Docs](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html)
+
+### Benefícios principais
+
+* **Fechamento automático de recursos** → elimina a necessidade de `finally` e reduz riscos de vazamento.
+* **Código mais limpo e legível** → menos linhas de código e menos try/catch/finally aninhados.
+* **Segurança** → evita erros por esquecimento de fechar conexões ou statements.
+* **Facilita manutenção e testes** → garante que cada conexão seja encerrada corretamente, mesmo em caso de exceções.
