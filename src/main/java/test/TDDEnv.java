@@ -8,11 +8,9 @@ import java.sql.*;
 
 public class TDDEnv {
     public static void main(String[] args) {
-        System.out.println(Tool.verifySQL("truncate"));
         Connection conn = null;
         DBConnection db = new DBConnection();
         try {
-            selectTDD(db);
 //            PreparedStatement pstmt2 = conn.prepareStatement(
 //                    "INSERT INTO empresa(id, nome, cnpj, time_empresa) VALUES (?,?, ?, ?)"
 //            );
@@ -20,25 +18,25 @@ public class TDDEnv {
 //            pstmt2.setString(2, "Hivemind_Test2");
 //            pstmt2.setString(3, "3948230");
 //            pstmt2.setString(4, "Backend");
-//            pstmt2.executeUpdate();
-
-            if(WorkerDAO.insert("1234' OR '1'='1", "João", "Silva", "TI", "Dev", 1)){
-                System.out.println("Insert successful (TEst falhou)");
-            }
-            else {
-                System.out.println("Insert failed (Test aprovado)");
-            }
+////            pstmt2.executeUpdate();
+//
+//            if(WorkerDAO.insert("1234' OR '1'='1", "João", "Silva", "TI", "Dev", 1)){
+//                System.out.println("Insert successful (TEst falhou)");
+//            }
+//            else {
+//                System.out.println("Insert failed (Test aprovado)");
+//            }
 
 
             selectTDD(db);
             WorkerDAO.update("tipo_perfil","TESTDEV",999);
             selectTDD(db);
-            if(WorkerDAO.insert("5849235095","name","riepje","setor","role",798432)){
-                System.out.println("Isnert Beem Sussesdido!");
-            }
-            else {
-                System.out.println("Erro ao inserir");
-            }
+//            if(WorkerDAO.insert("5849235095eete","nameewe","riepjee","setoer","erole",7988432)){
+//                System.out.println("Isnert Beem Sussesdido!");
+//            }
+//            else {
+//                System.out.println("Erro ao inserir");
+//            }
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -12,7 +12,7 @@ public class WorkerDAO {
     public static boolean insert(String CPF, String name, String lastName, String sector, String role,int id){
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO trabalhador VALUES (?,?,?,?,?,?)";
-        try(Connection conn = db.connected()){
+        try(Connection conn = db.connected()){ // try-with-resources
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setInt(1, id);
             pstm.setString(2, CPF);
@@ -84,8 +84,7 @@ public class WorkerDAO {
         try(Connection conn = db.connected()) { // Create Temp conn
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, CPF);
-            int rowsAffects = pstmt.executeUpdate(); // return rowAffects
-            return rowsAffects >= 0;
+            return pstmt.executeUpdate() >= 0;
         }catch (Exception sqle){
             sqle.printStackTrace();
         }
