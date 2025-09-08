@@ -11,7 +11,6 @@ import java.util.List;
 
 public class TDDEnv {
     public static void main(String[] args) {
-        System.out.println(Tool.verifySQL("truncate"));
         Connection conn = null;
         DBConnection db = new DBConnection();
         try {

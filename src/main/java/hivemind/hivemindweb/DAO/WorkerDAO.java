@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkerDAO {
-    public static boolean insert(String CPF, String name, String lastName, String sector, String role,int id){
+    public static boolean insert(Worker worker){
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO trabalhador VALUES (?,?,?,?,?,?)";
         try(Connection conn = db.connected()){ // try-with-resources
             PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, id);
-            pstm.setString(2, CPF);
-            pstm.setString(3, name);
-            pstm.setString(4, lastName);
-            pstm.setString(5, sector);
-            pstm.setString(6, role);
+            pstm.setLong(1, worker.getId());
+            pstm.setString(2, worker.getCPF());
+            pstm.setString(3, worker.getName());
+            pstm.setString(4, worker.getLastName());
+            pstm.setString(5, worker.getPassword());
+            pstm.setString(6, worker.getProfileType()); //Refatorar models
 
             return pstm.executeUpdate() > 0;
         }catch (Exception sqle){

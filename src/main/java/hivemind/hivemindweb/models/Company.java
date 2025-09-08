@@ -2,7 +2,7 @@ package hivemind.hivemindweb.models;
 
 public class Company {
     // Variáveis
-    private long CNPJ;
+    private String CNPJ;
     private String companyName;
     private String companyType;
     private String registrantName;
@@ -10,12 +10,14 @@ public class Company {
     private String registrantEmail;
     private String function;
     private String password;
+    private long id;
     private long CPF;
 
     // Construtor
-    public Company(long CNPJ, String companyName, String companyType, String registrantName, String registrantLastName,
-                   String registrantEmail, String function, String password, long CPF ){
+    public Company(String CNPJ, String companyName, String companyType, String registrantName, String registrantLastName,
+                   String registrantEmail, String function, String password, long CPF , long id){
         this.CNPJ = CNPJ;
+        this.id = id;
         this.companyName = companyName;
         this.companyType = companyType;
         this.registrantName = registrantName;
@@ -34,7 +36,7 @@ public class Company {
     }
 
     // Getters e Setters
-    public long getCNPJ() {
+    public String getCNPJ() {
         return CNPJ;
     }
     public String getCompanyName() {
@@ -61,6 +63,7 @@ public class Company {
     public long getCPF() {
         return CPF;
     }
+    public long getId(){return id;}
     public void setFunction(String function) {
         this.function = function;
     }

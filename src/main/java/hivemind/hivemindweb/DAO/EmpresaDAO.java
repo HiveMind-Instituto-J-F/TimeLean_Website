@@ -5,17 +5,20 @@ import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.Company;
 
 public class EmpresaDAO {
-    public static boolean insert(Company company) {
+    public static boolean insert(Company company){
         DBConnection db = new DBConnection();
-        String sql = "INSERT INTO Empresa VALUES ()";
-        try(Connection conn = db.connected()){
-            PreparedStatement psmt = conn.prepareStatement(sql);
-            return true;
-        }
-        catch (SQLException sqle) { // Classe de teste temporária usada apenas para testes e push antes do merge
+        String sql = "INSERT INTO empresa VALUES (?,?,?,?,?,?)";
+        try(Connection conn = db.connected()){ // try-with-resources
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setLong(1, company.getId());
+            pstm.setString(2,company.getCompanyName());
+            pstm.setString(3,company.getCNPJ());
+//            pstm.setString(4,company.get());
+            return pstm.executeUpdate() > 0;
+        }catch (Exception sqle){
             sqle.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     public static boolean update(Company companys){

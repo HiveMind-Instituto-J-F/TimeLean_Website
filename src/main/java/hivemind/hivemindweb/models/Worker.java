@@ -2,7 +2,8 @@ package hivemind.hivemindweb.models;
 
 public class Worker {
     // Variáveis
-    private long CPF;
+    private String CPF;
+    private long id;
     private String name;
     private String lastName;
     private String password;
@@ -10,7 +11,7 @@ public class Worker {
     private String profileType;
 
     // Construtor
-    public Worker(long CPF, String name, String lastName, String password, String sector, String profileType){
+    public Worker(String CPF, String name, String lastName, String password, String sector, String profileType){
         this.CPF = CPF;
         this.name = name;
         this.lastName = lastName;
@@ -28,7 +29,8 @@ public class Worker {
                 +this.password+"\nSector: "+this.sector+"\nProfile Type: "+this.profileType;
     }
     // Getters e Setters
-    public long getCPF() {
+    public long getId(){return this.id;}
+    public String getCPF() {
         return CPF;
     }
     public String getName() {
