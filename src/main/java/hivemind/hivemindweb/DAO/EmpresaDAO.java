@@ -1,8 +1,12 @@
 package hivemind.hivemindweb.DAO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.Company;
+import hivemind.hivemindweb.models.Worker;
 
 public class EmpresaDAO {
     public static boolean insert(Company company){
@@ -13,7 +17,7 @@ public class EmpresaDAO {
             pstm.setLong(1, company.getId());
             pstm.setString(2,company.getCompanyName());
             pstm.setString(3,company.getCNPJ());
-//            pstm.setString(4,company.get());
+//            pstm.setString(4,company.get()); role colums
             return pstm.executeUpdate() > 0;
         }catch (Exception sqle){
             sqle.printStackTrace();
@@ -35,30 +39,47 @@ public class EmpresaDAO {
 
     public static boolean delete(String CNPJ){
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
-        String sql = "DELETE FROM Enterprise WHERE id = (?)";
-        try {
+        String sql = "DELETE FROM empresa WHERE CNPJ = ?";
+
+        try(Connection conn = db.connected()) { // Create Temp conn
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,CNPJ);
-            return true;
-        }catch (SQLException sqle){
+            pstmt.setString(1, CNPJ);
+            return pstmt.executeUpdate() >= 0;
+        }catch (Exception sqle){
             sqle.printStackTrace();
         }
         return false;
     }
 
-    // Admin Meths
-    public static ResultSet select(){
+    public static List<Company> select() {
+        List<Company> companys = new ArrayList<>();
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Enterprise");
-            ResultSet rs = stmt.executeQuery();
-            conn.close();
-            return rs;
-        }catch (Exception sqle){
-            sqle.printStackTrace();
+        String sql = "SELECT * FROM emrpesa";
+
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Company companyLocal = new Company(
+                        rs.getString("CNPJ"),
+                        rs.getString("companyName"),
+                        rs.getString("companyType"),
+                        rs.getString("registrantName"),
+                        rs.getString("registrantLastName"),
+                        rs.getString("registrantEmail"),
+                        rs.getString("function"),
+                        rs.getString("password"),
+                        rs.getLong("id"),
+                        rs.getLong("CPF")
+                );
+                companys.add(companyLocal);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
+
+        return companys;
     }
 }
