@@ -29,7 +29,7 @@ public class EmpresaDAO {
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
         try {
-            PreparedStatement pstmt = conn.prepareStatement("UPDATE tableTest SET (?) WHERE (?) = (?)");
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE empresa SET (?) WHERE (?) = (?)");
             pstmt.setString(1, "hivemind");
         }catch (SQLException sqle){
             sqle.printStackTrace();

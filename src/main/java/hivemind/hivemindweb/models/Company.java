@@ -28,6 +28,16 @@ public class Company {
         this.CPF = CPF;
     }
 
+    public Company(String companyName, String companyType, String registrantName, String registrantLastName, String registrantEmail, String function, long id) {
+        this.companyName = companyName;
+        this.companyType = companyType;
+        this.registrantName = registrantName;
+        this.registrantLastName = registrantLastName;
+        this.registrantEmail = registrantEmail;
+        this.function = function;
+        this.id = id;
+    }
+
     // ToString
     public String toString(){
         return "Company Name: "+this.companyName+"\nCNPJ: "+this.CNPJ+"\nCompany Type: "+this.companyType+"\nRegistrant name: "+this.registrantName
