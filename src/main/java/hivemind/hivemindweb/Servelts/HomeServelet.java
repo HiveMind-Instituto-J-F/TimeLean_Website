@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// Nao era nessesario um /home porem caso o usuario queira abrir o site como /home ele tera a posibilidade
+// Nao era nessesario um /home porem caso o usuario queira abrir o site como /home sera possivel
 
 @WebServlet("/home")
 public class HomeServelet extends HttpServlet {

@@ -1,4 +1,4 @@
-  #**Documentaçao**
+# **Documentaçao**
 
 
   **Sumerio**
@@ -11,6 +11,7 @@
   - [Convenções de Classes e Métodos](#convenções-de-classes-e-métodos)
   - [Separaçao De Pacotes](#separaçao-de-pacotes)
   - [Estrutura da Classe Tool (Exemplo)](#estrutura-da-classe-tool-exemplo)
+    - [Test Class Env](#test-class-env)
   - [Uso da Classe List](#uso-da-classe-list)
 - [Exceções e Logs](#exceções-e-logs) Em Breve
 - [Testes](#testes) Em Brevem
@@ -119,6 +120,11 @@
 
   - Nome de Classe Maiucusla 
   - nomete de metodos sempre sendo `verboAçao`
+  
+  ## Test Class Env  
+  No pacote **`Test`** existe uma classe dedicada a testes de funções.  
+  Ela é executada em um ambiente isolado e seguro, garantindo que possíveis erros não afetem o restante do sistema.
+
 
   ## toString
   O toString deve seguir o seguinte modelo 
