@@ -6,7 +6,6 @@ import java.util.List;
 
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.Company;
-import hivemind.hivemindweb.models.Worker;
 
 public class EmpresaDAO {
     public static boolean insert(Company company){
