@@ -49,6 +49,7 @@ public class WorkerDAO {
                 );
                 workers.add(workerLocal);
             }
+            return workers;
 
         } catch (SQLException e) {
             e.printStackTrace();

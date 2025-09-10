@@ -1,8 +1,10 @@
 package test;
 
 import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.DAO.EmpresaDAO;
 import hivemind.hivemindweb.DAO.WorkerDAO;
 import hivemind.hivemindweb.Tool.Tool;
+import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Worker;
 
 import java.sql.*;
@@ -25,11 +27,17 @@ public class TDDEnv {
 //            pstmt2.executeUpdate();
 
             selectTDD(db);
-            WorkerDAO.update("tipo_perfil","TESTDEV10",999);
+            WorkerDAO.update("tipo_perfil","TESTDEV15",999);
             List<Worker> data = WorkerDAO.select();
+            System.out.println(data);
             for (Worker worker : data) {
-                System.out.println(worker);
+                System.out.println("Worker: " + worker);
             }
+
+//            List<Company> dataEmpresa = EmpresaDAO.select();
+//            for (Company company : dataEmpresa) {
+//                System.out.println("Company: " + company);
+//            }
         }
         catch (Exception e) {
             e.printStackTrace();

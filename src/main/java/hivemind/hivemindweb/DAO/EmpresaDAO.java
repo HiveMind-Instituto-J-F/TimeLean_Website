@@ -54,7 +54,7 @@ public class EmpresaDAO {
     public static List<Company> select() {
         List<Company> companys = new ArrayList<>();
         DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM emrpesa";
+        String sql = "SELECT * FROM empresa ORDER BY CNPJ";
 
         try (Connection conn = db.connected();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -62,6 +62,7 @@ public class EmpresaDAO {
 
             while (rs.next()) {
                 Company companyLocal = new Company(
+                        //Wait for DB colums is create
                         rs.getString("CNPJ"),
                         rs.getString("companyName"),
                         rs.getString("companyType"),
@@ -75,10 +76,11 @@ public class EmpresaDAO {
                 );
                 companys.add(companyLocal);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        System.out.println("[DEBUG] In select EmrpesaDAO ,Companys found: " + companys.size() +  " data: " + companys);
 
         return companys;
     }

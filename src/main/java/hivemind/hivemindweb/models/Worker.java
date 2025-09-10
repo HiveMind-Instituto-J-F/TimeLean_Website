@@ -1,5 +1,7 @@
 package hivemind.hivemindweb.models;
 
+import java.lang.reflect.Field;
+
 public class Worker {
     // Variáveis
     private String CPF;
@@ -21,13 +23,9 @@ public class Worker {
     }
 
     public Worker(int id) { // For Teste In TDD
+        this.id = id;
     }
 
-    // ToString
-    public String toString(){
-        return "CPF: "+this.CPF+"\nName: "+this.name+"\nLast Name: "+this.lastName+"\nPassword: "
-                +this.password+"\nSector: "+this.sector+"\nProfile Type: "+this.profileType;
-    }
     // Getters e Setters
     public long getId(){return this.id;}
     public String getCPF() {
@@ -47,5 +45,11 @@ public class Worker {
     }
     public String getProfileType() {
         return profileType;
+    }
+
+    // ToString
+    public String toString(){
+        return "\nID:"+this.id  + "\nCPF: "+this.CPF+"\nName: "+this.name+"\nLast Name: "+this.lastName+"\nPassword: "
+                +this.password+"\nSector: "+this.sector+"\nProfile Type: "+this.profileType;
     }
 }
