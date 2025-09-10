@@ -7,10 +7,10 @@ import java.util.List;
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.Company;
 
-public class EmpresaDAO {
+public class CompanyDAO {
     public static boolean insert(Company company){
         DBConnection db = new DBConnection();
-        String sql = "INSERT INTO empresa VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO company VALUES (?,?,?,?,?,?)";
         try(Connection conn = db.connected()){ // try-with-resources
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setLong(1, company.getId());
@@ -28,7 +28,7 @@ public class EmpresaDAO {
         DBConnection db = new DBConnection();
         Connection conn = db.connected();
         try {
-            PreparedStatement pstmt = conn.prepareStatement("UPDATE empresa SET (?) WHERE (?) = (?)");
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE company SET (?) WHERE (?) = (?)");
             pstmt.setString(1, "hivemind");
         }catch (SQLException sqle){
             sqle.printStackTrace();
@@ -38,7 +38,7 @@ public class EmpresaDAO {
 
     public static boolean delete(String CNPJ){
         DBConnection db = new DBConnection();
-        String sql = "DELETE FROM empresa WHERE CNPJ = ?";
+        String sql = "DELETE FROM company WHERE CNPJ = ?";
 
         try(Connection conn = db.connected()) { // Create Temp conn
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -53,7 +53,7 @@ public class EmpresaDAO {
     public static List<Company> select() {
         List<Company> companys = new ArrayList<>();
         DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM empresa ORDER BY CNPJ";
+        String sql = "SELECT * FROM company ORDER BY CNPJ";
 
         try (Connection conn = db.connected();
              PreparedStatement stmt = conn.prepareStatement(sql);

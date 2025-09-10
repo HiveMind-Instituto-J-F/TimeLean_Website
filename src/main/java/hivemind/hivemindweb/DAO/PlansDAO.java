@@ -10,7 +10,7 @@ import java.util.List;
 public class PlansDAO {
     public static boolean insert(Plans plan) {
         DBConnection db = new DBConnection();
-        String sql = "INSERT INTO plans VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO plan VALUES (?,?,?,?,?,?)";
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
@@ -54,7 +54,7 @@ public class PlansDAO {
 
     public static boolean delete(int id) {
         DBConnection db = new DBConnection();
-        String sql = "DELETE FROM plans WHERE id = ?";
+        String sql = "DELETE FROM plan WHERE id = ?";
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
@@ -71,7 +71,7 @@ public class PlansDAO {
     public static List<Plans> select() {
         List<Plans> plans = new ArrayList<>();
         DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM plans ORDER BY id";
+        String sql = "SELECT * FROM plan ORDER BY id";
 
         try (Connection conn = db.connected();
              PreparedStatement stmt = conn.prepareStatement(sql);

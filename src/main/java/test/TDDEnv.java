@@ -1,14 +1,10 @@
 package test;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.DAO.EmpresaDAO;
 import hivemind.hivemindweb.DAO.WorkerDAO;
-import hivemind.hivemindweb.Tool.Tool;
-import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Worker;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TDDEnv {
