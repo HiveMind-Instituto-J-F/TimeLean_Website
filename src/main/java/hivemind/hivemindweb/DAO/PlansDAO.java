@@ -24,8 +24,8 @@ public class PlansDAO {
 
             return pstm.executeUpdate() > 0;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
         }
         return false;
     }
@@ -62,8 +62,8 @@ public class PlansDAO {
             pstm.setInt(1, id);
             return pstm.executeUpdate() > 0;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in delete" + sqle.getMessage());
         }
         return false;
     }
@@ -90,7 +90,7 @@ public class PlansDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("[ERROR] Falied in select" + e.getMessage());
         }
 
         return plans;

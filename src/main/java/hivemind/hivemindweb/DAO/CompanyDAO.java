@@ -18,8 +18,8 @@ public class CompanyDAO {
             pstm.setString(3,company.getCNPJ());
 //            pstm.setString(4,company.get()); role colums
             return pstm.executeUpdate() > 0;
-        }catch (Exception sqle){
-            sqle.printStackTrace();
+        }catch (SQLException sqle){
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return false;
     }
@@ -31,7 +31,7 @@ public class CompanyDAO {
             PreparedStatement pstmt = conn.prepareStatement("UPDATE company SET (?) WHERE (?) = (?)");
             pstmt.setString(1, "hivemind");
         }catch (SQLException sqle){
-            sqle.printStackTrace();
+            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
         }
         return false;
     }
@@ -44,8 +44,8 @@ public class CompanyDAO {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, CNPJ);
             return pstmt.executeUpdate() >= 0;
-        }catch (Exception sqle){
-            sqle.printStackTrace();
+        }catch (SQLException sqle){
+            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
         }
         return false;
     }
@@ -75,8 +75,8 @@ public class CompanyDAO {
                 );
                 companys.add(companyLocal);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
         }
 
         System.out.println("[DEBUG] In select EmrpesaDAO ,Companys found: " + companys.size() +  " data: " + companys);
