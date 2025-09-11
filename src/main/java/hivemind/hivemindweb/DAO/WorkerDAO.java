@@ -21,8 +21,8 @@ public class WorkerDAO {
             pstm.setString(6, worker.getProfileType()); //Refatorar models
 
             return pstm.executeUpdate() > 0;
-        }catch (Exception sqle){
-            sqle.printStackTrace();
+        }catch (SQLException sqle){
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return false;
     }
@@ -50,8 +50,8 @@ public class WorkerDAO {
             }
             return workers;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
         }
 
         return workers;
@@ -70,8 +70,8 @@ public class WorkerDAO {
 
             return stmt.executeUpdate() >= 0;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
         }
 
         return false;
@@ -85,8 +85,8 @@ public class WorkerDAO {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, CPF);
             return pstmt.executeUpdate() >= 0;
-        }catch (Exception sqle){
-            sqle.printStackTrace();
+        }catch (SQLException sqle){
+            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
         }
         return false;
     }
