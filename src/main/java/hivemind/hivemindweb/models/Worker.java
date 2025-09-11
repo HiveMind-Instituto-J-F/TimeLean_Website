@@ -5,12 +5,13 @@ import java.lang.reflect.Field;
 public class Worker {
     // Variáveis
     private String CPF;
-    private long id;
+    private int id;
     private String name;
     private String lastName;
     private String password;
     private String sector;
     private String profileType;
+    private Field[] field;
 
     // Construtor
     public Worker(String CPF, String name, String lastName, String password, String sector, String profileType){
@@ -27,7 +28,7 @@ public class Worker {
     }
 
     // Getters e Setters
-    public long getId(){return this.id;}
+    public int getId(){return this.id;}
     public String getCPF() {
         return CPF;
     }
@@ -51,5 +52,13 @@ public class Worker {
     public String toString(){
         return "\nID:"+this.id  + "\nCPF: "+this.CPF+"\nName: "+this.name+"\nLast Name: "+this.lastName+"\nPassword: "
                 +this.password+"\nSector: "+this.sector+"\nProfile Type: "+this.profileType;
+    }
+
+    // Field
+    public static void printFields(Field[] field) {
+        field = Worker.class.getDeclaredFields();
+        for (Field f : field) {
+            System.out.println("Atributo: " + f.getName() + " | Tipo: " + f.getType());
+        }
     }
 }

@@ -1,5 +1,7 @@
 package hivemind.hivemindweb.models;
 
+import java.lang.reflect.Field;
+
 public class Plans {
     // Variáveis
     private int id;
@@ -8,6 +10,7 @@ public class Plans {
     private int qntSales;
     private int duration;
     private  double value;
+    private Field[] field;
 
     // Construtor
     public Plans(int id, String name, String description, int qntSales, int duration, double value){
@@ -58,6 +61,14 @@ public class Plans {
     }
     public void setValue(double value) {
         this.value = value;
+    }
+
+    // Field
+    public static void printFields(Field[] field) {
+        field = Plans.class.getDeclaredFields();
+        for (Field f : field) {
+            System.out.println("Atributo: " + f.getName() + " | Tipo: " + f.getType());
+        }
     }
 }
 

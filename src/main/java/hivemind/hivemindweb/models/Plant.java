@@ -1,9 +1,11 @@
 package hivemind.hivemindweb.models;
 
+import java.lang.reflect.Field;
+
 public class Plant {
     // Variáveis
-    private long CNAE;
-    private long CNPJ;
+    private String CNAE;
+    private String CNPJ;
     private String location;
     private String responsible;
     private String operationalStatus;
@@ -13,11 +15,11 @@ public class Plant {
     private String country;
     private String adressType;
     private int number;
-    private long CEP;
+    private String CEP;
 
     // Construtor
-    public Plant(long CNAE, long CNPJ, String location, String responsible, String operationalStatus, String state, String city, String street,
-                 String country, String adressType, int number, long CEP){
+    public Plant(String CNAE, String CNPJ, String location, String responsible, String operationalStatus, String state, String city, String street,
+                 String country, String adressType, int number, String CEP){
         this.CNAE = CNAE;
         this.CNPJ = CNPJ;
         this.location = location;
@@ -40,10 +42,10 @@ public class Plant {
     }
 
     // Getters e Setters
-    public long getCNAE() {
+    public String getCNAE() {
         return CNAE;
     }
-    public long getCNPJ() {
+    public String getCNPJ() {
         return CNPJ;
     }
     public String getLocation() {
@@ -73,7 +75,7 @@ public class Plant {
     public int getNumber() {
         return number;
     }
-    public long getCEP() {
+    public String getCEP() {
         return CEP;
     }
     public void setResponsible(String responsible) {
@@ -82,7 +84,7 @@ public class Plant {
     public void setOperationalStatus(String operationalStatus) {
         this.operationalStatus = operationalStatus;
     }
-    public void setCEP(long CEP) {
+    public void setCEP(String CEP) {
         this.CEP = CEP;
     }
     public void setCity(String city) {
@@ -102,5 +104,13 @@ public class Plant {
     }
     public void setAdressType(String adressType) {
         this.adressType = adressType;
+    }
+
+    // Field
+    public static void printFields(Field[] field) {
+        field = Plant.class.getDeclaredFields();
+        for (Field f : field) {
+            System.out.println("Atributo: " + f.getName() + " | Tipo: " + f.getType());
+        }
     }
 }

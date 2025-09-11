@@ -1,5 +1,7 @@
 package hivemind.hivemindweb.models;
 
+import java.lang.reflect.Field;
+
 public class Company {
     // Variáveis
     private String CNPJ;
@@ -10,12 +12,13 @@ public class Company {
     private String registrantEmail;
     private String function;
     private String password;
-    private long id;
-    private long CPF;
+    private int id;
+    private String CPF;
+    private Field[] field;
 
     // Construtor
     public Company(String CNPJ, String companyName, String companyType, String registrantName, String registrantLastName,
-                   String registrantEmail, String function, String password, long CPF , long id){
+                   String registrantEmail, String function, String password, String CPF , int id){
         this.CNPJ = CNPJ;
         this.id = id;
         this.companyName = companyName;
@@ -28,7 +31,7 @@ public class Company {
         this.CPF = CPF;
     }
 
-    public Company(String companyName, String companyType, String registrantName, String registrantLastName, String registrantEmail, String function, long id) {
+    public Company(String companyName, String companyType, String registrantName, String registrantLastName, String registrantEmail, String function, int id) {
         this.companyName = companyName;
         this.companyType = companyType;
         this.registrantName = registrantName;
@@ -70,14 +73,22 @@ public class Company {
     public String getPassword() {
         return password;
     }
-    public long getCPF() {
+    public String getCPF() {
         return CPF;
     }
-    public long getId(){return id;}
+    public int getId(){return id;}
     public void setFunction(String function) {
         this.function = function;
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    // Field
+    public static void printFields(Field[] field) {
+        field = Company.class.getDeclaredFields();
+        for (Field f : field) {
+            System.out.println("Atributo: " + f.getName() + " | Tipo: " + f.getType());
+        }
     }
 }
