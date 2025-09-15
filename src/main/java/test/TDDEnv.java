@@ -23,7 +23,7 @@ public class TDDEnv {
 //            pstmt2.executeUpdate();
 
             selectTDD(db);
-            WorkerDAO.update("tipo_perfil","TESTDEV15",999);
+
             List<Worker> data = WorkerDAO.select();
             System.out.println(data);
             for (Worker worker : data) {

@@ -395,8 +395,8 @@ try (Connection conn = db.connected();
      PreparedStatement stmt = conn.prepareStatement(sql);
      ResultSet rs = stmt.executeQuery()) {
     // lógica de leitura ou manipulação dos dados
-} catch (SQLException e) {
-    e.printStackTrace();
+} catch (SQLException sqle) {
+    sqle.printStackTrace();
 }
 // Todos os recursos são fechados automaticamente aqui
 ```

@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.DAO;
 
 import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Worker;
 
 import java.sql.*;
@@ -58,22 +59,23 @@ public class WorkerDAO {
     }
 
 
-    public static boolean update(String column, String value, int id) {
+    public static boolean update(Worker worker) {
         DBConnection db = new DBConnection();
-        String sql = "UPDATE worker SET " + column + " = ? WHERE id = ?";
+        String sql = "UPDATE worker SET CPF = ? role=? , name=? , last_name=?, sector=?, email=?,login_password=? WHERE id = ?";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, worker.getCPF());
+            pstm.setString(3, worker.getName());
+            pstm.setString(4, worker.getLastName());
+            pstm.setString(5, worker.getSector());
+            pstm.setString(7, worker.getProfileType());
+            pstm.setLong(8, worker.getId());
+            return pstm.executeUpdate() > 0;
 
-            stmt.setString(1, value); // só o valor vai como placeholder
-            stmt.setInt(2, id);
-
-            return stmt.executeUpdate() >= 0;
-
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
         return false;
     }
 
