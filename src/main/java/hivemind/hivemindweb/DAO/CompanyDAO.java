@@ -6,6 +6,7 @@ import java.util.List;
 
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.Company;
+import hivemind.hivemindweb.models.Plans;
 
 public class CompanyDAO {
     public static boolean insert(Company company){
@@ -24,14 +25,28 @@ public class CompanyDAO {
         return false;
     }
 
-    public static boolean update(Company companys){
+    public static boolean update(Company company) {
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("UPDATE company SET (?) WHERE (?) = (?)");
-            pstmt.setString(1, "hivemind");
-        }catch (SQLException sqle){
-            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+        String sql = "UPDATE company SET CNPJ = ?, companyName = ?, companyType = ?, registrantName = ?, registrantLastName = ?, registrantEmail = ?, function = ?, password = ?, CPF = ? WHERE id = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setString(1, company.getCNPJ());
+            pstm.setString(2, company.getCompanyName());
+            pstm.setString(3, company.getCompanyType());
+            pstm.setString(4, company.getRegistrantName());
+            pstm.setString(5, company.getRegistrantLastName());
+            pstm.setString(6, company.getRegistrantEmail());
+            pstm.setString(7, company.getFunction());
+            pstm.setString(8, company.getPassword());
+            pstm.setLong(9, company.getCPF());
+            pstm.setLong(10, company.getId());
+
+            return pstm.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }

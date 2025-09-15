@@ -13,6 +13,7 @@ public class PlansDAO {
         String sql = "INSERT INTO plan VALUES (?,?,?,?,?,?)";
 
         try (Connection conn = db.connected();
+
              PreparedStatement pstm = conn.prepareStatement(sql)) {
 
             pstm.setInt(1, plan.getId());
@@ -30,27 +31,27 @@ public class PlansDAO {
         return false;
     }
 
-//    public static boolean update(Plans plan) {
-//        DBConnection db = new DBConnection();
-//        String sql = "UPDATE plans SET name = ?, description = ?, qntSales = ?, duration = ?, value = ? WHERE id = ?";
-//
-//        try (Connection conn = db.connected();
-//             PreparedStatement pstm = conn.prepareStatement(sql)) {
-//
-//            pstm.setString(1, plan.getName());
-//            pstm.setString(2, plan.getDescription());
-//            pstm.setInt(3, plan.getQntSales());
-//            pstm.setInt(4, plan.getDuration());
-//            pstm.setDouble(5, plan.getValue());
-//            pstm.setInt(6, plan.getId());
-//
-//            return pstm.executeUpdate() > 0;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+    public static boolean update(Plans plan) {
+        DBConnection db = new DBConnection();
+        String sql = "UPDATE plans SET name = ?, description = ?, qntSales = ?, duration = ?, value = ? WHERE id = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setString(1, plan.getName());
+            pstm.setString(2, plan.getDescription());
+            pstm.setInt(3, plan.getQntSales());
+            pstm.setInt(4, plan.getDuration());
+            pstm.setDouble(5, plan.getValue());
+            pstm.setInt(6, plan.getId());
+
+            return pstm.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static boolean delete(int id) {
         DBConnection db = new DBConnection();
