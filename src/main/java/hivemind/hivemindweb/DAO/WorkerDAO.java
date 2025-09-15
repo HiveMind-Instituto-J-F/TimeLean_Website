@@ -73,8 +73,8 @@ public class WorkerDAO {
             pstm.setLong(8, worker.getId());
             return pstm.executeUpdate() > 0;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Error In Update, Erro: " + sqle.getMessage());
         }
         return false;
     }
