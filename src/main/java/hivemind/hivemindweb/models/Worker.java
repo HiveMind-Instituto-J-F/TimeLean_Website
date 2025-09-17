@@ -5,32 +5,31 @@ import java.lang.reflect.Field;
 public class Worker {
     // Variáveis
     private String CPF;
-    private int id;
+    private String email;
     private String name;
     private String lastName;
-    private String password;
+    private String loginPassword;
     private String sector;
-    private String profileType;
-    private Field[] field;
+    private String role;
 
     // Construtor
-    public Worker(String CPF, String name, String lastName, String password, String sector, String profileType){
+    public Worker(String CPF, String email, String name, String lastName, String loginPassword, String sector, String role){
         this.CPF = CPF;
+        this.email = email;
         this.name = name;
         this.lastName = lastName;
-        this.password = password;
+        this.loginPassword = loginPassword;
         this.sector = sector;
-        this.profileType = profileType;
+        this.role = role;
     }
 
-    public Worker(int id) { // For Teste In TDD
-        this.id = id;
-    }
 
     // Getters e Setters
-    public int getId(){return this.id;}
     public String getCPF() {
         return CPF;
+    }
+    public String getEmail() {
+        return email;
     }
     public String getName() {
         return name;
@@ -38,27 +37,20 @@ public class Worker {
     public String getLastName() {
         return lastName;
     }
-    public String getPassword() {
-        return password;
+    public String getLoginPassword() {
+        return loginPassword;
     }
     public String getSector() {
         return sector;
     }
-    public String getProfileType() {
-        return profileType;
+    public String getRole() {
+        return role;
     }
 
     // ToString
     public String toString(){
-        return "\nID:"+this.id  + "\nCPF: "+this.CPF+"\nName: "+this.name+"\nLast Name: "+this.lastName+"\nPassword: "
-                +this.password+"\nSector: "+this.sector+"\nProfile Type: "+this.profileType;
+        return "\nCPF: "+this.CPF+"\nEmail: "+this.email+"\nName: "+this.name+"\nLast Name: "+this.lastName+"\nLogin Password: "
+                +this.loginPassword+"\nSector: "+this.sector+"\nRole: "+this.role;
     }
 
-    // Field
-    public static void printFields(Field[] field) {
-        field = Worker.class.getDeclaredFields();
-        for (Field f : field) {
-            System.out.println("Atributo: " + f.getName() + " | Tipo: " + f.getType());
-        }
-    }
 }
