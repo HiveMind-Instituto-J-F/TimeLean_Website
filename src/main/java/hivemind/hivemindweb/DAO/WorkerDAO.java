@@ -1,7 +1,6 @@
 package hivemind.hivemindweb.DAO;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Worker;
 
 import java.sql.*;
@@ -57,7 +56,6 @@ public class WorkerDAO {
 
         return workers;
     }
-
 
     public static boolean update(Worker worker) {
         DBConnection db = new DBConnection();
