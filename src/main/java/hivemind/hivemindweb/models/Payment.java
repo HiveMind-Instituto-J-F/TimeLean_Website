@@ -10,23 +10,23 @@ public class Payment {
     private String method;
     private String beneficiary;
     private String status;
-    private int idPlan;
+    private int idPlanSubscription;
 
     // Construtor
-    public Payment(int id, double value, LocalDate deadline, String method, String beneficiary, String status, int idPlan){
+    public Payment(int id, double value, LocalDate deadline, String method, String beneficiary, String status, int idPlanSubscription){
         this.id = id;
         this.value = value;
         this.deadline = deadline;
         this.method = method;
         this.beneficiary = beneficiary;
         this.status = status;
-        this.idPlan = idPlan;
+        this.idPlanSubscription = idPlanSubscription;
     }
 
     // ToString
     public String toString(){
         return "\nId: "+this.id+String.format("\nValue: %.2f",this.value)+"\nDeadline: "+this.deadline+"\nMethod: "+
-                this.method+"\nBeneficiary: "+this.beneficiary+"\nStatus: "+this.status+"\nId Plan: "+this.idPlan;
+                this.method+"\nBeneficiary: "+this.beneficiary+"\nStatus: "+this.status+"\nId Plan Subscription: "+this.idPlanSubscription;
     }
 
     // Getters e Setters
@@ -49,7 +49,7 @@ public class Payment {
         return status;
     }
     public int getIdPlan() {
-        return idPlan;
+        return idPlanSubscription;
     }
     public void setStatus(String status) {
         this.status = status;

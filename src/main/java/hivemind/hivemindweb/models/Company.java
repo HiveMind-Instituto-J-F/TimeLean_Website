@@ -7,17 +7,15 @@ public class Company {
     private String cnpj;
     private String name;
     private String cnae;
-    private int idPlan;
     private String registrantCpf;
 
 
 
     // Construtor
-    public Company(String cnpj, String name, String cnae, int idPlan, String registrantCpf){
+    public Company(String cnpj, String name, String cnae, String registrantCpf){
         this.cnpj = cnpj;
         this.name = name;
         this.cnae = cnae;
-        this.idPlan = idPlan;
         this.registrantCpf = registrantCpf;
     }
 
@@ -25,7 +23,7 @@ public class Company {
     // ToString
     public String toString(){
         return "CNPJ: "+this.cnpj+"\nName: "+this.name+"\nCNAE: "+this.cnae
-                +"\nId_plan: "+this.idPlan+"\nRegistrant CPF: "+this.registrantCpf;
+                +"\nRegistrant CPF: "+this.registrantCpf;
     }
 
     // Getters e Setters
@@ -37,9 +35,6 @@ public class Company {
     }
     public String getCnae() {
         return cnae;
-    }
-    public int getIdPlan() {
-        return idPlan;
     }
     public String getRegistrantCpf() {
         return registrantCpf;

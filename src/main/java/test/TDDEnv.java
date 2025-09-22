@@ -2,7 +2,7 @@ package test;
 
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.DAO.WorkerDAO;
-import hivemind.hivemindweb.models.Worker;
+import hivemind.hivemindweb.models.ContactEmail;
 
 import java.sql.*;
 import java.util.List;
@@ -24,9 +24,9 @@ public class TDDEnv {
 
             selectTDD(db);
             WorkerDAO.update("tipo_perfil","TESTDEV15",999);
-            List<Worker> data = WorkerDAO.select();
+            List<ContactEmail> data = WorkerDAO.select();
             System.out.println(data);
-            for (Worker worker : data) {
+            for (ContactEmail worker : data) {
                 System.out.println("Worker: " + worker);
             }
 

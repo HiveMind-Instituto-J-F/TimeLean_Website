@@ -1,28 +1,31 @@
 package hivemind.hivemindweb.models;
 
-import java.lang.reflect.Field;
-
-public class Plans {
+public class Plan {
     // Variáveis
     private int id;
     private String name;
     private String description;
     private int duration;
-    private  double value;
+    private  double price;
+    private int reportsLimit;
+    private int plantsLimit;
 
     // Construtor
-    public Plans(int id, String name, String description, int duration, double value){
+    public Plan(int id, String name, String description, int duration, double price, int plantsLimit, int reportsLimit){
         this.id = id;
         this.name = name;
         this.description = description;
         this.duration = duration;
-        this.value = value;
+        this.price = price;
+        this.plantsLimit = plantsLimit;
+        this.reportsLimit = reportsLimit;
     }
 
     // ToString
     public String toString(){
         return "ID: "+this.id+"\nName: "+this.name+"\nDescription: "+this.description+
-                "\nDuration: "+this.duration+ ("Value: %.2f," +  this.value);
+                "\nDuration: "+this.duration+ ("\nPrice: %.2f," +  this.price)+ "\nPlants Limit: "+this.plantsLimit+
+                "\nReports Limit: "+this.reportsLimit;
     }
 
     // Getters e Setters
@@ -38,12 +41,19 @@ public class Plans {
     public int getDuration() {
         return duration;
     }
-    public double getValue() {
-        return value;
+
+    public double getPrice() {
+        return price;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public int getPlantsLimit() {
+        return plantsLimit;
     }
+
+    public int getReportsLimit() {
+        return reportsLimit;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -51,8 +61,13 @@ public class Plans {
         this.duration = duration;
     }
     public void setValue(double value) {
-        this.value = value;
+        this.price = value;
     }
-
+    public void setPlantsLimit(int plantsLimit) {
+        this.plantsLimit = plantsLimit;
+    }
+    public void setReportsLimit(int reportsLimit) {
+        this.reportsLimit = reportsLimit;
+    }
 }
 
