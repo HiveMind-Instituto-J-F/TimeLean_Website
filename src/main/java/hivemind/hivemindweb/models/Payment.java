@@ -1,0 +1,57 @@
+package hivemind.hivemindweb.models;
+
+import java.time.LocalDate;
+
+public class Payment {
+    // Variáveis
+    private int id;
+    private double value;
+    private LocalDate deadline;
+    private String method;
+    private String beneficiary;
+    private String status;
+    private int idPlanSubscription;
+
+    // Construtor
+    public Payment(int id, double value, LocalDate deadline, String method, String beneficiary, String status, int idPlanSubscription){
+        this.id = id;
+        this.value = value;
+        this.deadline = deadline;
+        this.method = method;
+        this.beneficiary = beneficiary;
+        this.status = status;
+        this.idPlanSubscription = idPlanSubscription;
+    }
+
+    // ToString
+    public String toString(){
+        return "\nId: "+this.id+String.format("\nValue: %.2f",this.value)+"\nDeadline: "+this.deadline+"\nMethod: "+
+                this.method+"\nBeneficiary: "+this.beneficiary+"\nStatus: "+this.status+"\nId Plan Subscription: "+this.idPlanSubscription;
+    }
+
+    // Getters e Setters
+    public int getId() {
+        return id;
+    }
+    public double getValue() {
+        return value;
+    }
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+    public String getMethod() {
+        return method;
+    }
+    public String getBeneficiary() {
+        return beneficiary;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public int getIdPlan() {
+        return idPlanSubscription;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}
