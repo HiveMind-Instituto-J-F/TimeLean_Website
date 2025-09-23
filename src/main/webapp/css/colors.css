@@ -1,0 +1,11 @@
+:root {
+    --petroleo: #274855;
+    --petroleo-escuro: #202C33;
+    --laranja: #E89640;
+    --preto: #4B4844;
+    --polar: #DAE4E3;
+    --branco: #FFFFFF;
+
+    --weak-shadow: 0px 2px 20px -15px rgba(0, 0, 0, 0.205);
+    --strong-shadow: 0px 4px 40px 5px rgba(0, 0, 0, 0.123);
+}

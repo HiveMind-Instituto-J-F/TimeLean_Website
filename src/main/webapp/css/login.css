@@ -1,0 +1,76 @@
+@import url(colors.css);
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--petroleo-escuro);
+    color: var(--polar);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#major {
+    display: flex;
+    border-radius: 20px;
+    box-shadow: var(--strong-shadow);
+}
+
+#form {
+    max-width: 400px;
+    padding: 0px 44px;
+}
+
+#form>p {
+    margin-bottom: 20px;
+}
+
+#form>h1 {
+    margin-top: 32px;
+}
+
+#img {
+    padding: 200px;
+    padding-right: 100px !important;
+    border-radius: 20px 0 0 20px;
+    background-image: url('/img/background/login.png');
+    background-size: cover;
+    background-position: center;
+}
+
+form>div {
+    margin-bottom: 24px;
+}
+
+input {
+    padding: 8px 180px;
+    padding-left: 16px !important;
+    text-align: left;
+}
+
+::placeholder {
+    text-align: left;
+}
+
+button {
+    width: 358px;
+    padding: 8px 0px;
+    padding-bottom: 8px !important;
+}
+
+input, button {
+    border: 0;
+    border-radius: 2.5px;
+}
+
+#show {
+    display: flex;
+}
+
+#show>input {
+    margin-right: 12px;
+    border: 0;
+}

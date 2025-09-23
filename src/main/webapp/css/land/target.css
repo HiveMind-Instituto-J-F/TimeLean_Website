@@ -1,0 +1,10 @@
+#target {
+    display: flex;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+#target * {
+    color: var(--polar) !important;
+}
