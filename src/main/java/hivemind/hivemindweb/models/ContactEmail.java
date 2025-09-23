@@ -1,21 +1,21 @@
 package hivemind.hivemindweb.models;
 
-public class Login {
+public class ContactEmail {
     // Variáveis
     private int id;
     private String email;
-    private String password;
+    private String company;
 
     // Construtor
-    public Login(int id, String email, String password){
+    public ContactEmail(int id, String email, String company){
         this.id = id;
         this.email = email;
-        this.password = password;
+        this.company = company;
     }
 
     // ToString
     public String toString(){
-        return "ID: "+this.id+"\nEmail: "+this.email+"\nPassword: "+this.password;
+        return "Id: "+this.id+"\nEmail: "+this.email+"\nCompany: "+this.company;
     }
 
     // Getters e Setters
@@ -25,10 +25,10 @@ public class Login {
     public String getEmail() {
         return email;
     }
-    public String getPassword() {
-        return password;
+    public String getCompany() {
+        return company;
     }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

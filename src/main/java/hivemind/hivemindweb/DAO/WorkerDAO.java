@@ -1,14 +1,14 @@
 package hivemind.hivemindweb.DAO;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.models.Worker;
+import hivemind.hivemindweb.models.ContactEmail;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorkerDAO {
-    public static boolean insert(Worker worker){
+    public static boolean insert(ContactEmail worker){
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO worker VALUES (?,?,?,?,?,?)";
         try(Connection conn = db.connected()){ // try-with-resources
@@ -27,8 +27,8 @@ public class WorkerDAO {
         return false;
     }
 
-    public static List<Worker> select() {
-        List<Worker> workers = new ArrayList<>();
+    public static List<ContactEmail> select() {
+        List<ContactEmail> workers = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql = "SELECT * FROM worker";
 
@@ -37,7 +37,7 @@ public class WorkerDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Worker workerLocal = new Worker(
+                ContactEmail workerLocal = new ContactEmail(
                         rs.getInt("id")
                         //Wait for create DB colums
 //                        rs.getString("name"),

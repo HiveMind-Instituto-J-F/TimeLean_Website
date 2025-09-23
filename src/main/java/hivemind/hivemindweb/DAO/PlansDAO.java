@@ -1,14 +1,14 @@
 package hivemind.hivemindweb.DAO;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.models.Plans;
+import hivemind.hivemindweb.models.Plan;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlansDAO {
-    public static boolean insert(Plans plan) {
+    public static boolean insert(Plan plan) {
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO plan VALUES (?,?,?,?,?,?)";
 
@@ -69,8 +69,8 @@ public class PlansDAO {
         return false;
     }
 
-    public static List<Plans> select() {
-        List<Plans> plans = new ArrayList<>();
+    public static List<Plan> select() {
+        List<Plan> plans = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql = "SELECT * FROM plan ORDER BY id";
 
@@ -79,7 +79,7 @@ public class PlansDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Plans planLocal = new Plans(
+                Plan planLocal = new Plan(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("description"),

@@ -1,106 +1,68 @@
 package hivemind.hivemindweb.models;
 
+
 public class Plant {
     // Variáveis
-    private long CNAE;
-    private long CNPJ;
-    private String location;
-    private String responsible;
+    private String cnae;
+    private String cnpj;
+    private String responsibleCpf;
     private String operationalStatus;
-    private String state;
-    private String city;
-    private String street;
-    private String country;
-    private String adressType;
-    private int number;
-    private long CEP;
+    private int adressNumber;
+    private String cnpjCompany;
+    private String adressCep;
 
     // Construtor
-    public Plant(long CNAE, long CNPJ, String location, String responsible, String operationalStatus, String state, String city, String street,
-                 String country, String adressType, int number, long CEP){
-        this.CNAE = CNAE;
-        this.CNPJ = CNPJ;
-        this.location = location;
-        this.responsible = responsible;
-        this.operationalStatus = operationalStatus;
-        this.state = state;
-        this.city = city;
-        this.street = street;
-        this.country = country;
-        this.adressType = adressType;
-        this.number = number;
-        this.CEP = CEP;
+    public Plant(String cnae, String cnpj, String responsibleCpf, String operationalStatus, int adressNumber,
+                 String cnpjCompany, String adressCep){
+            this.cnae = cnae;
+            this.cnpj = cnpj;
+            this.responsibleCpf = responsibleCpf;
+            this.operationalStatus = operationalStatus;
+            this.adressNumber = adressNumber;
+            this.cnpjCompany = cnpjCompany;
+            this.adressCep = adressCep;
     }
 
     // ToString
     public String toString(){
-        return "CNAE: "+this.CNAE+"\nCNPJ: "+this.CNPJ+"\nLocation: "+this.location+"\nResponsible: "+this.responsible+"\nOperational Status: "
-                +this.operationalStatus+"\nCountry: "+this.country+"\nState: "+this.state+"\nCity: "+this.city+"\nStreet: "+this.street
-                +"\nNumber: "+this.number+"\nCEP: "+this.CEP;
+        return "CNAE: "+this.cnae+"\nCNPJ: "+this.cnpj+"\nResponsible CPF: "+this.responsibleCpf+"\nOperational Status: "
+                +this.operationalStatus +"\nAdress Number: "+this.adressNumber+"\nAdress CEP: "+this.adressCep+"\nCNPJ Company: "
+                +this.cnpjCompany;
     }
 
     // Getters e Setters
-    public long getCNAE() {
-        return CNAE;
+    public String getCNAE() {
+        return cnae;
     }
-    public long getCNPJ() {
-        return CNPJ;
+    public String getCNPJ() {
+        return cnpj;
     }
-    public String getLocation() {
-        return location;
-    }
-    public String getResponsible() {
-        return responsible;
+    public String getResponsibleCpf() {
+        return responsibleCpf;
     }
     public String getOperationalStatus() {
         return operationalStatus;
     }
-    public String getState() {
-        return state;
+    public int getAdressNumber() {
+        return adressNumber;
     }
-    public String getCity() {
-        return city;
+    public String getIdCompany() {
+        return cnpjCompany;
     }
-    public String getStreet() {
-        return street;
+    public String getAdressCep() {
+        return adressCep;
     }
-    public String getCountry() {
-        return country;
-    }
-    public String getAdressType() {
-        return adressType;
-    }
-    public int getNumber() {
-        return number;
-    }
-    public long getCEP() {
-        return CEP;
-    }
-    public void setResponsible(String responsible) {
-        this.responsible = responsible;
+    public void setResponsibleCpf(String responsible) {
+        this.responsibleCpf = responsible;
     }
     public void setOperationalStatus(String operationalStatus) {
         this.operationalStatus = operationalStatus;
     }
-    public void setCEP(long CEP) {
-        this.CEP = CEP;
+    public void setAdressCep(String adressCep) {
+        this.adressCep = adressCep;
     }
-    public void setCity(String city) {
-        this.city = city;
+    public void setAdressNumber(int adressNumber) {
+        this.adressNumber = adressNumber;
     }
-    public void setCountry(String country) {
-        this.country = country;
-    }
-    public void setNumber(int number) {
-        this.number = number;
-    }
-    public void setState(String state) {
-        this.state = state;
-    }
-    public void setStreet(String street) {
-        this.street = street;
-    }
-    public void setAdressType(String adressType) {
-        this.adressType = adressType;
-    }
+
 }
