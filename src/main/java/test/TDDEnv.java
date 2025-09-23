@@ -1,11 +1,9 @@
 package test;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.DAO.WorkerDAO;
 //import hivemind.hivemindweb.models.Worker;
 
 import java.sql.*;
-import java.util.List;
 
 public class TDDEnv {
     public static void main(String[] args) {
