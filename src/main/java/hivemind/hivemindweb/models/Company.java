@@ -1,7 +1,5 @@
 package hivemind.hivemindweb.models;
 
-import java.lang.reflect.Field;
-
 public class Company {
     // Variáveis
     private String cnpj;

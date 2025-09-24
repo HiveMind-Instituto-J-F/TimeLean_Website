@@ -48,8 +48,8 @@ public class PlanDAO {
 
             return pstm.executeUpdate() > 0;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in Update" + sqle.getMessage());
         }
         return false;
     }
@@ -71,7 +71,7 @@ public class PlanDAO {
     }
 
     public static List<Plan> select() {
-        List<Plan> plans = new ArrayList<>();
+        List<Plan> plansList = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql = "SELECT * FROM plan ORDER BY id";
 
@@ -89,13 +89,13 @@ public class PlanDAO {
                         rs.getInt("reports_limit"),
                         rs.getInt("plants_limit")
                 );
-                plans.add(planLocal);
+                plansList.add(planLocal);
             }
 
         } catch (SQLException e) {
             System.out.println("[ERROR] Falied in select" + e.getMessage());
         }
 
-        return plans;
+        return plansList;
     }
 }
