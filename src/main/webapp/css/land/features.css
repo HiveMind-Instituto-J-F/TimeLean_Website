@@ -1,0 +1,33 @@
+#features {
+    background-color: var(--laranja);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 32px 156px;
+}
+
+#features>* {
+    color: var(--polar);
+}
+
+.box img {
+    background-color: var(--polar) !important;
+    margin: 0;
+    padding: 8px;
+    width: 32px;
+    border-radius: 4px;
+}
+
+
+#features section {
+    display: flexbox;
+    width: 280px;
+    margin: 0px 64px;
+}
+
+#features>section>div {
+    margin-top: 50px;
+}
+#features p {
+    width: 216px;
+}

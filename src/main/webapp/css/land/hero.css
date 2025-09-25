@@ -1,0 +1,44 @@
+@import url('colors.css');
+
+#hero * {
+  color: var(--preto);
+}
+
+#hero {
+  margin: 0 auto;
+  width: auto;
+  text-align: center;
+  overflow: hidden;
+}
+
+#background-img {
+  margin: 0 !important;
+  padding: 160px 0px;
+  padding-bottom: 752px;
+  background-image: url('../../img/background/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#hero>.container {
+  margin-bottom: 72px;
+}
+
+#hero>:nth-child(2) {
+  margin-bottom: 24px;
+}
+
+#hero>* {
+  margin-bottom: 16px;
+}
+
+#hero>div:first-child>:nth-child(2) {
+  width: 300px;
+  margin: auto;
+  margin-top: 12px;
+}
+
+#hero>div:last-child {
+  margin-top: 60px;
+}

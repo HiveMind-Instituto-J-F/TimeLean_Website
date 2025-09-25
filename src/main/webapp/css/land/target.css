@@ -1,0 +1,37 @@
+#target {
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#target>* {
+    color: var(--polar) !important;
+}
+
+#target>div {
+    justify-content: center;
+    align-items: center;
+}
+#target div {
+    margin-bottom: 20px;
+}
+#target>:first-child {
+    margin: 0 auto;
+    width: 500px;
+}
+
+.pictures {
+    margin: 40px auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 500px;
+}
+
+.pictures img {
+    object-fit: cover;
+    width: 240px;
+    height: 600px;
+    border-radius: 2px;
+}

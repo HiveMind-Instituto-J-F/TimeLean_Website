@@ -1,0 +1,96 @@
+package hivemind.hivemindweb.DAO;
+
+import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.models.PlanSubscription;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlanSubscriptionDAO {
+    public static List<PlanSubscription> select(PlanSubscription planSubscription){
+        List<PlanSubscription> PlanSubscriptionList = new ArrayList<>();
+        DBConnection db = new DBConnection();
+        String sql = "SELECT * FROM plant_subscripition ORDER BY id";
+
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                PlanSubscription planSubscriptionLocal = new PlanSubscription(
+                    rs.getInt("id"),
+                    rs.getDate("start_date").toLocalDate(),
+                    rs.getString("cnpj_company"),
+                    rs.getInt("id_plan")
+                );
+                PlanSubscriptionList.add(planSubscriptionLocal);
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Falied in select" + e.getMessage());
+        }
+
+        return PlanSubscriptionList;
+    }
+    public static boolean delete(PlanSubscription plansSubscription) {
+        DBConnection db = new DBConnection();
+        String sql = "DELETE FROM plant_subscripition WHERE id = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setInt(1, plansSubscription.getId());
+            return pstm.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in delete" + sqle.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean update(PlanSubscription planSubscription) {
+        DBConnection db = new DBConnection();
+        String sql = """
+            UPDATE plant_subscriptions
+            SET start_date = ?,
+                cnpj_company = ?,
+                id_plan = ?
+            WHERE id = ?
+        """;
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setDate(1,Date.valueOf(planSubscription.getStartDate()));
+            pstm.setString(2,planSubscription.getCnpjCompany());
+            pstm.setInt(3,planSubscription.getIdPlan());
+            pstm.setInt(4, planSubscription.getId());
+            return pstm.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in update" + sqle.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean insert(PlanSubscription planSubscription){
+        DBConnection db = new DBConnection();
+        String sql = """
+            INSERT INTO plant_subscriptions (id, start_date, cnpj_company, id_plan)
+            VALUES (?,?, ?, ?)
+        """;
+
+        try(Connection conn = db.connected();
+             PreparedStatement psmt = conn.prepareStatement(sql);){
+                psmt.setInt(1,planSubscription.getId());
+                psmt.setDate(2, Date.valueOf(planSubscription.getStartDate()));
+                psmt.setString(3, planSubscription.getCnpjCompany());
+                psmt.setInt(4, planSubscription.getIdPlan());
+
+                return psmt.executeUpdate() > 0;
+        }catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+        }
+        return false;
+
+    }
+}
