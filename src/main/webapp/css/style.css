@@ -7,10 +7,11 @@
 
 body {
   background-color: var(--petroleo-escuro);
+  overflow-x: hidden;
 }
 
 body>div {
-  margin: 100px 0 !important;
+  margin: 100px 0;
 }
 
 img {
@@ -110,4 +111,23 @@ button.big {
 
 #unset {
   margin: unset;
+}
+
+footer {
+  display: flex;
+  color: var(--branco);
+  margin: 100px 200px;
+  justify-content: center;
+}
+
+footer>section {
+  margin: 0 80px;
+}
+
+.block {
+  display: flex;
+  border: 8px solid var(--laranja);
+  margin: 0 auto;
+  padding: 16px 0px;
+  width: 240px;
 }

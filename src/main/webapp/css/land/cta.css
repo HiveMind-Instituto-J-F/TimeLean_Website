@@ -6,10 +6,10 @@
 
 #cta {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     width: 900px;
-    margin: auto;
+    margin: 100px auto 0 !important;
 }
 
 #cta>.major {
@@ -34,4 +34,8 @@
     font-size: 28px;
     line-height: 32px;
     margin-bottom: 8px;
+}
+
+#cta img {
+    width: 200px;
 }

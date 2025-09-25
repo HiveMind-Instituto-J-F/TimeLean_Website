@@ -4,11 +4,18 @@
   color: var(--preto);
 }
 
+#hero {
+  margin: 0 auto;
+  width: auto;
+  text-align: center;
+  overflow: hidden;
+}
+
 #background-img {
   margin: 0 !important;
   padding: 160px 0px;
   padding-bottom: 752px;
-  background-image: url('../../img/background/original.jpg');
+  background-image: url('../../img/background/hero.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -20,12 +27,6 @@
 
 #hero>:nth-child(2) {
   margin-bottom: 24px;
-}
-
-#hero {
-  margin: 0 auto;
-  width: auto;
-  text-align: center;
 }
 
 #hero>* {
