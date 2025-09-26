@@ -1,4 +1,8 @@
 package hivemind.hivemindweb.Tool;
+import org.mindrot.jbcrypt.BCrypt;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 // Esta classe e temporaria mais seu conceito deve ser mantido sendo a Idea de manter funçoes statics ultilirias globlais   
 
@@ -22,5 +26,23 @@ public class Tool {
             System.out.println("[ERROR] Null Point Error, Erro: " + npe.getMessage());
         }
         return true;
+    }
+
+    public static String hash(String password) throws IOException {
+        if (password == null){
+            throw new IOException("password must not be null");
+        }
+        String salt = BCrypt.gensalt();
+        String hash = BCrypt.hashpw(password.trim(), salt);
+
+        return hash;
+    }
+
+    public static boolean matchHash(String password, String hash) {
+        if (password == null || hash == null) {
+            return false;
+        }
+        String cleanPassword = password.trim();
+        return BCrypt.checkpw(cleanPassword, hash);
     }
 }
