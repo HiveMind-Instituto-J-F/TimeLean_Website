@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.Tool.Tool;
 import hivemind.hivemindweb.models.Admin;
 
 public class AdminDAO {
     public static List<Admin> select(){
         DBConnection db = new DBConnection();
         List<Admin> adminsList = new ArrayList<>();
-        String sql = "SELECT * FROM admin ODER BY id";
+        String sql = "SELECT id, email, password FROM admin ORDER BY id";
         
         try (Connection conn = db.connected();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -25,21 +24,39 @@ public class AdminDAO {
                 Admin adminLocal = new  Admin(
                     rs.getInt("id"),
                     rs.getString("email"),
-                    rs.getString("hashPassword")
+                    rs.getString("password")
                 );
                 adminsList.add(adminLocal);
+                System.out.println(adminLocal);
             }
          } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.out.println("[ERROR] Falied in select " + e.getMessage() + "\n");
         }
         return adminsList;
     }
 
-    public static boolean login(Admin admin){
-        List<Admin> adminsList = AdminDAO.select(); // Get Data
-        Admin adminClient = Tool.binarySeach(adminsList, admin); // Get Class of List 
-        if(adminClient == null){return false;} 
+    public static Admin selectByEmail(String email){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT id, email, password FROM admin WHERE email = ?";
 
-        return Tool.matchHash(admin.getHashPassword(), adminClient.getHashPassword());
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if(rs.next()){ //get one line
+                    return new Admin(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                    );
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Failed in selectByEmail: " + e.getMessage());
+        }
+
+        return null;
     }
 }

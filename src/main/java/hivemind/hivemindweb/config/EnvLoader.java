@@ -1,10 +1,12 @@
-package hivemind.hivemindweb.Tool.config;
+package hivemind.hivemindweb.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class EnvLoader {
     private static final Dotenv dotenv = Dotenv.configure()
-            .directory("./") // Root config
+            .ignoreIfMissing()
+            // .directory("./") // Root config
+            .directory("D:\\Projects\\Java\\TimeLean_Website\\src\\main\\webapp\\WEB-INF\\")
             .filename(".env")
             .load();
 

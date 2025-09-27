@@ -2,7 +2,8 @@ package hivemind.hivemindweb.Servelts;
 
 import java.io.IOException;
 
-import hivemind.hivemindweb.DAO.AdminDAO;
+import hivemind.hivemindweb.AuthService.AuthService;
+import hivemind.hivemindweb.Tool.Tool;
 import hivemind.hivemindweb.models.Admin;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,23 +16,45 @@ public class LoginServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
+            System.out.println("[WARN] Open LoginServelet");
+            
             String email = req.getParameter("email");
-        String password = req.getParameter("password");
-            if(!(email.isEmpty() && email == null) || !(password.isEmpty() && password == null)){
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos.");
-                System.out.println("[ERROR] Invalid User");
-            }
+            String password = req.getParameter("password");
+            System.out.println("Email recebido: " + email);
 
-            Admin adminClient = new Admin(email, password);
-            if(AdminDAO.login(adminClient)){
-                req.getRequestDispatcher("\\index.html").forward(req,resp);
+            //Temp code
+            try {
+                password = Tool.hash(password); //remover e colocar no jsp
+            } catch (Exception e) {
+                e.getMessage();
+            }
+            System.out.println("Password recebido: " + password);
+
+            if(email == null || email.isEmpty() || password == null || password.isEmpty()){
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
+                System.out.println("[ERROR] Invalid User");
                 return;
             }
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Email ou senha incorretos.");
+
+
+            Admin adminClient = new Admin(email, password);
+            System.out.println("[WARN] Create Class Admin");
+            if(AuthService.login(adminClient)){
+                req.getRequestDispatcher("\\index.html").forward(req,resp);
+            }
+            else{
+                System.out.println("[WARN] AdminLocal: email: "+ adminClient.getEmail() + "password: " + adminClient.getHashPassword());
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Email ou senha incorretos.");
+            }
 
         }catch(ServletException se){
             System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
         }
+        catch(NullPointerException npe){
+            System.out.println("[ERROR] Null Pointer Exception: check for redundancy or incorrect memory allocation, Erro: " + npe.getMessage());
+        }
+
     }
 }
 

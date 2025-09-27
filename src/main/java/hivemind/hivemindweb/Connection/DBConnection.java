@@ -1,6 +1,6 @@
 package hivemind.hivemindweb.Connection;
 
-import hivemind.hivemindweb.Tool.config.EnvLoader;
+import hivemind.hivemindweb.config.EnvLoader;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.*;
