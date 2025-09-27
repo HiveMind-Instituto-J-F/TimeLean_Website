@@ -11,7 +11,7 @@ import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.Payment;
 
 public class PaymentDAO {
-    public static List<Payment> select(Payment payment){
+    public static List<Payment> select(){
         List<Payment> PaymentList = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql = "SELECT * FROM payment ORDER BY id";

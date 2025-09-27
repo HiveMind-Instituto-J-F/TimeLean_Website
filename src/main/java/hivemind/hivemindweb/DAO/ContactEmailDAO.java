@@ -12,7 +12,7 @@ import hivemind.hivemindweb.models.ContactEmail;
 
 
 public class ContactEmailDAO {
-    public static List<ContactEmail> select(ContactEmailDAO contactEmail){
+    public static List<ContactEmail> select(){
         List<ContactEmail> ContactEmailList = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql = "SELECT * FROM contact_email ORDER BY id";
