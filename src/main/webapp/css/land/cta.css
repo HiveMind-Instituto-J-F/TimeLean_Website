@@ -1,4 +1,4 @@
-@import url('colors.css');
+@import url('../variables.css');
 
 #cta * {
     color: var(--polar);

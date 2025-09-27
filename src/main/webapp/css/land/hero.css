@@ -1,7 +1,7 @@
-@import url('colors.css');
+@import url('../variables.css');
 
 #hero * {
-  color: var(--preto);
+  color: var(--black);
 }
 
 #hero {
@@ -13,8 +13,7 @@
 
 #background-img {
   margin: 0 !important;
-  padding: 160px 0px;
-  padding-bottom: 752px;
+  padding: 160px 0px 752px 0px;
   background-image: url('../../img/background/hero.jpg');
   background-size: cover;
   background-position: center;

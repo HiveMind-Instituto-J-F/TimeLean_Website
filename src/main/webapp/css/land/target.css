@@ -1,3 +1,5 @@
+@import url('../variables.css');
+
 #target {
     margin: 0 auto;
     justify-content: center;
@@ -13,9 +15,7 @@
     justify-content: center;
     align-items: center;
 }
-#target div {
-    margin-bottom: 20px;
-}
+
 #target>:first-child {
     margin: 0 auto;
     width: 500px;
@@ -33,5 +33,5 @@
     object-fit: cover;
     width: 240px;
     height: 600px;
-    border-radius: 2px;
+    border-radius: var(--border-div);
 }

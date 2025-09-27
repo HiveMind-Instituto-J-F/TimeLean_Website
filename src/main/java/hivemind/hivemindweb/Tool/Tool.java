@@ -15,8 +15,7 @@ public class Tool {
             
             while (low <= high) {
                 int medio = (low + high) / 2;
-                Admin point = adminsList.get(medio);
-                
+                Admin point = adminsList.get(medio);                
             }
         }catch(NullPointerException npe){
             System.out.println("[ERROR] Null Point Error, Erro: " + npe.getMessage());

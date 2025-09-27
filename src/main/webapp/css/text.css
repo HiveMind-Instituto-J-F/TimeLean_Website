@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('colors.css');
+@import url('variables.css');
 
 
 p {
@@ -10,7 +10,6 @@ h1 {
     font-size: xx-large;
     line-height: 45px;
 }
-
 
 h2 {
     font-size: larger;

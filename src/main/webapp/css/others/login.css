@@ -1,4 +1,4 @@
-@import url(colors.css);
+@import url('variables.css');
 
 * {
     margin: 0;
@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: var(--petroleo-escuro);
+    background-color: var(--black-oil);
     color: var(--polar);
     display: flex;
     justify-content: center;
@@ -15,7 +15,7 @@ body {
 
 #major {
     display: flex;
-    border-radius: 20px;
+    border-radius: var(--border-big);
     box-shadow: var(--strong-shadow);
 }
 
@@ -35,7 +35,7 @@ body {
 #img {
     padding: 200px;
     padding-right: 100px !important;
-    border-radius: 20px 0 0 20px;
+    border-radius: var(--border-big) 0 0 var(--border-big);
     background-image: url('/img/background/login.png');
     background-size: cover;
     background-position: center;
@@ -63,7 +63,7 @@ button {
 
 input, button {
     border: 0;
-    border-radius: 2.5px;
+    border-radius: var(--border-simple);
 }
 
 #show {
