@@ -9,10 +9,14 @@ import hivemind.hivemindweb.models.Admin;
 public class TDDEnv {
     public static void main(String[] args) {
         try {
-            System.out.println(Tool.hash("t"));
+            System.out.println(Tool.hash("TESTE"));
         } catch (Exception e) {
             System.out.println("erro");
         }
+
+        // String password = "teste";
+        // String hash = BCrypt.hashpw(password, BCrypt.gensalt());
+        // System.out.println(hash);
 
         List<Admin> t = AdminDAO.select();
 

@@ -19,8 +19,11 @@ public class AuthService{
         if (password == null){
             throw new IOException("password must not be null");
         }
+
+        System.out.println("Antes: " + password);
         String salt = BCrypt.gensalt();
         String hash = BCrypt.hashpw(password.trim(), salt);
+        System.out.println("depois: " + hash  + "salt: "+ salt);
 
         return hash;
     }

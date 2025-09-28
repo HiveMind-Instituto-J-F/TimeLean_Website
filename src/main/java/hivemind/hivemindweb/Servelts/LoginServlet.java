@@ -20,6 +20,7 @@ public class LoginServlet extends HttpServlet{
             
             String email = req.getParameter("email");
             String password = req.getParameter("password");
+            System.out.println(password);
             System.out.println("Email recebido: " + email);
 
             //Temp code
@@ -41,6 +42,7 @@ public class LoginServlet extends HttpServlet{
             System.out.println("[WARN] Create Class Admin");
             if(AuthService.login(adminClient)){
                 req.getRequestDispatcher("\\index.html").forward(req,resp);
+                System.out.println("Login Sussefy");
             }
             else{
                 System.out.println("[WARN] AdminLocal: email: "+ adminClient.getEmail() + "password: " + adminClient.getHashPassword());
