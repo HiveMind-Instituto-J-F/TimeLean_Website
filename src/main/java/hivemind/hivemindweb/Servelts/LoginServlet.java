@@ -3,7 +3,6 @@ package hivemind.hivemindweb.Servelts;
 import java.io.IOException;
 
 import hivemind.hivemindweb.AuthService.AuthService;
-import hivemind.hivemindweb.Tool.Tool;
 import hivemind.hivemindweb.models.Admin;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,13 +21,6 @@ public class LoginServlet extends HttpServlet{
             String password = req.getParameter("password");
             System.out.println(password);
             System.out.println("Email recebido: " + email);
-
-            //Temp code
-            try {
-                password = Tool.hash(password); //remover e colocar no jsp
-            } catch (Exception e) {
-                e.getMessage();
-            }
             System.out.println("Password recebido: " + password);
 
             if(email == null || email.isEmpty() || password == null || password.isEmpty()){

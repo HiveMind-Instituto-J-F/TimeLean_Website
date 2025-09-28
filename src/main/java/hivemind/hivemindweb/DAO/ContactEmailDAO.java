@@ -27,7 +27,7 @@ public class ContactEmailDAO {
                     rs.getString("email"),
                     rs.getString("cnpj_company")
                 );  
-                ContactEmailList.add(contactEmailLocal);
+                ContactEmailList.add(contactEmailLocal);    
             }
         } catch (SQLException e) {
             System.out.println("[ERROR] Falied in select" + e.getMessage());
