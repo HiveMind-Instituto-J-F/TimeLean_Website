@@ -19,6 +19,7 @@ public class LoginServlet extends HttpServlet{
             
             String email = req.getParameter("email");
             String password = req.getParameter("password");
+            password = AuthService.hash(password);
             System.out.println(password);
             System.out.println("Email recebido: " + email);
             System.out.println("Password recebido: " + password);
@@ -40,7 +41,7 @@ public class LoginServlet extends HttpServlet{
                 System.out.println("[WARN] AdminLocal: email: "+ adminClient.getEmail() + "password: " + adminClient.getHashPassword());
                 resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Email ou senha incorretos.");
             }
-
+            
         }catch(ServletException se){
             System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());

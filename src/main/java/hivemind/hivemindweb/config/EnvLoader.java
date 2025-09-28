@@ -6,7 +6,7 @@ public class EnvLoader {
     private static final Dotenv dotenv = Dotenv.configure()
             .ignoreIfMissing()
             // .directory("./") // Root config
-            .directory("D:\\Projects\\Java\\TimeLean_Website\\src\\main\\webapp\\WEB-INF\\")
+            .directory("C:\\Users\\gustavoquitto-ieg\\OneDrive - Instituto J&F\\Área de Trabalho\\Projetcs\\Tech\\HivemindBackend\\src\\main\\webapp\\WEB-INF\\")
             .filename(".env")
             .load();
 

@@ -8,11 +8,11 @@ import hivemind.hivemindweb.DAO.AdminDAO;
 import hivemind.hivemindweb.models.Admin;
 
 public class AuthService{
-    public static boolean login(Admin admin){
-        Admin adminClient =  AdminDAO.selectByEmail(admin.getEmail());
-        if(adminClient == null){return false;} 
+    public static boolean login(Admin adminClient){
+        Admin adminDB =  AdminDAO.selectByEmail(adminClient.getEmail()); // get For DB 
+        if(adminDB == null){return false;}
 
-        return AuthService.matchHash(admin.getHashPassword(), adminClient.getHashPassword());
+        return AuthService.matchHash(adminClient.getHashPassword(), adminDB.getHashPassword());
     }
 
     public static String hash(String password) throws IOException {
