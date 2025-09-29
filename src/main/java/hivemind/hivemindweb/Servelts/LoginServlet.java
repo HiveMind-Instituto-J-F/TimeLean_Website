@@ -1,6 +1,8 @@
 package hivemind.hivemindweb.Servelts;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import hivemind.hivemindweb.AuthService.AuthService;
 import hivemind.hivemindweb.models.Admin;
@@ -26,6 +28,13 @@ public class LoginServlet extends HttpServlet{
                 return;
             }
 
+            // Verify email according to regex:
+            if (!validateEmailByRegex(email)) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato de email não suportado");
+                System.out.println("[ERROR] Unsupported email");
+                return;
+            }
+
             Admin adminClient = new Admin(email, password);
             if(AuthService.login(adminClient)){
                 req.getRequestDispatcher("home").forward(req,resp);
@@ -44,6 +53,17 @@ public class LoginServlet extends HttpServlet{
             System.out.println("[ERROR] Null Pointer Exception: check for redundancy or incorrect memory allocation, Erro: " + npe.getMessage());
         }
 
+    }
+    public static boolean validateEmailByRegex(String email){
+        // Create regex:
+        Pattern pattern = Pattern.compile("^[A-Za-z]+[\\.\\-_][A-Za-z]+@(germinare\\.org\\.br|hivemind\\.com\\.br)$");
+        Matcher matcher = pattern.matcher(email.trim());
+
+        // Verify if email is following rules
+        if (matcher.matches()) {
+            return true;
+        }
+        return false;
     }
 }
 
