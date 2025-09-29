@@ -19,10 +19,6 @@ public class LoginServlet extends HttpServlet{
             
             String email = req.getParameter("email");
             String password = req.getParameter("password");
-            password = AuthService.hash(password);
-            System.out.println(password);
-            System.out.println("Email recebido: " + email);
-            System.out.println("Password recebido: " + password);
 
             if(email == null || email.isEmpty() || password == null || password.isEmpty()){
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
@@ -30,11 +26,9 @@ public class LoginServlet extends HttpServlet{
                 return;
             }
 
-
             Admin adminClient = new Admin(email, password);
-            System.out.println("[WARN] Create Class Admin");
             if(AuthService.login(adminClient)){
-                req.getRequestDispatcher("\\index.html").forward(req,resp);
+                req.getRequestDispatcher("home").forward(req,resp);
                 System.out.println("Login Sussefy");
             }
             else{

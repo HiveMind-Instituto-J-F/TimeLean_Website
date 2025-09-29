@@ -12,7 +12,7 @@ public class AuthService{
         Admin adminDB =  AdminDAO.selectByEmail(adminClient.getEmail()); // get For DB 
         if(adminDB == null){return false;}
 
-        return AuthService.matchHash(adminClient.getHashPassword(), adminDB.getHashPassword());
+        return BCrypt.checkpw(adminClient.getHashPassword(), adminDB.getHashPassword());
     }
 
     public static String hash(String password) throws IOException {
