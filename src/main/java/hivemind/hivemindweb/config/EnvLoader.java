@@ -6,11 +6,13 @@ import java.nio.file.Path;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
+import jakarta.annotation.PostConstruct;
 
 public class EnvLoader {
     private static Dotenv dotenv = null;
     private static final String nameFile = ".env";
 
+    @PostConstruct //Are createad class, the contrutor are exec
     public static void init(){
         try{
 
@@ -30,7 +32,6 @@ public class EnvLoader {
         Optional<Path> dotEnvPath = Optional.of(Paths.get(".env").toAbsolutePath());
             if(dotEnvPath.isEmpty()){
                 System.out.println("[ERROR] DotEnv not found or is null");
-                return null; //Is not possible returns outher type
             }
             return dotEnvPath;
     }
