@@ -25,12 +25,4 @@ public class AuthService{
 
         return hash;
     }
-
-    public static boolean matchHash(String password, String hash) {
-        if (password == null || hash == null) {
-            return false;
-        }
-        String cleanPassword = password.trim();
-        return BCrypt.checkpw(cleanPassword, hash);
-    }
 }
