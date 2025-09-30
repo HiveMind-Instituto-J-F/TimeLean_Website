@@ -2,25 +2,26 @@ package hivemind.hivemindweb.config;
 
 import java.util.Optional;
 import java.nio.file.Paths;
+import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Files;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.ServletContext;
 
 public class EnvLoader {
     private static Dotenv dotenv = null;
     private static final String nameFile = ".env";
 
     @PostConstruct //Are createad class, the contrutor are exec
-    public static void init(){
+    public static void init(ServletContext servletContext){
         try{
-            Optional<Path> dir = EnvLoader.getDiretory();
+            Optional<Path> dir = EnvLoader.getDiretory(servletContext);
             if (dir.isPresent()) {
                 dotenv = Dotenv.configure()
                         .ignoreIfMissing()
-                        .directory(dir.get().getParent().toString()) // get Path Of .env
+                        .directory(dir.get().toString()) // get Path Of .env
                         .filename(EnvLoader.nameFile)
                         .load();
             } else {
@@ -31,12 +32,8 @@ public class EnvLoader {
         }
     }
 
-    public static Optional<Path> getDiretory(){
-        Optional<Path> dotEnvPath = Optional.of(Paths.get(".env").toAbsolutePath());
-            if(dotEnvPath.isEmpty()){
-                System.out.println("[ERROR] DotEnv not found or is null");
-            }
-            return dotEnvPath;
+    public static Optional<Path> getDiretory(ServletContext servletContext){
+        return Optional.of(Path.of(servletContext.getRealPath("/WEB-INF")));
     }
 
     //Return Dotenv class for get infos with dotenv class
