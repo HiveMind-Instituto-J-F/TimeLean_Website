@@ -13,9 +13,12 @@ public class EnvLoader {
 
     public static void init(){
         try{
+
+            String path = EnvLoader.getDiretory().toString();
+            if(path == null){return;}
             dotenv = Dotenv.configure()
                     .ignoreIfMissing()
-                    .directory(EnvLoader.getDiretory().toString()) // get Paht Of .env
+                    .directory(path) // get Paht Of .env
                     .filename(EnvLoader.nameFile)
                     .load();
         }catch(DotenvException IOe){
@@ -26,7 +29,7 @@ public class EnvLoader {
     public static Optional<Path> getDiretory(){
         Optional<Path> dotEnvPath = Optional.of(Paths.get(".env").toAbsolutePath());
             if(dotEnvPath.isEmpty()){
-                System.out.println("[ERROR] DotEnv not found");
+                System.out.println("[ERROR] DotEnv not found or is null");
                 return null; //Is not possible returns outher type
             }
             return dotEnvPath;

@@ -12,6 +12,8 @@ public class DBConnection {
             Dotenv dotenv = EnvLoader.getDotenv();
             Class.forName("org.postgresql.Driver");
 
+            EnvLoader.init();
+
             String dbUrl = dotenv.get("db_host_name");
             String dbUser = dotenv.get("db_user");
             String dbPassword = dotenv.get("db_password");
