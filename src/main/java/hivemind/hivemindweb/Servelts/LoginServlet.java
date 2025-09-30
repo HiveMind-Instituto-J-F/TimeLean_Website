@@ -60,10 +60,7 @@ public class LoginServlet extends HttpServlet{
         Matcher matcher = pattern.matcher(email.trim());
 
         // Verify if email is following rules
-        if (matcher.matches()) {
-            return true;
-        }
-        return false;
+        return matcher.matches() ;
     }
 }
 
