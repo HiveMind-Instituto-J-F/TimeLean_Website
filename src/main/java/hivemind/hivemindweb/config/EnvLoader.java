@@ -3,6 +3,7 @@ package hivemind.hivemindweb.config;
 import java.util.Optional;
 import java.nio.file.Paths;
 import java.nio.file.Path;
+import java.nio.file.Files;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
@@ -15,14 +16,16 @@ public class EnvLoader {
     @PostConstruct //Are createad class, the contrutor are exec
     public static void init(){
         try{
-
-            String path = EnvLoader.getDiretory().toString();
-            if(path == null){return;}
-            dotenv = Dotenv.configure()
-                    .ignoreIfMissing()
-                    .directory(path) // get Paht Of .env
-                    .filename(EnvLoader.nameFile)
-                    .load();
+            Optional<Path> dir = EnvLoader.getDiretory();
+            if (dir.isPresent()) {
+                dotenv = Dotenv.configure()
+                        .ignoreIfMissing()
+                        .directory(dir.get().getParent().toString()) // get Path Of .env
+                        .filename(EnvLoader.nameFile)
+                        .load();
+            } else {
+                System.out.println("[ERROR] DotEnv not found");
+            }
         }catch(DotenvException IOe){
             System.out.println("[ERROR] Error in get File of DotEnv");
         }
