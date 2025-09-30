@@ -11,8 +11,9 @@
     --border-small: 4.5px;
     --border-simple: 2.5px;
 
-    --icon: 28px;
+    --icon: 18px;
 
-    --weak-shadow: 0px 2px 20px -15px rgba(0, 0, 0, 0.205);
-    --strong-shadow: 0px 4px 40px 5px rgba(0, 0, 0, 0.123);
+    --weak-shadow: 0px 2px 20px -15px rgba(0, 0, 0, 0.210);
+    --strong-shadow: 0px 4px 40px 5px rgba(0, 0, 0, 0.120);
+    --text-shadow:  0 10px 5px rgba(0, 0, 0, 0.250);
 }
