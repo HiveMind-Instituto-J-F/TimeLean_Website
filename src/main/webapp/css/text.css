@@ -59,10 +59,14 @@ button.inter, input::placeholder {
     font-style: normal;
 }
 
-nav.inter {
+nav.inter, footer>*.inter {
     text-decoration: none;
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-weight: 200;
     font-style: normal;
+}
+
+footer>*.inter {
+    opacity: 70%;
 }

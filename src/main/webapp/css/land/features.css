@@ -2,8 +2,8 @@
 
 #features {
     background-color: var(--orange);
-    display: flex;
-    align-items: center;
+    display: flexbox;
+    align-items: baseline;
     justify-content: center;
     padding: 100px 32px 156px;
 }
@@ -14,21 +14,28 @@
 
 .box img {
     background-color: var(--polar) !important;
-    margin: 0;
+    margin: 0 0 10px;
     padding: 8px;
     width: var(--icon);
     border-radius: var(--border-medium);
 }
 
 #features section {
-    display: flexbox;
-    width: 280px;
-    margin: 0px 64px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    width: 800px;
+    margin: 20px auto;
+}
+
+#features>:first-child {
+    margin-bottom: 40px !important;
 }
 
 #features>section>div {
-    margin-top: 50px;
+    margin: 0 32px;
 }
+
 #features p {
-    width: 216px;
+    width: 240px;
 }
