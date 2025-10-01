@@ -29,19 +29,24 @@ public class LoginServlet extends HttpServlet{
             Admin adminClient = new Admin(email, password);
             if(AuthService.login(adminClient)){
                 req.getRequestDispatcher("//index.html").forward(req, resp);
+                resp.setStatus(0);
                 System.out.println("Login Sussefy");
             }
             else{
                 System.out.println("[WARN] AdminLocal: email: "+ adminClient.getEmail() + "password: " + adminClient.getHashPassword());
                 resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Email ou senha incorretos.");
+                req.setAttribute("errorMessage", "Email ou senha incorretos.");
+                req.getRequestDispatcher("/login.jsp").forward(req, resp);
             }
             
         }catch(ServletException se){
             System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
+            req.setAttribute("error", se);
         }
         catch(NullPointerException npe){
             System.out.println("[ERROR] Null Pointer Exception: check for redundancy or incorrect memory allocation, Erro: " + npe.getMessage());
+            req.setAttribute("error", npe);
         }
 
     }
