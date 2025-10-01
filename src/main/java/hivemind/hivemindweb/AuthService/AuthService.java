@@ -9,7 +9,8 @@ import hivemind.hivemindweb.models.Admin;
 
 public class AuthService{
     public static boolean login(Admin adminClient){
-        Admin adminDB =  AdminDAO.selectByEmail(adminClient.getEmail()); // get For DB 
+        System.out.println("[WARN] Join In Login");
+        Admin adminDB =  AdminDAO.selectByEmail(adminClient.getEmail()); // get For DB
         if(adminDB == null){return false;}
 
         return BCrypt.checkpw(adminClient.getHashPassword(), adminDB.getHashPassword());

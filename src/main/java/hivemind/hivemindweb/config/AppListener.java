@@ -1,6 +1,5 @@
 package hivemind.hivemindweb.config;
 
-import io.github.cdimascio.dotenv.DotenvException;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;

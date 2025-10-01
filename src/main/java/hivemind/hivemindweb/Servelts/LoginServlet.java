@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet{
 
             Admin adminClient = new Admin(email, password);
             if(AuthService.login(adminClient)){
-                req.getRequestDispatcher("home").forward(req,resp);
+                req.getRequestDispatcher("//index.html").forward(req, resp);
                 System.out.println("Login Sussefy");
             }
             else{
