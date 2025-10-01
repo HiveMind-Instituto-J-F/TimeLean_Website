@@ -15,6 +15,7 @@ public class LoginServlet extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
             System.out.println("[WARN] Open LoginServelet");
+            System.out.println("[WARN] Meth Use In Servelet: " + req.getMethod());
         
             String email = req.getParameter("email");
             String password = req.getParameter("password");

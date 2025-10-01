@@ -1,8 +1,6 @@
 package hivemind.hivemindweb.config;
 
 import java.util.Optional;
-import java.nio.file.Paths;
-import java.io.File;
 import java.nio.file.Path;
 
 import io.github.cdimascio.dotenv.Dotenv;
