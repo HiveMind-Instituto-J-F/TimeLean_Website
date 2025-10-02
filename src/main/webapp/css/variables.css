@@ -1,0 +1,19 @@
+:root {
+    --oil: #274855;
+    --black-oil: #202C33;
+    --orange: #E89640;
+    --black: #4B4844;
+    --polar: #DAE4E3;
+    --white: #FFFFFF;
+
+    --border-big: 15px;
+    --border-medium: 6px;
+    --border-small: 4.5px;
+    --border-simple: 2.5px;
+
+    --icon: 18px;
+
+    --weak-shadow: 0px 2px 20px -15px rgba(0, 0, 0, 0.210);
+    --strong-shadow: 0px 4px 40px 5px rgba(0, 0, 0, 0.120);
+    --text-shadow:  0 10px 5px rgba(0, 0, 0, 0.250);
+}

@@ -2,7 +2,6 @@ package hivemind.hivemindweb.config;
 
 import java.util.Optional;
 import java.nio.file.Path;
-
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
 import jakarta.annotation.PostConstruct;
@@ -30,8 +29,10 @@ public class EnvLoader {
         }
     }
 
+    // Returns Optional<Path> for /WEB-INF directory, handling null safely with ofNullable
     public static Optional<Path> getDiretory(ServletContext servletContext){
-        return Optional.of(Path.of(servletContext.getRealPath("/WEB-INF")));
+        Path pathLocal = Path.of(servletContext.getRealPath("/WEB-INF"));
+        return Optional.ofNullable(pathLocal);
     }
 
     //Return Dotenv class for get infos with dotenv class

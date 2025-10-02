@@ -1,0 +1,53 @@
+@import url('../variables.css');
+
+#ods>* {
+    color: var(--white);
+    margin: auto;
+}
+
+#ods {
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#ods>:first-child {
+    margin: 100px 0 0;
+}
+
+#ods section {
+    width: 860px;
+    margin-top: 50px;
+}
+
+.ods {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    margin-top: 16px;
+    border-radius: var(--border-simple);
+    cursor: pointer;
+}
+
+.ods img {
+    height: 80px;
+    width: auto;
+    padding: 0px 60px;
+}
+
+#ods-7 {
+    background-color: #FBC412;
+}
+
+#ods-8 {
+    background-color: #A31C44;
+}
+
+#ods-9 {
+    background-color: #F26A2E;
+}
+
+#ods-12 {
+    background-color: #BF8D2C;
+}

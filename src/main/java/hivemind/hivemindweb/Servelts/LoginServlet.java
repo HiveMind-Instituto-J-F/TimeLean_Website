@@ -28,15 +28,14 @@ public class LoginServlet extends HttpServlet{
 
             Admin adminClient = new Admin(email, password);
             if(AuthService.login(adminClient)){
-                req.getRequestDispatcher("//index.html").forward(req, resp);
+                req.getRequestDispatcher("\\html\\crud\\create_company.html").forward(req, resp);
                 resp.setStatus(0);
                 System.out.println("Login Sussefy");
             }
             else{
-                System.out.println("[WARN] AdminLocal: email: "+ adminClient.getEmail() + "password: " + adminClient.getHashPassword());
-                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Email ou senha incorretos.");
+                System.out.println("[WARN] AdminLocal: email: "+ adminClient.getEmail() + " password: " + adminClient.getHashPassword());
                 req.setAttribute("errorMessage", "Email ou senha incorretos.");
-                req.getRequestDispatcher("/login.jsp").forward(req, resp);
+                req.getRequestDispatcher("html/login.jsp").forward(req, resp);
             }
             
         }catch(ServletException se){

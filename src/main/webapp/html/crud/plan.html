@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeLean - Administração</title>
+</head>
+<body>
+    <header>
+            <button id="timelean">
+                <img src="img/icons/branding/TIMELEAN.png" alt="Branding Timelean">
+                <a href="#hero"></a>
+            </button>
+
+            <nav class="inter">
+                <a href="" target="_blank">Home</a>
+                <a href="" target="_blank">Quem somos</a>
+                <a href="" target="_blank">Jurídico</a>
+                <a href="" target="_blank">FAQ</a>
+            </nav>
+            <button class="button small inter">Entrar em contato</button>
+    </header>
+    <main>
+        <h1>Olá, administrador</h1>
+        <!-- Aside-Bar abre oportunidades de fluxo para o CRUD, melhorando a organização -->
+        <aside>
+            <ul>
+                <li>Pagamentos</li>
+                <li>Planos</li>
+                <li>Inscrções de planos</li>
+                <li>Empresas</li>
+                <li>Plantas Industriais</li>
+                <li>Emails de contato</li>
+            </ul>
+        </aside>
+
+        <!-- Seção para inserção de planos -->
+        <section name="insert-plan-crud" class="crud">
+            <h2>Adicionar empresa</h2>
+            
+            <form action="insert_plan">
+                <h3>Adicionar Plano</h3>
+                <label for="company-cnpj">Digite o nome do plano</label>
+                <input type="text" name="plan-name">
+                <br>
+
+                <label for="plan-description">Faca uma breve descricao do plano</label>
+                <input type="text" name="plan-description">
+                <br>
+
+                <label for="plan-duration">Em dias, digite a duracao do plano</label>
+                <input type="number" name="plan-duration">
+                <br>
+
+                <label for="plan-plants-limit">Digite o limite de plantas industriais pertencentes a empresa:</label>
+                <input type="number" name="plan-plants-limit">
+                <br>
+
+                <label for="plan-reports-limit">Digite o limite de registros de micro paradas mensais:</label>
+                <input type="number" name="plan-reports-limit">
+                <br>
+                
+                <label for="plan-price">Digite o preco do plano:</label>
+                <input type="number" name="plan-price">
+                <br>
+                
+                <input type="submit">
+            </form>
+        </section>
+
+        <!-- Seção para inserção de planos -->
+        <section name="insert-plan-crud" class="crud">
+            <h2>Adicionar empresa</h2>
+            
+            <form action="update-plan">
+                <h3>Atualizar Plano</h3>
+                <label for="company-cnpj">Digite o id do plano</label>
+                <input type="number" name="id-plan">
+                <br>
+
+                <label for="company-cnpj">Digite o novo nome do plano - Opcional</label>
+                <input type="text" name="plan-name">
+                <br>
+
+                <label for="plan-description">Atualize a descricao do plano - Opcional</label>
+                <input type="text" name="plan-description">
+                <br>
+
+                <label for="plan-duration">Em dias, digite a nova duracao do plano - Opcional</label>
+                <input type="number" name="plan-duration">
+                <br>
+
+
+                <label for="plan-plants-limit">Atualize o limite de plantas industriais - Opcional</label>
+                <input type="number" name="plan-plants-limit">
+                <br>
+
+                <label for="plan-reports-limit">Atualize o limite de registros de micro paradas mensais - Opcional</label>
+                <input type="number" name="plan-reports-limit">
+                <br>
+                
+                <label for="plan-price">Digite o novo preco do plano:</label>
+                <input type="number" name="plan-price">
+                <br>
+                
+                <input type="submit">
+            </form>
+        </section>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
