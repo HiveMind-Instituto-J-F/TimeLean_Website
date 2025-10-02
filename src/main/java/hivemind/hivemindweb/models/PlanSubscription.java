@@ -16,6 +16,11 @@ public class PlanSubscription {
         this.cnpjCompany = cnpjCompany;
         this.idPlan = idPlan;
     }
+    public PlanSubscription(LocalDate startDate, String cnpjCompany, int idPlan){
+        this.startDate = startDate;
+        this.cnpjCompany = cnpjCompany;
+        this.idPlan = idPlan;
+    }
 
     // ToString
     public String toString(){
