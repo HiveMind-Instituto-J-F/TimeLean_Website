@@ -12,7 +12,7 @@ public class CompanyDAO {
         String sql = "INSERT INTO company (CNPJ, cnae, name, registrant_cpf) VALUES (?,?,?,?)";
         try(Connection conn = db.connected()){ // try-with-resources
             PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setString(1, company.getName());
+            pstm.setString(1, company.getCNPJ());
             pstm.setString(2, company.getCnae());
             pstm.setString(3, company.getName());
             pstm.setString(4, company.getRegistrantCpf());

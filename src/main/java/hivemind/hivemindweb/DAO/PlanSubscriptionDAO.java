@@ -11,7 +11,7 @@ public class PlanSubscriptionDAO {
     public static List<PlanSubscription> select(PlanSubscription planSubscription){
         List<PlanSubscription> PlanSubscriptionList = new ArrayList<>();
         DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM plant_subscripition ORDER BY id";
+        String sql = "SELECT * FROM PLAN_SUBSCRIPTION ORDER BY id";
 
         try (Connection conn = db.connected();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -34,7 +34,7 @@ public class PlanSubscriptionDAO {
     }
     public static boolean delete(PlanSubscription plansSubscription) {
         DBConnection db = new DBConnection();
-        String sql = "DELETE FROM plant_subscripition WHERE id = ?";
+        String sql = "DELETE FROM PLAN_SUBSCRIPTION WHERE id = ?";
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
@@ -51,7 +51,7 @@ public class PlanSubscriptionDAO {
     public static boolean update(PlanSubscription planSubscription) {
         DBConnection db = new DBConnection();
         String sql = """
-            UPDATE plant_subscriptions
+            UPDATE PLAN_SUBSCRIPTION
             SET start_date = ?,
                 cnpj_company = ?,
                 id_plan = ?
@@ -72,25 +72,44 @@ public class PlanSubscriptionDAO {
         return false;
     }
 
-    public static boolean insert(PlanSubscription planSubscription){
+    public static boolean insert(PlanSubscription planSubscription, Boolean hasId){
         DBConnection db = new DBConnection();
         String sql = """
-            INSERT INTO plant_subscriptions (id, start_date, cnpj_company, id_plan)
+            INSERT INTO PLAN_SUBSCRIPTION (id, start_date, cnpj_company, id_plan)
             VALUES (?,?, ?, ?)
         """;
 
-        try(Connection conn = db.connected();
-             PreparedStatement psmt = conn.prepareStatement(sql);){
+        if (hasId){
+            try(Connection conn = db.connected();
+                PreparedStatement psmt = conn.prepareStatement(sql);){
                 psmt.setInt(1,planSubscription.getId());
                 psmt.setDate(2, Date.valueOf(planSubscription.getStartDate()));
                 psmt.setString(3, planSubscription.getCnpjCompany());
                 psmt.setInt(4, planSubscription.getIdPlan());
 
                 return psmt.executeUpdate() > 0;
+            }catch (SQLException sqle) {
+                System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+                return false;
+            }
+        }
+
+        sql = """
+            INSERT INTO PLAN_SUBSCRIPTION (start_date, cnpj_company, id_plan)
+            VALUES (?, ?, ?)
+        """;
+
+        try(Connection conn = db.connected();
+            PreparedStatement psmt = conn.prepareStatement(sql);){
+            psmt.setDate(1, Date.valueOf(planSubscription.getStartDate()));
+            psmt.setString(2, planSubscription.getCnpjCompany());
+            psmt.setInt(3, planSubscription.getIdPlan());
+
+            return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
             System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+            return false;
         }
-        return false;
 
     }
 }
