@@ -7,12 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/text.css">
-    <link rel="stylesheet" href="../css/others/login.css">
+    <link rel="stylesheet" href="/HivemindWeb_war/css/style.css">
+    <link rel="stylesheet" href="/HivemindWeb_war/css/text.css">
+    <link rel="stylesheet" href="/HivemindWeb_war/css/others/login.css">
 
     <title>Login — TIMELEAN</title>
-    <link rel="shortcut icon" href="../img/favicon/home-v2.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/HivemindWeb_war/img/favicon/home-v2.png" type="image/x-icon">
 </head>
 <body>
     <div id="major">
