@@ -28,8 +28,8 @@ public class LoginServlet extends HttpServlet{
 
             Admin adminClient = new Admin(email, password);
             if(AuthService.login(adminClient)){
-                req.getRequestDispatcher("\\html\\crud\\create_company.html").forward(req, resp);
-                resp.setStatus(0);
+                req.getRequestDispatcher("//html//crud//create_company.html").forward(req, resp);
+                resp.setStatus(200);
                 System.out.println("Login Sussefy");
             }
             else{
