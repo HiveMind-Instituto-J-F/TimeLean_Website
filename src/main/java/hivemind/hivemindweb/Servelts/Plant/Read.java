@@ -10,18 +10,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/company-cnpj")
-public class ComapnyCNPJServlet extends HttpServlet {
+public class CompanyCNPJServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get parameter
         String cnpj = request.getParameter("company-cnpj");
 
         // List of plants that belongs to the company
         List<Plant> plantList = PlantDAO.select(cnpj);
-
+        request.setAttribute("cnpj_company", cnpj);
         request.setAttribute("plantList", plantList);
         request.getRequestDispatcher("html/crud/plant/select.jsp").forward(request, response);
     }
