@@ -23,6 +23,10 @@ public class Plant {
         this.adressCep = adressCep;
     }
 
+    public Plant(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
     // ToString
     public String toString(){
         return "CNAE: "+this.cnae+"\nCNPJ: "+this.cnpj+"\nResponsible CPF: "+this.responsibleCpf+"\nOperational Status: "
@@ -46,7 +50,7 @@ public class Plant {
     public int getAdressNumber() {
         return adressNumber;
     }
-    public String getIdCompany() {
+    public String getCnpjCompany() {
         return cnpjCompany;
     }
     public String getAdressCep() {
