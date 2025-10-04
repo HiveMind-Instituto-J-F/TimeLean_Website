@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/update-plant")
-public class UpdateServlet extends HttpServlet {
+public class Update extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -21,7 +21,7 @@ public class UpdateServlet extends HttpServlet {
         Plant plant = PlantDAO.selectByPlantCnpj(cnpj);
         request.setAttribute("plant", plant);
 
-        request.getRequestDispatcher("html/crud/plant/modify.jsp").forward(request, response);
+        request.getRequestDispatcher("html/crud/plant/update.jsp").forward(request, response);
     }
 
     @Override
@@ -36,11 +36,11 @@ public class UpdateServlet extends HttpServlet {
         String cnpjCompany = request.getParameter("CNPJ_COMPANY");
 
         Plant plant = new Plant(cnpj, cnae, responsibleCpf, operationalStatus, addressCep, addressNumber, cnpjCompany);
-
+        System.out.println(plant);
         if (PlantDAO.update(plant)) {
             // Forward to the list page with the updated company CNPJ
             request.setAttribute("companyCnpj", cnpjCompany);
-            response.sendRedirect("html/crud/plant/select.jsp");
+            response.sendRedirect("html/crud/plant/read.jsp");
         } else {
             throw new ServletException("Failed to update plant with CNPJ: " + cnpj);
         }
