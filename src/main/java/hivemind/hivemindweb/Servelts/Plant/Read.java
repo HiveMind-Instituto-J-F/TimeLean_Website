@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/company-cnpj")
-public class CompanyCNPJServlet extends HttpServlet {
+public class Read extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get parameter
         String cnpj = request.getParameter("company-cnpj");
@@ -22,6 +22,6 @@ public class CompanyCNPJServlet extends HttpServlet {
         List<Plant> plantList = PlantDAO.select(cnpj);
         request.setAttribute("cnpj_company", cnpj);
         request.setAttribute("plantList", plantList);
-        request.getRequestDispatcher("html/crud/plant/select.jsp").forward(request, response);
+        request.getRequestDispatcher("html/crud/plant/read.jsp").forward(request, response);
     }
 }
