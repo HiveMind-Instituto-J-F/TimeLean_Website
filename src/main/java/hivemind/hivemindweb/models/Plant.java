@@ -7,9 +7,9 @@ public class Plant {
     private String cnpj;
     private String responsibleCpf;
     private boolean operationalStatus;
-    private int adressNumber;
+    private int addressNumber;
     private String cnpjCompany;
-    private String adressCep;
+    private String addressCep;
 
     // Construtor
     public Plant(String cnpj, String cnae, String responsibleCpf, boolean operationalStatus, String addressCep,
@@ -18,15 +18,19 @@ public class Plant {
         this.cnpj = cnpj;
         this.responsibleCpf = responsibleCpf;
         this.operationalStatus = operationalStatus;
-        this.adressNumber = adressNumber;
+        this.addressNumber = addressNumber;
         this.cnpjCompany = cnpjCompany;
-        this.adressCep = adressCep;
+        this.addressCep = addressCep;
+    }
+
+    public Plant(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     // ToString
     public String toString(){
         return "CNAE: "+this.cnae+"\nCNPJ: "+this.cnpj+"\nResponsible CPF: "+this.responsibleCpf+"\nOperational Status: "
-                +this.operationalStatus +"\nAdress Number: "+this.adressNumber+"\nAdress CEP: "+this.adressCep+"\nCNPJ Company: "
+                +this.operationalStatus +"\nAdress Number: "+this.addressNumber+"\nAdress CEP: "+this.addressCep+"\nCNPJ Company: "
                 +this.cnpjCompany;
     }
 
@@ -44,13 +48,13 @@ public class Plant {
         return operationalStatus;
     }
     public int getAdressNumber() {
-        return adressNumber;
+        return addressNumber;
     }
-    public String getIdCompany() {
+    public String getCnpjCompany() {
         return cnpjCompany;
     }
     public String getAdressCep() {
-        return adressCep;
+        return addressCep;
     }
     public void setResponsibleCpf(String responsible) {
         this.responsibleCpf = responsible;
@@ -59,10 +63,10 @@ public class Plant {
         this.operationalStatus = operationalStatus;
     }
     public void setAdressCep(String adressCep) {
-        this.adressCep = adressCep;
+        this.addressCep = adressCep;
     }
     public void setAdressNumber(int adressNumber) {
-        this.adressNumber = adressNumber;
+        this.addressNumber = adressNumber;
     }
 
 }

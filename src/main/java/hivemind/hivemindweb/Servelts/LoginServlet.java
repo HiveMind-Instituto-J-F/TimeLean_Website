@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Servelts;
 
 import java.io.IOException;
+
 import hivemind.hivemindweb.AuthService.AuthService;
 import hivemind.hivemindweb.models.Admin;
 import jakarta.servlet.ServletException;
@@ -23,6 +24,8 @@ public class LoginServlet extends HttpServlet{
             if(email == null || email.isEmpty() || password == null || password.isEmpty()){
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
                 System.out.println("[ERROR] Invalid User");
+                req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
+                req.setAttribute("errorMessage", "Email ou senha incorretos.");
                 return;
             }
 

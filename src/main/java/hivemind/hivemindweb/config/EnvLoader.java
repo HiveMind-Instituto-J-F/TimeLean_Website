@@ -1,7 +1,8 @@
 package hivemind.hivemindweb.config;
 
-import java.util.Optional;
 import java.nio.file.Path;
+import java.util.Optional;
+
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvException;
 import jakarta.annotation.PostConstruct;
