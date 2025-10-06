@@ -33,7 +33,7 @@ public class PaymentDAO {
                 PaymentList.add(PaymentLocal);
             }
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.out.println("[ERROR] Falied in select: " + e.getMessage());
         }
 
         return PaymentList;
@@ -50,7 +50,7 @@ public class PaymentDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in delete" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
         }
         return false;
     }
@@ -80,7 +80,7 @@ public class PaymentDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
         }
         return false;
     }
@@ -94,15 +94,16 @@ public class PaymentDAO {
 
         try(Connection conn = db.connected();
             PreparedStatement psmt = conn.prepareStatement(sql);){
-            psmt.setDouble(2, payment.getValue());
-            psmt.setDate(3, java.sql.Date.valueOf(payment.getDeadline()));
-            psmt.setString(4, payment.getMethod());
-            psmt.setString(5, payment.getBeneficiary());
-            psmt.setString(6, payment.getStatus());
-            psmt.setInt(7, payment.getIdPlan());
+            psmt.setDouble(1, payment.getValue());
+            psmt.setDate(2, java.sql.Date.valueOf(payment.getDeadline()));
+            psmt.setString(3, payment.getMethod());
+            psmt.setString(4, payment.getBeneficiary());
+            psmt.setString(5, payment.getStatus());
+            psmt.setInt(6, payment.getIdPlan());
+            psmt.setInt(7, payment.getInstallmentCount());
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return false;
     }
@@ -127,7 +128,7 @@ public class PaymentDAO {
                 }
             }
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return price;
     }
