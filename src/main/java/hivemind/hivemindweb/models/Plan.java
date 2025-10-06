@@ -6,7 +6,7 @@ public class Plan {
     private String name;
     private String description;
     private int duration;
-    private  double price;
+    private double price;
 
     // Construtor
     public Plan(int id, String name, String description, int duration, double price){

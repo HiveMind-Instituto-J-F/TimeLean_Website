@@ -13,7 +13,16 @@ public class Payment {
     private int idPlanSubscription;
 
     // Construtor
-    public Payment(int id, double value, LocalDate deadline, String method, String beneficiary, String status, int idPlanSubscription){
+    public Payment(double value, LocalDate deadline, String method, String beneficiary, String status, int idPlanSubscription){
+        this.value = value;
+        this.deadline = deadline;
+        this.method = method;
+        this.beneficiary = beneficiary;
+        this.status = status;
+        this.idPlanSubscription = idPlanSubscription;
+    }
+
+    public Payment(int id,double value, LocalDate deadline, String method, String beneficiary, String status, int idPlanSubscription){
         this.id = id;
         this.value = value;
         this.deadline = deadline;
@@ -23,16 +32,26 @@ public class Payment {
         this.idPlanSubscription = idPlanSubscription;
     }
 
+
     // ToString
-    public String toString(){
-        return "\nId: "+this.id+String.format("\nValue: %.2f",this.value)+"\nDeadline: "+this.deadline+"\nMethod: "+
-                this.method+"\nBeneficiary: "+this.beneficiary+"\nStatus: "+this.status+"\nId Plan Subscription: "+this.idPlanSubscription;
+    @Override
+    public String toString() {
+        return String.format(
+            "\nValue: %.2f\nDeadline: %s\nMethod: %s\nBeneficiary: %s\nStatus: %s\nId Plan Subscription: %d",
+            this.value,
+            this.deadline,
+            this.method,
+            this.beneficiary,
+            this.status,
+            this.idPlanSubscription
+        );
     }
 
     // Getters e Setters
-    public int getId() {
+    public int getId(){
         return id;
     }
+
     public double getValue() {
         return value;
     }

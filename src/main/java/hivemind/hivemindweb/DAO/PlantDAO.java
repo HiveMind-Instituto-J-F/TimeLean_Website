@@ -1,10 +1,14 @@
 package hivemind.hivemindweb.DAO;
 
-import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.models.Plant;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.models.Plant;
 
 public class PlantDAO {
     public static List<Plant> select() {

@@ -1,12 +1,14 @@
 package hivemind.hivemindweb.DAO;
 
-import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.models.Plan;
-
-import java.sql.*;
-import java.time.LocalDate;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.models.Plan;
 
 public class PlanDAO {
     public static boolean insert(Plan plan) {
