@@ -1,8 +1,6 @@
 package hivemind.hivemindweb.Servelts;
 
 import java.io.IOException;
-import java.util.InputMismatchException;
-
 import javax.security.auth.login.LoginException;
 
 import hivemind.hivemindweb.AuthService.AuthService;
@@ -27,7 +25,7 @@ public class LoginServlet extends HttpServlet{
             String password = req.getParameter("password");
             
             if(email.isEmpty() || password == null || password.isEmpty()){
-                throw new InputMismatchException("Email ou senha incorretos");
+                throw new IllegalArgumentException("Email ou senha incorretos");
             }
             
             Admin adminClient = new Admin(email, password);
@@ -35,10 +33,10 @@ public class LoginServlet extends HttpServlet{
             HttpSession session = req.getSession(true);
             session.setMaxInactiveInterval(600);
 
-            session.setAttribute("user", adminClient);
             if(AuthService.login(adminClient)){
-                req.getRequestDispatcher("//html//crud//create_company.html").forward(req, resp);
+                req.getRequestDispatcher("//html//crud//create_company.jsp").forward(req, resp);
                 resp.setStatus(200);
+                session.setAttribute("user", adminClient);
                 session.setAttribute("login", true);
                 System.out.println("Login Sussefy");
             }
@@ -56,7 +54,7 @@ public class LoginServlet extends HttpServlet{
             System.out.println("[ERROR] Null Pointer Exception: check for redundancy or incorrect memory allocation, Erro: " + npe.getMessage());
             req.setAttribute("error", npe.getMessage());
         }
-        catch(InputMismatchException ime){
+        catch(IllegalArgumentException ime){
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
             System.out.println("[ERROR] Invalid User");
             System.out.println("[ERROR] Input Exception: check for redundancy or incorrect memory allocation, Erro: " + ime.getMessage());

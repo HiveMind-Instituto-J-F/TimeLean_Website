@@ -8,6 +8,15 @@
     <title>TimeLean - Administração</title>
 </head>
 <body>
+   <%
+        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+
+        if (isLogged == null || !isLogged) {
+            //if user not us login return that for login page
+            response.sendRedirect("../login.jsp");
+            return;
+        }
+    %>
     <header>
             <button id="timelean">
                 <img src="img/icons/branding/TIMELEAN.png" alt="Branding Timelean">

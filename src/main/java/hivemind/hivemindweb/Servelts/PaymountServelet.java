@@ -2,7 +2,7 @@ package hivemind.hivemindweb.Servelts;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.InputMismatchException;
+import java.time.format.DateTimeParseException;
 
 import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
@@ -23,18 +23,19 @@ public class PaymountServelet extends HttpServlet {
             String beneficary = req.getParameter("beneficiary");
 
             String deadlineStr = req.getParameter("deadline");
-            if (deadlineStr.isEmpty()) {throw new InputMismatchException("Valueis Nulo, Value: 'deadline'");}
+            if (deadlineStr.isEmpty()) {throw new IllegalArgumentException("Valueis Nulo, Value: 'deadline'");}
             LocalDate deadline = LocalDate.parse(deadlineStr);
 
             String status = req.getParameter("status");
-            if(status.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'status'");}
+            if(status.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'status'");}
 
-            String installmentCountStr = req.getParameter("instal       lmentCount");
-            if(installmentCountStr.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'installmentCount'");}
+            String installmentCountStr = req.getParameter("installmentCount");
+            if(installmentCountStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'installmentCount'");}
             int installmentCount = Integer.parseInt(installmentCountStr);
+            if(installmentCount <= 0){throw new IllegalArgumentException("installmentCount is bellow of 0");}
 
             String idStr = req.getParameter("id_plan_sub");
-            if(idStr.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'idPlanSub'");}
+            if(idStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'idPlanSub'");}
             int id_plan_sub = Integer.parseInt(idStr);
             
             double value = PlanDAO.getPrice(id_plan_sub) / installmentCount; 
@@ -60,12 +61,14 @@ public class PaymountServelet extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", se);
         }
-        catch(InputMismatchException ime){
+        catch(IllegalArgumentException ime){
             System.out.println("[ERROR] Invaliad Input, Erro: " + ime.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + ime.getMessage());
-        }catch (NumberFormatException nfe) {
-            System.out.println("[ERROR] Invalid Number Format: " + nfe.getMessage());
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Formato de número inválido");
+        }
+        catch(DateTimeParseException dpe){
+            System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
+            req.setAttribute("error", dpe.getCause());
         }
     }
 }
