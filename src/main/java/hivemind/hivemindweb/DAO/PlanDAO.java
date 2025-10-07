@@ -117,4 +117,23 @@ public class PlanDAO {
         }
         return null;
     }
+
+    public static double getPrice(int id_plan){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT p.price FROM Plan WHERE id=?;";
+        double price = 0.0;
+        try(Connection conn = db.connected();
+            PreparedStatement psmt = conn.prepareStatement(sql);){
+            psmt.setInt(1, id_plan);
+
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    price = rs.getDouble("price");
+                }
+            }
+        }catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+        }
+        return price;
+    }
 }

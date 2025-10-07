@@ -17,11 +17,11 @@ public class AdminDAO {
         String sql = "SELECT id, email, password FROM admin ORDER BY id";
         
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement psmt = conn.prepareStatement(sql);
+             ResultSet rs = psmt.executeQuery()) {
             
             while(rs.next()){
-                Admin adminLocal = new  Admin(
+                Admin adminLocal = new Admin(
                     rs.getInt("id"),
                     rs.getString("email"),
                     rs.getString("password")
@@ -40,10 +40,10 @@ public class AdminDAO {
         String sql = "SELECT id, email, password FROM admin WHERE email = ?";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement psmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, email);
-            try (ResultSet rs = stmt.executeQuery()) {
+            psmt.setString(1, email);
+            try (ResultSet rs = psmt.executeQuery()) {
                 if(rs.next()){ //get one line
                     return new Admin(
                         rs.getInt("id"),

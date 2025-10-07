@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.InputMismatchException;
 
 import hivemind.hivemindweb.DAO.PaymentDAO;
+import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.models.Payment;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,29 +37,24 @@ public class PaymountServelet extends HttpServlet {
             if(idStr.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'idPlanSub'");}
             int id_plan_sub = Integer.parseInt(idStr);
             
-            double value = PaymentDAO.getPrice(id_plan_sub) / installmentCount; 
+            double value = PlanDAO.getPrice(id_plan_sub) / installmentCount; 
 
             if ((method == null || method.isEmpty()) || (beneficary == null || beneficary.isEmpty()) || deadline == null) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Valores Sao inválidos ou nulos.");
                 throw new ServletException("Values Is Null");
             }
 
-            System.out.println("[DEBUG] Values: value=" + value +
-                ", deadline=" + deadline +
-                ", method=" + method +
-                ", beneficiary=" + beneficary +
-                ", id_plan_sub=" + id_plan_sub);
-
-
             Payment paymentLocal = new Payment(value, deadline, method, beneficary, status, id_plan_sub);
             System.out.println(paymentLocal);
             if(PaymentDAO.insert(paymentLocal)){
                 System.out.println("[WARN] Insert Payment Sussefly");
+                req.setAttribute("msg", "Pagamento foi Adicionado com Susseso!");
             }
             else{
                 System.out.println("[WARN] Erro in PaymentDAO");
-                System.out.println("Payment class: " + paymentLocal);
+                req.setAttribute("msg", "Pagamento Nao foi Adicionado devido a um Erro!");
             }
+            req.getRequestDispatcher("html/crud/paymount.jsp").forward(req, resp);
         }catch(ServletException se){
             System.out.println("[ERROR] Error In Payment Add, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());

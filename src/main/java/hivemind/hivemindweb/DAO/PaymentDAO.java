@@ -107,29 +107,4 @@ public class PaymentDAO {
         }
         return false;
     }
-
-    
-    public static double getPrice(int id_plan){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT p.price\r\n" + //
-                        "FROM payment pay\r\n" + //
-                        "JOIN plan_subscription ps ON pay.id_plan_subscription = ps.id\r\n" + //
-                        "JOIN plan p ON ps.id_plan = p.id\r\n" + //
-                        "WHERE pay.id = ?;\r\n" + //
-                        "";
-        double price = 0.0;
-        try(Connection conn = db.connected();
-            PreparedStatement psmt = conn.prepareStatement(sql);){
-            psmt.setInt(1, id_plan);
-
-            try (ResultSet rs = psmt.executeQuery()) {
-                if (rs.next()) {
-                    price = rs.getDouble("price");
-                }
-            }
-        }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
-        }
-        return price;
-    }
 }

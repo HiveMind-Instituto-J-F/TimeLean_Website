@@ -7,6 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagamento</title>
     <style>
+        :root {
+            --oil: #274855;
+            --black-oil: #202C33;
+            --orange: #E89640;
+            --black: #4B4844;
+            --polar: #DAE4E3;
+            --white: #FFFFFF;
+
+            --border-big: 15px;
+            --border-medium: 6px;
+            --border-small: 4.5px;
+            --border-simple: 2.5px;
+
+            --icon: 18px;
+
+            --weak-shadow: 0px 2px 20px -15px rgba(0, 0, 0, 0.210);
+            --strong-shadow: 0px 4px 40px 5px rgba(0, 0, 0, 0.120);
+            --text-shadow: 0 10px 5px rgba(0, 0, 0, 0.250);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,7 +35,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: var(--black-oil);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -24,20 +44,19 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: var(--oil);
+            padding: 35px;
+            border-radius: var(--border-big);
+            box-shadow: var(--strong-shadow);
             width: 100%;
             max-width: 480px;
-            animation: slideIn 0.4s ease-out;
+            animation: slideIn 0.3s ease-out;
         }
 
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-15px);
             }
             to {
                 opacity: 1;
@@ -46,83 +65,102 @@
         }
 
         h1 {
-            color: #667eea;
-            margin-bottom: 30px;
-            font-size: 28px;
+            color: var(--white);
+            margin-bottom: 25px;
+            font-size: 26px;
             text-align: center;
             font-weight: 600;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #4a5568;
-            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--polar);
+            font-weight: 500;
             font-size: 14px;
         }
 
         .required {
-            color: #f56565;
-            margin-left: 3px;
+            color: var(--orange);
+            margin-left: 2px;
         }
 
         input, select {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
+            padding: 12px 14px;
+            border: 2px solid var(--black-oil);
+            border-radius: var(--border-medium);
             font-size: 15px;
-            transition: all 0.3s ease;
-            background: white;
-            color: #2d3748;
+            transition: all 0.2s ease;
+            background: var(--black-oil);
+            color: var(--white);
         }
 
         input:focus, select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            transform: translateY(-2px);
+            border-color: var(--orange);
+            box-shadow: 0 0 0 2px rgba(232, 150, 64, 0.2);
         }
 
         input:hover, select:hover {
-            border-color: #cbd5e0;
+            border-color: var(--orange);
+        }
+
+        input::placeholder {
+            color: rgba(218, 228, 227, 0.5);
         }
 
         select {
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23E89640' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 40px;
+            background-position: right 14px center;
+            padding-right: 38px;
+        }
+
+        option {
+            background: var(--black-oil);
+            color: var(--white);
         }
 
         button {
             width: 100%;
-            padding: 16px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 14px;
+            margin-top: 8px;
+            background: var(--orange);
+            color: var(--white);
             border: none;
-            border-radius: 10px;
+            border-radius: var(--border-medium);
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.2s ease;
+            box-shadow: var(--weak-shadow);
         }
 
         button:hover {
+            background: #d4843a;
+            box-shadow: 0 4px 20px rgba(232, 150, 64, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
         }
 
         button:active {
             transform: translateY(0);
+        }
+
+        .message {
+            color: var(--orange);
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(232, 150, 64, 0.15);
+            border-radius: var(--border-small);
+            border-left: 3px solid var(--orange);
+            font-size: 14px;
         }
 
         input[type="number"]::-webkit-inner-spin-button,
@@ -130,13 +168,18 @@
             opacity: 1;
         }
 
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
         @media (max-width: 500px) {
             .container {
-                padding: 30px 25px;
+                padding: 28px 22px;
             }
             
             h1 {
-                font-size: 24px;
+                font-size: 23px;
             }
         }
     </style>
@@ -191,6 +234,13 @@
 
             <button type="submit">Adicionar Pagamento</button>
         </form>
+        
+        <% String msg = (String) request.getAttribute("msg"); %>
+        <% if (msg != null) { %>
+            <div class="message">
+                <%= msg %>
+            </div>
+        <% } %>
     </div>
 </body>
 </html>
