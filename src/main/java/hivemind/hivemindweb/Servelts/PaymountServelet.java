@@ -22,18 +22,18 @@ public class PaymountServelet extends HttpServlet {
             String beneficary = req.getParameter("beneficiary");
 
             String deadlineStr = req.getParameter("deadline");
-            if (deadlineStr == null && deadlineStr.isEmpty()) {throw new InputMismatchException("Valueis Nulo, Value: 'deadline'");}
+            if (deadlineStr.isEmpty()) {throw new InputMismatchException("Valueis Nulo, Value: 'deadline'");}
             LocalDate deadline = LocalDate.parse(deadlineStr);
 
             String status = req.getParameter("status");
-            if(status == null && status.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'status'");}
+            if(status.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'status'");}
 
             String installmentCountStr = req.getParameter("installmentCount");
-            if(installmentCountStr == null && installmentCountStr.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'installmentCount'");}
+            if(installmentCountStr.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'installmentCount'");}
             int installmentCount = Integer.parseInt(installmentCountStr);
 
             String idStr = req.getParameter("id_plan_sub");
-            if(idStr == null && idStr.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'idPlanSub'");}
+            if(idStr.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'idPlanSub'");}
             int id_plan_sub = Integer.parseInt(idStr);
             
             double value = PaymentDAO.getPrice(id_plan_sub) / installmentCount; 
@@ -56,7 +56,7 @@ public class PaymountServelet extends HttpServlet {
                 System.out.println("[WARN] Insert Payment Sussefly");
             }
             else{
-                System.out.println("[WARN] Erro In Insert");
+                System.out.println("[WARN] Erro in PaymentDAO");
                 System.out.println("Payment class: " + paymentLocal);
             }
         }catch(ServletException se){

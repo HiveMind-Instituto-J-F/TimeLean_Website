@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet{
             String email = req.getParameter("email");
             String password = req.getParameter("password");
 
-            if(email == null || email.isEmpty() || password == null || password.isEmpty()){
+            if(email.isEmpty() || password == null || password.isEmpty()){
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
                 System.out.println("[ERROR] Invalid User");
                 req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
