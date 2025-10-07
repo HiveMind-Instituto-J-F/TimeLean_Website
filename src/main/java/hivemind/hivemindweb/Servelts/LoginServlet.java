@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Servelts;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 
 import hivemind.hivemindweb.AuthService.AuthService;
 import hivemind.hivemindweb.models.Admin;
@@ -22,13 +23,9 @@ public class LoginServlet extends HttpServlet{
             String password = req.getParameter("password");
 
             if(email.isEmpty() || password == null || password.isEmpty()){
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
-                System.out.println("[ERROR] Invalid User");
-                req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
-                req.setAttribute("errorMessage", "Email ou senha incorretos.");
-                return;
+                throw new InputMismatchException("Email ou senha incorretos");
             }
-
+            
             Admin adminClient = new Admin(email, password);
             if(AuthService.login(adminClient)){
                 req.getRequestDispatcher("//html//crud//create_company.html").forward(req, resp);
@@ -49,6 +46,13 @@ public class LoginServlet extends HttpServlet{
         catch(NullPointerException npe){
             System.out.println("[ERROR] Null Pointer Exception: check for redundancy or incorrect memory allocation, Erro: " + npe.getMessage());
             req.setAttribute("error", npe);
+        }
+        catch(InputMismatchException ime){
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
+            System.out.println("[ERROR] Invalid User");
+            System.out.println("[ERROR] Input Exception: check for redundancy or incorrect memory allocation, Erro: " + ime.getMessage());
+            req.setAttribute("error", ime);
+            req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
         }
 
     }
