@@ -3,6 +3,8 @@ package hivemind.hivemindweb.Servelts;
 import java.io.IOException;
 import java.util.InputMismatchException;
 
+import javax.security.auth.login.LoginException;
+
 import hivemind.hivemindweb.AuthService.AuthService;
 import hivemind.hivemindweb.models.Admin;
 import jakarta.servlet.ServletException;
@@ -33,9 +35,7 @@ public class LoginServlet extends HttpServlet{
                 System.out.println("Login Sussefy");
             }
             else{
-                System.out.println("[WARN] AdminLocal: email: "+ adminClient.getEmail() + " password: " + adminClient.getHashPassword());
-                req.setAttribute("errorMessage", "Email ou senha incorretos.");
-                req.getRequestDispatcher("html/login.jsp").forward(req, resp);
+                throw new LoginException("Email ou senha incorretos.\"");
             }
             
         }catch(ServletException se){
@@ -53,6 +53,10 @@ public class LoginServlet extends HttpServlet{
             System.out.println("[ERROR] Input Exception: check for redundancy or incorrect memory allocation, Erro: " + ime.getMessage());
             req.setAttribute("error", ime);
             req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
+        }
+        catch(LoginException le){
+            req.setAttribute("errorMessage", le);
+            req.getRequestDispatcher("html/login.jsp").forward(req, resp);
         }
 
     }
