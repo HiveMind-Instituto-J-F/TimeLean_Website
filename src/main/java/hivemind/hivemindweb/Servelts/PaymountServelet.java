@@ -29,7 +29,7 @@ public class PaymountServelet extends HttpServlet {
             String status = req.getParameter("status");
             if(status.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'status'");}
 
-            String installmentCountStr = req.getParameter("installmentCount");
+            String installmentCountStr = req.getParameter("instal       lmentCount");
             if(installmentCountStr.isEmpty()){throw new InputMismatchException("Valueis Nulo, Value: 'installmentCount'");}
             int installmentCount = Integer.parseInt(installmentCountStr);
 

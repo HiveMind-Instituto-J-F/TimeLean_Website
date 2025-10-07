@@ -185,6 +185,15 @@
     </style>
 </head>
 <body>
+    <%
+        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+
+        if (isLogged == null || !isLogged) {
+            //if user not us login return that for login page
+            response.sendRedirect("../login.jsp");
+            return;
+        }
+    %>
     <div class="container">
         <h1>💳 Pagamento</h1>
         
