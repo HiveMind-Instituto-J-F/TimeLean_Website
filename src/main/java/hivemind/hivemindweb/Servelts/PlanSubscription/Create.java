@@ -1,7 +1,6 @@
 package hivemind.hivemindweb.Servelts.PlanSubscription;
 
 import jakarta.ejb.Local;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,26 +10,32 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
+import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.PlanSubscription;
 
 @WebServlet("/create-plan-subcription")
 public class Create extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException {
         try{
             String startDateStr = req.getParameter("start_date");
-            if(startDateStr.isEmpty()){throw new ServletException("Values Is Null, Value: 'startDate'");}
+            if(startDateStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'startDate'");}
             LocalDate startDate = LocalDate.parse(startDateStr); 
 
-            String cnpjCompanyStr = req.getParameter("cnpj_company");
-            if(cnpjCompanyStr.isEmpty()){throw new ServletException("Values Is Null, Value: 'cnjp_company'");}
-            int cnpj_company = Integer.getInteger(cnpjCompanyStr);
+            String cnpjCompany = req.getParameter("cnpj_company");
+            if(cnpjCompany.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnjp_company'");}
+
+            String cnpjFromDB = CompanyDAO.getCNPJ(cnpjCompany);
+            if (cnpjFromDB == null || !cnpjFromDB.equalsIgnoreCase(cnpjCompany)) {
+                throw new InvalidForeignKeyException("Foreign Key is not valid");
+            }
 
             String id_planStr = req.getParameter("id_plan");
-            if(id_planStr.isEmpty()){throw new ServletException("Values Is Null, Value: 'id_plan'");}
+            if(id_planStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id_plan'");}
             int id_plan = Integer.parseInt(id_planStr);
             
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompanyStr, id_plan);
+            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, id_plan);
             if(PlanSubscriptionDAO.insert(planSubscriptionLocal,false)){
                 System.out.println("[WARN] Insert PlanSubscription Sussefly");
                 req.setAttribute("msg", "PlanSubscription Foi Adicionado Com Susseso!");
@@ -38,16 +43,17 @@ public class Create extends HttpServlet {
             else{
                 System.out.println("[WARN] Erro in PlanSubscriptionDAO");
                 System.out.println("[ERROR] Plan Subscription Nao foi Adicionado devido a um Erro!");
+                req.setAttribute("msg", "Plan Subscription Nao foi Adicionado devido a um Erro!");
             }
-            req.getRequestDispatcher("\\html\\crud\\planSub.jsp");
-        }catch(ServletException se){
+            req.getRequestDispatcher("html\\crud\\planSub.jsp");
+        }catch(IllegalArgumentException se){
             System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", se.getMessage());
-        }catch(IllegalArgumentException ime){
-            System.out.println("[ERROR] Invaliad Input, Erro: " + ime.getMessage());
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + ime.getMessage());
-            req.setAttribute("error", ime.getMessage());
+        }
+        catch(InvalidForeignKeyException ifk){
+            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
         }
         catch(DateTimeParseException dpe){
             System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());

@@ -31,7 +31,7 @@ public class PlanSubscriptionDAO {
                 PlanSubscriptionList.add(planSubscriptionLocal);
             }
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.out.println("[ERROR] Falied in select: " + e.getMessage());
         }
 
         return PlanSubscriptionList;
@@ -71,7 +71,7 @@ public class PlanSubscriptionDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
         }
         return false;
     }
@@ -111,7 +111,7 @@ public class PlanSubscriptionDAO {
 
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
             return false;
         }
     }

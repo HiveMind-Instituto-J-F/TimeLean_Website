@@ -83,4 +83,23 @@ public class CompanyDAO {
 
         return companysList;
     }
+
+    public static String getCNPJ(String cnpj){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT cnpj FROM company ORDER BY CNPJ";
+        String cpnj = "";
+
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if(rs.next()){
+                cpnj = rs.getString("cnpj");
+            }
+            return cnpj;
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
+
+        return cnpj;
+    }
+}   
 }
