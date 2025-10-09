@@ -1,0 +1,58 @@
+package hivemind.hivemindweb.Servelts.Worker;
+
+import hivemind.hivemindweb.DAO.WorkerDAO;
+import hivemind.hivemindweb.models.Worker;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+@WebServlet("/delete")
+public class Delete extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve and validate the CPF parameter
+        String cpf = request.getParameter("cpf");
+        if (cpf == null || cpf.isEmpty()) {
+            System.err.println("[WORKER-DELETE] Missing CPF parameter.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "CPF is required.");
+            return;
+        }
+
+        try {
+            // Attempt to delete the worker from the database
+            boolean deleted = WorkerDAO.delete(new Worker(cpf));
+
+            if (deleted) {
+                // Redirect to the list page if deletion succeeded
+                response.sendRedirect(request.getContextPath() + "/read");
+                return;
+            }
+
+            // Handle case where deletion did not occur (e.g., worker not found)
+            System.err.println("[WORKER-DELETE] Worker not found or could not be deleted.");
+            request.setAttribute("errorMessage", "Unable to delete the worker. Please verify the CPF and try again.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+        } catch (NullPointerException npe) {
+            // Handle null references (e.g., DAO returned null or invalid worker)
+            System.err.println("[WORKER-DELETE] Null reference encountered: " + npe.getMessage());
+            request.setAttribute("errorMessage", "Internal error while processing worker deletion.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+
+        } catch (IllegalStateException ise) {
+            // Handle session or response errors
+            System.err.println("[WORKER-DELETE] Illegal state: " + ise.getMessage());
+            request.setAttribute("errorMessage", "Session or response error. Please reload the page.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+
+        } catch (IllegalArgumentException iae) {
+            // Handle invalid CPF or input data
+            System.err.println("[WORKER-DELETE] Invalid data: " + iae.getMessage());
+            request.setAttribute("errorMessage", "Invalid CPF format or data provided.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+        }
+    }
+}
