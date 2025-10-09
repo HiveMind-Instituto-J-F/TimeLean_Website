@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha uma Opção - Título Descritivo</title>
+    <link rel="stylesheet" href="../../css/others/toUserStyle.css">
+</head>
+<body>
+
+<main class="chooser-layout">
+    <h1 id="page-title">Escolha uma Ação</h1>
+
+    <p class="description">Por favor, selecione uma das opções abaixo para prosseguir com a sua jornada.</p>
+
+    <div class="buttons-container" role="group" aria-labelledby="page-title">
+        <button
+                class="button primary-action"
+                type="button"
+                onclick="handleContinue()">
+            Continuar
+        </button>
+
+        <button
+                class="button secondary-action"
+                type="button"
+                onclick="handleRedirect()">
+            Ir para Outra URL
+        </button>
+    </div>
+</main>
+
+<script>
+    // Good practice: Use more descriptive function names
+    function handleContinue() {
+        window.location.href = '/HivemindWeb_war/login';
+    }
+
+    function handleRedirect() {
+        // Replace with the desired, correct URL
+        window.location.href = 'https://localhost:5173';
+    }
+</script>
+
+</body>
+</html>

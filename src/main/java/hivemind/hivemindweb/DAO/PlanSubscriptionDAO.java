@@ -31,11 +31,31 @@ public class PlanSubscriptionDAO {
                 PlanSubscriptionList.add(planSubscriptionLocal);
             }
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.out.println("[ERROR] Falied in select: " + e.getMessage());
         }
 
         return PlanSubscriptionList;
     }
+
+    public static int getID(PlanSubscription planSubscription){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT id FROM PLAN_SUBSCRIPTION ORDER BY id";
+        int id = 0;
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if(rs.next()){
+                id = rs.getInt("id");
+            }
+            return id;
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Falied in select: " + e.getMessage());
+        }
+
+        return id;
+    }
+    
     public static boolean delete(PlanSubscription plansSubscription) {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM PLAN_SUBSCRIPTION WHERE id = ?";
@@ -71,7 +91,7 @@ public class PlanSubscriptionDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
         }
         return false;
     }
@@ -111,7 +131,7 @@ public class PlanSubscriptionDAO {
 
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
             return false;
         }
     }

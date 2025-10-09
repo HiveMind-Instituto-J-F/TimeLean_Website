@@ -22,6 +22,10 @@ public class PlanSubscription {
         this.idPlan = idPlan;
     }
 
+    public PlanSubscription(int id){
+        this.id = id;
+    }
+
     // ToString
     public String toString(){
         return "Id: "+this.id+"\nStart Date: "+this.startDate+"\nCNPJ Company: "+this.cnpjCompany+

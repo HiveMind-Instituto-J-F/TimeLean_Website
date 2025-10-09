@@ -1,14 +1,14 @@
 @import url('../variables.css');
 
+#target>* {
+    color: var(--polar);
+}
+
 #target {
     margin: 0 auto;
     justify-content: center;
     align-items: center;
     text-align: center;
-}
-
-#target>* {
-    color: var(--polar) !important;
 }
 
 #target>div {

@@ -1,13 +1,15 @@
 let lastScroll = 0;
-const header = document.querySelector("header");
+const header = document.querySelector('header');
 
-window.addEventListener("scroll", () => {
+window.addEventListener('scroll', () => {
   const currentScroll = window.pageYOffset;
 
   if (currentScroll > lastScroll) {
-    header.classList.add("hide");
+    header.classList.add('hide');
+    header.setAttribute('inert', '');
   } else {
-    header.classList.remove("hide");
+    header.classList.remove('hide');
+    header.removeAttribute('inert');
   }
 
   lastScroll = currentScroll;
