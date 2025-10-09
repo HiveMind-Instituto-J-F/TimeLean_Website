@@ -35,7 +35,7 @@ public class Delete extends HttpServlet {
             }
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);
         }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
+            System.out.println("[ERROR] Error In Delete Servelet, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);

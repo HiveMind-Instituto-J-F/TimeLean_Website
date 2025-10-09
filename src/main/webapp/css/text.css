@@ -1,28 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('variables.css');
 
+/*
+  Sintaxe do clamp ↓
+  clamp(<min>, <pref>, <max>);
+  
+  É utilizado para responsividade de caracteres
+  pref = recomendado o uso de "vw"
+*/
 
 p {
-    font-size: medium;
+    /* font-size: 1rem; */
+    font-size: clamp(0.625rem, calc(0.625vw + 1rem), 1rem);
 }
 
 h1 {
-    font-size: xx-large;
-    line-height: 45px;
+    /* font-size: 2rem; */
+    font-size: clamp(2rem, calc(1.25vw + 1rem), 2rem);
+    line-height: 1.35;
 }
 
 h2 {
-    font-size: larger;
+    /* font-size: 1.25rem; */
+    font-size: clamp(0.715rem, calc(0.785vw + 1rem), 1.25rem);
 }
 
 h3 {
-    font-size: large;
+    /* font-size: 1.15rem; */
+    font-size: clamp(0.685rem, calc(0.715vw + 1rem), 1.15rem);
 }
 
-a {
-    color: var(--preto) !important;
-    columns: inherit;
+nav>a {
+    color: var(--preto);
+    font-size: clamp(0.550rem, calc(0.815vw + 1rem), 1rem);
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .inter-thin {
@@ -67,6 +79,6 @@ nav.inter, footer>*.inter {
     font-style: normal;
 }
 
-footer>*.inter {
+footer>p.inter {
     opacity: 70%;
 }

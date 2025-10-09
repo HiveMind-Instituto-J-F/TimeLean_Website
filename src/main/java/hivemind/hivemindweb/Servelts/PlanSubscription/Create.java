@@ -32,11 +32,11 @@ public class Create extends HttpServlet {
                 throw new InvalidForeignKeyException("Foreign Key is not valid");
             }
 
-            String id_planStr = req.getParameter("id_plan");
-            if(id_planStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id_plan'");}
-            int id_plan = Integer.parseInt(id_planStr);
+            String idPlanStr = req.getParameter("id_plan");
+            if(idPlanStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id_plan'");}
+            int idpPlan = Integer.parseInt(idPlanStr);
             
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, id_plan);
+            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, idpPlan);
             if(PlanSubscriptionDAO.insert(planSubscriptionLocal,false)){
                 System.out.println("[WARN] Insert PlanSubscription Sussefly");
                 req.setAttribute("msg", "PlanSubscription Foi Adicionado Com Susseso!");
@@ -48,7 +48,7 @@ public class Create extends HttpServlet {
             }
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);;
         }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
+            System.out.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
         }

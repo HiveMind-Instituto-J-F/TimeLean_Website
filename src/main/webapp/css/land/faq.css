@@ -1,18 +1,18 @@
 @import url('../variables.css');
 
-
-/* Todo começo de código, pelas más ações que fiz no body vou ter que fazer esse margin 0 auto*/
-#faq>:nth-child(n) {
-    margin: 0 auto;
+#faq>* {
+    color: var(--white);
 }
 
 #faq {
     background-color: var(--orange);
-    color: var(--white);
-    margin: 0;    
+    display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 100px;
+    align-items: baseline;
+}
+
+#faq>:nth-child(n) {
+    margin: 0 auto;
 }
 
 #faq>div, #faq>section {

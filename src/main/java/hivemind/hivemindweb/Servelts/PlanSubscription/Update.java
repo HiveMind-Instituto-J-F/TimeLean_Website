@@ -16,10 +16,14 @@ import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.PlanSubscription;
 
-@WebServlet("/Update-plan-subcription")
+@WebServlet("/update-plan-subcription")
 public class Update extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
         try{
+            String id_planStr = req.getParameter("id_plan");
+            if(id_planStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id_plan'");}
+            int id_plan = Integer.parseInt(id_planStr);
+
             String startDateStr = req.getParameter("start_date");
             if(startDateStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'startDate'");}
             LocalDate startDate = LocalDate.parse(startDateStr); 
@@ -31,10 +35,6 @@ public class Update extends HttpServlet {
             if (cnpjFromDB == null || !cnpjFromDB.equalsIgnoreCase(cnpjCompany)) {
                 throw new InvalidForeignKeyException("Foreign Key is not valid");
             }
-
-            String id_planStr = req.getParameter("id_plan");
-            if(id_planStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id_plan'");}
-            int id_plan = Integer.parseInt(id_planStr);
             
             PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, id_plan);
             if(PlanSubscriptionDAO.update(planSubscriptionLocal)){
@@ -48,7 +48,7 @@ public class Update extends HttpServlet {
             }
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);;
         }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
+            System.out.println("[ERROR] Error In Update Servelet, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
         }
