@@ -16,8 +16,8 @@ import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.PlanSubscription;
 
-@WebServlet("/create-plan-subcription")
-public class Create extends HttpServlet {
+@WebServlet("/Update-plan-subcription")
+public class Update extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
         try{
             String startDateStr = req.getParameter("start_date");
@@ -37,9 +37,9 @@ public class Create extends HttpServlet {
             int id_plan = Integer.parseInt(id_planStr);
             
             PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, id_plan);
-            if(PlanSubscriptionDAO.insert(planSubscriptionLocal,false)){
-                System.out.println("[WARN] Insert PlanSubscription Sussefly");
-                req.setAttribute("msg", "PlanSubscription Foi Adicionado Com Susseso!");
+            if(PlanSubscriptionDAO.update(planSubscriptionLocal)){
+                System.out.println("[WARN] Update PlanSubscription Sussefly");
+                req.setAttribute("msg", "PlanSubscription Foi Atalizado Com Susseso!");
             }
             else{
                 System.out.println("[WARN] Erro in PlanSubscriptionDAO");
