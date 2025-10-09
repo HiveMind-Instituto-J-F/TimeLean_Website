@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Servelts;
 
 import java.io.IOException;
+
 import javax.security.auth.login.LoginException;
 
 import hivemind.hivemindweb.AuthService.AuthService;
