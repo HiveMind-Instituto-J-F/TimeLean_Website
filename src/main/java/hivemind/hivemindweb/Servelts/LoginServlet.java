@@ -14,11 +14,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisClientConfig;
-import redis.clients.jedis.DefaultJedisClientConfig;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -35,11 +34,10 @@ public class LoginServlet extends HttpServlet {
                 .user("default")
                 .password(dotenv.get("rds_password"))
                 .build();
-
-        HostAndPort hostAndPort = new HostAndPort(
-                dotenv.get("rds_host"),
-                17579
-        );
+        
+        String host = dotenv.get("rds_host");
+        System.out.println(host);
+        HostAndPort hostAndPort = new HostAndPort(host,17579);
 
         jedis = new Jedis(hostAndPort, config);
 
@@ -75,11 +73,11 @@ public class LoginServlet extends HttpServlet {
             session.setMaxInactiveInterval(600);
 
             if (AuthService.login(adminClient)) {
-                // Salva login no Redis
+                // Save login in Redis
                 String sessionKey = "session:" + session.getId();
                 jedis.hset(sessionKey, "email", email);
                 jedis.hset(sessionKey, "logged", "true");
-                jedis.expire(sessionKey, 600); // expira em 10 minutos
+                jedis.expire(sessionKey, 600);
 
                 session.setAttribute("user", adminClient);
                 session.setAttribute("login", true);
