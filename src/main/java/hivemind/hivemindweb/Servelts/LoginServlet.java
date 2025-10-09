@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet{
             req.setAttribute("error", se.getMessage());
         }
         catch(NullPointerException npe){
-            System.out.println("[ERROR] Null Pointer Exception: check for redundancy or incorrect memory allocation, Erro: " + npe.getMessage());
+            System.out.println("[ERROR] Null Pointer Excepti    on: check for redundancy or incorrect memory allocation, Erro: " + npe.getMessage());
             req.setAttribute("error", npe.getMessage());
         }
         catch(IllegalArgumentException ime){

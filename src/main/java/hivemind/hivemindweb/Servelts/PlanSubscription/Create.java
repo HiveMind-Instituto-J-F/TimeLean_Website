@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Servelts.PlanSubscription;
 
 import jakarta.ejb.Local;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import hivemind.hivemindweb.models.PlanSubscription;
 
 @WebServlet("/create-plan-subcription")
 public class Create extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
         try{
             String startDateStr = req.getParameter("start_date");
             if(startDateStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'startDate'");}
@@ -45,7 +46,7 @@ public class Create extends HttpServlet {
                 System.out.println("[ERROR] Plan Subscription Nao foi Adicionado devido a um Erro!");
                 req.setAttribute("msg", "Plan Subscription Nao foi Adicionado devido a um Erro!");
             }
-            req.getRequestDispatcher("html\\crud\\planSub.jsp");
+            req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);;
         }catch(IllegalArgumentException se){
             System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
@@ -54,11 +55,17 @@ public class Create extends HttpServlet {
         catch(InvalidForeignKeyException ifk){
             System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
+            req.setAttribute("error", ifk.getCause());
         }
         catch(DateTimeParseException dpe){
             System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
             req.setAttribute("error", dpe.getCause());
+        }
+        catch(ServletException se){
+            System.out.println("[ERROR] Error In Login, Error: "+ se.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
+            req.setAttribute("error", se.getMessage());
         }
     }
 }
