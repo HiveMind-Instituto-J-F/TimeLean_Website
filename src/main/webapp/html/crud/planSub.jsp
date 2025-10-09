@@ -184,16 +184,10 @@
             <h2>Atualizar Assinatura</h2>
             <form action="/HivemindWeb_war/update-plan-subcription" method="post">
                 <div class="form-group">
-                    <label for="update_id">ID da Assinatura:</label>
-                    <input type="number" id="update_id" name="id_subscription" required min="1" 
-                           placeholder="ID da assinatura a ser atualizada">
-                </div>
-
-                <div class="form-group">
                     <label for="update_start_date">Nova Data de Início:</label>
                     <input type="date" id="update_start_date" name="start_date" required>
                 </div>
-
+    
                 <div class="form-group">
                     <label for="update_cnpj">Novo CNPJ:</label>
                     <input type="text" id="update_cnpj" name="cnpj_company" required placeholder="00.000.000/0000-00">

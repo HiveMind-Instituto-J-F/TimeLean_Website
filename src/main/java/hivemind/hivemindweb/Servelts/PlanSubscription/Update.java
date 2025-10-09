@@ -44,7 +44,7 @@ public class Update extends HttpServlet {
             else{
                 System.out.println("[WARN] Erro in PlanSubscriptionDAO");
                 System.out.println("[ERROR] Plan Subscription Nao foi Adicionado devido a um Erro!");
-                req.setAttribute("msg", "Plan Subscription Nao foi Adicionado devido a um Erro!");
+                req.setAttribute("msg", "Plan Subscription Nao Pode Ser encotrado!");
             }
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);;
         }catch(IllegalArgumentException se){

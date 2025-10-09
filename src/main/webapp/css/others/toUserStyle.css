@@ -1,0 +1,293 @@
+@import url('variables.css');
+
+/* === 1. Base Reset & Typography Setup === */
+
+* {
+    /* Box-sizing for easier layout calculations (padding and border included in width/height) */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Using a generic font-family as a fallback is good practice */
+    font-family: sans-serif;
+    /* Using clamp for fluid font size (min, ideal, max) */
+    font-size: clamp(16px, 1vw + 1rem, 18px);
+    background-color: var(--black-oil);
+    /* Prevents horizontal scrolling from layout shifts */
+    overflow-x: hidden;
+    /* Sets the default text color, which can be inherited */
+    color: var(--polar);
+}
+
+/* Fluid spacing for main sections */
+body > div {
+    /* Using clamp for vertical margin: min 50px, ideal 10vh, max 100px */
+    margin: clamp(50px, 10vh, 100px) 0;
+}
+
+img {
+    /* Prevent image dragging and selection */
+    -webkit-user-drag: none;
+    user-select: none;
+    /* Ensure images don't exceed their container width */
+    max-width: 100%;
+    height: auto;
+}
+
+a, a:visited, a:hover, a:active {
+    /* Removes underline from all anchor tags */
+    text-decoration: none !important;
+    /* Smooth transition for color changes */
+    transition: color 0.3s ease;
+}
+
+/* === 2. Header & Navigation === */
+
+header {
+    /* Centering the fixed header using absolute positioning and transforms */
+    position: fixed;
+    top: 30px;
+    /* left: 50%;
+    transform: translateX(-50%); */
+
+    /* Alternative, modern centering for fixed/absolute elements: */
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    /* Set a max-width and a safe min-width */
+    max-width: 900px;
+    min-width: 300px;
+    width: calc(100% - 40px); /* Adjusts width to ensure 20px on either side on smaller screens */
+
+    z-index: 1000; /* Increased z-index to ensure it's on top */
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Fluid padding */
+    padding: 15px clamp(20px, 4vw, 40px);
+
+    background: transparent;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--weak-shadow);
+    border-radius: var(--border-medium);
+    /* Using var(--polar) for text in header for consistency, assuming content is on dark background */
+    color: var(--polar);
+
+    transition: transform 0.7s ease-in-out, opacity 0.3s ease;
+}
+
+header.hide {
+    /* Hide smoothly off-screen with slight opacity fade */
+    transform: translate(-50%, -150%);
+    opacity: 0;
+}
+
+/* Adjust header children for better spacing on smaller screens */
+header > :first-child,
+header > :last-child {
+    /* Allow logo/button container to shrink */
+    flex-shrink: 1;
+    /* Set a reasonable base width, but allow it to be smaller */
+    width: 100px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Allow nav to grow/shrink based on space */
+    flex-grow: 1;
+    user-select: none;
+}
+
+/* Specific nav for the header, resetting the fixed width */
+header > nav {
+    width: auto;
+    /* Allow links to wrap if necessary */
+    flex-wrap: nowrap;
+}
+
+header > nav > a {
+    text-align: center;
+    /* Fluid margin between links */
+    margin: 0 clamp(10px, 4vw, 30px);
+}
+
+/* Remove the highly specific and hard-to-read nth-child selector for margin */
+/* header > nav > a:nth-child(2) {
+  margin: 0 8vh;
+} */
+
+
+header a {
+    /* Fluid font size for header links */
+    font-size: clamp(14px, 1vw, 16px);
+    color: var(--polar); /* Explicit color for links */
+}
+
+/* Add a media query for smaller screens to hide or simplify the nav */
+@media (max-width: 768px) {
+    header > nav {
+        /* Hide the navigation menu links on small screens, typically replaced by a hamburger menu */
+        display: none;
+    }
+
+    header {
+        /* Increase padding on smaller screens for better tap targets */
+        padding: 10px 20px;
+    }
+
+    header > :first-child,
+    header > :last-child {
+        /* Reset width to auto and let content determine size */
+        width: auto;
+    }
+}
+
+/* === 3. Footer === */
+
+footer {
+    color: var(--polar); /* Ensure color is set */
+    padding: 100px 0;
+    /* Using flexbox for better centering control */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+footer > p {
+    /* Use a consistent, fluid small font size */
+    font-size: clamp(12px, 0.8rem, 14px);
+    text-align: center;
+    user-select: none;
+    /* Reduce margin */
+    margin-bottom: 12px;
+}
+
+footer > :nth-child(n) {
+    /* Simplify margin for all footer direct children */
+    margin: 12px auto;
+}
+
+footer > a {
+    /* Already centered via parent flex container, but keep for explicit control */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* === 4. Utility Classes & Components === */
+
+/* Animation for floating elements */
+.float > a {
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease;
+}
+
+.float > a:hover {
+    /* Subtle lift and opacity change */
+    transform: translateY(-4px);
+    opacity: 0.85;
+}
+
+/* Button style */
+.button {
+    background-color: var(--orange);
+    color: var(--white);
+    border-radius: var(--border-small);
+    text-align: center;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    /* Add subtle transition for hover effects */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:hover {
+    /* Add a slight color change or shadow for feedback */
+    background-color: color-mix(in srgb, var(--orange) 90%, var(--white));
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact {
+    padding: 12px 48px;
+    font-size: 12px;
+}
+
+header > .contact {
+    padding: 8px 18px; /* Slightly adjusted horizontal padding */
+    font-size: 11px;
+}
+
+/* Helper class */
+#unset {
+    margin: unset;
+}
+
+.icon {
+    display: block;
+    /* Ensure icon size is clearly controlled */
+    width: var(--icon);
+    height: var(--icon);
+}
+
+.block {
+    display: flex;
+    flex-direction: column; /* Better for block content */
+    border: 8px solid var(--orange);
+    margin: 0 auto 20px; /* Simplified margin: 0 auto 20px */
+    padding: 16px 0;
+    width: 240px;
+    align-items: center; /* Center content horizontally within the block */
+    text-align: center;
+}
+
+.arrow {
+    width: var(--icon);
+    height: var(--icon);
+}
+
+.toggle {
+    background-color: transparent;
+    border: 0;
+    font-size: 1.5rem; /* Use 'rem' for better scalability */
+    cursor: pointer;
+}
+
+.medias {
+    display: flex;
+    width: 160px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.medias > a {
+    padding: 6px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.medias > a:hover {
+    /* Use a less specific color for hover, assuming var(--polar) is light */
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* === 5. Specific IDs === */
+
+#hivemind, #timelean {
+    /* Grouped common styles */
+    background-color: transparent;
+    border: 0;
+}
+
+#hivemind > img {
+    width: 180px;
+}
+
+#timelean img {
+    width: 125px;
+    height: auto;
+}
