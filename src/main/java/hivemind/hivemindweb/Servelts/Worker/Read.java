@@ -11,21 +11,64 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/read")
 public class Read extends HttpServlet {
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve the current session (creates one if not existing)
         HttpSession session = request.getSession();
 
+        // Get the plant CNPJ stored in the session
         String plantCnpj = (String) session.getAttribute("plantCnpj");
-        Plant plant = PlantDAO.selectByPlantCnpj(plantCnpj);
-        List<Worker> workers = WorkerDAO.selectByPlantCnpj(plant.getCNPJ());
-        System.out.println("DEBUGGGG");
-        System.out.println(workers);
-        request.setAttribute("workers", workers);
-        request.setAttribute("plantCnpj", plantCnpj);
-        request.getRequestDispatcher("html/crud/worker/read.jsp").forward(request, response);
-    }
 
+        if (plantCnpj == null || plantCnpj.isEmpty()) {
+            // Handle missing or invalid session attribute
+            System.err.println("[WORKER-READ] Missing plantCnpj in session.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plant information not found in session.");
+            return;
+        }
+
+        try {
+            // Retrieve plant data from the database
+            Plant plant = PlantDAO.selectByPlantCnpj(plantCnpj);
+
+            if (plant == null) {
+                // Handle non-existent plant in the database
+                System.err.println("[WORKER-READ] No plant found with CNPJ: " + plantCnpj);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Plant not found in database.");
+                return;
+            }
+
+            // Retrieve all workers associated with the plant
+            List<Worker> workers = WorkerDAO.selectByPlantCnpj(plant.getCNPJ());
+            System.out.println(workers);
+
+            // Set attributes for the JSP view
+            request.setAttribute("workers", workers);
+            request.setAttribute("plantCnpj", plantCnpj);
+
+            // Forward to the JSP page for display
+            request.getRequestDispatcher("/html/crud/worker/read.jsp").forward(request, response);
+        } catch (NullPointerException npe) {
+            // Handle null references (e.g., DAO returned null unexpectedly)
+            System.err.println("[WORKER-READ] Null reference encountered: " + npe.getMessage());
+            request.setAttribute("errorMessage", "Internal error while retrieving plant or worker data.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+
+        } catch (IllegalStateException ise) {
+            // Handle session or response errors
+            System.err.println("[WORKER-READ] Illegal state error: " + ise.getMessage());
+            request.setAttribute("errorMessage", "Session or response error. Please reload the page.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+
+        } catch (IllegalArgumentException iae) {
+            // Handle invalid plantCnpj or DAO argument
+            System.err.println("[WORKER-READ] Invalid argument: " + iae.getMessage());
+            request.setAttribute("errorMessage", "Invalid plant data. Please verify the session information.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+        }
+    }
 }

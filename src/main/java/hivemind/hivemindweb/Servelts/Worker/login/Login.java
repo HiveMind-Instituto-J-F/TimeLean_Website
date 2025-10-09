@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.Worker;
+package hivemind.hivemindweb.Servelts.Worker.login;
 
 import hivemind.hivemindweb.AuthService.AuthService;
 import hivemind.hivemindweb.DAO.PlantDAO;
@@ -10,6 +10,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.logging.Logger;
 
 import java.io.IOException;
 
@@ -24,20 +26,43 @@ public class Login extends HttpServlet{
 
         // Create objects:
         Plant plant = PlantDAO.selectByPlantCnpj(plantCnpj);
-        Worker worker = WorkerDAO.selectByCpf(responsibleCpf);
+        if (plant == null){
+            System.out.println("[WORKER-LOGIN] ERROR: plant is null");
+            request.setAttribute("status", false);
+            request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+            return;
+        }
 
+        Worker worker = WorkerDAO.selectByCpf(responsibleCpf);
+        if (worker == null){
+            System.out.println("[WORKER-LOGIN] ERROR: worker is null");
+            request.setAttribute("status", false);
+            request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+            return;
+        }
+
+        // Login logic
         try{
             if (plant.getResponsibleCpf().equals(worker.getCpf())){
-                if(AuthService.login(responsibleLoginEmail, worker.getLoginEmail(),
-                        worker.getLoginPassword(), responsibleLoginPassword)){
-                    request.setAttribute("plantCnpj", plantCnpj);
-                    request.getRequestDispatcher("html/crud/worker/read.jsp").forward(request, response);
-                } else {
-                    request.setAttribute("status", false);
-                    request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+                if(AuthService.login(responsibleLoginEmail, worker.getLoginEmail(), responsibleLoginPassword, worker.getLoginPassword())){
+                    // Create session and define attributes
+                    HttpSession session = request.getSession(true);
+
+                    session.setMaxInactiveInterval(600);
+                    session.setAttribute("plantCnpj", plantCnpj);
+                    session.setAttribute("responsibleCpf", responsibleCpf);
+
+                    response.sendRedirect(request.getContextPath() + "/read");
+                    return;
                 }
+                // If did not log, dispatch to login.jsp
+                System.out.println("[WORKER-LOGIN] ERROR: Incorrect Credentials");
+                request.setAttribute("status", false);
+                request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
             }
         } catch (NullPointerException npe){
+            // Treats NullPointerException
+            System.out.println("[WORKER-LOGIN] EXCEPTION: NullPointerException");
             request.setAttribute("status", false);
             request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
         }
