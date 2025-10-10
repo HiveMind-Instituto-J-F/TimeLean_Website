@@ -29,16 +29,16 @@ public class PaymentServlet extends HttpServlet {
             String status = req.getParameter("status");
             if(status.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'status'");}
 
-            String installmentCountStr = req.getParameter("installmentCount");
-            if(installmentCountStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'installmentCount'");}
-            int installmentCount = Integer.parseInt(installmentCountStr);
-            if(installmentCount <= 0){throw new IllegalArgumentException("installmentCount is bellow of 0");}
+            String number_installmentsStr = req.getParameter("number_installments");
+            if(number_installmentsStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'number_installments'");}
+            int number_installments = Integer.parseInt(number_installmentsStr);
+            if(number_installments <= 0){throw new IllegalArgumentException("number_installments is bellow of 0");}
 
             String idStr = req.getParameter("id_plan_sub");
             if(idStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'idPlanSub'");}
             int id_plan_sub = Integer.parseInt(idStr);
             
-            double value = PlanDAO.getPrice(id_plan_sub) / installmentCount; 
+            double value = PlanDAO.getPrice(id_plan_sub) / number_installments; 
 
             if ((method == null || method.isEmpty()) || (beneficary == null || beneficary.isEmpty()) || deadline == null) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Valores Sao inválidos ou nulos.");
