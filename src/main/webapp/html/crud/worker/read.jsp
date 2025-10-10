@@ -55,7 +55,7 @@
             </form>
         </td>
     </tr>
-    <%// PAREI AQUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    <%
                 } else if (responsibleCpf != null && responsibleCpf.equals(w.getCpf())){
                     
     %>
