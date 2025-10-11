@@ -1,4 +1,5 @@
-package hivemind.hivemindweb.Servelts.Worker;//package hivemind.hivemindweb.Servelts.Worker;
+package hivemind.hivemindweb.Servelts.Worker;
+
 import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.DAO.WorkerDAO;
 import hivemind.hivemindweb.models.Plant;
@@ -11,10 +12,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/read")
+@WebServlet("/worker/read")
 public class Read extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,7 +27,8 @@ public class Read extends HttpServlet {
         if (plantCnpj == null || plantCnpj.isEmpty()) {
             // Handle missing or invalid session attribute
             System.err.println("[WORKER-READ] Missing plantCnpj in session.");
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plant information not found in session.");
+            request.setAttribute("errorMessage", "Plant information not found in session.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
             return;
         }
 
@@ -38,7 +39,8 @@ public class Read extends HttpServlet {
             if (plant == null) {
                 // Handle non-existent plant in the database
                 System.err.println("[WORKER-READ] No plant found with CNPJ: " + plantCnpj);
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Plant not found in database.");
+                request.setAttribute("errorMessage", "No plant found with CNPJ: " + plantCnpj);
+                request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
                 return;
             }
 
