@@ -1,11 +1,10 @@
-package hivemind.hivemindweb.Servelts;
+package hivemind.hivemindweb.Servelts.Login;
 
 import java.io.IOException;
 
 import javax.security.auth.login.LoginException;
 
 import hivemind.hivemindweb.AuthService.AuthService;
-import hivemind.hivemindweb.config.EnvLoader;
 import hivemind.hivemindweb.models.Admin;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
@@ -27,8 +26,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        Dotenv dotenv = EnvLoader.getDotenv();
-
+        Dotenv dotenv = (Dotenv) getServletContext().getAttribute("data");
+        if(dotenv == null){
+            System.out.println("[ERROR] Dotenv Is null in Servelet Context");
+            return;
+        }
 
         JedisClientConfig config = DefaultJedisClientConfig.builder()
                 .user("default")

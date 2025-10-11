@@ -11,7 +11,7 @@ public class Payment {
     private String beneficiary;
     private String status;
     private int idPlanSubscription;
-    private int installmentCount;
+    private int number_installments;
 
     // Construtor
     public Payment(double value, LocalDate deadline, String method, String beneficiary, String status, int idPlanSubscription){
@@ -71,8 +71,8 @@ public class Payment {
     public int getIdPlan() {
         return idPlanSubscription;
     }
-    public int getInstallmentCount() {
-        return installmentCount;
+    public int getNumberInstallments() {
+        return number_installments;
     }
     public void setStatus(String status) {
         this.status = status;
