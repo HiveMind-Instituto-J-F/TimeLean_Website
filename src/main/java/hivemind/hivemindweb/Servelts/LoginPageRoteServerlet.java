@@ -13,7 +13,7 @@ public class LoginPageRoteServerlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.getRequestDispatcher("html\\login.html").forward(req,resp);
+            req.getRequestDispatcher("html\\login.jsp").forward(req,resp);
         }catch (ServletException se){
             se.printStackTrace();
         }
