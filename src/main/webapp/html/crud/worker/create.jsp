@@ -16,7 +16,7 @@
     <body>
         <h1>Relacao WORKER</h1>
         <h2>ADD WORKER</h2>
-        <form action="${pageContext.request.contextPath}/create" method="post">
+        <form action="${pageContext.request.contextPath}/worker/create" method="post">
             <label for="cpf">CPF:</label>
             <input type="text" id="cpf" name="cpf" required><br><br>
 
