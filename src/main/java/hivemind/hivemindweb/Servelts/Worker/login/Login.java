@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 import java.io.IOException;
 
-@WebServlet("/plant-login")
+@WebServlet("/worker/login")
 public class Login extends HttpServlet{
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get parameters:
@@ -52,7 +52,7 @@ public class Login extends HttpServlet{
                     session.setAttribute("plantCnpj", plantCnpj);
                     session.setAttribute("responsibleCpf", responsibleCpf);
 
-                    response.sendRedirect(request.getContextPath() + "/read");
+                    response.sendRedirect(request.getContextPath() + "/worker/read");
                     return;
                 }
                 // If did not log, dispatch to login.jsp
