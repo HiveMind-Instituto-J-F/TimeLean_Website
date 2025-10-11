@@ -1,5 +1,9 @@
 @import url('../variables.css');
 
+#ctaf>* {
+    color: var(--black);
+}
+
 #ctaf {
     margin: 0 !important;
     padding: 80px 0px 0px;
@@ -15,9 +19,6 @@
     margin: 0;
 }
 
-#ctaf>* {
-    color: var(--black);
-}
 
 #ctaf div {
     padding: 0;

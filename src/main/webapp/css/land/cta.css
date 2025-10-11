@@ -1,6 +1,6 @@
 @import url('../variables.css');
 
-#cta * {
+#cta>* {
     color: var(--polar);
 }
 
@@ -9,7 +9,7 @@
     align-items: flex-start;
     justify-content: center;
     width: 900px;
-    margin: 100px auto 0 !important;
+    margin: 0 auto;
 }
 
 #cta>.major {

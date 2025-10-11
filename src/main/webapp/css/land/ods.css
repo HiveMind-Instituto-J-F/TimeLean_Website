@@ -2,7 +2,6 @@
 
 #ods>* {
     color: var(--white);
-    margin: auto;
 }
 
 #ods {
@@ -17,7 +16,9 @@
 }
 
 #ods section {
-    width: 860px;
+    margin: 0 auto;
+    width: clamp(20vh, 180vw, 800px);
+    height: min(80vh, 160px);
     margin-top: 50px;
 }
 

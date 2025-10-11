@@ -1,6 +1,14 @@
 @import url('../variables.css');
 
-#hero * {
+/*
+  Sintaxe do padding: min() ↓
+  min(<fixa>, <rel>);
+  
+  É utilizado para responsividade de box, ele escolhe sempre o menor valor
+  rel = recomendado o uso de "%"
+*/
+
+#hero>* {
   color: var(--black);
 }
 
@@ -12,11 +20,20 @@
 
 #background-img {
   margin: 0 !important;
-  padding: 160px 0px 752px 0px;
-  background-image: url('../../img/background/hero.jpg');
+  padding: min(10%, 160px) 0 min(40%, 760px) 0;
+  background-image: url('../../img/background/hero2.jpg');
   background-size: cover;
   background-position: center;
+  background-attachment: local;
   background-repeat: no-repeat;
+  z-index: -1;
+}
+
+@media (max-width: 800px) {
+  #background-img {
+    background-size: 250vw;
+    background-position: top;
+  }
 }
 
 #hero>.container {
@@ -24,7 +41,7 @@
 }
 
 #hero>:nth-child(2) {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 #hero>* {
@@ -32,7 +49,7 @@
 }
 
 #hero>div:first-child>:nth-child(2) {
-  width: 300px;
+  max-width: 300px;
   margin: auto;
   margin-top: 12px;
 }

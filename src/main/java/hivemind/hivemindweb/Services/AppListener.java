@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Services;
 
 import hivemind.hivemindweb.config.EnvLoader;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -21,7 +22,9 @@ public class AppListener implements ServletContextListener {
             System.out.println("[DEBUG] Context path: " + sce.getServletContext().getContextPath());
             
             // Inicializa o EnvLoader
-            EnvLoader.init(sce.getServletContext());        
+            EnvLoader.init(sce.getServletContext());
+            Dotenv dotenv = EnvLoader.getDotenv();
+            sce.getServletContext().setAttribute("data", dotenv);
             System.out.println("=================================================");
         }
         catch (Exception de){

@@ -100,7 +100,7 @@ public class PaymentDAO {
             psmt.setString(4, payment.getBeneficiary());
             psmt.setString(5, payment.getStatus());
             psmt.setInt(6, payment.getIdPlan());
-            psmt.setInt(7, payment.getInstallmentCount());
+            psmt.setInt(7, payment.getNumberInstallments());
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
             System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());

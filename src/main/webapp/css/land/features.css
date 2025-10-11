@@ -1,15 +1,14 @@
 @import url('../variables.css');
 
+#features>* {
+    color: var(--polar);
+}
+
 #features {
     background-color: var(--orange);
     display: flexbox;
     align-items: baseline;
     justify-content: center;
-    padding: 100px 32px 156px;
-}
-
-#features>* {
-    color: var(--polar);
 }
 
 .box img {
