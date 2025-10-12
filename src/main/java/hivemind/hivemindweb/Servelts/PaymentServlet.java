@@ -31,7 +31,8 @@ public class PaymentServlet extends HttpServlet {
             if(status.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'status'");}
 
             String number_installmentsStr = req.getParameter("number_installments");
-            if(number_installmentsStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'number_installments'");}
+            System.out.println(number_installmentsStr);
+            if(number_installmentsStr == null || number_installmentsStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'number_installments'");}
             int number_installments = Integer.parseInt(number_installmentsStr);
             if(number_installments <= 0){throw new IllegalArgumentException("number_installments is bellow of 0");}
 

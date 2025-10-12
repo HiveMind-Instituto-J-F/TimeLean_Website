@@ -205,7 +205,7 @@
 
             <div class="form-group">
                 <label>Número de Parcelas <span class="required">*</span></label>
-                <input type="number" name="installmentCount" required min="1" max="12" placeholder="1">
+                <input type="number" name="number_installments" required min="1" max="12" placeholder="1">
             </div>
 
             <div class="form-group">
