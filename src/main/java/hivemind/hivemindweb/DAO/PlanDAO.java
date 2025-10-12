@@ -11,29 +11,47 @@ import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.Plan;
 
 public class PlanDAO {
-    public static boolean insert(Plan plan) {
+    public static boolean insert(Plan plan, boolean hasId) {
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO plan (id, name, description, price, duration) " +
-                "VALUES (?,?,?,?,?,?,?)";
+                "VALUES (?,?,?,?,?,?)";
 
+        if(hasId){
+            try (Connection conn = db.connected();
+                 PreparedStatement pstm = conn.prepareStatement(sql)) {
+    
+                pstm.setInt(1, plan.getId());
+                pstm.setString(2, plan.getName());
+                pstm.setString(3, plan.getDescription());
+                pstm.setDouble(4,plan.getPrice());
+                pstm.setInt(5,plan.getDuration());
+    
+                return pstm.executeUpdate() > 0;
+    
+            } catch (SQLException sqle) {
+                System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            }
+            return false;
+        }
 
+        sql = "INSERT INTO plan (name, description, price, duration) " +
+                "VALUES (?,?,?,?)";
+                
         try (Connection conn = db.connected();
+            PreparedStatement pstm = conn.prepareStatement(sql)) {
 
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-
-            pstm.setInt(1, plan.getId());
-            pstm.setString(2, plan.getName());
-            pstm.setString(3, plan.getDescription());
-            pstm.setDouble(6,plan.getPrice());
-            pstm.setInt(7,plan.getDuration());
+            pstm.setString(1, plan.getName());
+            pstm.setString(2, plan.getDescription());
+            pstm.setDouble(3,plan.getPrice());
+            pstm.setInt(4,plan.getDuration());
 
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return false;
-    }
+}
 
     public static boolean update(Plan plan) {
         DBConnection db = new DBConnection();
@@ -135,5 +153,24 @@ public class PlanDAO {
             System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return price;
+    }
+
+    public static String getName(String namePlan){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT p.name FROM Plan WHERE id=?;";
+        String name = "";
+        try(Connection conn = db.connected();
+            PreparedStatement psmt = conn.prepareStatement(sql);){
+            psmt.setString(1, namePlan);
+
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    name = rs.getString("name");
+                }
+            }
+        }catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+        }
+        return name;
     }
 }
