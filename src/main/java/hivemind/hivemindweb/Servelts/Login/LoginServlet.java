@@ -85,7 +85,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("login", true);
                 System.out.println("[INFO] Login Successful - Salvo no Redis remoto com chave: " + sessionKey);
 
-                req.getRequestDispatcher(req.getContextPath() + "/toUser.html").forward(req, resp);
+                req.getRequestDispatcher("/html/crud/toUser.html").forward(req, resp);
             } else {
                 session.setAttribute("login", false);
                 throw new LoginException("Email ou senha incorretos.");

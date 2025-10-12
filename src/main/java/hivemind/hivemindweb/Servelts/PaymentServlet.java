@@ -21,7 +21,8 @@ public class PaymentServlet extends HttpServlet {
             if (method != null) method = method.trim();
 
             String beneficary = req.getParameter("beneficiary");
-
+            if (beneficary.isEmpty()) {throw new IllegalArgumentException("Valueis Nulo, Value: 'beneficary'");}
+            
             String deadlineStr = req.getParameter("deadline");
             if (deadlineStr.isEmpty()) {throw new IllegalArgumentException("Valueis Nulo, Value: 'deadline'");}
             LocalDate deadline = LocalDate.parse(deadlineStr);
