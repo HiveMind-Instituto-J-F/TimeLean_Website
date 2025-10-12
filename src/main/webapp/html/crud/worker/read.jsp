@@ -5,10 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/text.css">
-    <link rel="stylesheet" href="../css/others/login.css">
 
     <title>TIMELEAN</title>
     <link rel="shortcut icon" href="../img/favicon/home-v2.png" type="image/x-icon">
@@ -45,19 +41,18 @@
         <td><%= w.getLoginEmail() %></td>
         <td><%= w.getCnpjPlant() %></td>
         <td>
-            <form action="${pageContext.request.contextPath}/delete" method="post" style="display:inline;">
+            <form action="${pageContext.request.contextPath}/worker/delete" method="post" style="display:inline;">
                 <input type="hidden" name="cpf" value="<%= w.getCpf() %>"/>
                 <input type="submit" value="Delete"/>
             </form>
-            <form action="${pageContext.request.contextPath}/render-update" method="post" style="display:inline;">
+            <form action="${pageContext.request.contextPath}/worker/render-update" method="post" style="display:inline;">
                 <input type="hidden" name="cpf" value="<%= w.getCpf() %>"/>
                 <input type="submit" value="Modify"/>
             </form>
         </td>
     </tr>
-    <%// PAREI AQUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    <%
                 } else if (responsibleCpf != null && responsibleCpf.equals(w.getCpf())){
-                    
     %>
     <tr>
         <td><%= w.getCpf() %></td>
@@ -67,7 +62,7 @@
         <td><%= w.getLoginEmail() %></td>
         <td><%= w.getCnpjPlant() %></td>
         <td>
-            <form action="${pageContext.request.contextPath}/render-update" method="post" style="display:inline;">
+            <form action="${pageContext.request.contextPath}/worker/render-update" method="post" style="display:inline;">
                 <input type="hidden" name="cpf" value="<%= w.getCpf() %>"/>
                 <input type="submit" value="Modify"/>
             </form>

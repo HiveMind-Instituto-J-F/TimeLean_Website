@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/update")
+@WebServlet("/worker/update")
 public class Update extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,7 +60,7 @@ public class Update extends HttpServlet {
 
             if (updated) {
                 // Redirect to the worker list if the update succeeds
-                response.sendRedirect(request.getContextPath() + "/read");
+                response.sendRedirect(request.getContextPath() + "/worker/read");
             } else {
                 // Handle database update failure
                 System.err.println("[WORKER-UPDATE] Failed to update worker in the database.");

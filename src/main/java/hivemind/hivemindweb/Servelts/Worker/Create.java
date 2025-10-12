@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/create")
+@WebServlet("/worker/create")
 public class Create extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -69,7 +69,7 @@ public class Create extends HttpServlet {
 
             if (inserted) {
                 // Redirect to list page if insertion is successful
-                response.sendRedirect(request.getContextPath() + "/read");
+                response.sendRedirect(request.getContextPath() + "/worker/read");
             } else {
                 // Handle insertion failure (e.g., duplicate CPF)
                 System.err.println("[WORKER-CREATE] Failed to insert worker in the database.");

@@ -20,8 +20,8 @@ Worker worker = (Worker) request.getAttribute("worker");
     </head>
     <body>
         <h1>Relacao WORKER</h1>
-        <h2>ADD WORKER</h2>
-        <form action="${pageContext.request.contextPath}/update" method="post">
+        <h2>UPDATE WORKER</h2>
+        <form action="${pageContext.request.contextPath}/worker/update" method="post">
             <label for="cpf">CPF:</label>
             <input type="text" id="cpf" name="cpf" value="<%= worker.getCpf() %>" required readonly><br><br>
 

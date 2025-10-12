@@ -89,7 +89,7 @@ public class PaymentDAO {
         DBConnection db = new DBConnection();
         String sql = """
             INSERT INTO payment (value,deadline,method,beneficiary,status,id_plan_subscription)
-            VALUES (?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?,?)
         """;
 
         try(Connection conn = db.connected();

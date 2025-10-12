@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/delete")
+@WebServlet("/worker/delete")
 public class Delete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -18,7 +18,8 @@ public class Delete extends HttpServlet {
         String cpf = request.getParameter("cpf");
         if (cpf == null || cpf.isEmpty()) {
             System.err.println("[WORKER-DELETE] Missing CPF parameter.");
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "CPF is required.");
+            request.setAttribute("errorMessage", "Missing CPF parameter.");
+            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
             return;
         }
 
@@ -28,7 +29,7 @@ public class Delete extends HttpServlet {
 
             if (deleted) {
                 // Redirect to the list page if deletion succeeded
-                response.sendRedirect(request.getContextPath() + "/read");
+                response.sendRedirect(request.getContextPath() + "/worker/read");
                 return;
             }
 
