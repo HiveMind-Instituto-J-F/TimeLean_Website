@@ -48,8 +48,8 @@ public class Create extends HttpServlet {
             req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
         }catch(IllegalArgumentException se){
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
         }catch(InvalidForeignKeyException ifk){
             System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
             // resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
