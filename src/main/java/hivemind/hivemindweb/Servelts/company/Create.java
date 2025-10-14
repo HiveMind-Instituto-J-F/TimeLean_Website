@@ -1,8 +1,9 @@
-package hivemind.hivemindweb.Servelts.Company;
+package hivemind.hivemindweb.Servelts.company;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
+import hivemind.hivemindweb.Exception.ForeignKeyViolationException;
 import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
@@ -14,8 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 
-@WebServlet("/insert_company")
-public class CreateCompanyServlet extends HttpServlet {
+@WebServlet("/company/create")
+public class Create extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get Parameters:
         String cnpj = request.getParameter("company-cnpj");
@@ -42,7 +43,14 @@ public class CreateCompanyServlet extends HttpServlet {
                 if (PlanSubscriptionDAO.insert(new PlanSubscription(psStartDate, cnpj, planId), false)) {
                     message = 1; // success
                 } else {
-                    CompanyDAO.delete(company); // rollback
+                    try {
+                        CompanyDAO.delete(company);
+                    } catch (ForeignKeyViolationException fkve){
+                        System.err.println("[COMPANY-CREATE-ROLLBACK] " + fkve.getMessage());
+                        request.setAttribute("errorMessage", "Unable to delete: " + fkve.getMessage());
+                        request.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(request, response);
+                    }
+                    // rollback
                     message = 2; // subscription insert failed
                 }
             } else {
@@ -54,6 +62,6 @@ public class CreateCompanyServlet extends HttpServlet {
 
         // Dispatch request with attribute 'message'
         request.setAttribute("status", message);
-        request.getRequestDispatcher("/html/crud/create_company.jsp").forward(request, response);
+        request.getRequestDispatcher("/html/crud/company/create.jsp").forward(request, response);
     }
 }
