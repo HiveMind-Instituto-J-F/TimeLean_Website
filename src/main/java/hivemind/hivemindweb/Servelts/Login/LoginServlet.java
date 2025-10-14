@@ -38,7 +38,6 @@ public class LoginServlet extends HttpServlet {
                 .build();
         
         String host = dotenv.get("rds_host");
-        System.out.println(host);
         HostAndPort hostAndPort = new HostAndPort(host,17579);
 
         jedis = new Jedis(hostAndPort, config);
@@ -85,7 +84,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("login", true);
                 System.out.println("[INFO] Login Successful - Salvo no Redis remoto com chave: " + sessionKey);
 
-                req.getRequestDispatcher(req.getContextPath() + "/toUser.html").forward(req, resp);
+                req.getRequestDispatcher("/html/crud/toUser.html").forward(req, resp);
             } else {
                 session.setAttribute("login", false);
                 throw new LoginException("Email ou senha incorretos.");
@@ -94,7 +93,7 @@ public class LoginServlet extends HttpServlet {
         } catch (IllegalArgumentException ime) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
             System.out.println("[ERROR] Invalid User");
-            req.setAttribute("error", ime.getMessage());
+            req.setAttribute("error", iaaaame.getMessage());
             req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
         } catch (LoginException le) {
             req.setAttribute("errorMessage", le.getMessage());
