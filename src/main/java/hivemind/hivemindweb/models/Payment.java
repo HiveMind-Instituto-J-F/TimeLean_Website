@@ -32,7 +32,10 @@ public class Payment {
         this.status = status;
         this.idPlanSubscription = idPlanSubscription;
     }
-
+    
+    public Payment(int idPlanSubscription){
+        this.idPlanSubscription = idPlanSubscription;
+    }
 
     // ToString
     @Override

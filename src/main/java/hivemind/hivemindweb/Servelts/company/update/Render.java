@@ -1,9 +1,7 @@
-package hivemind.hivemindweb.Servelts.company.update;
+package hivemind.hivemindweb.Servelts.Company.update;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
-import hivemind.hivemindweb.DAO.WorkerDAO;
 import hivemind.hivemindweb.models.Company;
-import hivemind.hivemindweb.models.Worker;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

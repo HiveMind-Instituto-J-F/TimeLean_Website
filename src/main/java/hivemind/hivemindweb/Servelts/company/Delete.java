@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.company;
+package hivemind.hivemindweb.Servelts.Company;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PaymentDAO;

@@ -28,6 +28,7 @@ public class Create extends HttpServlet {
 
             String name = req.getParameter("name");
             if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'nameStr'");}
+            
             String nameDB = PlanDAO.getName(name);
 
             if(!(nameDB.equalsIgnoreCase(name))){
@@ -39,6 +40,7 @@ public class Create extends HttpServlet {
             if(PlanDAO.insert(planLocal,false)){
                 System.out.println("[WARN] Insert Plan Sussefly");
                 req.setAttribute("msg", "Plan Foi Adicionado Com Susseso!");
+                req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
             }
             else{
                 System.out.println("[WARN] Erro in PlanDAO");

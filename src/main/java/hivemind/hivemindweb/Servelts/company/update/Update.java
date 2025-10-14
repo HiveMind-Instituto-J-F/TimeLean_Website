@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.company.update;
+package hivemind.hivemindweb.Servelts.Company.update;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.models.Company;

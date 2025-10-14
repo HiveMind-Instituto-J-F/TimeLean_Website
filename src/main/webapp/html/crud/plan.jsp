@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Teste - Criar Plano</title>
+    <title>Gerenciar Planos</title>
     <style>
         * {
             margin: 0;
@@ -30,9 +30,9 @@
             max-width: 500px;
         }
         
-        h1 {
+        h1, h2 {
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: center;
         }
         
@@ -121,25 +121,31 @@
             margin-bottom: 20px;
             font-size: 14px;
         }
+
+        hr {
+            margin: 40px 0;
+            border: none;
+            border-top: 2px dashed #ddd;
+        }
     </style>
 </head>
 <body>
     <%
         Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
-
         if (isLogged == null || !isLogged) {
-            //if user not us login return that for login page
             response.sendRedirect("../login.jsp");
             return;
         }
-        %>
+    %>
+
     <div class="container">
         <h1>📋 Criar Novo Plano</h1>
         
         <div class="info">
-            <strong>Nota:</strong> Este é um formulário de teste para o servlet CreatePlan. Preencha todos os campos corretamente.
+            <strong>Nota:</strong> Este é um formulário de teste para o servlet <code>CreatePlan</code> e <code>Delete</code>.
         </div>
         
+        <!-- Formulário de Criação -->
         <form method="POST" action="${pageContext.request.contextPath}/create-plan">
             <div class="form-group">
                 <label for="name">Nome do Plano *</label>
@@ -163,7 +169,19 @@
             
             <button type="submit">Criar Plano</button>
         </form>
-        
+
+        <hr>
+
+        <!-- Formulário de Exclusão -->
+        <h2>🗑️ Deletar Plano</h2>
+        <form method="POST" action="${pageContext.request.contextPath}/delete-plan">
+            <div class="form-group">
+                <label for="id">ID do Plano *</label>
+                <input type="number" id="id" name="id" placeholder="Ex: 1" required>
+            </div>
+            <button type="submit" style="background: linear-gradient(135deg, #ff5858 0%, #f09819 100%);">Deletar Plano</button>
+        </form>
+
         <%
             String msg = (String) request.getAttribute("msg");
             String error = (String) request.getAttribute("error");

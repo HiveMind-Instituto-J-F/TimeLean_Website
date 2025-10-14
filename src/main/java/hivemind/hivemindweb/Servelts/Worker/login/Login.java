@@ -43,7 +43,6 @@ public class Login extends HttpServlet {
             return;
         }
 
-<<<<<<< HEAD
         // Login logic
         try {
             if (plant.getResponsibleCpf().equals(worker.getCpf())) {
@@ -75,32 +74,5 @@ public class Login extends HttpServlet {
             request.setAttribute("status", false);
             request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
         }
-=======
-        // // Login logic;
-        // // try{
-        // //     if (plant.getResponsibleCpf().equals(worker.getCpf())){
-        // //         if(AuthService.login(responsibleLoginEmail, worker.getLoginEmail(), responsibleLoginPassword, worker.getLoginPassword())){
-        // //             // Create session and define attributes
-        // //             HttpSession session = request.getSession(true);
-
-        // //             session.setMaxInactiveInterval(600);
-        // //             session.setAttribute("plantCnpj", plantCnpj);
-        // //             session.setAttribute("responsibleCpf", responsibleCpf);
-
-        // //             response.sendRedirect(request.getContextPath() + "/read");
-        // //             return;
-        // //         }
-        // //         // If did not log, dispatch to login.jsp
-        // //         System.out.println("[WORKER-LOGIN] ERROR: Incorrect Credentials");
-        // //         request.setAttribute("status", false);
-        // //         request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
-        // //     }
-        // } catch (NullPointerException npe){
-        //     // Treats NullPointerException
-        //     System.out.println("[WORKER-LOGIN] EXCEPTION: NullPointerException");
-        //     request.setAttribute("status", false);
-        //     request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
-        // }
->>>>>>> refs/remotes/origin/dev
     }
 }

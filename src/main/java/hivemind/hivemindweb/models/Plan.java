@@ -25,6 +25,11 @@ public class Plan {
         this.price = price;
     }
 
+    public Plan(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     // ToString
     public String toString(){
         return "ID: "+this.id+"\nName: "+this.name+"\nDescription: "+this.description+
