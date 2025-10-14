@@ -16,6 +16,13 @@ public class AuthService{
         return BCrypt.checkpw(adminClient.getHashPassword(), adminDB.getHashPassword());
     }
 
+    public static boolean login(String dbemail, String email, String password, String dbHashPassword) throws NullPointerException{
+        if (dbemail.equals(email)){
+            return BCrypt.checkpw(password, dbHashPassword);
+        }
+        return false;
+    }
+
     public static String hash(String password) throws IOException {
         if (password == null){
             throw new IOException("password must not be null");
