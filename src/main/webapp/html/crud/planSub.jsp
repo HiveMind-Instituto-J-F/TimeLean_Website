@@ -7,6 +7,15 @@
     <title>Criar PlanSubscription</title>
 </head>
 <body>
+    <%
+        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+
+        if (isLogged == null || !isLogged) {
+            //if user not us login return that for login page
+            response.sendRedirect("../login.jsp");
+            return;
+        }
+    %>
     <h2>Criar Nova PlanSubscription</h2>
 
     <form action="/HivemindWeb_war/create-plan-subcription" method="post">

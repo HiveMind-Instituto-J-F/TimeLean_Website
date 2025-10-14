@@ -17,6 +17,14 @@ public class Plan {
         this.price = price;
     }
 
+    // Construtor
+    public Plan(String name, String description, int duration, double price){
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.price = price;
+    }
+
     // ToString
     public String toString(){
         return "ID: "+this.id+"\nName: "+this.name+"\nDescription: "+this.description+
