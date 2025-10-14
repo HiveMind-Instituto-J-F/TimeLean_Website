@@ -14,6 +14,9 @@ public class Company {
         this.cnae = cnae;
         this.registrantCpf = registrantCpf;
     }
+    public Company(String cnpj){
+        this.cnpj = cnpj;
+    }
 
     public Company(String name,String registrantCpf){
         this.name = name;
