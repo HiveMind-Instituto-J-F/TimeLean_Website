@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="../../css/header.css"> <!-- CSS para o header -->
+    <link rel="stylesheet" href="../../../css/header.css"> <!-- CSS para o header -->
     <title>TimeLean - Administração</title>
 </head>
 <body>
@@ -16,7 +16,7 @@
 
         if (isLogged == null || !isLogged) {
             //if user not us login return that for login page
-            response.sendRedirect("../login.jsp");
+            response.sendRedirect(request.getContextPath() + "/html/login.jsp");
             return;
         }
     %>
@@ -52,7 +52,7 @@
         <section name="crud_empresa" class="crud">
             <h2>Adicionar empresa</h2>
             
-            <form action="/HivemindWeb_war/insert_company">
+            <form action="/HivemindWeb_war/company/create" method="post">
                 <h3>Passo 1 - Adicionar informacoes cadastrais da empresa</h3>
                 <label for="company-cnpj">Digite o CNPJ da empresa:</label>
                 <input type="text" name="company-cnpj" placeholder="Ex: 123456789123-45">
