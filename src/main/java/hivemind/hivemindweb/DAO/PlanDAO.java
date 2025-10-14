@@ -14,18 +14,16 @@ public class PlanDAO {
     public static boolean insert(Plan plan) {
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO plan (id, name, description, price, duration) " +
-                "VALUES (?,?,?,?,?,?,?)";
-
+                "VALUES (?,?,?,?,?)";itpu
 
         try (Connection conn = db.connected();
-
              PreparedStatement pstm = conn.prepareStatement(sql)) {
 
             pstm.setInt(1, plan.getId());
             pstm.setString(2, plan.getName());
             pstm.setString(3, plan.getDescription());
-            pstm.setDouble(6,plan.getPrice());
-            pstm.setInt(7,plan.getDuration());
+            pstm.setDouble(4,plan.getPrice());
+            pstm.setInt(5,plan.getDuration());
 
             return pstm.executeUpdate() > 0;
 
