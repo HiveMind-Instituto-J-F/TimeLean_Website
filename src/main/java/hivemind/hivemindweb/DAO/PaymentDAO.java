@@ -39,6 +39,45 @@ public class PaymentDAO {
         return PaymentList;
     }
 
+    public static List<Payment> selectPendingPayments(String companyCnpj){
+        List<Payment> paymentList = new ArrayList<>();
+        DBConnection db = new DBConnection();
+        String sql = """
+                SELECT ps.id, c.cnpj, ps.number_installments, COUNT(p.id) AS actual_payments
+                FROM plan_subscription ps
+                LEFT JOIN payment p ON p.id_plan_subscription = ps.id
+                LEFT JOIN company c ON c.cnpj = ps.cnpj_company
+                WHERE c.cnpj = ?
+                GROUP BY ps.id, c.cnpj, ps.number_installments
+                HAVING COUNT(p.id) != ps.number_installments;
+
+
+                """;
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            pstmt.setString(1, companyCnpj);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Payment PaymentLocal = new Payment(
+                        rs.getInt("id"),
+                        rs.getDouble("value"),
+                        rs.getDate("deadline").toLocalDate(),
+                        rs.getString("method"),
+                        rs.getString("beneficiary"),
+                        rs.getString("status"),
+                        rs.getInt("id_plan_subscription")
+                );
+                paymentList.add(PaymentLocal);
+            }
+            return paymentList;
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Falied in select: " + e.getMessage());
+        }
+        return null;
+    }
+
     public static boolean delete(Payment payment) {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM payment WHERE id = ?";
