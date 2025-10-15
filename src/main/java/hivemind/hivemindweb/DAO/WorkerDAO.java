@@ -1,34 +1,15 @@
 package hivemind.hivemindweb.DAO;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.models.ContactEmail;
-
+import hivemind.hivemindweb.models.Worker;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorkerDAO {
-    public static boolean insert(ContactEmail worker){
-        DBConnection db = new DBConnection();
-        String sql = "INSERT INTO worker VALUES (?,?,?,?,?,?)";
-        try(Connection conn = db.connected()){ // try-with-resources
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setLong(1, worker.getId());
-            pstm.setString(2, worker.getCPF());
-            pstm.setString(3, worker.getName());
-            pstm.setString(4, worker.getLastName());
-            pstm.setString(5, worker.getPassword());
-            pstm.setString(6, worker.getProfileType()); //Refatorar models
 
-            return pstm.executeUpdate() > 0;
-        }catch (SQLException sqle){
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
-        }
-        return false;
-    }
-
-    public static List<ContactEmail> select() {
-        List<ContactEmail> workers = new ArrayList<>();
+    public static List<Worker> select() {
+        List<Worker> workersList = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql = "SELECT * FROM worker";
 
@@ -37,57 +18,148 @@ public class WorkerDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                ContactEmail workerLocal = new ContactEmail(
-                        rs.getInt("id")
-                        //Wait for create DB colums
-//                        rs.getString("name"),
-//                        rs.getString("lastName"),
-//                        rs.getString("password"),
-//                        rs.getString("sector"),
-//                        rs.getString("profileType")
+                Worker worker = new Worker(
+                        rs.getString("cpf"),
+                        rs.getString("role"),
+                        rs.getString("sector"),
+                        rs.getString("name"),
+                        rs.getString("login_email"),
+                        rs.getString("login_password"),
+                        rs.getString("cnpj_plant")
                 );
-                workers.add(workerLocal);
+                workersList.add(worker);
             }
-            return workers;
 
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Failed in select: " + e.getMessage());
         }
 
-        return workers;
+        return workersList;
     }
 
-
-    public static boolean update(String column, String value, int id) {
+    public static Worker selectByCpf(String cpf) {
         DBConnection db = new DBConnection();
-        String sql = "UPDATE worker SET " + column + " = ? WHERE id = ?";
+        String sql = "SELECT * FROM worker WHERE CPF = ?";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, cpf);
+            ResultSet rs = pstmt.executeQuery();
 
-            stmt.setString(1, value); // só o valor vai como placeholder
-            stmt.setInt(2, id);
+            if (rs.next()) {
+                return new Worker(
+                        rs.getString("cpf"),
+                        rs.getString("role"),
+                        rs.getString("sector"),
+                        rs.getString("name"),
+                        rs.getString("login_email"),
+                        rs.getString("login_password"),
+                        rs.getString("cnpj_plant")
+                );
+            }
 
-            return stmt.executeUpdate() >= 0;
-
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Failed in selectByCpf: " + e.getMessage());
         }
+        return null;
+    }
 
+    public static boolean insert(Worker worker) {
+        DBConnection db = new DBConnection();
+        String sql = "INSERT INTO worker (cpf, role, sector, name, login_email, login_password, cnpj_plant) VALUES (?,?,?,?,?,?,?)";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setString(1, worker.getCpf());
+            pstm.setString(2, worker.getRole());
+            pstm.setString(3, worker.getSector());
+            pstm.setString(4, worker.getName());
+            pstm.setString(5, worker.getLoginEmail());
+            pstm.setString(6, worker.getLoginPassword());
+            pstm.setString(7, worker.getCnpjPlant());
+
+            return pstm.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Failed in insert: " + e.getMessage());
+        }
         return false;
     }
 
-    public static boolean delete(String CPF){
+    public static boolean update(Worker worker) {
         DBConnection db = new DBConnection();
-        String sql = "DELETE FROM Plant WHERE CPF = ?";
+        String sql = """
+            UPDATE worker
+               SET role = ?,
+                   sector = ?,
+                   name = ?,
+                   login_email = ?,
+                   login_password = ?,
+                   cnpj_plant = ?
+             WHERE cpf = ?
+        """;
 
-        try(Connection conn = db.connected()) { // Create Temp conn
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, CPF);
-            return pstmt.executeUpdate() >= 0;
-        }catch (SQLException sqle){
-            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setString(1, worker.getRole());
+            pstm.setString(2, worker.getSector());
+            pstm.setString(3, worker.getName());
+            pstm.setString(4, worker.getLoginEmail());
+            pstm.setString(5, worker.getLoginPassword());
+            pstm.setString(6, worker.getCnpjPlant());
+            pstm.setString(7, worker.getCpf());
+
+            return pstm.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Failed in update: " + e.getMessage());
         }
         return false;
+    }
+
+    public static boolean delete(Worker worker) {
+        DBConnection db = new DBConnection();
+        String sql = "DELETE FROM worker WHERE CPF = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, worker.getCpf());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Failed in delete: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static List<Worker> selectByPlantCnpj(String cnpjPlant) {
+        List<Worker> workersList = new ArrayList<>();
+        DBConnection db = new DBConnection();
+        String sql = "SELECT * FROM worker WHERE cnpj_plant = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, cnpjPlant);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Worker worker = new Worker(
+                        rs.getString("cpf"),
+                        rs.getString("role"),
+                        rs.getString("sector"),
+                        rs.getString("name"),
+                        rs.getString("login_email"),
+                        rs.getString("login_password"),
+                        rs.getString("cnpj_plant")
+                );
+                workersList.add(worker);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Failed in selectByPlantCnpj: " + e.getMessage());
+        }
+        return workersList;
     }
 }

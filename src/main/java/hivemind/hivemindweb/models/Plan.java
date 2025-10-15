@@ -6,26 +6,34 @@ public class Plan {
     private String name;
     private String description;
     private int duration;
-    private  double price;
-    private int reportsLimit;
-    private int plantsLimit;
+    private double price;
 
     // Construtor
-    public Plan(int id, String name, String description, int duration, double price, int plantsLimit, int reportsLimit){
+    public Plan(int id, String name, String description, int duration, double price){
         this.id = id;
         this.name = name;
         this.description = description;
         this.duration = duration;
         this.price = price;
-        this.plantsLimit = plantsLimit;
-        this.reportsLimit = reportsLimit;
+    }
+
+    // Construtor
+    public Plan(String name, String description, int duration, double price){
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.price = price;
+    }
+
+    public Plan(int id, String name){
+        this.id = id;
+        this.name = name;
     }
 
     // ToString
     public String toString(){
         return "ID: "+this.id+"\nName: "+this.name+"\nDescription: "+this.description+
-                "\nDuration: "+this.duration+ ("\nPrice: %.2f," +  this.price)+ "\nPlants Limit: "+this.plantsLimit+
-                "\nReports Limit: "+this.reportsLimit;
+                "\nDuration: "+this.duration+ ("\nPrice: %.2f," +  this.price);
     }
 
     // Getters e Setters
@@ -46,14 +54,6 @@ public class Plan {
         return price;
     }
 
-    public int getPlantsLimit() {
-        return plantsLimit;
-    }
-
-    public int getReportsLimit() {
-        return reportsLimit;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -62,12 +62,6 @@ public class Plan {
     }
     public void setValue(double value) {
         this.price = value;
-    }
-    public void setPlantsLimit(int plantsLimit) {
-        this.plantsLimit = plantsLimit;
-    }
-    public void setReportsLimit(int reportsLimit) {
-        this.reportsLimit = reportsLimit;
     }
 }
 

@@ -3,20 +3,20 @@ package hivemind.hivemindweb.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.Exception.ForeignKeyViolationException;
 import hivemind.hivemindweb.models.Company;
 
 public class CompanyDAO {
     public static boolean insert(Company company){
         DBConnection db = new DBConnection();
-        String sql = "INSERT INTO company VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO company (CNPJ, cnae, name, registrant_cpf) VALUES (?,?,?,?)";
         try(Connection conn = db.connected()){ // try-with-resources
             PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setLong(1, company.getId());
-            pstm.setString(2,company.getCompanyName());
-            pstm.setString(3,company.getCNPJ());
-//            pstm.setString(4,company.get()); role colums
+            pstm.setString(1, company.getCNPJ());
+            pstm.setString(2, company.getCnae());
+            pstm.setString(3, company.getName());
+            pstm.setString(4, company.getRegistrantCpf());
             return pstm.executeUpdate() > 0;
         }catch (SQLException sqle){
             System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
@@ -24,34 +24,45 @@ public class CompanyDAO {
         return false;
     }
 
-    public static boolean update(Company companys){
+    public static boolean update(Company company) {
         DBConnection db = new DBConnection();
-        Connection conn = db.connected();
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("UPDATE company SET (?) WHERE (?) = (?)");
-            pstmt.setString(1, "hivemind");
-        }catch (SQLException sqle){
-            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+        String sql = "UPDATE company SET name = ?, cnae = ?, registrant_cpf = ? WHERE cnpj = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setString(1, company.getName());
+            pstm.setString(2, company.getCnae());
+            pstm.setString(3, company.getRegistrantCpf());
+            pstm.setString(4, company.getCNPJ());
+
+            return pstm.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in update" + sqle.getMessage());
         }
         return false;
     }
 
-    public static boolean delete(String CNPJ){
+    public static boolean delete(Company company) throws ForeignKeyViolationException {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM company WHERE CNPJ = ?";
 
         try(Connection conn = db.connected()) { // Create Temp conn
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, CNPJ);
+            pstmt.setString(1, company.getCNPJ());
             return pstmt.executeUpdate() >= 0;
         }catch (SQLException sqle){
             System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
+            if ("23503".equals(sqle.getSQLState())){
+                throw new ForeignKeyViolationException("There are data related to company.");
+            }
         }
         return false;
     }
 
     public static List<Company> select() {
-        List<Company> companys = new ArrayList<>();
+        List<Company> companysList = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql = "SELECT * FROM company ORDER BY CNPJ";
 
@@ -63,24 +74,76 @@ public class CompanyDAO {
                 Company companyLocal = new Company(
                         //Wait for DB colums is create
                         rs.getString("CNPJ"),
-                        rs.getString("companyName"),
-                        rs.getString("companyType"),
-                        rs.getString("registrantName"),
-                        rs.getString("registrantLastName"),
-                        rs.getString("registrantEmail"),
-                        rs.getString("function"),
-                        rs.getString("password"),
-                        rs.getLong("id"),
-                        rs.getLong("CPF")
+                        rs.getString("name"),
+                        rs.getString("cnae"),
+                        rs.getString("registrant_cpf")
                 );
-                companys.add(companyLocal);
+                companysList.add(companyLocal);
             }
         } catch (SQLException sqle) {
             System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
         }
 
-        System.out.println("[DEBUG] In select EmrpesaDAO ,Companys found: " + companys.size() +  " data: " + companys);
+        System.out.println("[DEBUG] In select EmrpesaDAO ,Companys found: " + companysList.size() +  " data: " + companysList);
 
-        return companys;
+        return companysList;
     }
+
+    public static Company select(String cnpj) {
+        // Variable to store the result of the query
+        Company companyLocal = null;
+        DBConnection db = new DBConnection();
+        String sql = "SELECT * FROM company WHERE CNPJ = ? ORDER BY CNPJ";
+
+        // Connect to the database and prepare the statement
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Set the CNPJ parameter in the query
+            stmt.setString(1, cnpj);
+
+            // Execute the query and get the result set
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                // If a company is found, create a Company object
+                if (rs.next()) {
+                    companyLocal = new Company(
+                            //Wait for DB colums is create
+                            rs.getString("CNPJ"),
+                            rs.getString("name"),
+                            rs.getString("cnae"),
+                            rs.getString("registrant_cpf")
+                    );
+                }
+            }
+            // Handle SQL exceptions
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
+        }
+
+        // Debug log with the found company
+        System.out.println("[DEBUG] In select EmrpesaDAO ,Company found: " + companyLocal);
+
+        // Return the found company (or null if not found)
+        return companyLocal;
+    }
+
+    public static String getCNPJ(String cnpj){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT cnpj FROM company ORDER BY CNPJ";
+        String cpnj = "";
+
+        try (Connection conn = db.connected();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if(rs.next()){
+                cpnj = rs.getString("cnpj");
+            }
+            return cnpj;
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
+
+        return cnpj;
+    }
+}   
 }

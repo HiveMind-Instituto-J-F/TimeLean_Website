@@ -1,6 +1,6 @@
 package hivemind.hivemindweb.Connection;
 
-import hivemind.hivemindweb.Tool.config.EnvLoader;
+import hivemind.hivemindweb.config.EnvLoader;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.*;
@@ -11,6 +11,7 @@ public class DBConnection {
         try {
             Dotenv dotenv = EnvLoader.getDotenv();
             Class.forName("org.postgresql.Driver");
+
 
             String dbUrl = dotenv.get("db_host_name");
             String dbUser = dotenv.get("db_user");

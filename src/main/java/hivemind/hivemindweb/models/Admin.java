@@ -12,10 +12,12 @@ public class Admin{
         this.hashPassword = hashPassword;
     }
 
-    // ToString
-    public String toString(){
-        return "Id: "+this.id+"\nEmail: "+this.email+"\nHash Password: "+this.hashPassword;
+    // Construtor
+    public Admin(String email, String hashPassword){
+        this.email = email;
+        this.hashPassword = hashPassword;
     }
+
     // Getters e Setters
     public int getId() {
         return id;
@@ -31,5 +33,10 @@ public class Admin{
     }
     public void setHashPassword(String hashPassword) {
         this.hashPassword = hashPassword;
+    }
+
+    // ToString
+    public String toString(){
+        return "Id: "+this.id+"\nEmail: "+this.email+"\n ID: "+ this.id;
     }
 }

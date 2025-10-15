@@ -46,3 +46,8 @@ build/
 
 #dotenv
 .env
+env
+
+WEB-INF/.env
+*.env
+.env.*
