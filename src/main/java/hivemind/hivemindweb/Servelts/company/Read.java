@@ -18,10 +18,10 @@ public class Read extends HttpServlet {
         List<Company> companies;
         String status = request.getParameter("status");
 
-        String filter = "active-companies";
+        String filter = "active-companies"; // Default filter
         if (status != null) {
-            if (status.equalsIgnoreCase("all-companies")) {
-                filter = "all-companies";
+            if (status.equalsIgnoreCase("active-companies")) {
+                filter = "active-companies";
             } else if (status.equalsIgnoreCase("inactive-companies")) {
                 filter = "inactive-companies";
             } else if (status.equalsIgnoreCase("companies-with-pending-payments")){
