@@ -52,7 +52,7 @@ public class CompanyDAO {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, company.getCNPJ());
             return pstmt.executeUpdate() >= 0;
-        }catch (SQLException sqle){
+        } catch (SQLException sqle){
             System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
             if ("23503".equals(sqle.getSQLState())){
                 throw new ForeignKeyViolationException("There are data related to company.");
@@ -61,13 +61,14 @@ public class CompanyDAO {
         return false;
     }
 
-    public static boolean delete(Company company) {
+    public static boolean switchActive(Company company, boolean is_active) {
         DBConnection db = new DBConnection();
-        String sql = "UPDATE FROM company SET is_active = false WHERE CNPJ = ?";
+        String sql = "UPDATE company SET is_active = ? WHERE CNPJ = ?";
 
-        try(Connection conn = db.connected()) { // Create Temp conn
+        try(Connection conn = db.connected()) {
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, company.getCNPJ());
+            pstmt.setBoolean(1, is_active);
+            pstmt.setString(2, company.getCNPJ());
             return pstmt.executeUpdate() >= 0;
         }catch (SQLException sqle){
             System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
@@ -179,64 +180,4 @@ public class CompanyDAO {
         return cnpj;
         }
     }
-    
-    public static Company getStatusByFK(int planId) {
-        DBConnection db = new DBConnection();
-        String sql = """
-            SELECT 
-                c.cnpj AS company_id,
-                c.is_active AS status
-            FROM 
-                company c
-            JOIN 
-                plan_subscription ps ON ps.cnpj_company = c.cnpj
-            JOIN 
-                plan p ON p.id = ps.id_plan
-            WHERE 
-                p.id = ?;
-            """;
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-
-            pstm.setInt(1, planId);
-
-            try (ResultSet rs = pstm.executeQuery()) {
-                if (rs.next()) {
-                    String companyId = rs.getString("company_id");
-                    boolean status = rs.getBoolean("status");
-
-                    Company companyLocal = new Company(companyId,status);
-                    return companyLocal;
-                } else {
-                    System.out.println("[WARN] Nenhuma empresa encontrada para o plano ID " + planId);
-                }
-            }
-            return new Company();
-
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falha ao buscar status: " + sqle.getMessage());
-        }
-        return new Company();
-    }   
-
-    public static boolean setActiveFalse(Company companyLocal) {
-        DBConnection db = new DBConnection();
-        String sql = "UPDATE plan\n" + //
-                        "SET is_active = FALSE\n" + //
-                        "WHERE id = ? AND is_active = TRUE;\n" + //
-                        "";
-
-        try (Connection conn = db.connected();
-            PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setString(2, companyLocal.getCNPJ());
-
-            return pstm.executeUpdate() > 0;
-
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
-            return false;
-        }
-    }
-
 }
