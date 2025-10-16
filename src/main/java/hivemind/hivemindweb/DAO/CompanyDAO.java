@@ -67,8 +67,8 @@ public class CompanyDAO {
         String sql = "SELECT * FROM company ORDER BY CNPJ";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 Company companyLocal = new Company(
@@ -97,13 +97,13 @@ public class CompanyDAO {
 
         // Connect to the database and prepare the statement
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
 
             // Set the CNPJ parameter in the query
-            stmt.setString(1, cnpj);
+            pstm.setString(1, cnpj);
 
             // Execute the query and get the result set
-            try (ResultSet rs = stmt.executeQuery()) {
+            try (ResultSet rs = pstm.executeQuery()) {
 
                 // If a company is found, create a Company object
                 if (rs.next()) {
@@ -130,12 +130,13 @@ public class CompanyDAO {
 
     public static String getCNPJ(String cnpj){
         DBConnection db = new DBConnection();
-        String sql = "SELECT cnpj FROM company ORDER BY CNPJ";
+        String sql = "SELECT cnpj FROM company WHERE cnpj=? ORDER BY CNPJ";
         String cpnj = "";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
+            pstm.setString(1, cpnj);
             if(rs.next()){
                 cpnj = rs.getString("cnpj");
             }
@@ -144,6 +145,66 @@ public class CompanyDAO {
             System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
 
         return cnpj;
+        }
     }
-}   
+    
+    public static Company getStatusByFK(int planId) {
+        DBConnection db = new DBConnection();
+        String sql = """
+            SELECT 
+                c.cnpj AS company_id,
+                c.is_active AS status
+            FROM 
+                company c
+            JOIN 
+                plan_subscription ps ON ps.cnpj_company = c.cnpj
+            JOIN 
+                plan p ON p.id = ps.id_plan
+            WHERE 
+                p.id = ?;
+            """;
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setInt(1, planId);
+
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    String companyId = rs.getString("company_id");
+                    boolean status = rs.getBoolean("status");
+
+                    Company companyLocal = new Company(companyId,status);
+                    return companyLocal;
+                } else {
+                    System.out.println("[WARN] Nenhuma empresa encontrada para o plano ID " + planId);
+                }
+            }
+            return new Company();
+
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falha ao buscar status: " + sqle.getMessage());
+        }
+        return new Company();
+    }   
+
+    public static boolean setActiveFalse(Company companyLocal) {
+        DBConnection db = new DBConnection();
+        String sql = "UPDATE plan\n" + //
+                        "SET is_active = FALSE\n" + //
+                        "WHERE id = ? AND is_active = TRUE;\n" + //
+                        "";
+
+        try (Connection conn = db.connected();
+            PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(2, companyLocal.getCNPJ());
+            
+            return pstm.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+            return false;
+        }
+    }
+
 }

@@ -6,6 +6,7 @@ public class Company {
     private String name;
     private String cnae;
     private String registrantCpf;
+    private boolean is_active;
 
     // Construtor
     public Company(String cnpj, String name, String cnae, String registrantCpf){
@@ -21,6 +22,13 @@ public class Company {
     public Company(String name,String registrantCpf){
         this.name = name;
         this.registrantCpf = registrantCpf;
+    }
+
+    public Company(String cnpj, boolean is_active){
+        this.cnpj = cnpj;
+        this.is_active = is_active;
+    }
+    public Company(){
     }
 
 
@@ -42,5 +50,11 @@ public class Company {
     }
     public String getRegistrantCpf() {
         return registrantCpf;
+    }
+    public boolean getActive(){
+        return is_active;
+    }
+    public void setActive(boolean is_active){
+        this.is_active = is_active;
     }
 }

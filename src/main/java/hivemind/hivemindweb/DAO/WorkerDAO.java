@@ -14,8 +14,8 @@ public class WorkerDAO {
         String sql = "SELECT * FROM worker";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 Worker worker = new Worker(
