@@ -31,9 +31,11 @@ public class Delete extends HttpServlet {
         Company company = new Company(cnpj);
         try{
             pendingPayments = PaymentDAO.selectPendingPayments(cnpj);
-            if (pendingPayments == null){
-                System.err.println("[COMPANY-DELETE] Null Pending Payments.");
-                request.setAttribute("errorMessage", "Unable to delete: Null Pending Payments");
+
+            // Handle case where there are pending payments
+            if (pendingPayments != null){
+                System.err.println("[COMPANY-DELETE] Pending Payments.");
+                request.setAttribute("errorMessage", "Unable to delete: There are pending payments.");
                 request.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(request, response);
                 return;
             }
@@ -44,17 +46,9 @@ public class Delete extends HttpServlet {
             return;
         }
 
-        // Handle case where there are pending payments
-        if (!pendingPayments.isEmpty()){
-            System.err.println("[COMPANY-DELETE] Pending Payments.");
-            request.setAttribute("errorMessage", "Unable to delete: There are pending payments.");
-            request.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(request, response);
-            return;
-        }
-
         try {
-            if (CompanyDAO.delete(company)){
-                System.err.println("[COMPANY-DELETE] Deleted Company.");
+            if (CompanyDAO.switchActive(company, company.isActive())){
+                System.out.println("[COMPANY-DELETE] Deleted Company.");
                 response.sendRedirect(request.getContextPath() + "/company/read");
                 return;
             }

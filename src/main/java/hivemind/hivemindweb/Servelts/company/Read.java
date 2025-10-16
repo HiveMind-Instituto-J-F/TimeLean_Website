@@ -18,15 +18,18 @@ public class Read extends HttpServlet {
         List<Company> companies;
         String status = request.getParameter("status");
 
-        String filter = "all-companies";
+        String filter = "active-companies";
         if (status != null) {
-            if (status.equalsIgnoreCase("active-companies")) {
-                filter = "active-companies";
+            if (status.equalsIgnoreCase("all-companies")) {
+                filter = "all-companies";
             } else if (status.equalsIgnoreCase("inactive-companies")) {
                 filter = "inactive-companies";
             } else if (status.equalsIgnoreCase("companies-with-pending-payments")){
                 filter = "companies-with-pending-payments";
-            } else {
+            } else if (status.equalsIgnoreCase("all-companies")){
+                filter = "all-companies";
+            }
+            else {
                 System.err.println("[COMPANY-DELETE] Invalid filter.");
                 request.setAttribute("errorMessage", "Invalid filter.");
                 request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
