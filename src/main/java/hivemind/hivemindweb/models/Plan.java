@@ -7,6 +7,7 @@ public class Plan {
     private String description;
     private int duration;
     private double price;
+    private boolean is_active;
 
     // Construtor
     public Plan(int id, String name, String description, int duration, double price){
@@ -62,6 +63,12 @@ public class Plan {
     }
     public void setValue(double value) {
         this.price = value;
+    }
+    public boolean getActive(){
+        return is_active;
+    }
+    public void setActive(boolean is_active){
+        this.is_active = is_active;
     }
 }
 

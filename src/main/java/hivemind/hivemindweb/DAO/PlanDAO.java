@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Plan;
 
 public class PlanDAO {
@@ -60,8 +61,8 @@ public class PlanDAO {
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(1, plan.getName());
-            pstm.setString(4, plan.getDescription());
-            pstm.setInt(5, plan.getId());
+            pstm.setString(2, plan.getDescription());
+            pstm.setInt(3, plan.getId());
 
             return pstm.executeUpdate() > 0;
 
@@ -93,8 +94,8 @@ public class PlanDAO {
         String sql = "SELECT * FROM plan ORDER BY id";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 Plan planLocal = new Plan(
@@ -169,14 +170,14 @@ public class PlanDAO {
                 }
             }
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
         }
         return nameDB;
     }
 
     public static String getName(String name){
         DBConnection db = new DBConnection();
-        String sql = "SELECT name FROM Plan WHERE id=?;";
+        String sql = "SELECT name FROM Plan WHERE name=?;";
         String nameDB = "";
         try(Connection conn = db.connected();
             PreparedStatement psmt = conn.prepareStatement(sql);){
@@ -193,7 +194,7 @@ public class PlanDAO {
         return nameDB;
     }
 
-     public static int getID(int id){
+    public static int getID(int id){
         DBConnection db = new DBConnection();
         String sql = "SELECT id FROM Plan WHERE id=?;";
         int idDB = 0;
@@ -210,5 +211,21 @@ public class PlanDAO {
             System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return idDB;
+    }
+
+    public static boolean setActiveFalse(Plan planLocal) {
+        DBConnection db = new DBConnection();
+        String sql = "UPDATE plan SET is_active = FALSE WHERE id = ? AND is_active = TRUE;";
+
+        try (Connection conn = db.connected();
+            PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setInt(1, planLocal.getId());
+            
+            return pstm.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+            return false;
+        }
     }
 }

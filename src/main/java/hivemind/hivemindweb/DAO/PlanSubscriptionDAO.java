@@ -18,8 +18,8 @@ public class PlanSubscriptionDAO {
         String sql = "SELECT * FROM PLAN_SUBSCRIPTION ORDER BY id";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 PlanSubscription planSubscriptionLocal = new PlanSubscription(
@@ -42,8 +42,8 @@ public class PlanSubscriptionDAO {
         String sql = "SELECT id FROM PLAN_SUBSCRIPTION ORDER BY id";
         int id = 0;
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             if(rs.next()){
                 id = rs.getInt("id");
