@@ -18,8 +18,8 @@ public class ContactEmailDAO {
         String sql = "SELECT * FROM contact_email ORDER BY id";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 ContactEmail contactEmailLocal = new ContactEmail(

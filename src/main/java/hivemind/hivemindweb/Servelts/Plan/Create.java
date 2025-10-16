@@ -30,8 +30,9 @@ public class Create extends HttpServlet {
             if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'nameStr'");}
             
             String nameDB = PlanDAO.getName(name);
+            System.out.println(nameDB);
 
-            if(!(nameDB.equalsIgnoreCase(name))){
+            if(nameDB.equalsIgnoreCase(name)){
                 throw new InvalidForeignKeyException("Name already exists in the database");
             }
             
@@ -45,7 +46,8 @@ public class Create extends HttpServlet {
             else{
                 System.out.println("[WARN] Erro in PlanDAO");
                 System.out.println("[ERROR] Plan Nao foi Adicionado devido a um Erro!");
-                req.setAttribute("msg", "Plan Nao foi Adicionado devido a um Erro!");
+                System.out.println("[ERROR]:" + nameDB + " " +  planLocal);
+                req.setAttribute("Errro", "Plan Nao foi Adicionado devido a um Erro!");
             }
             req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
         }catch(IllegalArgumentException se){
@@ -55,7 +57,7 @@ public class Create extends HttpServlet {
         }catch(InvalidForeignKeyException ifk){
             System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
             // resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
-            req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  ifk.getCause());
+            req.setAttribute("error","[ERROR] Valor Nao Pode Ser encotrado No banco: " +  ifk.getCause());
         }
         catch(ServletException se){
             System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());

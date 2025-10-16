@@ -101,6 +101,7 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
             System.out.println("[ERROR] Exception: " + e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro interno: " + e.getMessage());
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
     }
 }

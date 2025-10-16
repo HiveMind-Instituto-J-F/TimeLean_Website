@@ -50,13 +50,13 @@ public class Delete extends HttpServlet {
             System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
             req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  dpe.getCause());
-            req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
         catch(ServletException se){
             System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
     }
 }

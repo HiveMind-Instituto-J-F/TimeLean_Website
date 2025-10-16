@@ -17,8 +17,8 @@ public class PaymentDAO {
         String sql = "SELECT * FROM payment ORDER BY id";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 Payment PaymentLocal = new Payment(

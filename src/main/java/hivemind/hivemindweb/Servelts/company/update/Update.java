@@ -28,7 +28,7 @@ public class Update extends HttpServlet {
             }
 
             // Create a Company object with the updated data
-            Company company = new Company(cnpj, name, cnae, registrantCpf);
+            Company company = new Company(cnpj, name, cnae, registrantCpf, true);
             System.out.println(company);
 
             // Update the company in the database via DAO
@@ -47,7 +47,6 @@ public class Update extends HttpServlet {
         } catch (Exception e) {
             // Catch any unexpected exception and forward to an error page
             System.err.println("[COMPANY-UPDATE] ERROR: " + e.getMessage());
-            e.printStackTrace();
             request.setAttribute("error", "An unexpected error occurred while updating the company.");
             request.getRequestDispatcher("/html/crud/company/update.jsp").forward(request, response);
         }

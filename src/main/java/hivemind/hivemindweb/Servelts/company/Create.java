@@ -35,7 +35,7 @@ public class Create extends HttpServlet {
         }
 
         // Create company
-        Company company = new Company(cnpj, name, cnae, registrantCpf);
+        Company company = new Company(cnpj, name, cnae, registrantCpf, true);
 
         // try to make inserts by DAO and set messages
         if (planId != null) {
@@ -44,13 +44,12 @@ public class Create extends HttpServlet {
                     message = 1; // success
                 } else {
                     try {
-                        CompanyDAO.delete(company);
-                    } catch (ForeignKeyViolationException fkve){
+                        CompanyDAO.rollbackCreate(company);  // Rollback
+                    } catch (ForeignKeyViolationException fkve) {
                         System.err.println("[COMPANY-CREATE-ROLLBACK] " + fkve.getMessage());
                         request.setAttribute("errorMessage", "Unable to delete: " + fkve.getMessage());
                         request.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(request, response);
                     }
-                    // rollback
                     message = 2; // subscription insert failed
                 }
             } else {
