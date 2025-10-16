@@ -230,7 +230,7 @@ public class CompanyDAO {
         try (Connection conn = db.connected();
             PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(2, companyLocal.getCNPJ());
-            
+
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {

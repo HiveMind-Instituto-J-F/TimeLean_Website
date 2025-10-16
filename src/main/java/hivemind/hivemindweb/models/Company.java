@@ -25,6 +25,13 @@ public class Company {
         this.registrantCpf = registrantCpf;
     }
 
+    public Company(String cnpj, boolean isActive){
+        this.cnpj = cnpj;
+        this.isActive = isActive;
+    }
+
+    public Company(){
+    }
 
     // ToString
     public String toString(){

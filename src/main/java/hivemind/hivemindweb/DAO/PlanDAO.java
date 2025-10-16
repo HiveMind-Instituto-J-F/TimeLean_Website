@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Plan;
 
 public class PlanDAO {
@@ -35,8 +34,8 @@ public class PlanDAO {
             return false;
         }
 
-        sql = "INSERT INTO plan (name, description, price, duration) " +
-                "VALUES (?,?,?,?)";
+        sql = "INSERT INTO plan (name, description, price, duration , is_active) " +
+                "VALUES (?,?,?,?,?)";
                 
         try (Connection conn = db.connected();
             PreparedStatement pstm = conn.prepareStatement(sql)) {
@@ -45,6 +44,7 @@ public class PlanDAO {
             pstm.setString(2, plan.getDescription());
             pstm.setDouble(3,plan.getPrice());
             pstm.setInt(4,plan.getDuration());
+            pstm.setBoolean(5, true);
 
             return pstm.executeUpdate() > 0;
 
@@ -68,6 +68,8 @@ public class PlanDAO {
 
         } catch (SQLException sqle) {
             System.out.println("[ERROR] Falied in Update: " + sqle.getMessage());
+            System.out.println("[ERROR] SQL State: " + sqle.getSQLState());
+            sqle.printStackTrace();
         }
         return false;
     }
@@ -225,6 +227,8 @@ public class PlanDAO {
 
         } catch (SQLException sqle) {
             System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+            System.out.println("[ERROR] SQL State: " + sqle.getSQLState());
+            sqle.printStackTrace();
             return false;
         }
     }

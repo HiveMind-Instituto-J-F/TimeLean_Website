@@ -36,7 +36,7 @@ public class Update extends HttpServlet {
             }
             
             Plan planLocal = new Plan(name, description, duration, price);
-            System.out.println(planLocal);
+            
             if(PlanDAO.update(planLocal)){
                 System.out.println("[WARN] Insert Plan Sussefly");
                 req.setAttribute("msg", "Plan Foi Adicionado Com Susseso!");
@@ -52,15 +52,18 @@ public class Update extends HttpServlet {
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
+            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
         }catch(InvalidForeignKeyException ifk){
             System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
             // resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
             req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  ifk.getCause());
+            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
         }
         catch(ServletException se){
             System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
     }
 }
