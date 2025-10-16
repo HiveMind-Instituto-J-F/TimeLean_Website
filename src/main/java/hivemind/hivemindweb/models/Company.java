@@ -6,13 +6,15 @@ public class Company {
     private String name;
     private String cnae;
     private String registrantCpf;
+    private boolean isActive;
 
     // Construtor
-    public Company(String cnpj, String name, String cnae, String registrantCpf){
+    public Company(String cnpj, String name, String cnae, String registrantCpf, boolean isActive){
         this.cnpj = cnpj;
         this.name = name;
         this.cnae = cnae;
         this.registrantCpf = registrantCpf;
+        this.isActive = isActive;
     }
     public Company(String cnpj){
         this.cnpj = cnpj;
@@ -23,6 +25,13 @@ public class Company {
         this.registrantCpf = registrantCpf;
     }
 
+    public Company(String cnpj, boolean isActive){
+        this.cnpj = cnpj;
+        this.isActive = isActive;
+    }
+
+    public Company(){
+    }
 
     // ToString
     public String toString(){
@@ -40,6 +49,7 @@ public class Company {
     public String getCnae() {
         return cnae;
     }
+    public boolean isActive(){ return isActive;}
     public String getRegistrantCpf() {
         return registrantCpf;
     }
