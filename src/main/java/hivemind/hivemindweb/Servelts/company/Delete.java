@@ -45,7 +45,7 @@ public class Delete extends HttpServlet {
         }
 
         // Handle case where there are pending payments
-        if (pendingPayments.size() > 0){
+        if (!pendingPayments.isEmpty()){
             System.err.println("[COMPANY-DELETE] Pending Payments.");
             request.setAttribute("errorMessage", "Unable to delete: There are pending payments.");
             request.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(request, response);
@@ -59,14 +59,10 @@ public class Delete extends HttpServlet {
                 return;
             }
 
-            System.err.println("[COMPANY-DELETE] NullPointerException.");
+            System.err.println("[COMPANY-DELETE] Unknown error.");
             request.setAttribute("errorMessage", "Unable to delete (Unknown)");
             request.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(request, response);
 
-        } catch (ForeignKeyViolationException fkve) {
-            System.err.println("[COMPANY-DELETE] " + fkve.getMessage());
-            request.setAttribute("errorMessage", "Unable to delete: " + fkve.getMessage());
-            request.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(request, response);
         } catch (NullPointerException npe) {
             System.err.println("[COMPANY-DELETE] NullPointerException.");
             request.setAttribute("errorMessage", "Unable to delete (Unknown)");
@@ -74,3 +70,8 @@ public class Delete extends HttpServlet {
         }
     }
 }
+/*
+ * BUSINESS RULES (DO NOT DELETE):
+ * If the company is set as deactivated, it will be treated the same as a deleted company; this means, it cannot make any operation.
+ * Deleted/deactivated companies may be visible depending on the used filter.
+ * */
