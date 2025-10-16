@@ -116,6 +116,10 @@
                 <input type="text" id="updateName" name="name" placeholder="Ex: Plano Premium" required>
             </div>
             <div class="form-group">
+                <label for="id">ID: *</label>
+                <input type="text" id="id" name="id" placeholder="Ex: 1" required>
+            </div>
+            <div class="form-group">
                 <label for="updateDescription">Nova Descrição *</label>
                 <textarea id="updateDescription" name="description" placeholder="Ex: Agora com novas funções..." required></textarea>
             </div>
