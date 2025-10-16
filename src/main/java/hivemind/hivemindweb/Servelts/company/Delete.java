@@ -2,7 +2,6 @@ package hivemind.hivemindweb.Servelts.Company;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PaymentDAO;
-import hivemind.hivemindweb.Exception.ForeignKeyViolationException;
 import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Payment;
 import jakarta.servlet.ServletException;

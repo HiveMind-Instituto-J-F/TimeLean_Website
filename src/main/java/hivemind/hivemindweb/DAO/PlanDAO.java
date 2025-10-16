@@ -70,10 +70,10 @@ public class PlanDAO {
             System.out.println("[ERROR] Falied in Update: " + sqle.getMessage());
             System.out.println("[ERROR] SQL State: " + sqle.getSQLState());
             sqle.printStackTrace();
+            return false;   
         }
-        return false;
     }
-
+    
     public static boolean delete(Plan plan) {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM plan WHERE id = ?";
