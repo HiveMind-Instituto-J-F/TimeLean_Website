@@ -15,6 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 public class Update extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
         try{
+            String intStr = req.getParameter("id");
+            if(intStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id'");}
+            int id = Integer.parseInt(intStr);
+
             String durationStr = req.getParameter("duration");
             if(durationStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'duration'");}
             int duration = Integer.parseInt(durationStr);
@@ -34,12 +38,18 @@ public class Update extends HttpServlet {
             if(!(nameDB.equalsIgnoreCase(name))){
                 throw new InvalidForeignKeyException("Name already exists in the database");
             }
+
+            int idDB = PlanDAO.getID(id);
+
+            if(!(id == idDB)){
+                throw new InvalidForeignKeyException("ID already exists in the database");
+            }
             
-            Plan planLocal = new Plan(name, description, duration, price);
+            Plan planLocal = new Plan(id,name, description, duration, price);
             
             if(PlanDAO.update(planLocal)){
                 System.out.println("[WARN] Insert Plan Sussefly");
-                req.setAttribute("msg", "Plan Foi Adicionado Com Susseso!");
+                req.setAttribute("msg", "Plano Foi Atalizado Com Susseso!");
                 req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
             }
             else{

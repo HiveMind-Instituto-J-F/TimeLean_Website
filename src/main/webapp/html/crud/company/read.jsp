@@ -11,8 +11,8 @@
 
 <form action="${pageContext.request.contextPath}/company/read" method="get">
     <select id="status" name="status">
-        <option value="all-companies">Todas</option>
         <option value="active-companies">Apenas empresas ativas</option>
+        <option value="all-companies">Todas</option>
         <option value="inactive-companies">Apenas empresas inativas</option>
         <option value="companies-with-pending-payments">Apenas empresas com pagamentos pendentes</option>
     </select>
@@ -50,7 +50,10 @@
                 <input type="submit" value="Modify"/>
             </form>
             <% } else { %>
-            Empresa desativada
+            <form action="${pageContext.request.contextPath}/company/delete/rollback" method="post" style="display:inline;">
+                <input type="hidden" name="cnpj" value="<%= c.getCNPJ() %>"/>
+                <input type="submit" value="Reativar"/>
+            </form>
             <% } %>
         </td>
     </tr>
