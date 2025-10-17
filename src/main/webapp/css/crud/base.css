@@ -25,11 +25,12 @@ main>* {
 main {
   height: max-content;
   display: flex;
+  padding: 0; /* Por conta do Body Default Padding*/
 }
 
 aside {
-  width: 400px;
-  height: 100vh;
+  width: 20vw;
+  height: auto;
   box-shadow: var(--inner-shadow);
   background-color: black;
 }
