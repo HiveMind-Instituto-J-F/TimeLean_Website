@@ -70,7 +70,6 @@ public class PlantDAO {
     }
 
     public static Plant selectByPlantCnpj(String cnpj){
-        List<Plant> plantsList = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql = "SELECT * FROM plant WHERE CNPJ = ?";
 
@@ -162,6 +161,5 @@ public class PlantDAO {
         }
         return false;
     }
-
 
 }
