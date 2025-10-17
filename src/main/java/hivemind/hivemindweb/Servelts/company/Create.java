@@ -3,7 +3,7 @@ package hivemind.hivemindweb.Servelts.Company;
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
-import hivemind.hivemindweb.Exception.ForeignKeyViolationException;
+import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
@@ -14,53 +14,87 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 @WebServlet("/company/create")
 public class Create extends HttpServlet {
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get Parameters:
-        String cnpj = request.getParameter("company-cnpj");
-        String name = request.getParameter("company-name");
-        String cnae = request.getParameter("company-cnae");
-        String registrantCpf = request.getParameter("company-registrant-cpf");
-        LocalDate psStartDate = LocalDate.parse(request.getParameter("psubscription-start-date"));
-        Integer message;
-        Integer planId;
-
-
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
-            planId = PlanDAO.select(request.getParameter("plan-description")).getId();
-        } catch (NullPointerException npe){
-            planId = null;
-        }
+            // Get Parameters:
+            String cnpj = req.getParameter("company-cnpj");
+            if(cnpj.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");}
+            
+            String name = req.getParameter("company-name");
+            if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'name'");}
+            
+            String cnae = req.getParameter("company-cnae");
+            if(cnae.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnae'");}
+            
+            String registrantCpf = req.getParameter("company-registrant-cpf");
+            if(registrantCpf.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'registrantCpf'");}
+            
+            String psStartDateStr = req.getParameter("psubscription-start-date");
+            if(psStartDateStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'psStartDate'");}
+            LocalDate psStartDate = LocalDate.parse(psStartDateStr);
 
-        // Create company
-        Company company = new Company(cnpj, name, cnae, registrantCpf, true);
+            Integer message;
 
-        // try to make inserts by DAO and set messages
-        if (planId != null) {
-            if (CompanyDAO.insert(company)) {
-                if (PlanSubscriptionDAO.insert(new PlanSubscription(psStartDate, cnpj, planId), false)) {
-                    message = 1; // success
-                } else {
-                    try {
-                        CompanyDAO.rollbackCreate(company);  // Rollback
-                    } catch (ForeignKeyViolationException fkve) {
-                        System.err.println("[COMPANY-CREATE-ROLLBACK] " + fkve.getMessage());
-                        request.setAttribute("errorMessage", "Unable to delete: " + fkve.getMessage());
-                        request.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(request, response);
+            String planIDStr = req.getParameter("plan-description");
+            if(planIDStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'planID'");}
+            Integer planId = Integer.parseInt(planIDStr);
+            
+            
+            try{
+                planId = PlanDAO.select(planIDStr).getId();
+            } catch (NullPointerException npe){
+                planId = null;
+            }
+            
+            // Create company
+            Company company = new Company(cnpj, name, cnae, registrantCpf, true);
+
+            // try to make inserts by DAO and set messages
+            if (planId != null) {
+                if (CompanyDAO.insert(company)) {
+                    if (PlanSubscriptionDAO.insert(new PlanSubscription(psStartDate, cnpj, planId), false)) {
+                        message = 1; // success
+                    } else {
+                        try {
+                            CompanyDAO.rollbackCreate(company);  // Rollback
+                        } catch (InvalidForeignKeyException ifk) {
+                            System.err.println("[ERROR] Invalid FK In Create Company:  " + ifk.getMessage());
+                            req.setAttribute("errorMessage", "[WARN]Unable to delete: " + ifk.getMessage());
+                            req.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(req, resp);
+                        }
+                        message = 2; // subscription insert failed
                     }
-                    message = 2; // subscription insert failed
+                } else {
+                    message = 3; // company insert failed
                 }
             } else {
-                message = 3; // company insert failed
+                message = 4; // planId null
             }
-        } else {
-            message = 4; // planId null
-        }
 
-        // Dispatch request with attribute 'message'
-        request.setAttribute("status", message);
-        request.getRequestDispatcher("/html/crud/company/create.jsp").forward(request, response);
+            // Dispatch request with attribute 'message'
+            req.setAttribute("status", message);
+            req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
+        }catch(IllegalArgumentException ia){
+            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
+            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
+            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
+        }
+        catch(DateTimeParseException dpe){
+            System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
+            req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  dpe.getCause());
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+        }
+        catch(ServletException se){
+            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
+            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+        }
     }
 }
