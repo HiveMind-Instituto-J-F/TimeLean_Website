@@ -18,11 +18,6 @@ header {
   border: 0;
 }
 
-header.hide {
-  transform: translateY(-150%);
-  opacity: 0;
-}
-
 header>:first-child, header>:last-child {
   width: clamp(110px, 8vw, 160px);
 }
@@ -47,10 +42,6 @@ header>nav>a, footer>nav>a {
   text-align: center;
 }
 
-header>nav>a:nth-child(2) {
-  margin: 0 8vh;
-}
-
 /*
     Media Query ↓
     max-width: 800px
@@ -64,25 +55,5 @@ header>nav>a:nth-child(2) {
   header {
     display: none;
   }
-}
-
-.menu-button {
-  background-color: transparent;
-  border: 0;
-  user-select: none;
-  cursor: pointer;
-}
-
-.menu-button>img {
-  width: 24px;
-}
-
-#open-sidebar, aside {
-  display: none;
-}
-
-aside>nav {
-  flex-direction: column;
-  align-items: baseline;
 }
 

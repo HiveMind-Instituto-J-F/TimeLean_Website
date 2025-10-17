@@ -65,7 +65,7 @@ nav>a {
     font-style: normal;
 }
 
-button.inter, a.inter, input::placeholder {
+button.inter, a.inter, input, input::placeholder {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;

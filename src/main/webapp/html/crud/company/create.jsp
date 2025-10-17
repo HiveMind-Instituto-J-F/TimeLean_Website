@@ -6,9 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/header.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/text.css">
+    <title>Administração — TIMELEAN</title>
     
-    <link rel="stylesheet" href="../../../css/header.css"> <!-- CSS para o header -->
-    <title>TimeLean - Administração</title>
+    <link rel="stylesheet" href="../../../css/crud/base.css">
+    <link rel="stylesheet" href="../../../css/crud/table.css">
 </head>
 <body>
    <%
@@ -20,22 +24,34 @@
             return;
         }
     %>
-    <header>
-            <button id="timelean">
-                <img src="img/icons/branding/TIMELEAN.png" alt="Branding Timelean">
-                <a href="#hero"></a>
-            </button>
+    <div id="background-img">
+        <header class="blur">
+            <a href="#background-img" id="timelean">
+                <img src="img/icons/branding/TIMELEAN.png" alt="TIMELEAN">
+            </a>
+            
+            <div>
+                <nav class="inter navbar">
+                    <a href="">Home</a>
+                    <a href="">Quem somos</a>
+                    <a href="" target="_blank">FAQ</a>
+                </nav>
+                <!-- Ao contrário de utilizar um Header modificado ou um aside, vamos deixar as divisões do CRUD no lugar do botão -->
+                <a href="" target="_blank" class="button contact inter">Entrar em contato</a>
+            </div>
 
-            <nav class="inter">
-                <a href="" target="_blank">Home</a>
-                <a href="" target="_blank">Quem somos</a>
-                <a href="" target="_blank">Jurídico</a>
-                <a href="" target="_blank">FAQ</a>
-            </nav>
-            <button class="button small inter">Entrar em contato</button>
-    </header>
+            <li>Pagamentos</li>
+                <li>Planos</li>
+                <li>Inscrções de planos</li>
+                <li>Empresas</li>
+                <li>Plantas Industriais</li>
+                <li>Emails de contato</li>
+        </header>
+    </div>
     <main>
-        <h1>Olá, administrador</h1>
+        <h1 class="inter-bold">Olá, Administrador.</h1>
+        <h3 class="inter-medium">Bem vindo ao CRUD.</h3>
+
         <!-- Aside-Bar abre oportunidades de fluxo para o CRUD, melhorando a organização -->
         <aside>
             <ul>

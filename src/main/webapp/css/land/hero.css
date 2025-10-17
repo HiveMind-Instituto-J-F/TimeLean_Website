@@ -20,13 +20,14 @@
 
 #background-img {
   margin: 0 !important;
-  padding: min(10%, 160px) 0 min(40%, 760px) 0;
+  padding: 0 0 min(40%, 760px) 0;
   background-image: url('../../img/background/hero2.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: local;
   background-repeat: no-repeat;
-  z-index: -1;
+  
+  z-index: 1;
 }
 
 @media (max-width: 800px) {
@@ -46,6 +47,10 @@
 
 #hero>* {
   margin-bottom: 16px;
+}
+
+#hero>div:first-child {
+  margin-top: 80px;
 }
 
 #hero>div:first-child>:nth-child(2) {

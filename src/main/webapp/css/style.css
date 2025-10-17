@@ -108,6 +108,24 @@ a, a:visited, a:hover, a:active {
   text-decoration: none !important;
 }
 
+input {
+  background-color: var(--polar);
+  width: 240px;
+  height: 24px;
+  border: 0;
+  border-bottom: 2px solid var(--orange);
+  padding: 0 10px;
+}
+
+input:required {
+  border-bottom: 2px solid var(--orange);
+}
+
+input::placeholder {
+  color: var(--black);
+  opacity: 80%;
+}
+
 .button {
   background-color: var(--orange) !important;
   color: var(--white) !important;
@@ -130,9 +148,8 @@ a, a:visited, a:hover, a:active {
   font-size: 12px;
 }
 
-header>.contact {
-  padding: 8px 20px;
-  font-size: 10px;
+.submit {
+  padding: 4px 48px;
 }
 
 #unset {
@@ -146,11 +163,11 @@ header>.contact {
 
 .block {
   display: flex;
-  border: 8px solid var(--orange);
+  border: 6px solid var(--orange);
   margin: 0 auto;
   margin-bottom: 20px !important;
-  padding: 16px 0px;
-  width: 240px;
+  padding: 8px 0px;
+  width: 200px;
 }
 
 .arrow {

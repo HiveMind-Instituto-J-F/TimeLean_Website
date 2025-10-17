@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/header.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/text.css">
+    <link rel="shortcut icon" href="../../../img/icons/favicon/home-v2.png" type="image/x-icon">
+    <title>Administração — TIMELEAN</title>
+    
+    <link rel="stylesheet" href="../../../css/crud/base.css">
+    <link rel="stylesheet" href="../../../css/crud/create.css">
+</head>
+<body>
+    <div id="background-img">
+        <header class="blur">
+            <a href="#background-img" id="timelean">
+                <img src="../../../img/icons/branding/TIMELEAN.png" alt="TIMELEAN">
+            </a>
+            
+            <div>
+                <nav class="inter navbar">
+                    <a href="">Home</a>
+                    <a href="">Quem somos</a>
+                    <a href="" target="_blank">FAQ</a>
+                </nav>
+                <!-- Ao contrário de utilizar um Header modificado ou um aside, vamos deixar as divisões do CRUD no lugar do botão -->
+                <a href="" target="_blank" class="button contact inter">Entrar em contato</a>
+            </div>
+        </header>
+        
+        <div>
+            <h1 class="inter-bold">Olá, Administrador.</h1>
+            <h3 class="inter-medium">Bem vindo ao CRUD.</h3>
+        </div>
+    </div>
+    <main>
+        <aside>
+            <li>Pagamentos</li>
+            <li>Planos</li>
+            <li>Inscrções de planos</li>
+            <li>Empresas</li>
+            <li>Plantas Industriais</li>
+            <li>Emails de contato</li>
+        </aside>
+        <section>
+            <div class="block"></div>
+            <h1 class="inter-bold">Adicionar empresa</h1>
+        
+            <!-- Seção para inserção de empresas -->
+            <div class="inter-medium">
+                <form action="/HivemindWeb_war/company/create" method="post">
+                    <div>
+                        <h3>Adicionar informações cadastrais da empresa</h3>
+                        
+                        <label for="company-name">Nome da empresa</label><br>
+                        <input type="text" name="company-name" maxlength="60" required>
+                        <br>
+        
+                        <label for="company-cnpj">CNPJ da empresa</label><br>
+                        <input type="text" name="company-cnpj" placeholder="Ex: 17.212.365/0001-82" maxlength="18" required
+                        pattern="[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}/?[4]{3}-?[0-9]{2}">
+                        <br>
+        
+                        <label for="company-cnae">CNAE (Código de Classificação Nacional das Atividades Econômicas)</label><br>
+                        <input type="text" name="company-cnae" placeholder="Ex: 47.89-0/99" required
+                        pattern="[0-9]{2}\.-?[0-9]{2}-?[0-9]/?[0-9]{2}">
+                        <br>
+        
+                        <label for="company-registrant-cpf">CPF do cliente</label><br>
+                        <input type="text" name="company-registrant-cpf" placeholder="Ex: 854.969.710-98" maxlength="17" required
+                        pattern="[0-9]{3}\.?[0-9]{3}\.?[0-9]-?[0-9]{2}">
+                    </div>
+        
+                    <div>
+                        <h3>Adicionar informações para a inscrição do plano</h3><br>
+        
+                        <label for="plan-description">Nome do plano</label><br>
+                        <input type="text" name="plan-description">
+                        <br>
+                        
+                        <label for="psubscription-start-date">Data de inicio do plano</label><br>
+                        <input type="date" name="psubscription-start-date">
+                        <br>
+                    </div>
+                    <input class="button submit inter" type="submit">
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="inter-thin">
+        <a href="html/login.jsp">
+            <button id="hivemind">
+                <img src="../../../img/icons/branding/HIVEMIND (white).png" alt="HIVEMIND">
+            </button>
+        </a>
+        <nav class="inter navbar">
+                <a href="html/login.html" target="">Home</a>
+                <a href="" target="_blank">Quem somos</a>
+                <a href="" target="_blank">FAQ</a>
+        </nav>
+        <nav class="medias">
+            <a href=""><img src="../../../img/icons/social/github.png" alt="github" class="icon"></a>
+            <a href=""><img src="../../../img/icons/social/whatsapp.png" alt="whatsapp" class="icon"></a>
+            <a href=""><img src="../../../img/icons/social/instagram.png" alt="instagram" class="icon"></a>
+        </nav>
+        <p class="inter">&copy; Copyright 2025, Todos os direitos preservados</p>
+    </footer>
+</body>
+</html>

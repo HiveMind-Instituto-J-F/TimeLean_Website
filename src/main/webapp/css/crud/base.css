@@ -1,0 +1,35 @@
+@import url('../variables.css');
+
+#background-img>* {
+  color: var(--black);
+}
+
+#background-img {
+  margin: 0 !important;
+  padding: 0 0 min(40%, 80px) 0;
+  background-image: url('../../img/background/hero.jpg');
+  background-size: cover;
+  background-position: top;
+  background-repeat: repeat;
+}
+
+#background-img>div {
+  text-align: center;
+  margin-top: 80px;
+}
+
+main>* {
+  color: var(--polar);
+}
+
+main {
+  height: max-content;
+  display: flex;
+}
+
+aside {
+  width: 400px;
+  height: 100vh;
+  box-shadow: var(--inner-shadow);
+  background-color: black;
+}
