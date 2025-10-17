@@ -75,19 +75,21 @@ public class Create extends HttpServlet {
                 message = 4; // planId null
             }
 
+            // REVER A ADIÇAO DE PLANO
+
             // Dispatch request with attribute 'message'
             req.setAttribute("status", message);
             req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
         }catch(IllegalArgumentException ia){
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
+            // resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
+            req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
         }
         catch(DateTimeParseException dpe){
             System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
             req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  dpe.getCause());
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
             req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
         catch(ServletException se){

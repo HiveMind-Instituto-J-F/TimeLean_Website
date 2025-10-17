@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.Exception.ForeignKeyViolationException;
 import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.Company;
 
@@ -45,7 +44,7 @@ public class CompanyDAO {
         return false;
     }
 
-    public static boolean rollbackCreate(Company company) throws InvalidForeignKeyException {
+    public static boolean rollbackCreate(Company company) throws  InvalidForeignKeyException {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM company WHERE CNPJ = ?";
 
