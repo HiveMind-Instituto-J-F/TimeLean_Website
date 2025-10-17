@@ -214,14 +214,15 @@ public class PlanDAO {
         }
         return idDB;
     }
-
-    public static boolean setActiveFalse(Plan planLocal) {
+    
+    public static boolean setActive(Plan planLocal) {
         DBConnection db = new DBConnection();
-        String sql = "UPDATE plan SET is_active = FALSE WHERE id = ? AND is_active = TRUE;";
+        String sql = "UPDATE plan SET is_active = ? WHERE id = ?;";
 
         try (Connection conn = db.connected();
             PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, planLocal.getId());
+            pstm.setBoolean(1, planLocal.getActive());
+            pstm.setInt(2, planLocal.getId());
             
             return pstm.executeUpdate() > 0;
 
@@ -231,5 +232,24 @@ public class PlanDAO {
             sqle.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean getAction(int id){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT is_active FROM Plan WHERE id=?;";
+        boolean is_active = false;
+        try(Connection conn = db.connected();
+            PreparedStatement psmt = conn.prepareStatement(sql);){
+            psmt.setInt(1, id);
+
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    is_active = rs.getBoolean("is_active");
+                }
+            }
+        }catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
+        }
+        return is_active;
     }
 }
