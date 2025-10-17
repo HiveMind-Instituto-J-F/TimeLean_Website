@@ -25,6 +25,7 @@ main>* {
 main {
   height: max-content;
   display: flex;
+  text-align: center;
   padding: 0; /* Por conta do Body Default Padding*/
 }
 
@@ -33,4 +34,47 @@ aside {
   height: auto;
   box-shadow: var(--inner-shadow);
   background-color: black;
+}
+
+#filter-bar {
+  display: flex;
+  text-align: initial;
+  border-bottom: var(--border-traced-grey);
+}
+
+#filter-bar * {
+  background-color: var(--polar);
+  border: 0;
+  padding: 6px 0;
+  color: var(--black);
+}
+
+#filter-bar select {
+  border: 0;
+  appearance: none; /* Remove estilos nativos*/
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+#filter-bar>:first-child {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#filter-bar>:first-child>select {
+  width: 87%;
+  margin-left: 3%;
+}
+
+#filter-bar>:first-child>button {
+  width: 10%;
+}
+
+#filter-bar>:last-child {
+  width: 20%;
+}
+
+#filter-bar>:last-child>button {
+  width: 100%;
 }

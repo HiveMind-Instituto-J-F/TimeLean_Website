@@ -18,6 +18,8 @@
     --border-medium: 6px;
     --border-small: 4.5px;
     --border-simple: 2.5px;
+    --border-traced-orange: 3px solid var(--orange);
+    --border-traced-grey: 3px solid var(--grey);
 
     /* Padronização de valores ↓ */
     --icon: 18px;

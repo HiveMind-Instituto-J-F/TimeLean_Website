@@ -11,6 +11,7 @@
     
     <link rel="stylesheet" href="../../../css/crud/base.css">
     <link rel="stylesheet" href="../../../css/crud/table.css">
+    <link rel="stylesheet" href="../../../css/crud/read.css">
 </head>
 
 <body>
@@ -51,22 +52,23 @@
 
         <!-- CRUD ↓ -->
         <section>
-            <h1 class="inter-bold"></h1>
+            <div class="block"></div>
+            <h1 class="inter-bold">Adicionar empresa</h1>
             
             <!-- Filtro e submit ↓ -->
-            <div id="filter">
+            <div id="filter-bar" class="inter">
                 <form action="" method="">
-                    <select id="status" name="status">
+                    <select class="inter" id="status" name="status">
                         <option value="">Todas</option>
                         <option value="">Apenas empresas ativas</option>
                         <option value="">Apenas empresas inativas</option>
                         <option value="">Apenas empresas com pagamentos pendentes</option>
                     </select>
-                    <button type="submit">Filtrar</button>
+                    <button class="inter" type="submit">Filtrar</button>
                 </form>
 
                 <form action="">
-                    <button type="submit">Cadastrar</button>
+                    <button class="inter" type="submit">Cadastrar</button>
                 </form>
             </div>
 

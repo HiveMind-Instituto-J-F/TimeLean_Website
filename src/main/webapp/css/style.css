@@ -113,12 +113,8 @@ input {
   width: 240px;
   height: 24px;
   border: 0;
-  border-bottom: 2px solid var(--orange);
+  border-bottom: var(--border-traced);
   padding: 0 10px;
-}
-
-input:required {
-  border-bottom: 2px solid var(--orange);
 }
 
 input::placeholder {
