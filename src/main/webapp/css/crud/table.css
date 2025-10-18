@@ -54,17 +54,17 @@ tbody>:last-child>* {
     display: inline-flex;
     justify-content: center;
     margin: 0 auto;
-    gap: 8px;
+    gap: var(--crud-table-icons-gap);
 }
 
 .actions form {
-    padding: 4px;
+    padding: var(--crud-table-icons-padding);
 }
 
 .actions * {
     border: 0;
-    width: 28px;
-    height: 28px;
+    width: var(--crud-table-icons-width);
+    height: var(--crud-table-icons-height);
     cursor: pointer;
 }
 
@@ -82,4 +82,20 @@ tbody>:last-child>* {
 
 .actions>:nth-child(n)>* {
     background-color: transparent;
+}
+
+.disable {
+    color: var(--red) !important;
+}
+
+.disable>:last-child {
+    width: auto;
+}
+
+.disable>:last-child>form>* {
+    cursor: pointer;
+    background-color: var(--red);
+    color: var(--polar);
+    height: var(--crud-table-icons-height);
+    width: calc((var(--crud-table-icons-width) * 3) + (var(--crud-table-icons-gap) * 2) + (var(--crud-table-icons-padding) * (2 * 3)));
 }

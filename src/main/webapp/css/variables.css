@@ -31,5 +31,10 @@
 
     --navbar: 4vw;
     --section-spacing: min(15vh, 150px) 0;
+    
     --crud-spacing: min(8vh, 150px);
+    --crud-table-icons-width: 28px;
+    --crud-table-icons-height: 28px;
+    --crud-table-icons-padding: 4px;
+    --crud-table-icons-gap: 8px;
 }
