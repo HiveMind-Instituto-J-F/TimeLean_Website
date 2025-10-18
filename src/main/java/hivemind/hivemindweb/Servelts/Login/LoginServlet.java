@@ -92,14 +92,14 @@ public class LoginServlet extends HttpServlet {
 
         } catch (IllegalArgumentException ime) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
-            System.out.println("[ERROR] Invalid User");
+            System.err.println("[ERROR] Invalid User");
             req.setAttribute("error", ime.getMessage());
             req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
         } catch (LoginException le) {
             req.setAttribute("errorMessage", le.getMessage());
             req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
         } catch (Exception e) {
-            System.out.println("[ERROR] Exception: " + e.getMessage());
+            System.err.println("[ERROR] Exception: " + e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro interno: " + e.getMessage());
             req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }

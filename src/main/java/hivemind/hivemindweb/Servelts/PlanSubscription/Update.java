@@ -46,23 +46,23 @@ public class Update extends HttpServlet {
             }
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);;
         }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Update Servelet, Error: "+ se.getMessage());
+            System.err.println("[ERROR] Error In Update Servelet, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
         }
         catch(InvalidForeignKeyException ifk){
-            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
+            System.err.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
             req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  ifk.getCause());
         }
         catch(DateTimeParseException dpe){
-            System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
+            System.err.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
             req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  dpe.getCause());
             req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
         catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
+            System.err.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
             req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);

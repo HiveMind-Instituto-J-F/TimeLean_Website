@@ -63,8 +63,8 @@ public class Create extends HttpServlet {
                             CompanyDAO.rollbackCreate(company);  // Rollback
                         } catch (InvalidForeignKeyException ifk) {
                             System.err.println("[ERROR] Invalid FK In Create Company:  " + ifk.getMessage());
-                            req.setAttribute("errorMessage", "[WARN]Unable to delete: " + ifk.getMessage());
-                            req.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(req, resp);
+                            req.setAttribute("errorMessage", "[WARN] Unable to delete: " + ifk.getMessage());
+                            req.getRequestDispatcher("\\html\\crud\\company\\error\\error.jsp").forward(req, resp);
                         }
                         message = 2; // subscription insert failed
                     }
@@ -84,7 +84,7 @@ public class Create extends HttpServlet {
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
             // resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("\\html\\crud\\company\\create.jsp").forward(req, resp);
         }
         catch(DateTimeParseException dpe){
             System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());

@@ -29,31 +29,31 @@ public class Delete extends HttpServlet {
                 req.setAttribute("msg", "PlanSubscription Foi Removido Com Susseso!");
             }
             else{
-                System.out.println("[WARN] Erro in PlanSubscriptionDAO");
-                System.out.println("[ERROR] Plan Subscription Nao foi Adicionado devido a um Erro!");
+                System.err.println("[WARN] Erro in PlanSubscriptionDAO");
+                System.err.println("[ERROR] Plan Subscription Nao foi Adicionado devido a um Erro!");
                 req.setAttribute("msg", "Plan Subscription Nao foi Adicionado devido a um Erro!");
             }
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);
         }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Delete Servelet, Error: "+ se.getMessage());
+            System.err.println("[ERROR] Error In Delete Servelet, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);
         }
         catch(InvalidPrimaryKeyException ipk){
-            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ipk.getCause() + " Erro: " + ipk.getMessage() + ")");
+            System.err.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ipk.getCause() + " Erro: " + ipk.getMessage() + ")");
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ipk.getMessage());
             req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  ipk.getCause());
             req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);
         }
         catch(DateTimeParseException dpe){
-            System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
+            System.err.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
             req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  dpe.getCause());
             req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
         catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
+            System.err.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
             req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
