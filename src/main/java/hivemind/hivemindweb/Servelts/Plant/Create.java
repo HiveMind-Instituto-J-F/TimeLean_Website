@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/create-plant")
+@WebServlet("/plant/create")
 public class Create extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         request.setAttribute("company_cnpj", request.getParameter("company-cnpj"));
@@ -51,3 +51,8 @@ public class Create extends HttpServlet {
 
     }
 }
+/*
+ * BUSINESS RULES (DO NOT DELETE)
+ * In order to rollback, the system must verify if company is active.
+ * Workers must not be deactivated/deleted after a plant deactivation/deletion.
+ */

@@ -31,5 +31,5 @@
 
     --navbar: 4vw;
     --section-spacing: min(15vh, 150px) 0;
-    --crud-spacing: min(15vh, 150px) 0;
+    --crud-spacing: min(8vh, 150px);
 }

@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/update-plant")
+@WebServlet("/plant/update")
 public class Update extends HttpServlet {
 
     @Override
@@ -47,3 +47,8 @@ public class Update extends HttpServlet {
     }
 
 }
+/*
+ * BUSINESS RULES (DO NOT DELETE)
+ * In order to rollback, the system must verify if company is active.
+ * Workers must not be deactivated/deleted after a plant deactivation/deletion.
+ */

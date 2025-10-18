@@ -85,22 +85,17 @@ footer>a {
   opacity: 75%;
 }
 
-#hivemind {
-  background-color: transparent;
-  border: 0;
-}
-
 #hivemind>img {
   width: 180px;
 }
 
-#timelean {
+.branding {
   background-color: transparent;
   border: 0;
 }
 
-#timelean img {
-  width: 130px;
+.branding img, img {
+  width: 150px;
   height: auto;
 }
 

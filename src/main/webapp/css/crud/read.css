@@ -1,3 +1,55 @@
+section {
+  padding-top: var(--crud-spacing) !important;
+}
+
 section>* {
     margin-top: 18px;
+}
+
+#filter-bar {
+  display: flex;
+  text-align: initial;
+  border-bottom: var(--border-traced-grey);
+}
+
+#filter-bar * {
+  background-color: var(--polar);
+  border: 0;
+  padding: 6px 0;
+  color: var(--black);
+}
+
+#filter-bar select {
+  border: 0;
+  appearance: none; /* Remove estilos nativos*/
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+#filter-bar>:first-child {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#filter-bar>:first-child>select {
+  width: 87%;
+  margin-left: 3%;
+}
+
+#filter-bar>:first-child>button {
+  width: 10%;
+  cursor: pointer;
+}
+
+#filter-bar>:last-child {
+  width: 20%;
+  margin: 0 auto;
+}
+
+#filter-bar>:last-child>button {
+  width: 50%;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
 }
