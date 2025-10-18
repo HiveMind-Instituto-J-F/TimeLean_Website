@@ -49,36 +49,51 @@ import java.util.List;
 @WebServlet("/company/read")
 public class Read extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<Company> companies;
-        String status = request.getParameter("status");
-
-        String filter = "active-companies"; // Default filter
-        if (status != null) {
-            if (status.equalsIgnoreCase("active-companies")) {
-                filter = "active-companies";
-            } else if (status.equalsIgnoreCase("inactive-companies")) {
-                filter = "inactive-companies";
-            } else if (status.equalsIgnoreCase("companies-with-pending-payments")){
-                filter = "companies-with-pending-payments";
-            } else if (status.equalsIgnoreCase("all-companies")){
-                filter = "all-companies";
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        try{
+            List<Company> companies;
+            String status = req.getParameter("status");
+            if(status.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'status'");}
+            
+            
+            String filter = "active-companies"; // Default filter
+            if (status != null) {
+                if (status.equalsIgnoreCase("active-companies")) {
+                    filter = "active-companies";
+                } else if (status.equalsIgnoreCase("inactive-companies")) {
+                    filter = "inactive-companies";
+                } else if (status.equalsIgnoreCase("companies-with-pending-payments")){
+                    filter = "companies-with-pending-payments";
+                } else if (status.equalsIgnoreCase("all-companies")){
+                    filter = "all-companies";
+                }
+                else {
+                    System.err.println("[WARN] Invalid filter.");
+                    req.setAttribute("errorMessage", "Invalid filter.");
+                    req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                    return;
+                }
             }
-            else {
-                System.err.println("[COMPANY-DELETE] Invalid filter.");
-                request.setAttribute("errorMessage", "Invalid filter.");
-                request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
-                return;
-            }
+            
+            companies = CompanyDAO.selectFilter(filter);
+            
+            req.setAttribute("companies", companies);
+            req.getRequestDispatcher("/html/crud/company/read.jsp").forward(req, resp);
+        }catch(IllegalArgumentException ia){
+            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
+            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
+            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
         }
-
-        companies = CompanyDAO.selectFilter(filter);
-
-        request.setAttribute("companies", companies);
-        request.getRequestDispatcher("/html/crud/company/read.jsp").forward(request, response);
+        catch(ServletException se){
+            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
+            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+        }
+        }
     }
-}
-
+    
 /*
 * BUSINESS RULES (DO NOT DELETE):
 * If the company is set as deactivated, it will be treated the same as a deleted company; this means, it cannot make any operation.

@@ -12,32 +12,34 @@ import java.io.IOException;
 
 @WebServlet("/company/delete/rollback")
 public class DeleteRollback extends HttpServlet {
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // get attributes
-        String cnpj = request.getParameter("cnpj");
-
-        if (cnpj == null){
-            System.err.println("[COMPANY-DELETE] Unknown error.");
-            request.setAttribute("errorMessage", "Unable to delete (Unknown)");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
-        }
-
-
-        Company company = new Company(cnpj);
-        try {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try{
+            // get attributes
+            String cnpj = req.getParameter("cnpj");
+            if(cnpj.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");}
+            
+            
+            Company company = new Company(cnpj);
             if (CompanyDAO.switchActive(company, true)){
                 System.out.println("[COMPANY-DELETE] Deleted Company.");
-                response.sendRedirect(request.getContextPath() + "/company/read");
+                resp.sendRedirect(req.getContextPath() + "/company/read");
                 return;
             }
-
+            
             System.err.println("[COMPANY-DELETE] Unknown error.");
-            request.setAttribute("errorMessage", "Unable to delete (Unknown)");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
-        } catch (NullPointerException npe){
-            System.err.println("[COMPANY-DELETE] NullPointerException exception.");
-            request.setAttribute("errorMessage", "Unable to delete: NullPointerException");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
+            req.setAttribute("errorMessage", "Unable to delete (Unknown)");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+        }catch(IllegalArgumentException ia){
+            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
+            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
+            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
+        }
+        catch(ServletException se){
+            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
+            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
     }
 }

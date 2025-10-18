@@ -90,8 +90,9 @@ public class Delete extends HttpServlet {
             }
             
             Plan planLocal = new Plan(id,name);
+            planLocal.setActive(false);
             
-            if(PlanDAO.setActiveFalse(planLocal)){
+            if(PlanDAO.setActive(planLocal)){
                 planLocal.setActive(false);
                 System.out.println("[INF] Plan Desativado Com susseso!");
                 req.setAttribute("msg", "Plano: " + planLocal.getName() + " Foi Removido Com Susseso!");
