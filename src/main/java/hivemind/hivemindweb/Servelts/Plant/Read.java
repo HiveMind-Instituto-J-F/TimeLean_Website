@@ -2,6 +2,7 @@ package hivemind.hivemindweb.Servelts.Plant;
 
 
 import hivemind.hivemindweb.DAO.PlantDAO;
+import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.Plant;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,16 +13,48 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/company-cnpj")
+@WebServlet("/plant/read")
 public class Read extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get parameter
-        String cnpj = request.getParameter("company-cnpj");
+        String chosenFilter = request.getParameter("filter");
+        String filterCompanyName = request.getParameter("filterCompanyName");
+        FilterType filterType = FilterType.INPUT_OPTION;
 
-        // List of plants that belongs to the company
-        List<Plant> plantList = PlantDAO.select(cnpj);
-        request.setAttribute("cnpj_company", cnpj);
+        try{
+            if (filterCompanyName.isEmpty()) filterCompanyName = null;
+        } catch (NullPointerException npe){
+            filterCompanyName = null;
+        }
+
+
+        String filter = "active-plants";
+        if (filterCompanyName == null && chosenFilter != null){
+            if ("active-plants".equalsIgnoreCase(chosenFilter)){
+                filter = chosenFilter;
+            } else if ("inactive-plants".equalsIgnoreCase(chosenFilter)) {
+                filter = chosenFilter;
+            } else if (chosenFilter.equals("all-plants")) {
+                filter = chosenFilter;
+            } else {
+                System.err.println("[PLANT-READ] Invalid filter.");
+                request.setAttribute("errorMessage", "Invalid filter.");
+                request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
+                return;
+            }
+        } else if (filterCompanyName != null){
+            filterType = FilterType.INPUT_TEXT;
+            filter = filterCompanyName;
+        }
+
+        // List of plants
+        List<Plant> plantList = PlantDAO.selectFilter(filter, filterType);
         request.setAttribute("plantList", plantList);
-        request.getRequestDispatcher("html/crud/plant/read.jsp").forward(request, response);
+        request.getRequestDispatcher("/html/crud/plant/read.jsp").forward(request, response);
     }
 }
+/*
+ * BUSINESS RULES (DO NOT DELETE)
+ * In order to rollback, the system must verify if company is active.
+ * Workers must not be deactivated/deleted after a plant deactivation/deletion.
+ */
