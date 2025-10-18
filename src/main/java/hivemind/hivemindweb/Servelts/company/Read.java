@@ -18,8 +18,15 @@ public class Read extends HttpServlet {
         try{
             List<Company> companies;
             String status = req.getParameter("status");
-            if(status.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'status'");}
-            
+
+            // Validate initial status
+            try{
+                if(status.isEmpty()) status = null;
+            } catch (NullPointerException npe){
+                status = null;
+            }
+
+
             
             String filter = "active-companies"; // Default filter
             if (status != null) {
