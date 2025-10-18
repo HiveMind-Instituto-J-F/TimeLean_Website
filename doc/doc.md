@@ -49,50 +49,170 @@
 
 # Estrutura do Projeto Hivemind_Website
 
+**(Last Update 18/10/2025)**
 ```bash
-C:.
+D:.
 ├───.idea
+│   └───artifacts
 ├───.mvn
 │   └───wrapper
+├───.vscode
 ├───doc
+├───Drivers
 ├───src
-│   └───main
-│       ├───java
-│       │   └───hivemind
-│       │       └───hivemindweb
-│       │           ├───AuthService
-│       │           ├───Connection
-│       │           ├───DAO
-│       │           ├───Exception
-│       │           ├───Servelts
-│       │           ├───Services
-│       │           ├───config
-│       │           └───models
-│       ├───resources
-│       │   └───META-INF
-│       └───webapp
-│           └───WEB-INF
+│   ├───main
+│   │   ├───java
+│   │   │   ├───hivemind
+│   │   │   │   └───hivemindweb
+│   │   │   │       ├───AuthService
+│   │   │   │       ├───config
+│   │   │   │       ├───Connection
+│   │   │   │       ├───DAO
+│   │   │   │       ├───Exception
+│   │   │   │       ├───models
+│   │   │   │       ├───Servelts
+│   │   │   │       │   ├───Company
+│   │   │   │       │   │   └───update
+│   │   │   │       │   ├───Login
+│   │   │   │       │   ├───Payment
+│   │   │   │       │   ├───Plan
+│   │   │   │       │   ├───PlanSubscription
+│   │   │   │       │   ├───Plant
+│   │   │   │       │   └───Worker
+│   │   │   │       │       ├───login
+│   │   │   │       │       └───Update
+│   │   │   │       └───Services
+│   │   │   │           └───Enums
+│   │   │   └───test
+│   │   ├───resources
+│   │   │   └───META-INF
+│   │   └───webapp
+│   │       ├───css
+│   │       │   ├───crud
+│   │       │   ├───land
+│   │       │   └───others
+│   │       ├───html
+│   │       │   ├───crud
+│   │       │   │   ├───company
+│   │       │   │   │   └───error
+│   │       │   │   ├───plant
+│   │       │   │   └───worker
+│   │       │   │       └───login
+│   │       │   └───error
+│   │       ├───img
+│   │       │   ├───assets
+│   │       │   │   ├───fotos
+│   │       │   │   ├───ods
+│   │       │   │   └───pictures
+│   │       │   ├───background
+│   │       │   ├───favicon
+│   │       │   ├───fotos
+│   │       │   ├───icons
+│   │       │   │   ├───branding
+│   │       │   │   ├───demo
+│   │       │   │   ├───favicon
+│   │       │   │   ├───social
+│   │       │   │   └───ui
+│   │       │   └───ods
+│   │       ├───js
+│   │       └───WEB-INF
+│   └───test
+│       └───java
 └───target
     ├───classes
     │   ├───hivemind
     │   │   └───hivemindweb
-    │   │       └───Servelets
-│   └───META-INF
+    │   │       ├───AuthService
+    │   │       ├───config
+    │   │       ├───Connection
+    │   │       ├───DAO
+    │   │       ├───Exception
+    │   │       ├───models
+    │   │       ├───Servelts
+    │   │       │   ├───Company
+    │   │       │   │   └───update
+    │   │       │   ├───Login
+    │   │       │   ├───Payment
+    │   │       │   ├───Plan
+    │   │       │   ├───PlanSubscription
+    │   │       │   ├───Plant
+    │   │       │   └───Worker
+    │   │       │       ├───login
+    │   │       │       └───Update
+    │   │       └───Services
+    │   │           └───Enums
+    │   ├───META-INF
+    │   └───test
     ├───generated-sources
     │   └───annotations
-    └───HivemindWeb-1.0-SNAPSHOT
-        ├───META-INF
-        └───WEB-INF
-            └───classes
-                ├───hivemind
-                │   └───hivemindweb
-                │       └───Servelets
-                └───META-INF
+    ├───HivemindWeb-1.0-SNAPSHOT
+    │   ├───css
+    │   │   ├───land
+    │   │   └───others
+    │   ├───html
+    │   │   └───crud
+    │   │       └───worker
+    │   │           └───login
+    │   ├───img
+    │   │   ├───assets
+    │   │   │   ├───fotos
+    │   │   │   ├───ods
+    │   │   │   └───pictures
+    │   │   ├───background
+    │   │   └───icons
+    │   │       ├───branding
+    │   │       ├───demo
+    │   │       ├───favicon
+    │   │       ├───social
+    │   │       └───ui
+    │   ├───js
+    │   ├───META-INF
+    │   └───WEB-INF
+    │       ├───classes
+    │       │   ├───hivemind
+    │       │   │   └───hivemindweb
+    │       │   │       ├───AuthService
+    │       │   │       ├───config
+    │       │   │       ├───Connection
+    │       │   │       ├───DAO
+    │       │   │       ├───Exception
+    │       │   │       ├───models
+    │       │   │       ├───Servelts
+    │       │   │       │   ├───Login
+    │       │   │       │   ├───Plan
+    │       │   │       │   ├───PlanSubscription
+    │       │   │       │   ├───Plant
+    │       │   │       │   └───Worker
+    │       │   │       │       ├───login
+    │       │   │       │       └───Update
+    │       │   │       └───Services
+    │       │   ├───META-INF
+    │       │   └───test
+    │       └───lib
+    └───test-classes
 ```
 
 ---
 
 ## Descrição da Estrutura do Jakarta EE
+
+# MVE (Model-View-Entity) - Jakarta EE
+
+O **MVE** é uma forma simples de organizar projetos web, parecida com o **MVC**, mas com foco em entidades de negócio. Ele separa a aplicação em três partes principais:
+
+## 1. Model (Modelo)
+- Representa os dados e a lógica de negócio.
+- Exemplo: classes `Worker`, `Plan`, `Company` que definem regras e atributos.
+
+## 2. View (Visão)
+- Tudo que o usuário vê e interage, geralmente HTML, CSS e JS.
+- Exemplo: páginas em `webapp/html` ou arquivos de front-end.
+
+## 3. Entity (Entidade)
+- Representa objetos do banco de dados e seu mapeamento.
+- Exemplo: classes que mapeiam tabelas via JPA ou DAO (`models` e `DAO`).
+
+---
 
 ### 2. `.mvn/wrapper`
 
@@ -130,6 +250,8 @@ C:.
 
             *   Ex.: `web.xml` para configurar servlets/filtros.
 
+**OBS: POJOs, ou Plain Old Java Objects, são classes simples em Java que não dependem de nenhum framework ou biblioteca externa**
+
 ### 5. `target`
 
 *   Criada pelo **Maven** durante o build.
@@ -143,18 +265,6 @@ C:.
         *   `.jar` para app Java comum.
 
 ---
-
-## Tecnologias Utilizadas
-
-O projeto é construído sobre um conjunto de tecnologias padrão da indústria para desenvolvimento web com Java:
-
--   **Java Servlets**: Para processar requisições e respostas HTTP, atuando como os controladores da aplicação.
--   **JavaServer Pages (JSP)**: Para criar páginas web dinâmicas, atuando como as views.
--   **JDBC (Java Database Connectivity)**: Para conectar e interagir com o banco de dados PostgreSQL.
--   **Maven**: Para gerenciamento de dependências e automação do build.
--   **Dotenv**: Para gerenciamento de variáveis de ambiente, mantendo as configurações sensíveis fora do código-fonte.
--   **HTML, CSS, JavaScript**: Para a estrutura, estilo e interatividade do front-end.
-
 ### Componentes Chave
 
 #### `EnvLoader.java`
@@ -181,20 +291,11 @@ Os Servlets (como `HomeServelet`, `LoginServlet`, etc.) atuam como os controlado
 
 As classes no pacote `models` (como `Admin.java`, `Company.java`, etc.) são Plain Old Java Objects (POJOs). Elas representam as entidades do sistema e encapsulam os dados com seus respectivos getters e setters. Essas classes são utilizadas para transportar dados entre as camadas da aplicação (dos DAOs para os Servlets e dos Servlets para os JSPs).
 
-### Fluxo de uma Requisição
-
-1.  O usuário acessa uma URL no navegador.
-2.  O Tomcat recebe a requisição e, com base na URL, a encaminha para o Servlet correspondente.
-3.  O Servlet processa a requisição, podendo ler parâmetros, interagir com os DAOs para buscar ou salvar dados no banco de dados.
-4.  O Servlet adiciona os dados necessários como atributos da requisição.
-5.  O Servlet encaminha a requisição para um arquivo JSP.
-6.  O JSP renderiza a página HTML, utilizando os dados passados pelo Servlet para exibir informações dinâmicas.
-7.  A página HTML renderizada é enviada de volta para o navegador do usuário.
-
 ### Configuração e Build
 
 O projeto utiliza o Maven para gerenciar as dependências e o processo de build. O arquivo `pom.xml` define as dependências do projeto (como o driver JDBC do PostgreSQL, a biblioteca de Servlets, etc.) e os plugins necessários para compilar e empacotar a aplicação em um arquivo WAR (Web Application Archive). Este arquivo WAR pode então ser implantado em um servidor Tomcat.
 
+**OBS: Driver Do Postgree Se encotra no diretorio `Drivers` e tem que ser linkado no habiente de desenvolvimento**
 ---
 
 ## Arquivos de Frontend (HTML, CSS, JavaScript)
@@ -204,29 +305,6 @@ O diretório `src/main/webapp` contém todos os recursos estáticos e dinâmicos
 ### `html/` e Páginas JSP
 
 Este diretório contém os arquivos `.html` e `.jsp` que compõem a interface do usuário. As páginas `.jsp` (JavaServer Pages) são arquivos HTML com a capacidade de incorporar código Java, permitindo a criação de conteúdo dinâmico. Elas funcionam como a camada de *View* no padrão MVC, recebendo dados dos Servlets e renderizando a página final para o navegador do cliente.
-
-Exemplos de arquivos:
-
--   `index.html`: Página inicial estática ou de redirecionamento.
--   `html/crud/company/create.jsp`: Formulário para criação de empresas, com lógica de apresentação dinâmica.
--   `html/login.jsp`: Página de login da aplicação.
-
-### `css/`
-
-Contém todos os arquivos de estilo CSS, organizados em subdiretórios para melhor modularização e manutenção.
-
--   `css/style.css`: Estilos globais da aplicação.
--   `css/header.css`: Estilos específicos para o cabeçalho.
--   `css/land/`: Estilos para as páginas de aterrissagem (landing pages), como `hero.css`, `features.css`, etc.
--   `css/crud/`: Estilos para as operações CRUD (Create, Read, Update, Delete), como `base.css`, `create.css`, `read.css`, `table.css`.
-
-### `js/`
-
-Contém os arquivos JavaScript que adicionam interatividade e lógica de cliente à aplicação.
-
--   `js/header.js`: Scripts para o comportamento do cabeçalho, como menus responsivos.
--   `js/textFadeIn.js`: Scripts para efeitos visuais, como o fade-in de texto.
-
 ---
 
 ## Estrutura De Classes
@@ -256,8 +334,6 @@ O toString deve seguir o seguinte modelo
                 "=======================";
     }
 ```
-
-
 
 # Padrão de Código
 
@@ -324,25 +400,9 @@ Na prática, ela oferece flexibilidade para armazenar e percorrer dados de forma
 [optional body]
 [optional footer(s)]
 ```
-
 ---
 
-## 1️⃣ Tipos de Commits
-
-| Tipo         | Quando usar                                                        |
-| ------------ | ------------------------------------------------------------------ |
-| **feat**     | Adiciona nova funcionalidade ou recurso                            |
-| **fix**      | Corrige bug                                                        |
-| **docs**     | Alterações na documentação                                         |
-| **style**    | Formatação, espaços, ponto e vírgula, sem alteração de lógica      |
-| **refactor** | Refatoração de código sem alterar comportamento                    |
-| **perf**     | Alteração que melhora performance                                  |
-| **test**     | Adição ou correção de testes                                       |
-| **chore**    | Tarefas de manutenção (build, scripts, configuração, dependências) |
-
----
-
-## 2️⃣ Regras de Boas Práticas
+## Regras de Boas Práticas
 
 1.  **Mensagem curta e clara**
 
@@ -372,7 +432,7 @@ Na prática, ela oferece flexibilidade para armazenar e percorrer dados de forma
 
 ---
 
-## 3️⃣ Exemplos de Commits
+## 3Exemplos de Commits
 
 ```text
 feat(PlantasDAO): add insert method using Planta object
@@ -395,12 +455,6 @@ style(PlantasDAO): format code and fix indentation
 ```
 
 ---
-
-## Dicas Extras
-
-*   Sempre revise o commit antes de enviar: `git diff --staged`.
-*   Evite commits automáticos sem descrição.
-*   Se necessário, use **footer** para fechar issues ou adicionar notas:
 
 ```text
 fix(PlantasDAO): handle null values in update method
@@ -467,12 +521,24 @@ public class TDDEnv {
 }
 ```
 
+
+
 **Benefícios de um Ambiente de Teste Dedicado:**
 
 *   **Isolamento**: Garante que os testes não interfiram nos dados ou configurações do ambiente de desenvolvimento/produção.
 *   **Reprodutibilidade**: Permite que os testes sejam executados múltiplas vezes com os mesmos resultados esperados.
 *   **Automação**: Facilita a integração contínua e a execução automática de testes.
 *   **Segurança**: Evita que erros em testes causem problemas no sistema principal.
+
+## Logs
+
+No projeto, os logs seguem o seguinte padrão de mensagens:
+
+| Nível de Log | Descrição |
+|--------------|-----------|
+| `[ERROR]`    | Erros graves que impactam diretamente o usuário ou o sistema, como `NullPointerException` ou falhas de execução. |
+| `[WARN]`     | Avisos importantes, indicando possíveis problemas, como dados ausentes ou falhas ao acessar informações no banco de dados. |
+| `[INFO]`     | Informações gerais ou mensagens de depuração (*debug*), úteis para acompanhar o fluxo do sistema sem indicar problemas. |
 
 # DB
 
@@ -521,7 +587,7 @@ Para padronizar DAOs e reduzir duplicação, é possível criar um **DAO genéri
 ```java
 public class GenericDAO<T> {
 
-    public static <T> List<T> select(String sql, ResultSetMapper<T> mapper) {
+    public static <T> List<T> select(String sql) {
         List<T> result = new ArrayList<>();
         DBConnection db = new DBConnection();
 
@@ -538,11 +604,6 @@ public class GenericDAO<T> {
         }
 
         return result;
-    }
-
-    @FunctionalInterface
-    public interface ResultSetMapper<T> {
-        T map(ResultSet rs) throws SQLException;
     }
 }
 ```
@@ -615,10 +676,26 @@ Esta classe é responsável por gerenciar a lógica de autenticação de usuári
 
 ### Fontes e Documentação Oficial
 
--   **Java Servlets**: [https://jakarta.ee/specifications/servlet/](https://jakarta.ee/specifications/servlet/)
--   **JavaServer Pages (JSP)**: [https://jakarta.ee/specifications/pages/](https://jakarta.ee/specifications/pages/)
--   **JDBC (Java Database Connectivity)**: [https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/module-summary.html](https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/module-summary.html)
--   **Maven**: [https://maven.apache.org/guides/](https://maven.apache.org/guides/)
--   **PostgreSQL JDBC Driver**: [https://jdbc.postgresql.org/documentation/](https://jdbc.postgresql.org/documentation/)
--   **java-dotenv**: [https://github.com/cdimascio/java-dotenv](https://github.com/cdimascio/java-dotenv)
-- **Clean Code (Robert C. Martin)**: Referência para boas práticas de código.
+#### Servlets e JSP
+- **Java Servlets**: [https://jakarta.ee/specifications/servlet/](https://jakarta.ee/specifications/servlet/)
+- **JavaServer Pages (JSP)**: [https://jakarta.ee/specifications/pages/](https://jakarta.ee/specifications/pages/)
+- **Jakarta Servlet Tutorial**: [https://jakarta.ee/learn/docs/jakartaee-tutorial/current/web/servlets/servlets.html](https://jakarta.ee/learn/docs/jakartaee-tutorial/current/web/servlets/servlets.html)
+- **ServletContextListener API Documentation**: [https://jakarta.ee/specifications/servlet/4.0/apidocs/javax/servlet/servletcontextlistener](https://jakarta.ee/specifications/servlet/4.0/apidocs/javax/servlet/servletcontextlistener)
+- **ServletContextListener Example (Mkyong)**: [https://mkyong.com/servlet/what-is-listener-servletcontextlistener-example/](https://mkyong.com/servlet/what-is-listener-servletcontextlistener-example/)
+- **Servlet - Context Event and Context Listener (GeeksforGeeks)**: [https://www.geeksforgeeks.org/java/servlet-context-event-and-context-listener/](https://www.geeksforgeeks.org/java/servlet-context-event-and-context-listener/)
+
+#### Banco de Dados e Dependências
+- **JDBC (Java Database Connectivity)**: [https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/module-summary.html](https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/module-summary.html)
+- **PostgreSQL JDBC Driver**: [https://jdbc.postgresql.org/documentation/](https://jdbc.postgresql.org/documentation/)
+- **Maven**: [https://maven.apache.org/guides/](https://maven.apache.org/guides/)
+- **java-dotenv**: [https://github.com/cdimascio/java-dotenv](https://github.com/cdimascio/java-dotenv)
+
+#### Enums
+- **Enum (Java Platform SE 8)**: [https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html](https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html)
+- **Enums (Oracle Java Tutorials)**: [https://docs.oracle.com/javase/8/docs/technotes/guides/language/enums.html](https://docs.oracle.com/javase/8/docs/technotes/guides/language/enums.html)
+- **A Guide to Java Enums (Baeldung)**: [https://www.baeldung.com/a-guide-to-java-enums](https://www.baeldung.com/a-guide-to-java-enums)
+- **Java Enums (W3Schools)**: [https://www.w3schools.com/java/java_enums.asp](https://www.w3schools.com/java/java_enums.asp)
+- **How to make the most of Java enums (Oracle Java Magazine)**: [https://blogs.oracle.com/javamagazine/post/how-to-make-the-most-of-java-enums](https://blogs.oracle.com/javamagazine/post/how-to-make-the-most-of-java-enums)
+
+#### Boas Práticas
+- **Clean Code (Robert C. Martin)**: Referência para boas práticas de código
