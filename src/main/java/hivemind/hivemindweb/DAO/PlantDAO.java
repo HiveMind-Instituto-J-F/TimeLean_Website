@@ -115,14 +115,14 @@ public class PlantDAO {
                     SELECT p.*
                     FROM PLANT p
                     JOIN COMPANY c ON c.cnpj = p.CNPJ_COMPANY
-                    WHERE c.IS_ACTIVE = TRUE AND p.OPERATIONAL_STATUS = TRUE;
+                    WHERE p.OPERATIONAL_STATUS = TRUE;
                     """;
             } else if (filter.equals("inactive-plants")){
                 sql = """
                         SELECT p.*
                         FROM PLANT p
                         JOIN COMPANY c ON c.cnpj = p.CNPJ_COMPANY
-                        WHERE c.IS_ACTIVE = TRUE AND p.OPERATIONAL_STATUS  = FALSE;
+                        WHERE p.OPERATIONAL_STATUS  = FALSE;
                         """;
             } else if (filter.equals("all-plants")){
                 sql = "SELECT * FROM PLANT";

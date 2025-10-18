@@ -2,8 +2,10 @@ package hivemind.hivemindweb.Servelts.Company;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PaymentDAO;
+import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Payment;
+import hivemind.hivemindweb.models.Plant;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,6 +38,13 @@ public class Delete extends HttpServlet {
             }
             
             if (CompanyDAO.switchActive(company, company.isActive())){
+                // Set plants that belongs to the company as inactive
+                List<Plant> plantList = PlantDAO.select(company.getCNPJ());
+                for (Plant p:plantList){
+                    p.setOperationalStatus(false);
+                    PlantDAO.switchOperationalStatus(p);
+                }
+
                 System.out.println("[WARN] Deleted Company.");
                 resp.sendRedirect(req.getContextPath() + "/company/read");
                 return;
@@ -60,6 +69,6 @@ public class Delete extends HttpServlet {
 }
 /*
 * BUSINESS RULES (DO NOT DELETE):
-* If the company is set as deactivated, it will be treated the same as a deleted company; this means, it cannot make any operation.
+* If the company is set as deactivated, it will be treated the same as a deleted company; this means, it cannot make any operation. Also, industrial plants that belongs to it, will be set as inactive.
 * Deleted/deactivated companies may be visible depending on the used filter.
 * */
