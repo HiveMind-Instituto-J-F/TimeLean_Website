@@ -231,7 +231,7 @@ public class PlanDAO {
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO plan (id, name, description, price, duration) " +
                 "VALUES (?,?,?,?,?)";
-
+                
         if(hasId){
             try (Connection conn = db.connected();
                  PreparedStatement pstm = conn.prepareStatement(sql)) {

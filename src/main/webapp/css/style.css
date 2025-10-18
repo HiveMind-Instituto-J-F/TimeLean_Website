@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('variables.css');
 
 * {
@@ -231,3 +232,193 @@ header>.contact {
 .medias>a:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
+=======
+@import url('variables.css');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--black-oil);
+  overflow-x: hidden;
+}
+
+body>* {
+  padding: var(--section-spacing);
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+header>nav, footer>nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 352px;
+  user-select: none;
+}
+
+/*
+  O #wrap é necessário para evitar o conflito entre os transitions
+  ele atua como um container sobreposto ao header, assim evitando
+  o conflito (foi a única solução que achei)
+*/
+
+#wrap {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 5vh;
+  width: max(450px, 100%);
+  max-width: fit-content;
+}
+
+footer {
+  color: var(--polar) !important;
+  padding: 100px 0;
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+footer>p {
+  font-size: small !important;
+  text-align: center;
+  user-select: none;
+}
+
+footer>:nth-child(n) {
+  margin: 24px auto;
+}
+
+footer>a {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar {
+  width: fit-content;
+}
+
+.navbar>:nth-child(2) {
+  margin: 0 var(--navbar);
+}
+
+.navbar>a {
+  transition: transform 0.25s ease-in-out, opacity 0.4s ease;
+  opacity: 100%;
+}
+
+.navbar>a:hover {
+  transform: translateY(-3.5px);
+  opacity: 75%;
+}
+
+#hivemind>img {
+  width: 180px;
+}
+
+.branding {
+  background-color: transparent;
+  border: 0;
+}
+
+.branding img, img {
+  width: 150px;
+  height: auto;
+}
+
+a, a:visited, a:hover, a:active {
+  text-decoration: none !important;
+}
+
+input {
+  background-color: var(--polar);
+  width: 240px;
+  height: 24px;
+  border: 0;
+  border-bottom: var(--border-traced);
+  padding: 0 10px;
+}
+
+input::placeholder {
+  color: var(--black);
+  opacity: 80%;
+}
+
+.button {
+  background-color: var(--orange) !important;
+  color: var(--white) !important;
+  border-radius: var(--border-small);
+  text-align: center;
+  border: 0;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+/*
+  A classe .contact é apenas um nome de diferenciação dos botões
+  utilizados no crud pra landing, no caso apenas suas medidas
+  de box
+*/
+
+.contact {
+  padding: 12px 48px;
+  font-size: 12px;
+}
+
+.submit {
+  padding: 4px 48px;
+}
+
+#unset {
+  margin: unset;
+}
+
+.icon {
+  display: block;
+  width: var(--icon);
+}
+
+.block {
+  display: flex;
+  border: 6px solid var(--orange);
+  margin: 0 auto;
+  margin-bottom: 20px !important;
+  padding: 8px 0px;
+  width: 200px;
+}
+
+.arrow {
+  width: var(--icon) !important;
+  height: var(--icon) !important;
+}
+
+.toggle {
+  background-color: transparent;
+  border: 0;
+  font-size: larger !important;
+}
+
+.medias {
+  width: 160px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.medias>a {
+  padding: 6px;
+  border-radius: 50%;
+}
+
+.medias>a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+>>>>>>> refs/remotes/origin/dev

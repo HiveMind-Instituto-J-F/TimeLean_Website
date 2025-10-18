@@ -31,22 +31,22 @@ public class Active extends HttpServlet {
                 req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
             }
             else{
-                System.out.println("[WARN] Erro in PlanDAO");
-                System.out.println("[ERROR] Plan Nao foi Ativo devido a um Erro!");
+                System.err.println("[WARN] Erro in PlanDAO");
+                System.err.println("[ERROR] Plan Nao foi Ativo devido a um Erro!");
                 req.setAttribute("Errro", "Plan Nao foi Adicionado devido a um Erro!");
             }
             req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
         }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
+            System.err.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
         }catch(InvalidForeignKeyException ifk){
-            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
+            System.err.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
             // resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
             req.setAttribute("error","[ERROR] Valor Nao Pode Ser encotrado No banco: " +  ifk.getCause());
         }
         catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
+            System.err.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
         }
