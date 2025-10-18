@@ -1,7 +1,6 @@
 package hivemind.hivemindweb.Servelts.Plant;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
-import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Plant;

@@ -1,32 +1,3 @@
-<<<<<<< HEAD
-package hivemind.hivemindweb.Servelts.Plant;
-
-
-import hivemind.hivemindweb.DAO.PlantDAO;
-import hivemind.hivemindweb.models.Plant;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.util.List;
-
-@WebServlet("/company-cnpj")
-public class Read extends HttpServlet {
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get parameter
-        String cnpj = request.getParameter("company-cnpj");
-
-        // List of plants that belongs to the company
-        List<Plant> plantList = PlantDAO.select(cnpj);
-        request.setAttribute("cnpj_company", cnpj);
-        request.setAttribute("plantList", plantList);
-        request.getRequestDispatcher("html/crud/plant/read.jsp").forward(request, response);
-    }
-}
-=======
 package hivemind.hivemindweb.Servelts.Plant;
 
 
@@ -87,4 +58,3 @@ public class Read extends HttpServlet {
  * In order to rollback, the system must verify if company is active.
  * Workers must not be deactivated/deleted after a plant deactivation/deletion.
  */
->>>>>>> e734a8c3b8b66ef783d4380e71a773d3c00489ee
