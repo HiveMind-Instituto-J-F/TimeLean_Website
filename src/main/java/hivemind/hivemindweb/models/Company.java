@@ -16,6 +16,7 @@ public class Company {
         this.registrantCpf = registrantCpf;
         this.isActive = isActive;
     }
+
     public Company(String cnpj){
         this.cnpj = cnpj;
     }
@@ -28,6 +29,13 @@ public class Company {
     public Company(String cnpj, boolean isActive){
         this.cnpj = cnpj;
         this.isActive = isActive;
+    }
+
+    public Company(String cnpj, String name, String cnae, String registrantCpf){
+        this.cnpj = cnpj;
+        this.name = name;
+        this.cnae = cnae;
+        this.registrantCpf = registrantCpf;
     }
 
     public Company(){
