@@ -22,7 +22,11 @@
   - [Estrutura da Classe Tool (Exemplo)](#estrutura-da-classe-tool-exemplo)
   - [Uso da Classe List](#uso-da-classe-list)
 - [Exceções e Logs](#exceções-e-logs)
+  - [Exceções Customizadas](#exceções-customizadas)
 - [Testes](#testes)
+  - [TDDEnv.java](#tddenvjava)
+- [Serviços de Autenticação (AuthService)](#serviços-de-autenticação-authservice)
+- [Enums (FilterType)](#enums-filtertype)
 - [Boas Práticas de Commits](#boas-práticas-de-commits)
 - [DB](#db)
   - [Classes DAO](#classes-dao)
@@ -56,9 +60,14 @@ C:.
 │       ├───java
 │       │   └───hivemind
 │       │       └───hivemindweb
-│       │           ├───modules
-│       │           ├───Servelets
-│       │           └───Tool
+│       │           ├───AuthService
+│       │           ├───Connection
+│       │           ├───DAO
+│       │           ├───Exception
+│       │           ├───Servelts
+│       │           ├───Services
+│       │           ├───config
+│       │           └───models
 │       ├───resources
 │       │   └───META-INF
 │       └───webapp
@@ -102,13 +111,14 @@ C:.
 
     *   **java** → código Java.
 
-        *   `hivemind/hivemindweb/Connection/`: Classes relacionadas à conexão com o banco de dados (`DBConnection.java`).
-        *   `hivemind/hivemindweb/DAO/`: Data Access Objects, responsáveis pela interação com o banco de dados para cada entidade (e.g., `AdminDAO.java`, `CompanyDAO.java`).
-        *   `hivemind/hivemindweb/Exception/`: Classes de exceção personalizadas para a aplicação (e.g., `InvalidForeignKeyException.java`).
-        *   `hivemind/hivemindweb/Servelts/`: Servlets que atuam como controladores, processando requisições HTTP e interagindo com os DAOs e modelos. Organizados por funcionalidade (e.g., `Login/`, `Plan/`, `Worker/`).
-        *   `hivemind/hivemindweb/Services/`: Classes de serviço que podem conter lógica de negócio ou utilitários, como `AppListener.java` e `Enums/`.
-        *   `hivemind/hivemindweb/config/`: Classes de configuração, como `EnvLoader.java` para carregar variáveis de ambiente.
-        *   `hivemind/hivemindweb/models/`: Classes de modelo (POJOs) que representam as entidades do banco de dados (e.g., `Admin.java`, `Company.java`).
+        *   `AuthService/`: Serviço de autenticação (`AuthService.java`).
+        *   `Connection/`: Classes relacionadas à conexão com o banco de dados (`DBConnection.java`).
+        *   `DAO/`: Data Access Objects, responsáveis pela interação com o banco de dados para cada entidade.
+        *   `Exception/`: Classes de exceção personalizadas para a aplicação.
+        *   `Servelts/`: Servlets que atuam como controladores, processando requisições HTTP e interagindo com os DAOs e modelos.
+        *   `Services/`: Classes de serviço que podem conter lógica de negócio ou utilitários, como `AppListener.java` e `Enums/`.
+        *   `config/`: Classes de configuração, como `EnvLoader.java` para carregar variáveis de ambiente.
+        *   `models/`: Classes de modelo (POJOs) que representam as entidades do banco de dados.
 
     *   **resources** → arquivos que não são código Java, mas são usados pelo app.
 
@@ -184,6 +194,38 @@ As classes no pacote `models` (como `Admin.java`, `Company.java`, etc.) são Pla
 ### Configuração e Build
 
 O projeto utiliza o Maven para gerenciar as dependências e o processo de build. O arquivo `pom.xml` define as dependências do projeto (como o driver JDBC do PostgreSQL, a biblioteca de Servlets, etc.) e os plugins necessários para compilar e empacotar a aplicação em um arquivo WAR (Web Application Archive). Este arquivo WAR pode então ser implantado em um servidor Tomcat.
+
+---
+
+## Arquivos de Frontend (HTML, CSS, JavaScript)
+
+O diretório `src/main/webapp` contém todos os recursos estáticos e dinâmicos do frontend da aplicação.
+
+### `html/` e Páginas JSP
+
+Este diretório contém os arquivos `.html` e `.jsp` que compõem a interface do usuário. As páginas `.jsp` (JavaServer Pages) são arquivos HTML com a capacidade de incorporar código Java, permitindo a criação de conteúdo dinâmico. Elas funcionam como a camada de *View* no padrão MVC, recebendo dados dos Servlets e renderizando a página final para o navegador do cliente.
+
+Exemplos de arquivos:
+
+-   `index.html`: Página inicial estática ou de redirecionamento.
+-   `html/crud/company/create.jsp`: Formulário para criação de empresas, com lógica de apresentação dinâmica.
+-   `html/login.jsp`: Página de login da aplicação.
+
+### `css/`
+
+Contém todos os arquivos de estilo CSS, organizados em subdiretórios para melhor modularização e manutenção.
+
+-   `css/style.css`: Estilos globais da aplicação.
+-   `css/header.css`: Estilos específicos para o cabeçalho.
+-   `css/land/`: Estilos para as páginas de aterrissagem (landing pages), como `hero.css`, `features.css`, etc.
+-   `css/crud/`: Estilos para as operações CRUD (Create, Read, Update, Delete), como `base.css`, `create.css`, `read.css`, `table.css`.
+
+### `js/`
+
+Contém os arquivos JavaScript que adicionam interatividade e lógica de cliente à aplicação.
+
+-   `js/header.js`: Scripts para o comportamento do cabeçalho, como menus responsivos.
+-   `js/textFadeIn.js`: Scripts para efeitos visuais, como o fade-in de texto.
 
 ---
 
@@ -366,6 +408,72 @@ fix(PlantasDAO): handle null values in update method
 Closes #42
 ```
 
+## Exceções e Logs
+
+### Exceções Customizadas
+
+O projeto define algumas exceções customizadas para lidar com cenários específicos da aplicação de forma mais granular e semântica. Essas exceções estendem `java.lang.Exception` ou `java.lang.RuntimeException` e são utilizadas para sinalizar condições de erro que a aplicação pode tratar ou que indicam falhas específicas.
+
+#### `SessionExpiredException.java`
+
+Esta exceção é lançada quando uma sessão de usuário expira ou é considerada inválida. Ela é crucial para a segurança da aplicação, garantindo que usuários não autorizados ou sessões inativas não possam continuar acessando recursos protegidos. A captura e tratamento desta exceção geralmente redireciona o usuário para a página de login.
+
+```java
+package hivemind.hivemindweb.Exception;
+
+public class SessionExpiredException extends Exception {
+    public SessionExpiredException(String message) {
+        super(message);
+    }
+}
+```
+
+#### `InvalidForeignKeyException.java`
+
+Esta exceção é utilizada para indicar que uma operação no banco de dados falhou devido a uma violação de chave estrangeira. Isso ocorre quando há uma tentativa de inserir ou atualizar dados que fazem referência a um registro inexistente em outra tabela, ou de excluir um registro que ainda é referenciado por outros. Ajuda a manter a integridade referencial do banco de dados.
+
+#### `InvalidPrimaryKeyException.java`
+
+Lançada quando uma operação no banco de dados tenta violar a restrição de chave primária, como a inserção de um registro com um ID já existente. Esta exceção garante a unicidade dos registros identificados por suas chaves primárias.
+
+## Testes
+
+No projeto, a abordagem de testes é fundamental para garantir a qualidade e a funcionalidade do código. Embora a documentação detalhada sobre testes ainda esteja em desenvolvimento, a presença de uma classe específica para ambiente de testes demonstra a preocupação com a validação do sistema.
+
+### `TDDEnv.java`
+
+Esta classe, localizada no pacote `test`, é dedicada a configurar um ambiente isolado para a execução de testes. A sigla TDD (Test-Driven Development) sugere que o desenvolvimento é guiado por testes, onde os testes são escritos antes do código de produção. O objetivo de `TDDEnv.java` é prover as condições necessárias para que os testes possam ser executados de forma independente e segura, sem afetar o ambiente de produção ou depender de configurações externas que não estejam sob controle do teste.
+
+```java
+// Exemplo simplificado de TDDEnv.java
+package test;
+
+import hivemind.hivemindweb.config.EnvLoader;
+import jakarta.servlet.ServletContext;
+
+public class TDDEnv {
+
+    public static void setupTestEnvironment(ServletContext servletContext) {
+        // Inicializa o EnvLoader para carregar variáveis de ambiente de teste
+        EnvLoader.init(servletContext);
+        // Outras configurações específicas para o ambiente de teste
+        System.out.println("[INFO] Ambiente de teste configurado.");
+    }
+
+    public static void teardownTestEnvironment() {
+        // Limpeza do ambiente após os testes
+        System.out.println("[INFO] Ambiente de teste desconfigurado.");
+    }
+}
+```
+
+**Benefícios de um Ambiente de Teste Dedicado:**
+
+*   **Isolamento**: Garante que os testes não interfiram nos dados ou configurações do ambiente de desenvolvimento/produção.
+*   **Reprodutibilidade**: Permite que os testes sejam executados múltiplas vezes com os mesmos resultados esperados.
+*   **Automação**: Facilita a integração contínua e a execução automática de testes.
+*   **Segurança**: Evita que erros em testes causem problemas no sistema principal.
+
 # DB
 
 A O GRUD esta sendo feito com **JDBC** e segue os seguintes padrões de código
@@ -481,6 +589,29 @@ try (Connection conn = db.connected();
 *   **Código mais limpo e legível** → menos linhas de código e menos try/catch/finally aninhados.
 *   **Segurança** → evita erros por esquecimento de fechar conexões ou statements.
 *   **Facilita manutenção e testes** → garante que cada conexão seja encerrada corretamente, mesmo em caso de exceções.
+
+#### `AuthService.java`
+
+#### Enums
+
+##### `FilterType.java`
+
+Este `enum` define os tipos de filtros que podem ser aplicados em alguma funcionalidade da aplicação, como na filtragem de dados ou na validação de inputs. Atualmente, ele define dois tipos:
+
+-   `INPUT_TEXT`: Representa um filtro aplicado a campos de texto.
+-   `INPUT_OPTION`: Representa um filtro aplicado a opções de seleção (dropdowns, radio buttons, etc.).
+
+```java
+package hivemind.hivemindweb.Services.Enums;
+
+public enum FilterType {
+    INPUT_TEXT, INPUT_OPTION
+}
+```
+
+
+
+Esta classe é responsável por gerenciar a lógica de autenticação de usuários, especificamente para administradores. Ela utiliza a biblioteca `jBCrypt` para realizar a hash de senhas e a verificação de credenciais de forma segura. O método `login()` compara a senha fornecida pelo usuário com a senha armazenada (hashed) no banco de dados, enquanto o método `hash()` gera uma nova hash para uma senha.
 
 ### Fontes e Documentação Oficial
 
