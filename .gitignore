@@ -51,3 +51,6 @@ env
 WEB-INF/.env
 *.env
 .env.*
+
+# Tomcat Vscode
+.LCKDelete.java~

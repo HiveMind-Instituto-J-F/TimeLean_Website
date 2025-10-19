@@ -1,5 +1,7 @@
 package hivemind.hivemindweb.Servelts.Company;
 
+import java.io.IOException;
+
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.models.Company;
 import jakarta.servlet.ServletException;
@@ -7,8 +9,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
 
 @WebServlet("/company/delete/rollback")
 public class DeleteRollback extends HttpServlet {
@@ -26,9 +26,9 @@ public class DeleteRollback extends HttpServlet {
                 return;
             }
             
-            System.err.println("[COMPANY-DELETE] Unknown error.");
+            System.err.println("[WARN] Unknown error.");
             req.setAttribute("errorMessage", "Unable to delete (Unknown)");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }catch(IllegalArgumentException ia){
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
