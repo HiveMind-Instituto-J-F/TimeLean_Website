@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.Plan;
+package hivemind.hivemindweb.Servelts.Plan.update;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class Update extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
         try{
+            //Inputs
             String intStr = req.getParameter("id");
             if(intStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id'");}
             int id = Integer.parseInt(intStr);
@@ -33,14 +34,17 @@ public class Update extends HttpServlet {
             String name = req.getParameter("name");
             if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'nameStr'");}
             
+            //Get name In DB
             String nameDB = PlanDAO.getName(name);
 
             if(!(nameDB.equalsIgnoreCase(name))){
                 throw new InvalidForeignKeyException("Name already exists in the database");
             }
 
+            // Get id of DB 
             int idDB = PlanDAO.getID(id);
-
+            
+            //Comapare Frontend id with id of DB
             if(!(id == idDB)){
                 throw new InvalidForeignKeyException("ID already exists in the database");
             }

@@ -37,12 +37,15 @@ public class Create extends HttpServlet {
             if(psStartDateStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'psStartDate'");}
             LocalDate psStartDate = LocalDate.parse(psStartDateStr);
 
+            String numberInstallmentsString = req.getParameter("psubscription-start-date");
+            if(numberInstallmentsString.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'psStartDate'");}
+            int numberInstallments = Integer.parseInt(numberInstallmentsString);
+
             Integer message;
 
             String planIDStr = req.getParameter("plan-description");
             if(planIDStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'planID'");}
             Integer planId = Integer.parseInt(planIDStr);
-            
             
             try{
                 planId = PlanDAO.select(planIDStr).getId();
@@ -56,14 +59,14 @@ public class Create extends HttpServlet {
             // try to make inserts by DAO and set messages
             if (planId != null) {
                 if (CompanyDAO.insert(company)) {
-                    if (PlanSubscriptionDAO.insert(new PlanSubscription(psStartDate, cnpj, planId), false)) {
+                    if (PlanSubscriptionDAO.insert(new PlanSubscription(psStartDate, cnpj, planId, numberInstallments), false)) {
                         message = 1; // success
                     } else {
                         try {
                             CompanyDAO.rollbackCreate(company);  // Rollback
                         } catch (InvalidForeignKeyException ifk) {
                             System.err.println("[ERROR] Invalid FK In Create Company:  " + ifk.getMessage());
-                            req.setAttribute("errorMessage", "[WARN]Unable to delete: " + ifk.getMessage());
+                            req.setAttribute("errorMessage", "[WARN] Unable to delete: " + ifk.getMessage());
                             req.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(req, resp);
                         }
                         message = 2; // subscription insert failed

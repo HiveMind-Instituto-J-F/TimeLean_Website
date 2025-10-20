@@ -26,9 +26,9 @@ public class Delete extends HttpServlet {
 
             pendingPayments = PaymentDAO.selectPendingPayments(cnpj);
 
-            // Handle case where there are pending payments
-            if (pendingPayments != null){
-                throw new IllegalArgumentException("pendingPayments is null");
+            // Handle case where there are pending payments: if list is non-empty, prevent delete
+            if (pendingPayments != null && !pendingPayments.isEmpty()){
+                throw new IllegalArgumentException("Company has pending payments and cannot be deleted");
             }
 
             if (CompanyDAO.switchActive(company, company.isActive())){

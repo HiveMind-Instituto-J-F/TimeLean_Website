@@ -33,8 +33,12 @@ public class Create extends HttpServlet {
             String idPlanStr = req.getParameter("id_plan");
             if(idPlanStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id_plan'");}
             int idpPlan = Integer.parseInt(idPlanStr);
-            
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, idpPlan);
+
+            String numberInstallmentsStr = req.getParameter("number_installments");
+            if(numberInstallmentsStr == null || numberInstallmentsStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'number_installments'");}
+            int numberInstallments = Integer.parseInt(numberInstallmentsStr);
+
+            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, idpPlan, numberInstallments);
             if(PlanSubscriptionDAO.insert(planSubscriptionLocal,false)){
                 System.out.println("[WARN] Insert PlanSubscription Sussefly");
                 req.setAttribute("msg", "PlanSubscription Foi Adicionado Com Susseso!");

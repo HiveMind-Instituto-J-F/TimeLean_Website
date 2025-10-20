@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="hivemind.hivemindweb.models.Company" %>
+<%@ page import="hivemind.hivemindweb.models.Payment" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -35,7 +35,7 @@
 
     <div>
         <h1 class="inter-bold">Olá, Administrador.</h1>
-        <h3 class="inter-medium">Bem vindo ao CRUD.</h3>
+        <h3 class="inter-medium">Bem-vindo ao CRUD.</h3>
     </div>
 </div>
 
@@ -54,77 +54,72 @@
 
     <section>
         <div class="block"></div>
-        <h1 class="inter-bold">Empresas Cadastradas</h1>
+        <h1 class="inter-bold">Pagamentos Cadastrados</h1>
 
         <div id="filter-bar" class="inter">
-            <form action="${pageContext.request.contextPath}/company/read" method="get">
+            <form action="${pageContext.request.contextPath}/payment/read" method="get">
                 <select class="inter" id="status" name="status">
-                    <option value="all-companies">Todas</option>
-                    <option value="active-companies">Apenas empresas ativas</option>
-                    <option value="inactive-companies">Apenas empresas inativas</option>
-                    <option value="companies-with-pending-payments">Apenas empresas com pagamentos pendentes</option>
+                    <option value="all">Todos</option>
+                    <option value="pending">Pendentes</option>
+                    <option value="paid">Pagos</option>
+                    <option value="canceled">Cancelados</option>
                 </select>
                 <button class="inter" type="submit">Filtrar</button>
             </form>
 
-            <a href="${pageContext.request.contextPath}/html/crud/company/create.jsp">
+            <a href="${pageContext.request.contextPath}/html/crud/payment/create.jsp">
                 <button class="inter" type="submit">Cadastrar +</button>
             </a>
-
         </div>
 
         <table>
             <thead class="inter-hard">
             <tr>
-                <th>CNPJ</th>
-                <th>Nome</th>
-                <th>CNAE</th>
-                <th>Registrante</th>
+                <th>ID</th>
+                <th>Valor (R$)</th>
+                <th>Data Limite</th>
+                <th>Método</th>
+                <th>Beneficiário</th>
                 <th>Status</th>
+                <th>ID Plano Sub.</th>
                 <th>Ações</th>
             </tr>
             </thead>
             <tbody class="inter-thin">
             <%
-                List<Company> companies = (List<Company>) request.getAttribute("companies");
-                if (companies != null && !companies.isEmpty()) {
-                    for (Company c : companies) {
-                        boolean active = c.isActive();
+                List<Payment> payments = (List<Payment>) request.getAttribute("payments");
+                if (payments != null && !payments.isEmpty()) {
+                    for (Payment p : payments) {
             %>
-            <tr class="<%= active ? "" : "disable" %>">
-                <td><%= c.getCNPJ() %></td>
-                <td><%= c.getName() %></td>
-                <td><%= c.getCnae() %></td>
-                <td><%= c.getRegistrantCpf() %></td>
-                <td><%= active ? "Ativa" : "Desativada" %></td>
+            <tr>
+                <td><%= p.getId() %></td>
+                <td><%= String.format("%.2f", p.getValue()) %></td>
+                <td><%= p.getDeadline() %></td>
+                <td><%= p.getMethod() %></td>
+                <td><%= p.getBeneficiary() %></td>
+                <td><%= p.getStatus() %></td>
+                <td><%= p.getIdPlan() %></td>
                 <td>
-                    <% if (active) { %>
                     <div class="actions">
-                        <form action="${pageContext.request.contextPath}/company/show" method="get">
-                            <input type="hidden" name="cnpj" value="<%= c.getCNPJ() %>">
+                        <form action="${pageContext.request.contextPath}/payment/show" method="get">
+                            <input type="hidden" name="id" value="<%= p.getId() %>">
                             <button type="submit" class="see">
                                 <img src="${pageContext.request.contextPath}/img/icons/ui/eye.png" alt="Mostrar">
                             </button>
                         </form>
-                        <form class="create" action="${pageContext.request.contextPath}/company/render-update" method="get">
-                            <input type="hidden" name="cnpj" value="<%= c.getCNPJ() %>">
+                        <form class="create" action="${pageContext.request.contextPath}/payment/render-update" method="get">
+                            <input type="hidden" name="id" value="<%= p.getId() %>">
                             <button type="submit">
                                 <img src="${pageContext.request.contextPath}/img/icons/ui/pencil (black).png" alt="Editar">
                             </button>
                         </form>
-                        <form class="delete" action="${pageContext.request.contextPath}/company/delete" method="get">
-                            <input type="hidden" name="cnpj" value="<%= c.getCNPJ() %>">
+                        <form class="delete" action="${pageContext.request.contextPath}/payment/delete" method="get">
+                            <input type="hidden" name="id" value="<%= p.getId() %>">
                             <button type="submit">
                                 <img src="${pageContext.request.contextPath}/img/icons/ui/trash (black).png" alt="Deletar">
                             </button>
                         </form>
                     </div>
-                    <% } else { %>
-                    <form action="${pageContext.request.contextPath}/company/delete/rollback" method="post">
-                        <input type="hidden" name="cnpj" value="<%= c.getCNPJ() %>">
-                        <input type="submit" value="Reativar"/>
-                    </form>
-                    <% } %>
                 </td>
             </tr>
             <%
@@ -132,7 +127,7 @@
             } else {
             %>
             <tr>
-                <td colspan="6">Nenhuma empresa encontrada.</td>
+                <td colspan="8">Nenhum pagamento encontrado.</td>
             </tr>
             <% } %>
             </tbody>

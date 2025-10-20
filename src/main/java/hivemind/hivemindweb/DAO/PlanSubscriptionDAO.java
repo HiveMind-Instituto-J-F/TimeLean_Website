@@ -12,10 +12,10 @@ import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.PlanSubscription;
 
 public class PlanSubscriptionDAO {
-    public static List<PlanSubscription> select(PlanSubscription planSubscription){
+    public static List<PlanSubscription> select(){
         List<PlanSubscription> PlanSubscriptionList = new ArrayList<>();
         DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM PLAN_SUBSCRIPTION ORDER BY id";
+    String sql = "SELECT * FROM PLAN_SUBSCRIPTION ORDER BY id";
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql);
@@ -26,7 +26,8 @@ public class PlanSubscriptionDAO {
                     rs.getInt("id"),
                     rs.getDate("start_date").toLocalDate(),
                     rs.getString("cnpj_company"),
-                    rs.getInt("id_plan")
+                    rs.getInt("id_plan"),
+                    rs.getInt("number_installments")
                 );
                 PlanSubscriptionList.add(planSubscriptionLocal);
             }
@@ -78,7 +79,8 @@ public class PlanSubscriptionDAO {
             UPDATE PLAN_SUBSCRIPTION
             SET start_date = ?,
                 cnpj_company = ?,
-                id_plan = ?
+                id_plan = ?,
+                number_installments = ?
             WHERE id = ?
         """;
 
@@ -87,7 +89,8 @@ public class PlanSubscriptionDAO {
             pstm.setDate(1,Date.valueOf(planSubscription.getStartDate()));
             pstm.setString(2,planSubscription.getCnpjCompany());
             pstm.setInt(3,planSubscription.getIdPlan());
-            pstm.setInt(4, planSubscription.getId());
+            pstm.setInt(4, planSubscription.getNumberInstallments());
+            pstm.setInt(5, planSubscription.getId());
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
@@ -99,8 +102,8 @@ public class PlanSubscriptionDAO {
     public static boolean insert(PlanSubscription planSubscription, Boolean hasId){
         DBConnection db = new DBConnection();
         String sql = """
-            INSERT INTO PLAN_SUBSCRIPTION (id, start_date, cnpj_company, id_plan)
-            VALUES (?,?, ?, ?)
+            INSERT INTO PLAN_SUBSCRIPTION (id, start_date, cnpj_company, id_plan, number_installments)
+            VALUES (?,?, ?, ?, ?)
         """;
 
         if (hasId){
@@ -110,6 +113,7 @@ public class PlanSubscriptionDAO {
                 psmt.setDate(2, Date.valueOf(planSubscription.getStartDate()));
                 psmt.setString(3, planSubscription.getCnpjCompany());
                 psmt.setInt(4, planSubscription.getIdPlan());
+                psmt.setInt(5, planSubscription.getNumberInstallments());
 
                 return psmt.executeUpdate() > 0;
             }catch (SQLException sqle) {
@@ -119,8 +123,8 @@ public class PlanSubscriptionDAO {
         }
 
         sql = """
-            INSERT INTO PLAN_SUBSCRIPTION (start_date, cnpj_company, id_plan)
-            VALUES (?, ?, ?)
+            INSERT INTO PLAN_SUBSCRIPTION (start_date, cnpj_company, id_plan, number_installments)
+            VALUES (?, ?, ?, ?)
         """;
 
         try(Connection conn = db.connected();
@@ -128,11 +132,29 @@ public class PlanSubscriptionDAO {
             psmt.setDate(1, Date.valueOf(planSubscription.getStartDate()));
             psmt.setString(2, planSubscription.getCnpjCompany());
             psmt.setInt(3, planSubscription.getIdPlan());
+            psmt.setInt(4, planSubscription.getNumberInstallments());
 
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
             System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
             return false;
         }
+    }
+
+    public static Integer getNumberInstallments(int planSubscriptionId){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT number_installments FROM PLAN_SUBSCRIPTION WHERE id = ?";
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)){
+            pstm.setInt(1, planSubscriptionId);
+            try (ResultSet rs = pstm.executeQuery()){
+                if (rs.next()){
+                    return rs.getInt("number_installments");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Falied in getNumberInstallments: " + e.getMessage());
+        }
+        return null;
     }
 }

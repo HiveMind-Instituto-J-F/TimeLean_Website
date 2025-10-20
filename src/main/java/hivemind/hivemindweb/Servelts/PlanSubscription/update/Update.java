@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.PlanSubscription;
+package hivemind.hivemindweb.Servelts.PlanSubscription.update;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -34,7 +34,11 @@ public class Update extends HttpServlet {
                 throw new InvalidForeignKeyException("Foreign Key is not valid");
             }
             
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, id_plan);
+            String numberInstallmentsStr = req.getParameter("number_installments");
+            if(numberInstallmentsStr == null || numberInstallmentsStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'number_installments'");}
+            int numberInstallments = Integer.parseInt(numberInstallmentsStr);
+
+            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, id_plan, numberInstallments);
             if(PlanSubscriptionDAO.update(planSubscriptionLocal)){
                 System.out.println("[WARN] Update PlanSubscription Sussefly");
                 req.setAttribute("msg", "PlanSubscription Foi Atalizado Com Susseso!");
