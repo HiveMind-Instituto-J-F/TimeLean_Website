@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Gerenciar Planos</title>
+    <title>Criar Plano</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -32,14 +32,6 @@
             color: #333;
             text-align: center;
             margin-bottom: 10px;
-        }
-
-        h2 {
-            font-size: 18px;
-            color: #444;
-            margin: 25px 0 15px;
-            border-left: 4px solid #4c6ef5;
-            padding-left: 10px;
         }
 
         .info {
@@ -94,23 +86,12 @@
             color: white;
             cursor: pointer;
             transition: 0.2s;
+            background: linear-gradient(135deg, #4c6ef5, #9d7cf5);
         }
 
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Gradientes por tipo */
-        .btn-create { background: linear-gradient(135deg, #4c6ef5, #9d7cf5); }
-        .btn-delete { background: linear-gradient(135deg, #f44336, #ff9800); }
-        .btn-update { background: linear-gradient(135deg, #43a047, #a8e063); }
-        .btn-active { background: linear-gradient(135deg, #2196f3, #21cbf3); }
-
-        hr {
-            border: none;
-            border-top: 1px dashed #ddd;
-            margin: 30px 0;
         }
 
         .message {
@@ -145,15 +126,13 @@
     %>
 
     <div class="container">
-        <h1>📋 Gerenciar Planos</h1>
+        <h1>📋 Criar Plano</h1>
 
         <div class="info">
-            <strong>Nota:</strong> Utilize os formulários abaixo para testar os servlets <code>CreatePlan</code>, <code>Delete</code>, <code>Update</code> e <code>Active</code>.
+            <strong>Nota:</strong> Preencha todos os campos para criar um novo plano no sistema.
         </div>
 
-        <!-- Criar Plano -->
         <form method="POST" action="${pageContext.request.contextPath}/create-plan">
-            <h2>🆕 Criar Plano</h2>
             <div class="form-group">
                 <label for="name">Nome do Plano *</label>
                 <input type="text" id="name" name="name" placeholder="Ex: Plano Premium" required>
@@ -170,59 +149,7 @@
                 <label for="price">Preço *</label>
                 <input type="text" id="price" name="price" placeholder="Ex: 99.99" required>
             </div>
-            <button type="submit" class="btn-create">Criar Plano</button>
-        </form>
-
-        <hr>
-
-        <!-- Deletar Plano -->
-        <form method="POST" action="${pageContext.request.contextPath}/delete-plan">
-            <h2>🗑️ Deletar Plano</h2>
-            <div class="form-group">
-                <label for="deleteId">ID do Plano *</label>
-                <input type="number" id="deleteId" name="id" placeholder="Ex: 1" required>
-            </div>
-            <button type="submit" class="btn-delete">Deletar Plano</button>
-        </form>
-
-        <hr>
-
-        <!-- Atualizar Plano -->
-        <form method="POST" action="${pageContext.request.contextPath}/update-plan">
-            <h2>✏️ Atualizar Plano</h2>
-            <div class="form-group">
-                <label for="updateId">ID *</label>
-                <input type="number" id="updateId" name="id" placeholder="Ex: 1" required>
-            </div>
-            <div class="form-group">
-                <label for="updateName">Nome *</label>
-                <input type="text" id="updateName" name="name" placeholder="Ex: Plano Avançado" required>
-            </div>
-            <div class="form-group">
-                <label for="updateDescription">Descrição *</label>
-                <textarea id="updateDescription" name="description" placeholder="Ex: Agora com novos recursos..." required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="updateDuration">Duração (dias) *</label>
-                <input type="number" id="updateDuration" name="duration" placeholder="Ex: 60" required>
-            </div>
-            <div class="form-group">
-                <label for="updatePrice">Preço *</label>
-                <input type="text" id="updatePrice" name="price" placeholder="Ex: 129.99" required>
-            </div>
-            <button type="submit" class="btn-update">Atualizar Plano</button>
-        </form>
-
-        <hr>
-
-        <!-- Ativar Plano -->
-        <form method="POST" action="${pageContext.request.contextPath}/active-plan">
-            <h2>✅ Ativar Plano</h2>
-            <div class="form-group">
-                <label for="duration">ID do Plano *</label>
-                <input type="number" id="id" name="id" placeholder="Ex: 1" required>
-            </div>
-            <button type="submit" class="btn-active">Ativar Plano</button>
+            <button type="submit">Criar Plano</button>
         </form>
 
         <%

@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.Payment;
+package hivemind.hivemindweb.Servelts.Payment.update;
 
 import java.io.IOException;
 import java.time.LocalDate;

@@ -94,6 +94,22 @@ public class PaymentDAO {
         return false;
     }
 
+    public static boolean delete(int id) {
+        DBConnection db = new DBConnection();
+        String sql = "DELETE FROM payment WHERE id = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setInt(1, id);
+            return pstm.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
+        }
+        return false;
+    }
+
     public static boolean update(Payment payment) {
         DBConnection db = new DBConnection();
         String sql = """
