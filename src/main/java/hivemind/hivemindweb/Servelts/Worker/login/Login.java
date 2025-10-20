@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/plant-login")
+@WebServlet("/worker/login")
 public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
         if (worker == null) {
             System.out.println("[WORKER-LOGIN] ERROR: worker is null");
             request.setAttribute("status", false);
-            request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
             return;
         }
 
@@ -60,7 +60,7 @@ public class Login extends HttpServlet {
                     session.setAttribute("plantCnpj", plantCnpj);
                     session.setAttribute("responsibleCpf", responsibleCpf);
 
-                    response.sendRedirect(request.getContextPath() + "/read");
+                    response.sendRedirect(request.getContextPath() + "/worker/read");
                     return;
                 }
 

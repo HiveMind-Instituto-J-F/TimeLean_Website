@@ -2,8 +2,10 @@ package hivemind.hivemindweb.Servelts.Worker;
 
 import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.DAO.WorkerDAO;
+import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.Plant;
 import hivemind.hivemindweb.models.Worker;
+import jakarta.servlet.Filter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,25 +30,28 @@ public class Read extends HttpServlet {
             // Handle missing or invalid session attribute
             System.err.println("[WORKER-READ] Missing plantCnpj in session.");
             request.setAttribute("errorMessage", "Plant information not found in session.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
             return;
         }
 
+        // get filter
+        FilterType filterType = FilterType.INPUT_TEXT;
+        String filter = null; // default: all workers
+
+        String requestCpfFilter = request.getParameter("cpfFilter");
+        String requestSectorFilter = request.getParameter("sectorFilter");
+
+        if (requestCpfFilter != null && !requestCpfFilter.isEmpty()){
+            filterType = FilterType.INPUT_CPF;
+            filter = requestCpfFilter;
+        } else if (requestSectorFilter != null && !requestSectorFilter.isEmpty()){
+            filterType = FilterType.INPUT_SECTOR;
+            filter = requestSectorFilter;
+        }
+
         try {
-            // Retrieve plant data from the database
-            Plant plant = PlantDAO.selectByPlantCnpj(plantCnpj);
-
-            if (plant == null) {
-                // Handle non-existent plant in the database
-                System.err.println("[WORKER-READ] No plant found with CNPJ: " + plantCnpj);
-                request.setAttribute("errorMessage", "No plant found with CNPJ: " + plantCnpj);
-                request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
-                return;
-            }
-
             // Retrieve all workers associated with the plant
-            List<Worker> workers = WorkerDAO.selectByPlantCnpj(plant.getCNPJ());
-            System.out.println(workers);
+            List<Worker> workers = WorkerDAO.selectFilter(filterType, filter, plantCnpj);
 
             // Set attributes for the JSP view
             request.setAttribute("workers", workers);
@@ -58,19 +63,19 @@ public class Read extends HttpServlet {
             // Handle null references (e.g., DAO returned null unexpectedly)
             System.err.println("[WORKER-READ] Null reference encountered: " + npe.getMessage());
             request.setAttribute("errorMessage", "Internal error while retrieving plant or worker data.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
 
         } catch (IllegalStateException ise) {
             // Handle session or response errors
             System.err.println("[WORKER-READ] Illegal state error: " + ise.getMessage());
             request.setAttribute("errorMessage", "Session or response error. Please reload the page.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
 
         } catch (IllegalArgumentException iae) {
             // Handle invalid plantCnpj or DAO argument
             System.err.println("[WORKER-READ] Invalid argument: " + iae.getMessage());
             request.setAttribute("errorMessage", "Invalid plant data. Please verify the session information.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
         }
     }
 }
