@@ -189,15 +189,26 @@
         Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
 
         if (isLogged == null || !isLogged) {
-            //if user not us login return that for login page
             response.sendRedirect("../login.jsp");
             return;
         }
+
+        // Verifica se está editando (id presente na URL)
+        String idParam = request.getParameter("id");
+        boolean isEdit = (idParam != null && !idParam.isEmpty());
+        
+        // Aqui você buscaria os dados do pagamento pelo ID
+        // Payment payment = PaymentDAO.getById(Integer.parseInt(idParam));
     %>
     <div class="container">
-        <h1>💳 Pagamento</h1>
+        <h1>💳 <%= isEdit ? "Editar Pagamento" : "Novo Pagamento" %></h1>
         
-        <form action="/HivemindWeb_war/paymount" id="paymentForm" method="post">
+        <form action="<%= isEdit ? "/HivemindWeb_war/create-paymount" : "/HivemindWeb_war/paymount" %>" id="paymentForm" method="post">
+            
+            <% if (isEdit) { %>
+                <input type="hidden" name="id" value="<%= idParam %>">
+            <% } %>
+
             <div class="form-group">
                 <label>Vencimento <span class="required">*</span></label>
                 <input type="date" name="deadline" required>
@@ -241,7 +252,7 @@
                 <input type="number" name="id_plan_sub" required min="1">
             </div>
 
-            <button type="submit">Adicionar Pagamento</button>
+            <button type="submit"><%= isEdit ? "Atualizar" : "Adicionar" %> Pagamento</button>
         </form>
         
         <% String msg = (String) request.getAttribute("msg"); %>
