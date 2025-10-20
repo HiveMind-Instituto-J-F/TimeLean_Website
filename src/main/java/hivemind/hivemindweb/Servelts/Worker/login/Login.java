@@ -30,7 +30,7 @@ public class Login extends HttpServlet {
         if (plant == null) {
             System.out.println("[WORKER-LOGIN] ERROR: plant is null");
             request.setAttribute("status", false);
-            request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
             return;
         }
 
@@ -67,12 +67,12 @@ public class Login extends HttpServlet {
                 // Wrong credentials
                 System.out.println("[WORKER-LOGIN] ERROR: Incorrect Credentials");
                 request.setAttribute("status", false);
-                request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
             }
         } catch (NullPointerException npe) {
             System.out.println("[WORKER-LOGIN] EXCEPTION: NullPointerException");
             request.setAttribute("status", false);
-            request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
         }
     }
 }

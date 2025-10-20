@@ -16,7 +16,7 @@
         <div id="form">
             <h1 class="inter-bold">Fazer Login - Painel Operacional</h1>
             
-            <form action="/worker/login" method="post" class="inter-thin">
+            <form action="${pageContext.request.contextPath}/worker/login" method="post" class="inter-thin">
                 <div>
                     <label for="plant-cnpj">Digite o CNPj da planta industrial:</label>
                     <input name="plant-cnpj" type="text" placeholder="Ex: 012345678911234">
