@@ -76,4 +76,3 @@ public class Plan {
         this.is_active = is_active;
     }
 }
-

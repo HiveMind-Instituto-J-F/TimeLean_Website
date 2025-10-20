@@ -1,3 +1,63 @@
+<<<<<<< HEAD
+@import url('../variables.css');
+
+/*
+  Sintaxe do padding: min() ↓
+  min(<fixa>, <rel>);
+  
+  É utilizado para responsividade de box, ele escolhe sempre o menor valor
+  rel = recomendado o uso de "%"
+*/
+
+#hero>* {
+  color: var(--black);
+}
+
+#hero {
+  margin: 0 auto;
+  width: auto;
+  text-align: center;
+}
+
+#background-img {
+  margin: 0 !important;
+  padding: min(10%, 160px) 0 min(40%, 760px) 0;
+  background-image: url('../../img/background/hero2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: local;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+@media (max-width: 800px) {
+  #background-img {
+    background-size: 250vw;
+    background-position: top;
+  }
+}
+
+#hero>.container {
+  margin-bottom: 72px;
+}
+
+#hero>:nth-child(2) {
+  margin-bottom: 32px;
+}
+
+#hero>* {
+  margin-bottom: 16px;
+}
+
+#hero>div:first-child>:nth-child(2) {
+  max-width: 300px;
+  margin: auto;
+  margin-top: 12px;
+}
+
+#hero>div:last-child {
+  margin-top: 60px;
+=======
 @import url('../variables.css');
 
 /*
@@ -61,4 +121,5 @@
 
 #hero>div:last-child {
   margin-top: 60px;
+>>>>>>> refs/remotes/origin/dev
 }

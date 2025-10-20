@@ -18,8 +18,8 @@ public class PlantDAO {
         String sql = "SELECT * FROM plant";
 
         try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql);
-             ResultSet rs = pstm.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Plant plantLocal = new Plant(
@@ -244,5 +244,6 @@ public class PlantDAO {
         }
         return false;
     }
+
 
 }
