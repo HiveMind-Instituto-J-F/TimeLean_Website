@@ -18,8 +18,7 @@ public class Render extends HttpServlet {
             // Create and validate company
             List<Payment> paymentList;
             paymentList = PaymentDAO.select();
-            System.out.println("[INF] [" + java.time.LocalDateTime.now() + "] Payment.Render -> " +
-            "Listagem de pagamentos carregada com sucesso. Total: " + paymentList.size());
+            System.out.println("[INF] [" + java.time.LocalDateTime.now() + "] Payment.Render -> Payment list successfully loaded. Total: " + paymentList.size());
 
             if (paymentList == null && paymentList.isEmpty()){
                 throw new NullPointerException("Values Is Null, Value: 'paymentList'");
@@ -27,7 +26,7 @@ public class Render extends HttpServlet {
             
             // Render and dispatch company
             req.setAttribute("payments", paymentList);
-            req.getRequestDispatcher("\\html\\crud\\Payment\\read.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/payment/read.jsp").forward(req, resp);
         }catch(IllegalArgumentException ia){
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
