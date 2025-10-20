@@ -15,36 +15,35 @@ public class PlanDAO {
         DBConnection db = new DBConnection();
         String sql = "INSERT INTO plan (id, name, description, price, duration) " +
                 "VALUES (?,?,?,?,?)";
-                
+
         if(hasId){
             try (Connection conn = db.connected();
                  PreparedStatement pstm = conn.prepareStatement(sql)) {
-    
+
                 pstm.setInt(1, plan.getId());
                 pstm.setString(2, plan.getName());
                 pstm.setString(3, plan.getDescription());
                 pstm.setDouble(4,plan.getPrice());
                 pstm.setInt(5,plan.getDuration());
-    
+
                 return pstm.executeUpdate() > 0;
-    
+
             } catch (SQLException sqle) {
                 System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
             }
             return false;
         }
 
-        sql = "INSERT INTO plan (name, description, price, duration , is_active) " +
-                "VALUES (?,?,?,?,?)";
-                
+        sql = "INSERT INTO plan (name, description, price, duration) " +
+                "VALUES (?,?,?,?)";
+
         try (Connection conn = db.connected();
-            PreparedStatement pstm = conn.prepareStatement(sql)) {
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
 
             pstm.setString(1, plan.getName());
             pstm.setString(2, plan.getDescription());
             pstm.setDouble(3,plan.getPrice());
             pstm.setInt(4,plan.getDuration());
-            pstm.setBoolean(5, true);
 
             return pstm.executeUpdate() > 0;
 
@@ -52,7 +51,7 @@ public class PlanDAO {
             System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return false;
-}
+    }
 
     public static boolean update(Plan plan) {
         DBConnection db = new DBConnection();
@@ -61,19 +60,17 @@ public class PlanDAO {
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(1, plan.getName());
-            pstm.setString(2, plan.getDescription());
-            pstm.setInt(3, plan.getId());
+            pstm.setString(4, plan.getDescription());
+            pstm.setInt(5, plan.getId());
 
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
             System.out.println("[ERROR] Falied in Update: " + sqle.getMessage());
-            System.out.println("[ERROR] SQL State: " + sqle.getSQLState());
-            sqle.printStackTrace();
-            return false;   
         }
+        return false;
     }
-    
+
     public static boolean delete(Plan plan) {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM plan WHERE id = ?";
@@ -96,8 +93,8 @@ public class PlanDAO {
         String sql = "SELECT * FROM plan ORDER BY id";
 
         try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql);
-             ResultSet rs = pstm.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Plan planLocal = new Plan(
@@ -172,14 +169,14 @@ public class PlanDAO {
                 }
             }
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
+            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return nameDB;
     }
 
     public static String getName(String name){
         DBConnection db = new DBConnection();
-        String sql = "SELECT name FROM Plan WHERE name=?;";
+        String sql = "SELECT name FROM Plan WHERE id=?;";
         String nameDB = "";
         try(Connection conn = db.connected();
             PreparedStatement psmt = conn.prepareStatement(sql);){
@@ -213,43 +210,5 @@ public class PlanDAO {
             System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return idDB;
-    }
-    
-    public static boolean setActive(Plan planLocal) {
-        DBConnection db = new DBConnection();
-        String sql = "UPDATE plan SET is_active = ? WHERE id = ?;";
-
-        try (Connection conn = db.connected();
-            PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setBoolean(1, planLocal.getActive());
-            pstm.setInt(2, planLocal.getId());
-            
-            return pstm.executeUpdate() > 0;
-
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
-            System.out.println("[ERROR] SQL State: " + sqle.getSQLState());
-            sqle.printStackTrace();
-            return false;
-        }
-    }
-
-    public static boolean getAction(int id){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT is_active FROM Plan WHERE id=?;";
-        boolean is_active = false;
-        try(Connection conn = db.connected();
-            PreparedStatement psmt = conn.prepareStatement(sql);){
-            psmt.setInt(1, id);
-
-            try (ResultSet rs = psmt.executeQuery()) {
-                if (rs.next()) {
-                    is_active = rs.getBoolean("is_active");
-                }
-            }
-        }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
-        }
-        return is_active;
     }
 }
