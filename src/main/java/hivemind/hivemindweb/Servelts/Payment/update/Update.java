@@ -42,14 +42,14 @@ public class Update extends HttpServlet {
             String idPlanStr = req.getParameter("id_plan_sub");
             if(idPlanStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'idPlanSub'");}
             int idPlanSub = Integer.parseInt(idPlanStr);
-            
+        
             if ((method == null || method.isEmpty()) || (beneficary == null || beneficary.isEmpty()) || deadline == null) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Valores Sao inválidos ou nulos.");
                 throw new ServletException("Values Is Null");
             }
 
             Payment paymentLocal = new Payment(id, deadline, method, beneficary, status, idPlanSub);
-            System.out.println(paymentLocal);
+
             if(PaymentDAO.update(paymentLocal)){
                 System.out.println("[WARN] Update Payment Sussefly");
                 req.setAttribute("msg", "Pagamento foi Atalizado com Susseso!");

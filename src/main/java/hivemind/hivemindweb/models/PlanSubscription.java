@@ -8,18 +8,21 @@ public class PlanSubscription {
     private LocalDate startDate;
     private String cnpjCompany;
     private int idPlan;
+    private int numberInstallments;
 
     // Construtor
-    public PlanSubscription(int id, LocalDate startDate, String cnpjCompany, int idPlan){
+    public PlanSubscription(int id, LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments){
         this.id = id;
         this.startDate = startDate;
         this.cnpjCompany = cnpjCompany;
         this.idPlan = idPlan;
+        this.numberInstallments = numberInstallments;
     }
-    public PlanSubscription(LocalDate startDate, String cnpjCompany, int idPlan){
+    public PlanSubscription(LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments){
         this.startDate = startDate;
         this.cnpjCompany = cnpjCompany;
         this.idPlan = idPlan;
+        this.numberInstallments = numberInstallments;
     }
 
     public PlanSubscription(int id){
@@ -28,8 +31,8 @@ public class PlanSubscription {
 
     // ToString
     public String toString(){
-        return "Id: "+this.id+"\nStart Date: "+this.startDate+"\nCNPJ Company: "+this.cnpjCompany+
-                "\nId Plan: "+this.idPlan;
+    return "Id: "+this.id+"\nStart Date: "+this.startDate+"\nCNPJ Company: "+this.cnpjCompany+
+        "\nId Plan: "+this.idPlan+"\nNumber Installments: "+this.numberInstallments;
     }
 
     // Getters e Setters
@@ -44,5 +47,8 @@ public class PlanSubscription {
     }
     public int getIdPlan(){
         return idPlan;
+    }
+    public int getNumberInstallments(){
+        return numberInstallments;
     }
 }

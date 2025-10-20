@@ -128,7 +128,7 @@
 <div class="container">
     <h1>💳 Novo Pagamento</h1>
 
-    <form action="/HivemindWeb_war/paymount" method="post">
+    <form action="<%= request.getContextPath() %>/create-payment" method="post">
         <div class="form-group">
             <label>Vencimento <span class="required">*</span></label>
             <input type="date" name="deadline" required>

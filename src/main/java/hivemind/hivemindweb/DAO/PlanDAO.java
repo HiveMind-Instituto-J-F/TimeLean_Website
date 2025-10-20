@@ -29,7 +29,7 @@ public class PlanDAO {
                 return pstm.executeUpdate() > 0;
 
             } catch (SQLException sqle) {
-                System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+                System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
             }
             return false;
         }
@@ -48,7 +48,7 @@ public class PlanDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return false;
     }
@@ -66,7 +66,7 @@ public class PlanDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in Update: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in Update: " + sqle.getMessage());
         }
         return false;
     }
@@ -82,7 +82,7 @@ public class PlanDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in delete: " + sqle.getMessage());
         }
         return false;
     }
@@ -108,7 +108,7 @@ public class PlanDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.err.println("[ERROR] Falied in select" + e.getMessage());
         }
         return plansList;
     }
@@ -131,14 +131,14 @@ public class PlanDAO {
             }
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in select: " + sqle.getMessage());
         }
         return null;
     }
 
     public static double getPrice(int id_plan){
         DBConnection db = new DBConnection();
-        String sql = "SELECT p.price FROM Plan WHERE id=?;";
+        String sql = "SELECT price FROM Plan WHERE id=?;";
         double price = 0.0;
         try(Connection conn = db.connected();
             PreparedStatement psmt = conn.prepareStatement(sql);){
@@ -150,7 +150,7 @@ public class PlanDAO {
                 }
             }
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return price;
     }
@@ -169,7 +169,7 @@ public class PlanDAO {
                 }
             }
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return nameDB;
     }
@@ -188,14 +188,14 @@ public class PlanDAO {
                 }
             }
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return nameDB;
     }
 
     public static int getID(int id){
         DBConnection db = new DBConnection();
-        String sql = "SELECT id FROM Plan WHERE id=?;";
+        String sql = "SELECT id AS idDB FROM Plan WHERE id=?;";
         int idDB = 0;
         try(Connection conn = db.connected();
             PreparedStatement psmt = conn.prepareStatement(sql);){
@@ -203,11 +203,11 @@ public class PlanDAO {
 
             try (ResultSet rs = psmt.executeQuery()) {
                 if (rs.next()) {
-                    idDB = rs.getInt("id");
+                    idDB = rs.getInt("idDB");
                 }
             }
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return idDB;
     }
@@ -229,7 +229,7 @@ public class PlanDAO {
             }
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Failed in select: " + sqle.getMessage());
+            System.err.println("[ERROR] Failed in select: " + sqle.getMessage());
         }
 
         return is_active;
@@ -248,7 +248,7 @@ public class PlanDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Failed to update: " + sqle.getMessage());
+            System.err.println("[ERROR] Failed to update: " + sqle.getMessage());
             return false;
         }
     }

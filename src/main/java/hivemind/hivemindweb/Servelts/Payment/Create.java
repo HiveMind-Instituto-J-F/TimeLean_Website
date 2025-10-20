@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/create-paymount")
+@WebServlet("/create-payment")
 public class Create extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
@@ -31,7 +31,7 @@ public class Create extends HttpServlet {
             if(status.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'status'");}
 
             String number_installmentsStr = req.getParameter("number_installments");
-            System.out.println(number_installmentsStr);
+            
             if(number_installmentsStr == null || number_installmentsStr.isEmpty()){throw new IllegalArgumentException("Valueis Nulo, Value: 'number_installments'");}
             int number_installments = Integer.parseInt(number_installmentsStr);
             if(number_installments <= 0){throw new IllegalArgumentException("number_installments is bellow of 0");}
@@ -48,27 +48,27 @@ public class Create extends HttpServlet {
             }
 
             Payment paymentLocal = new Payment(value, deadline, method, beneficary, status, id_plan_sub);
-            System.out.println(paymentLocal);
+            
             if(PaymentDAO.insert(paymentLocal)){
                 System.out.println("[WARN] Insert Payment Sussefly");
                 req.setAttribute("msg", "Pagamento foi Adicionado com Susseso!");
             }
             else{
-                System.out.println("[WARN] Erro in PaymentDAO");
+                System.err.println("[ERRO] Erro in PaymentDAO");
                 req.setAttribute("msg", "Pagamento Nao foi Adicionado devido a um Erro!");
             }
-            req.getRequestDispatcher("html\\crud\\paymount.jsp").forward(req, resp);
+            req.getRequestDispatcher("html\\crud\\payment.jsp").forward(req, resp);
         }catch(ServletException se){
-            System.out.println("[ERROR] Error In Payment Add, Error: "+ se.getMessage());
+            System.err.println("[ERROR] Error In Payment Add, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", se);
         }
         catch(IllegalArgumentException ime){
-            System.out.println("[ERROR] Invaliad Input, Erro: " + ime.getMessage());
+            System.err.println("[ERROR] Invaliad Input, Erro: " + ime.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + ime.getMessage());
         }
         catch(DateTimeParseException dpe){
-            System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
+            System.err.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
             req.setAttribute("error", dpe.getCause());
         }

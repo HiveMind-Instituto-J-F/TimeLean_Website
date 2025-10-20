@@ -33,7 +33,7 @@ public class PaymentDAO {
                 PaymentList.add(PaymentLocal);
             }
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select: " + e.getMessage());
+            System.err.println("[ERROR] Falied in select: " + e.getMessage());
         }
 
         return PaymentList;
@@ -73,7 +73,7 @@ public class PaymentDAO {
             }
             return paymentList;
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select: " + e.getMessage());
+            System.err.println("[ERROR] Falied in select: " + e.getMessage());
         }
         return null;
     }
@@ -89,7 +89,7 @@ public class PaymentDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in delete: " + sqle.getMessage());
         }
         return false;
     }
@@ -105,7 +105,7 @@ public class PaymentDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in delete: " + sqle.getMessage());
         }
         return false;
     }
@@ -135,7 +135,7 @@ public class PaymentDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in update: " + sqle.getMessage());
         }
         return false;
     }
@@ -144,7 +144,7 @@ public class PaymentDAO {
         DBConnection db = new DBConnection();
         String sql = """
             INSERT INTO payment (value,deadline,method,beneficiary,status,id_plan_subscription)
-            VALUES (?,?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?)
         """;
 
         try(Connection conn = db.connected();
@@ -155,10 +155,9 @@ public class PaymentDAO {
             psmt.setString(4, payment.getBeneficiary());
             psmt.setString(5, payment.getStatus());
             psmt.setInt(6, payment.getIdPlan());
-            psmt.setInt(7, payment.getNumberInstallments());
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return false;
     }
