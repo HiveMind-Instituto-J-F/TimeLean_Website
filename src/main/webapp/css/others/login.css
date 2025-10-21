@@ -1,80 +1,77 @@
 @import url('variables.css');
 
-* {
-    margin: 0;
+body>* {
+    color: var(--polar);
+    width: 50vw;
+    height: 100vh;
     padding: 0;
 }
 
 body {
-    height: 100vh;
-    width: 100%;
-    flex-direction: column;
-    background-color: var(--black-oil);
-    color: var(--polar);
     display: flex;
-    justify-content: center;
     align-items: center;
-    overflow: hidden;
+}
+
+#div-img {
+    background-image: url('../../img/background/login.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: local;
+    background-repeat: no-repeat;
 }
 
 #major {
-    display: flex;
-    border-radius: var(--border-big);
-    box-shadow: var(--strong-shadow);
+    height: fit-content;
 }
 
-#form {
-    max-width: 800px;
-    padding: 0px 44px;
+form {
+    width: 50%;
+    height: fit-content;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
 }
 
-#form>p {
-    margin-bottom: 20px;
+h1 {
+    text-align: center;
 }
 
-#form>h1 {
-    margin-top: 32px;
+p {
+    text-align: start;
 }
 
-#img {
-    padding: 200px;
-    padding-right: 100px !important;
-    border-radius: var(--border-big) 0 0 var(--border-big);
-    background-image: url('/img/background/login.png');
-    background-size: cover;
-    background-position: center;
+form>:nth-child(n) {
+    margin-top: 5%;
 }
 
-form>div {
-    margin-bottom: 24px;
-}
-
-input {
-    padding: 8px 180px;
-    padding-left: 16px !important;
-    text-align: left;
-}
-
-::placeholder {
-    text-align: left;
-}
-
-button {
-    width: 358px;
-    padding: 8px 0px;
-    padding-bottom: 8px !important;
-}
-
-input, button {
-    border: 0;
-    border-radius: var(--border-simple);
-}
-
-#show {
+form>:nth-child(2)>:last-child {
     display: flex;
 }
 
-#show>input {
-    margin-right: 12px;
+form>:nth-child(2)>:last-child>button {
+    width: 15%;
     border: 0;
+    background-color: var(--polar);
+    border-bottom: var(--border-traced);
+    border-color: var(--orange);
+}
+
+form img {
+    margin-top: 5%;
+    width: 18px;
+    cursor: pointer;
+}
+
+form>button {
+    margin-top: 25% !important;
+    width: 100%;
+}
+
+#open {
+    display: block;
+}
+
+#closed {
+    display: none;
 }

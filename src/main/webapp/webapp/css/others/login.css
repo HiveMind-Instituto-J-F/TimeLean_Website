@@ -1,0 +1,77 @@
+@import url('variables.css');
+
+body>* {
+    color: var(--polar);
+    width: 50vw;
+    height: 100vh;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    align-items: center;
+}
+
+#div-img {
+    background-image: url('../../img/background/login.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: local;
+    background-repeat: no-repeat;
+}
+
+#major {
+    height: fit-content;
+}
+
+form {
+    width: 50%;
+    height: fit-content;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: start;
+}
+
+form>:nth-child(n) {
+    margin-top: 5%;
+}
+
+form>:nth-child(2)>:last-child {
+    display: flex;
+}
+
+form>:nth-child(2)>:last-child>button {
+    width: 15%;
+    border: 0;
+    background-color: var(--polar);
+    border-bottom: var(--border-traced);
+    border-color: var(--orange);
+}
+
+form img {
+    margin-top: 5%;
+    width: 18px;
+    cursor: pointer;
+}
+
+form>button {
+    margin-top: 25% !important;
+    width: 100%;
+}
+
+#open {
+    display: block;
+}
+
+#closed {
+    display: none;
+}
