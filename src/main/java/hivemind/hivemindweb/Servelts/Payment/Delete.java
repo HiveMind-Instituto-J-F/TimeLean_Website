@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/delete-paymount")
+@WebServlet("/payment/delete")
 public class Delete extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
@@ -28,16 +28,16 @@ public class Delete extends HttpServlet {
             }
             req.getRequestDispatcher("html\\crud\\paymount.jsp").forward(req, resp);
         }catch(ServletException se){
-            System.out.println("[ERROR] Error In Payment Add, Error: "+ se.getMessage());
+            System.err.println("[ERROR] Error In Payment Add, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", se);
         }
         catch(IllegalArgumentException ime){
-            System.out.println("[ERROR] Invaliad Input, Erro: " + ime.getMessage());
+            System.err.println("[ERROR] Invaliad Input, Erro: " + ime.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + ime.getMessage());
         }
         catch(DateTimeParseException dpe){
-            System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
+            System.err.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
             req.setAttribute("error", dpe.getCause());
         }

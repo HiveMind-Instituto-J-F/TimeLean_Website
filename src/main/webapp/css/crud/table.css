@@ -10,6 +10,12 @@ thead {
     background-color: var(--grey);
 }
 
+tbody {
+    display: block;
+    max-height: 60vh;
+    overflow-y: scroll;
+}
+
 tbody, table>:last-child {
     background-color: var(--polar);
 }
@@ -17,6 +23,12 @@ tbody, table>:last-child {
 thead, tbody {
     text-align: center;
     vertical-align: middle;
+}
+
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* mantém alinhamento */
 }
 
 th, td {
@@ -98,4 +110,30 @@ tbody>:last-child>* {
     color: var(--polar);
     height: var(--crud-table-icons-height);
     width: calc((var(--crud-table-icons-width) * 3) + (var(--crud-table-icons-gap) * 2) + (var(--crud-table-icons-padding) * (2 * 3)));
+    border-color: var(--red) !important;
+}
+
+#closed {
+    display: none;
+}
+
+/* Scrollbar ↓ */
+table ::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+}
+
+/* Fundo da barra */
+table ::-webkit-scrollbar-track {
+    background: var(--polar);
+}
+
+/* Cor do scroll */
+table ::-webkit-scrollbar-thumb {
+    background: var(--grey);
+}
+
+/* Cor ao passar o mouse */
+table ::-webkit-scrollbar-thumb:hover {
+    background: var(--orange);
 }

@@ -1,50 +1,57 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page pageEncoding="UTF-8" %>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="/HivemindWeb_war/css/style.css">
-    <link rel="stylesheet" href="/HivemindWeb_war/css/text.css">
-    <link rel="stylesheet" href="/HivemindWeb_war/css/others/login.css">
 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/text.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/icons/favicon/home-v2.png" type="image/x-icon">
     <title>Login — TIMELEAN</title>
-    <link rel="shortcut icon" href="/HivemindWeb_war/img/favicon/home-v2.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/others/login.css">
 </head>
+
 <body>
+    <div id="div-img"></div>
     <div id="major">
-        <div id="img"></div>
-        <div id="form">
+        <div>
+            <div class="block"></div>
             <h1 class="inter-bold">Fazer Login</h1>
-            <p class="inter-thin">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda.</p>
-            
+        </div>
+        
+        <form action="/HivemindWeb_war/login" method="post" class="inter-thin">
+            <div class="input-div">
+                <p>Login</p>
+                <div>
+                    <input name="email" type="email" placeholder="Ex: timelean@hotmail.com" required
+                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
+                </div>
+            </div>
+            <div class="input-div">
+                <p>Senha</p>
+                <div>
+                    <input name="password" class="password" type="password" placeholder="Insira sua senha aqui" required>
+                    <button name="toggle" type="button">
+                        <img id="open" src="${pageContext.request.contextPath}/img/icons/ui/eye (open).png" alt="mostrar senha">
+                        <img id="closed" src="${pageContext.request.contextPath}/img/icons/ui/eye (closed).png" alt="ocultar senha">
+                    </button>
+                </div>
+            </div>
+
             <!-- Displays error message if login fails -->
+        
             <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
             <% if (errorMessage != null) { %>
-                <div style="color: red; margin-bottom: 15px;" class="inter-thin">
+                <div style="color: red; text-align: center;" class="inter-thin">
                     <%= errorMessage %>
                 </div>
             <% } %>
-            
-            <form action="/HivemindWeb_war/login" method="post" class="inter-thin">
-                <div>
-                    <p>Login</p>
-                    <input name="email" type="text" placeholder="Insira seu usuário">
-                </div>
-                <div>
-                    <p>Senha</p>
-                    <input name="password" type="password" placeholder="Insira sua senha">
-                </div>
-                <div id="show">
-                    <input type="checkbox">
-                    <p name="show">Mostrar senha</p>
-                </div>
-                <button type="submit" class="button inter">Fazer login</button>
-            </form>
-        </div>
+
+            <button type="submit" class="button submit inter">Fazer login</button>
+        </form>
     </div>
 </body>
+<script src="../js/password.js"></script>
 </html>

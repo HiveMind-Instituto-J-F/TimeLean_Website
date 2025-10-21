@@ -10,21 +10,25 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
-@WebServlet("/planSub/render-update")
-public class Render extends HttpServlet {
+@WebServlet("/planSub/read")
+public class Read extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
             // Create and validate company
             List<PlanSubscription> PlanSubList;
             PlanSubList = PlanSubscriptionDAO.select();
+
+            System.out.println("[INF] [" + LocalDateTime.now() + "] Plan.Read -> PlanSubscription list successfully loaded. Total: " + PlanSubList.size());
+
             if (PlanSubList == null){
-                throw new NullPointerException("Values Is Null, Value: 'planList'");
+                throw new NullPointerException("Values Is Null, Value: 'PlanSubList'");
             }
             
             // Render and dispatch company
-            req.setAttribute("planSub", PlanSubList);
-            req.getRequestDispatcher("\\html\\crud\\plan\\update.jsp").forward(req, resp);
+            req.setAttribute("planSubs", PlanSubList);
+            req.getRequestDispatcher("/html/crud/planSub/read.jsp").forward(req, resp);
         }catch(IllegalArgumentException ia){
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());

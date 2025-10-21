@@ -1,5 +1,4 @@
-package hivemind.hivemindweb.Servelts.Plant;
-
+package hivemind.hivemindweb.Servelts.Plant.update;
 
 import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.Services.Enums.FilterType;

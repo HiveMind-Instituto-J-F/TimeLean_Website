@@ -1,6 +1,9 @@
 package hivemind.hivemindweb.Servelts.Plan.update;
 
-import hivemind.hivemindweb.DAO.PaymentDAO;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
@@ -8,24 +11,23 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
-import java.io.IOException;
-
-@WebServlet("/plan/render-update")
-public class Render extends HttpServlet {
+@WebServlet("/plan/read")
+public class Read extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
             // Create and validate company
             List<Plan> planList;
             planList = PlanDAO.select();
+            System.out.println("[INF] [" + LocalDateTime.now() + "] Plan.Read -> Plan list successfully loaded. Total: " + planList.size());
+
             if (planList == null){
                 throw new NullPointerException("Values Is Null, Value: 'planList'");
             }
-            
+
             // Render and dispatch company
-            req.setAttribute("plan", planList);
-            req.getRequestDispatcher("\\html\\crud\\plan\\update.jsp").forward(req, resp);
+            req.setAttribute("plans", planList);
+            req.getRequestDispatcher("/html/crud/plan/read.jsp").forward(req, resp);
         }catch(IllegalArgumentException ia){
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());

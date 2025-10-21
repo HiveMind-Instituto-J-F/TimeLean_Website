@@ -103,19 +103,86 @@ a, a:visited, a:hover, a:active {
   text-decoration: none !important;
 }
 
-input {
+button, input, select, textarea {
+  outline: none;
+}
+
+textarea {
   background-color: var(--polar);
-  width: 240px;
-  height: 24px;
+  width: 100%;
+  
+  min-height: 28px;
+  resize: vertical;
+  padding: 5px 8px 0;
+  text-align: left !important;
+
   border: 0;
   border-bottom: var(--border-traced);
-  padding: 0 10px;
+  border-color: var(--grey);
+}
+
+input {
+  background-color: var(--polar);
+  width: 100%;
+  height: 28px;
+  padding: 0 8px;
+  text-align: left !important;
+
+  border: 0;
+  border-bottom: var(--border-traced);
+  border-color: var(--orange);
+  
+  transition: border-color 0.4s ease-in-out;
 }
 
 input::placeholder {
   color: var(--black);
   opacity: 80%;
 }
+
+input:valid {
+  border-color: var(--green) !important;
+}
+
+input:user-invalid {
+  border-color: var(--red) !important;
+}
+
+input.password {
+  border-color: var(--orange) !important;
+}
+
+.input-div>* {
+  margin-top: 1%;
+}
+
+/* Apenas uma cor permanenente ↓ */
+.always-orange {
+  border-color: var(--orange) !important;
+}
+
+/* Removendo o mostrar senha padrão de navegador */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+}
+
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button {
+    display: none;
+}
+
 
 .button {
   background-color: var(--orange) !important;
@@ -134,13 +201,13 @@ input::placeholder {
   de box
 */
 
-.contact {
+a.contact {
   padding: 12px 48px;
   font-size: 12px;
 }
 
-.submit {
-  padding: 4px 48px;
+button.submit {
+  height: 28px;
 }
 
 #unset {
@@ -185,4 +252,16 @@ input::placeholder {
 
 .medias>a:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Removendo a Scrollbar das páginas ↓ */
+::-webkit-scrollbar {
+  display: none;
+}
+
+#background-universal {
+  background-image: url('../img/background/hero.jpg');
+  background-size: 405vh;
+  background-position: top;
+  background-attachment: local;
 }

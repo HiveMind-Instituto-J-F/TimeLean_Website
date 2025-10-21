@@ -28,25 +28,3 @@ main {
   text-align: center;
   padding: 0; /* Por conta do Body Default Padding*/
 }
-
-aside {
-  width: 20vw;
-  height: auto;
-  padding-top: calc(var(--crud-spacing) * 0.75);;
-  box-shadow: var(--inner-shadow);
-}
-
-aside>:first-child {
-  width: 180px;
-}
-
-aside ul {
-  margin: 10% auto 0;
-  list-style-type: none;
-  width: 75%;
-  text-align: left;
-}
-
-aside>ul>:nth-child(n) {
-  margin: 5% 0;
-}

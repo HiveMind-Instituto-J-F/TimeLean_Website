@@ -12,14 +12,15 @@
     --blue: #6FA6ED;
     --yellow: #F2BE4F;
     --red: #ED5558;
+    --green: #7fdd83;
+    --purple: #ca7fdd;
 
     /* Padronização de bordas ↓ */
     --border-big: 15px;
     --border-medium: 6px;
     --border-small: 4.5px;
     --border-simple: 2.5px;
-    --border-traced-orange: 3px solid var(--orange);
-    --border-traced-grey: 3px solid var(--grey);
+    --border-traced: 3px solid;
 
     /* Padronização de valores ↓ */
     --icon: 18px;
@@ -37,4 +38,9 @@
     --crud-table-icons-height: 28px;
     --crud-table-icons-padding: 4px;
     --crud-table-icons-gap: 8px;
+
+    --sidebar-width: 260px;
+    --sidebar-gap: 8px;
+
+    --input-label-gap: 28px;
 }

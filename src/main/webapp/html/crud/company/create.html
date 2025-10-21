@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="../../../css/style.css">
         <link rel="stylesheet" href="../../../css/text.css">
         <link rel="shortcut icon" href="../../../img/icons/favicon/home-v2.png" type="image/x-icon">
-        <title>Atualizar — TIMELEAN</title>
+        <title>Criar — TIMELEAN</title>
         
         <link rel="stylesheet" href="../../../css/crud/form.css">
     </head>
@@ -14,7 +14,7 @@
         <div class="form">
             <div>
                 <div class="block"></div>
-                <h1 class="inter-bold">Atualizar Informações</h1>
+                <h1 class="inter-bold">Registrar Empresa</h1>
             </div>
         
             <form class="inter-thin" action="${pageContext.request.contextPath}/company/update" method="post">
@@ -41,7 +41,20 @@
                         pattern="[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}">
                     </div>
                 </div>
-                <input class="button submit inter" type="submit" value="Atualizar">
+                <div>
+                    <h3 class="inter-medium">Informações do plano</h3>
+                    
+                    <div class="input-div">
+                        <label for="plan-description">Nome do plano</label>
+                        <input class="always-orange" type="text" name="plan-description" required>
+                    </div>
+                    
+                    <div class="input-div">
+                        <label for="psubscription-start-date">Data de início do plano</label>
+                        <input type="date" name="psubscription-start-date" required>
+                    </div>
+                </div>
+                <input class="button submit inter" type="submit" value="Registrar">
             </form>
         </div>
     </body>

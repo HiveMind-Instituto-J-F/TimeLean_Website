@@ -3,13 +3,14 @@ section {
 }
 
 section>* {
-    margin-top: 18px;
+  margin-top: 18px;
 }
 
 #filter-bar {
   display: flex;
   text-align: initial;
-  border-bottom: var(--border-traced-grey);
+  border-bottom: var(--border-traced);
+  border-color: var(--grey);
 }
 
 #filter-bar * {

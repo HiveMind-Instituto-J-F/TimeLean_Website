@@ -13,7 +13,7 @@ import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import hivemind.hivemindweb.Exception.InvalidPrimaryKeyException;
 import hivemind.hivemindweb.models.PlanSubscription;
 
-@WebServlet("/delete-plan-subcription")
+@WebServlet("/planSub/delete")
 public class Delete extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
         try{
