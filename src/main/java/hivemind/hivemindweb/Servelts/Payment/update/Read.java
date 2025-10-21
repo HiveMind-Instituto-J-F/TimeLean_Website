@@ -20,10 +20,6 @@ public class Read extends HttpServlet {
             List<Payment> paymentList;
             paymentList = PaymentDAO.select();
             System.out.println("[INF] [" + LocalDateTime.now() + "] Payment.Read -> Payment list successfully loaded. Total: " + paymentList.size());
-
-            if (paymentList == null){
-                throw new NullPointerException("Values Is Null, Value: 'paymentList'");
-            }
             
             // Render and dispatch company
             req.setAttribute("payments", paymentList);
