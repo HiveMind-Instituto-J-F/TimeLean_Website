@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="HivemindWeb" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="40edae1b-f512-4934-b121-541b1faf9556" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Java Desktop/src/Test.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Java Desktop/src/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auto Flow/UI.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auto Flow/command.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auto Flow/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auto Flow/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Auto Flow/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Bank/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Bank/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Bank/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Bank/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Book Regiter/src/Data/book_class.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Book Regiter/src/Data/data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Book Regiter/src/Ultilites/tool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/C#.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/C#.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/data.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/index.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/C#.csproj.nuget.dgspec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/C#.csproj.nuget.g.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/C#.csproj.nuget.g.targets" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/C#.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/C#.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/C#.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/C#.GlobalUsings.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/C#.assets.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/C#.csproj.CoreCompileInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/C#.csproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/Debug/net9.0/C#.sourcelink.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/project.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/obj/project.nuget.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/C#/tool.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C++/touch/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../C++/touch/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Calculetor Java/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Calculetor Java/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Calculetor Java/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Calculetor Java/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Calculetor Java/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Calculetor Java/CalculetorJava.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Calculetor Java/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Calculetor Java/src/Tool/utilites.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Chat GPT Desktop/IA.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Chat GPT Desktop/command.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Chat GPT Desktop/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Chat GPT Desktop/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Chat GPT Desktop/t.drawio" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Chat GPT Desktop/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Cifra De Cesar/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Cifra De Cesar/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Cifra De Cesar/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Client_Resgister/src/main/java/quitto/client_resgister/controller/RegisterController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Client_Resgister/src/main/java/quitto/client_resgister/model/Register.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Client_Resgister/src/main/java/quitto/client_resgister/repository/RegisterRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Client_Resgister/src/main/java/quitto/client_resgister/service/RegisterService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ControlX/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ControlX/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ControlX/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Data/data.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Data/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Data/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/dev_flow_java.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/src/Data/Data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev Flow Java/src/Tool/ultilites.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Dev-Flow-" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlow OS/UI.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlow OS/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlow OS/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlow OS/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/command.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/fonts/Font.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/fonts/license.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/icon/DevFlowLogo (1).PNG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/icon/TerminalLogo.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/icon/TerminalLogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/setings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../DevFlowVoiceController/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy Systhen/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy Systhen/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy Systhen/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy Systhen/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy/data.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy/data/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy/data/data.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy/data/info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy/reported.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Economy/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 1 Semana 10/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 1 Semana 10/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 1 Semana 10/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 2 Semana 10/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 2 Semana 10/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 2 Semana 10/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 3 Semana 10/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 3 Semana 10/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 3 Semana 10/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 4 Semana 10/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 4 Semana 10/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana10/Desafio 4 Semana 10/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana7.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 1 Semanna 8/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 1 Semanna 8/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 1 Semanna 8/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 2 Semana 8/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 2 Semana 8/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 2 Semana 8/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 3 Semana 8/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 3 Semana 8/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 3 Semana 8/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 4 Semana 8/data/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 4 Semana 8/data/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 4 Semana 8/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 4 Semana 8/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 5 Semana 8/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 5 Semana 8/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana8/Desafio 5 Semana 8/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 2 Semana 9/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 2 Semana 9/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 2 Semana 9/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 2 Semana 9/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 3 Semana 9/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 3 Semana 9/filter_parameters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 3 Semana 9/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 3 Semana 9/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 3 Semana 9/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 4 Semana 9/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 4 Semana 9/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/Desafio 4 Semana 9/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../GerminareTECH/Semana9/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JS/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JS/js.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JS/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java Test/src/Data/Data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java Test/src/Ultilites/Tool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Odette2.0v/src/main/java/quitto/odette2v/Data/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Odette2.0v/src/main/java/quitto/odette2v/Data/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Odette2.0v/src/main/java/quitto/odette2v/Servelets/DiciplinasServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Odette2.0v/src/main/java/quitto/odette2v/Servelets/DiciplinasServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Odette2.0v/src/main/java/quitto/odette2v/Servelets/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Odette2.0v/src/main/java/quitto/odette2v/Servelets/HomeServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Odette2.0v/src/main/java/quitto/odette2v/modules/Disciplina.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Odette2.0v/src/main/java/quitto/odette2v/modules/Disciplina.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Odette2.0v/src/main/webapp/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Projects.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/AuthService/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/AuthService/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/DAO/PaymentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/DAO/PaymentDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/DAO/PlanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/DAO/PlanDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/Servelts/Login/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/Servelts/Login/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/Servelts/Worker/login/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/Servelts/Worker/login/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/models/Plan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hivemind/hivemindweb/models/Plan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/land/cta.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/land/cta.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/land/ctaf.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/land/ctaf.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/land/faq.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/land/faq.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/land/features.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/land/features.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/land/hero.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/land/hero.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/land/ods.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/land/ods.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/land/target.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/land/target.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/text.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/text.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/variables.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/variables.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/crud/create_company.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/crud/create_company.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/crud/plan.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ToDoListJava/src/Data/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ToDoListJava/src/Data/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ToDoListJava/src/Tool/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ToDoListJava/src/Tool/Tool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ToDoListJava/src/modules/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ToDoListJava/src/modules/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../index.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Projects/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Projects/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Projects/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Projects/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Projects/Projects.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Projects/data.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Projects/index.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/java_module.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/src/data/data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java3/src/tool/tool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java_Templete/src/Data/data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Java_Templete/src/Ultilites/tool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/Kotlin.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kotlin/src/Main.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ProjectSetup 2.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ProjectSetup 2.0_server0.1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/Karnel Python/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Python/Karnel Python/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/Karnel Python/Karnel" beforeDir="false" afterPath="$PROJECT_DIR$/../../Python/Karnel Python/Karnel" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/Karnel Python/boot.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Python/Karnel Python/boot.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/Karnel Python/boot.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/Karnel Python/boot/bootloader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/Karnel Python/data/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/Karnel Python/shell/Shell.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/Karnel Python/tool/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RegiterUserJava/src/Data/data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RegiterUserJava/src/Data/user.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RegiterUserJava/src/Ultilites/tool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Sensi Calute/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Sensi Calute/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/20241025.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/ChromeSetup (2).exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/MediaCreationTool_22H2.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/OfficeSetup.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/VSCodeUserSetup-x64-1.96.2.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/ideaIC-2024.3.1.1.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/jre-8u431-windows-x64 (1).exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/node-v22.13.0-x64.msi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/python-3.13.1-amd64.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Windows10 Dev/script.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/LightMode.reg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/Novo Documento de Texto.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/StartPC.reg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/StartPCico.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/StartPCico.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/01f974.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/0rmNcGNKV4F.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/21GHfsTedexryQSgyNOW8X.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/2yd9riCd8KlZqmYe3zRs7G1WsfL8dUabXFPlNguXyB9esMiW0MeCLnGG_AUzITVDxzwEDtOJcTd1Fo5YpPU3W3iq.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/4znsV_qXjt8.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/7dAeOXNjWxR.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/DRZby_Zw9pX.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/Erq9JIEfuV6.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/G2VMuVVEcaD.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/HvEHqoLKFoh7fBBFuKj4joVscVhz2NEw0rVxD_u2Pkqv2RSfFSjWLjPMdkxon6SOeRhr_WHkRYbQN_2SsOE-ssqJx0Eef7DOYop-MGlj7eXzTFYnK0rykQBR7ny9nOqLNBp3vsWqehdEtWw.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/J5OgSLbznhg.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/KI-7l1uxca6.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/L-N0T0XR5pE.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/MmNht19gXKw.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/P4_-Dr9k38Q.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/RJJZOZevEjn.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/RQqn6GwBnLY.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/Rbt6Qd5ZCNG.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/W2MDyeo0zkf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/WTFVlHQzUQD.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/ZRSyWJ7hmqW.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/_WxPYKNWneH.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(1).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(10).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(11).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(12).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(13).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(14).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(15).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(16).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(17).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(18).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(19).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(2).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(3).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(4).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(5).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(6).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(7).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(8).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file(9).enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/file.enc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/fnWvM2LVOHWbHzRgLrAqNChlMy282hieO.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/gG83ZXHO2ND.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/h4Qy0FiYsZ_.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/iIsFOsxjIx7.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/nY2--BFBz1s.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/qIj0VlbnMIz.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../WindowsDarkModeREG/WhatsApp_files/seFqsqXdeQR.js.download" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Work Seach/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Work Seach/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Work Seach/post.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Work Seach/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Work Seach/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Youtube Donloader/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Youtube Donloader/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Youtube Donloader/tool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Youtube Donloader/videos.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="3J77dOmF" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="337FoSGGnRJaQb4MVM65B5IHhL4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.TDDEnv.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;Tomcat Server.Tomcat 11.0.8.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Read&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Projects/Java/TimeLean_Website&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15429688&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.2925586&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunDashboard">
+    <option name="configurationStatuses">
+      <map>
+        <entry key="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory">
+          <value>
+            <map>
+              <entry key="Tomcat 11.0.8" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Tomcat 11.0.8" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.8" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="24" nameIsGenerated="true">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="HivemindWeb">
+          <settings>
+            <option name="CONTEXT_PATH" value="/HivemindWeb_archive" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="eb62a9a2-23b5-45e0-9d71-0dd28c7952cc" />
+        <option name="HTTP_PORT" value="7070" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="63961" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="HivemindWeb" />
+        </option>
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="40edae1b-f512-4934-b121-541b1faf9556" name="Changes" comment="" />
+      <created>1758660379258</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1758660379258</updated>
+      <workItem from="1758660380678" duration="3193000" />
+      <workItem from="1758745024963" duration="244000" />
+      <workItem from="1758925044663" duration="17000" />
+      <workItem from="1758974236121" duration="2997000" />
+      <workItem from="1758995192933" duration="4814000" />
+      <workItem from="1759018345572" duration="1463000" />
+      <workItem from="1759067643097" duration="766000" />
+      <workItem from="1759266999211" duration="57000" />
+      <workItem from="1759267096330" duration="1098000" />
+      <workItem from="1759351942364" duration="1064000" />
+      <workItem from="1759442527357" duration="1589000" />
+      <workItem from="1759520761403" duration="1621000" />
+      <workItem from="1759665065218" duration="3485000" />
+      <workItem from="1759795192476" duration="2197000" />
+      <workItem from="1759864467792" duration="1358000" />
+      <workItem from="1759964154009" duration="2263000" />
+      <workItem from="1760039214024" duration="605000" />
+      <workItem from="1760049317520" duration="2780000" />
+      <workItem from="1760126763207" duration="1798000" />
+      <workItem from="1760139273329" duration="2866000" />
+      <workItem from="1760811958334" duration="224000" />
+      <workItem from="1760819105293" duration="2875000" />
+      <workItem from="1760880616086" duration="708000" />
+      <workItem from="1760899208179" duration="629000" />
+      <workItem from="1760987244561" duration="4981000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>false</integration-enabled>
+    <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

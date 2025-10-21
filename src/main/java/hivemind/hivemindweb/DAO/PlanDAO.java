@@ -136,6 +136,29 @@ public class PlanDAO {
         return null;
     }
 
+    public static Plan selectByID(int id){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT * FROM PLAN WHERE NAME = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setInt(1, id);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()){
+                return new Plan(rs.getInt("ID"), rs.getString("NAME"),
+                        rs.getString("DESCRIPTION"), rs.getInt("DURATION"),
+                        rs.getDouble("PRICE"));
+            }
+
+        } catch (SQLException sqle) {
+            System.err.println("[ERROR] Falied in select: " + sqle.getMessage());
+        }
+        return null;
+    }
+
     public static double getPrice(int id_plan){
         DBConnection db = new DBConnection();
         String sql = "SELECT price FROM Plan WHERE id=?;";
