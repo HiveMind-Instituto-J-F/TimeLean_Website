@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.Worker;
 
 public class WorkerDAO {
@@ -164,6 +165,49 @@ public class WorkerDAO {
         } catch (SQLException e) {
             System.out.println("[ERROR] Failed in selectByPlantCnpj: " + e.getMessage());
         }
+        return workersList;
+    }
+
+    public static List<Worker> selectFilter(FilterType filterType, String filter, String companyCnpj) {
+        List<Worker> workersList = new ArrayList<>();
+        DBConnection db = new DBConnection();
+
+        String sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ?";
+        if (filterType == FilterType.INPUT_CPF) {
+            sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ? AND CPF = ?";
+        } else if (filterType == FilterType.INPUT_SECTOR){
+            sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ? AND SECTOR = ?";
+        } else {
+            sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ?";
+        }
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql);) {
+
+            pstm.setString(1, companyCnpj);
+            if (filterType == FilterType.INPUT_CPF || filterType == FilterType.INPUT_SECTOR) {
+                pstm.setString(2, filter);
+            }
+
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                Worker worker = new Worker(
+                        rs.getString("cpf"),
+                        rs.getString("role"),
+                        rs.getString("sector"),
+                        rs.getString("name"),
+                        rs.getString("login_email"),
+                        rs.getString("login_password"),
+                        rs.getString("cnpj_plant")
+                );
+                workersList.add(worker);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Failed in select: " + e.getMessage());
+        }
+
         return workersList;
     }
 }

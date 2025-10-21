@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/plant-login")
+@WebServlet("/worker/login")
 public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -31,7 +31,7 @@ public class Login extends HttpServlet {
         if (plant == null) {
             System.out.println("[WORKER-LOGIN] ERROR: plant is null");
             request.setAttribute("status", false);
-            request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
             return;
         }
 
@@ -40,7 +40,7 @@ public class Login extends HttpServlet {
         if (worker == null) {
             System.out.println("[WORKER-LOGIN] ERROR: worker is null");
             request.setAttribute("status", false);
-            request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
             return;
         }
 
@@ -61,19 +61,19 @@ public class Login extends HttpServlet {
                     session.setAttribute("plantCnpj", plantCnpj);
                     session.setAttribute("responsibleCpf", responsibleCpf);
 
-                    response.sendRedirect(request.getContextPath() + "/read");
+                    response.sendRedirect(request.getContextPath() + "/worker/read");
                     return;
                 }
 
                 // Wrong credentials
                 System.out.println("[WORKER-LOGIN] ERROR: Incorrect Credentials");
                 request.setAttribute("status", false);
-                request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
             }
         } catch (NullPointerException npe) {
             System.out.println("[WORKER-LOGIN] EXCEPTION: NullPointerException");
             request.setAttribute("status", false);
-            request.getRequestDispatcher("html/crud/worker/login/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
         }
     }
 }

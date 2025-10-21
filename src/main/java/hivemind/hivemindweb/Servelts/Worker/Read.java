@@ -2,8 +2,10 @@ package hivemind.hivemindweb.Servelts.Worker;
 
 import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.DAO.WorkerDAO;
+import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.Plant;
 import hivemind.hivemindweb.models.Worker;
+import jakarta.servlet.Filter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
