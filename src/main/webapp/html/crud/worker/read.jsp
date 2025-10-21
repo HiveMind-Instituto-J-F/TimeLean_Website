@@ -59,7 +59,7 @@
         </td>
     </tr>
     <%
-        } else if (responsibleCpf != null && responsibleCpf.equals(w.getCpf())){
+                } else if (responsibleCpf != null && responsibleCpf.equals(w.getCpf())){
     %>
     <tr>
         <td><%= w.getCpf() %></td>

@@ -19,43 +19,63 @@ import java.util.List;
 @WebServlet("/worker/read")
 public class Read extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve the current session (creates one if not existing)
+        HttpSession session = request.getSession();
+
+        // Get the plant CNPJ stored in the session
+        String plantCnpj = (String) session.getAttribute("plantCnpj");
+
+        if (plantCnpj == null || plantCnpj.isEmpty()) {
+            // Handle missing or invalid session attribute
+            System.err.println("[WORKER-READ] Missing plantCnpj in session.");
+            request.setAttribute("errorMessage", "Plant information not found in session.");
+            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
+            return;
+        }
+
+        // get filter
+        FilterType filterType = FilterType.INPUT_TEXT;
+        String filter = null; // default: all workers
+
+        String requestCpfFilter = request.getParameter("cpfFilter");
+        String requestSectorFilter = request.getParameter("sectorFilter");
+
+        if (requestCpfFilter != null && !requestCpfFilter.isEmpty()){
+            filterType = FilterType.INPUT_CPF;
+            filter = requestCpfFilter;
+        } else if (requestSectorFilter != null && !requestSectorFilter.isEmpty()){
+            filterType = FilterType.INPUT_SECTOR;
+            filter = requestSectorFilter;
+        }
+
         try {
-            HttpSession session = request.getSession();
-            String plantCnpj = (String) session.getAttribute("plantCnpj");
+            // Retrieve all workers associated with the plant
+            List<Worker> workers = WorkerDAO.selectFilter(filterType, filter, plantCnpj);
 
-            if (plantCnpj == null || plantCnpj.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");
-            }
-
-            Plant plant = PlantDAO.selectByPlantCnpj(plantCnpj);
-            if (plant == null) {
-                throw new IllegalArgumentException("CNPJ cant take in DB");
-            }
-
-            List<Worker> workers = WorkerDAO.selectByPlantCnpj(plant.getCNPJ());
-
+            // Set attributes for the JSP view
             request.setAttribute("workers", workers);
             request.setAttribute("plantCnpj", plantCnpj);
 
+            // Forward to the JSP page for display
             request.getRequestDispatcher("/html/crud/worker/read.jsp").forward(request, response);
-
         } catch (NullPointerException npe) {
-            System.err.println("[WARN] Null reference encountered: " + npe.getMessage());
+            // Handle null references (e.g., DAO returned null unexpectedly)
+            System.err.println("[WORKER-READ] Null reference encountered: " + npe.getMessage());
             request.setAttribute("errorMessage", "Internal error while retrieving plant or worker data.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
-            return;
+            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
+
         } catch (IllegalStateException ise) {
-            System.err.println("[WARN] Illegal state error: " + ise.getMessage());
+            // Handle session or response errors
+            System.err.println("[WORKER-READ] Illegal state error: " + ise.getMessage());
             request.setAttribute("errorMessage", "Session or response error. Please reload the page.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
-            return;
+            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
+
         } catch (IllegalArgumentException iae) {
-            System.err.println("[WARN] Invalid argument: " + iae.getMessage());
+            // Handle invalid plantCnpj or DAO argument
+            System.err.println("[WORKER-READ] Invalid argument: " + iae.getMessage());
             request.setAttribute("errorMessage", "Invalid plant data. Please verify the session information.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
-            return;
+            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
         }
     }
 }

@@ -1,8 +1,5 @@
 package hivemind.hivemindweb.Servelts.Company;
 
-import java.io.IOException;
-import java.util.List;
-
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.models.Company;
 import jakarta.servlet.ServletException;
@@ -11,6 +8,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.util.List;
+
 @WebServlet("/company/read")
 public class Read extends HttpServlet {
     @Override
@@ -18,7 +18,6 @@ public class Read extends HttpServlet {
         try{
             List<Company> companies;
             String status = req.getParameter("status");
-            if(status.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");}
 
             // Validate initial status
             try{
@@ -26,8 +25,6 @@ public class Read extends HttpServlet {
             } catch (NullPointerException npe){
                 status = null;
             }
-
-
             
             String filter = "active-companies"; // Default filter
             if (status != null) {
@@ -43,7 +40,7 @@ public class Read extends HttpServlet {
                 else {
                     System.err.println("[WARN] Invalid filter.");
                     req.setAttribute("errorMessage", "Invalid filter.");
-                    req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                     return;
                 }
             }
