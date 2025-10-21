@@ -3,13 +3,11 @@ package hivemind.hivemindweb.Servelts.Login;
 
 import java.io.IOException;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
@@ -55,6 +53,10 @@ public class CheckSessionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        resp.setHeader("Access-Control-Allow-Origin", "https://area-restrita-5xoh.onrender.com");
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
+        resp.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         resp.setContentType("application/json");
 
         try {
@@ -62,16 +64,21 @@ public class CheckSessionServlet extends HttpServlet {
 
             if (session == null) {
                 resp.getWriter().write("{\"loggedIn\": false}");
+                System.out.println("[INFO] Não há sessão ativa (CheckSessionServlet).");
                 return;
             }
 
             String sessionKey = "session:" + session.getId();
             boolean exists = jedis.exists(sessionKey);
 
+
             if (exists && "true".equals(jedis.hget(sessionKey, "logged"))) {
-                resp.getWriter().write("{\"loggedIn\": true}");
+                String email = (String) jedis.hget(sessionKey, "email");
+                System.out.println("[INFO] Usuário logado (CheckSessionServlet): " + email);
+                resp.getWriter().write("{\"loggedIn\":true,\"email\":\"" + email + "\"}");
             } else {
                 resp.getWriter().write("{\"loggedIn\": false}");
+                System.out.println("[INFO] Usuário não logado (CheckSessionServlet).");
             }
 
         } catch (Exception e) {

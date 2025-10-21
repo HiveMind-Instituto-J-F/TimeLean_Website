@@ -9,10 +9,7 @@ import hivemind.hivemindweb.models.Admin;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
@@ -83,9 +80,17 @@ public class LoginServlet extends HttpServlet {
 
                 session.setAttribute("user", adminClient);
                 session.setAttribute("login", true);
+
+                Cookie cookie = new Cookie("JSESSIONID", session.getId());
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true); // necessário em HTTPS
+                cookie.setAttribute("SameSite", "None"); // essencial para cross-domain
+                resp.addCookie(cookie);
+
                 System.out.println("[INFO] Login Successful - Salvo no Redis remoto com chave: " + sessionKey);
 
-                req.getRequestDispatcher(req.getContextPath() + "/toUser.html").forward(req, resp);
+                req.getRequestDispatcher("/html/crud/toUser.html").forward(req, resp);
             } else {
                 session.setAttribute("login", false);
                 throw new LoginException("Email ou senha incorretos.");
