@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/udpate-paymount")
+@WebServlet("/payment/update")
 public class Update extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {

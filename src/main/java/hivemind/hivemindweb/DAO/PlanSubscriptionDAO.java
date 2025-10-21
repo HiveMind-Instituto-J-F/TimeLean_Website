@@ -15,7 +15,7 @@ public class PlanSubscriptionDAO {
     public static List<PlanSubscription> select(){
         List<PlanSubscription> PlanSubscriptionList = new ArrayList<>();
         DBConnection db = new DBConnection();
-    String sql = "SELECT * FROM PLAN_SUBSCRIPTION ORDER BY id";
+        String sql = "SELECT * FROM PLAN_SUBSCRIPTION ORDER BY id";
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql);
