@@ -1,6 +1,8 @@
 package hivemind.hivemindweb.Servelts.Plan.update;
 
-import hivemind.hivemindweb.DAO.PaymentDAO;
+import java.io.IOException;
+import java.util.List;
+
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
@@ -8,9 +10,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-
-import java.io.IOException;
 
 @WebServlet("/plan/render-update")
 public class Render extends HttpServlet {
@@ -19,7 +18,7 @@ public class Render extends HttpServlet {
             // Create and validate company
             List<Plan> planList;
             planList = PlanDAO.select();
-            if (planList == null){
+            if (planList == null || planList.isEmpty()){
                 throw new NullPointerException("Values Is Null, Value: 'planList'");
             }
             

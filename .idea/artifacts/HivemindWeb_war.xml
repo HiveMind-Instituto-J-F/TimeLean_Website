@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="HivemindWeb_war">
-    <output-path>$PROJECT_DIR$/out/artifacts/HivemindWeb_war</output-path>
-    <root id="root">
-      <element id="directory" name="HivemindWeb" />
-    </root>
-  </artifact>
-</component>

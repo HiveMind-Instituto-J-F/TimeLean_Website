@@ -1,5 +1,7 @@
 package hivemind.hivemindweb.Servelts.Company.update;
 
+import java.io.IOException;
+
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.models.Company;
 import jakarta.servlet.ServletException;
@@ -7,8 +9,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
 
 @WebServlet("/company/render-update")
 public class Render extends HttpServlet {

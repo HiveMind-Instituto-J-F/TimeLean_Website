@@ -17,8 +17,8 @@ public class PaymentDAO {
         String sql = "SELECT * FROM payment ORDER BY id";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 Payment PaymentLocal = new Payment(
@@ -144,7 +144,7 @@ public class PaymentDAO {
         DBConnection db = new DBConnection();
         String sql = """
             INSERT INTO payment (value,deadline,method,beneficiary,status,id_plan_subscription)
-            VALUES (?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?,?)
         """;
 
         try(Connection conn = db.connected();
@@ -155,6 +155,7 @@ public class PaymentDAO {
             psmt.setString(4, payment.getBeneficiary());
             psmt.setString(5, payment.getStatus());
             psmt.setInt(6, payment.getIdPlan());
+
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
             System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());

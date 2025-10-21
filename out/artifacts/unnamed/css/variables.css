@@ -1,0 +1,40 @@
+:root {
+    /* Paleta de Cores ↓ */
+    --oil: #274855;
+    --black-oil: #202C33;
+    --orange: #E89640;
+    --black: #4B4844;
+    --polar: #DAE4E3;
+    --white: #FFFFFF;
+
+    /* CRUD, Paleta de Cores ↓ */
+    --grey: #BEC9C9;
+    --blue: #6FA6ED;
+    --yellow: #F2BE4F;
+    --red: #ED5558;
+
+    /* Padronização de bordas ↓ */
+    --border-big: 15px;
+    --border-medium: 6px;
+    --border-small: 4.5px;
+    --border-simple: 2.5px;
+    --border-traced-orange: 3px solid var(--orange);
+    --border-traced-grey: 3px solid var(--grey);
+
+    /* Padronização de valores ↓ */
+    --icon: 18px;
+
+    --weak-shadow: 0 4px 22px -8px rgba(0, 0, 0, 0.066);
+    --strong-shadow: 0 4px 40px 5px rgba(0, 0, 0, 0.120);
+    --inner-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.120);
+    --text-shadow:  0 10px 5px rgba(0, 0, 0, 0.33);
+
+    --navbar: 4vw;
+    --section-spacing: min(15vh, 150px) 0;
+    
+    --crud-spacing: min(8vh, 150px);
+    --crud-table-icons-width: 28px;
+    --crud-table-icons-height: 28px;
+    --crud-table-icons-padding: 4px;
+    --crud-table-icons-gap: 8px;
+}

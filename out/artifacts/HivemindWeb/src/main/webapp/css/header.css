@@ -1,0 +1,165 @@
+<<<<<<< HEAD
+* {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+nav {
+  color: var(--preto);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 350px;
+  -webkit-user-select: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  padding: 15px 40px;
+  width: 800px;
+  border-radius: 6px;
+  
+  /* Blur ↓ */
+  background: transparent;
+  backdrop-filter: blur(10px);
+  box-shadow: 0px 2px 20px -15px rgba(0, 0, 0, 0.205);
+
+  /* Posição absoluta ↓ */
+  position: fixed;
+  top: 30px;
+  left: 150px;
+  right: 150px;
+  z-index: 1000;
+}
+
+header>:first-child {
+  width: 130px;
+}
+
+header>:last-child {
+  width: 130px;
+}
+
+header>nav {
+  margin: 0 auto;
+}
+
+header a {
+  font-size: 15px;
+}
+
+button {
+  cursor: pointer;
+  -webkit-user-select: none;
+}
+
+a, a:visited, a:hover, a:active {
+  text-decoration: none !important;
+}
+
+#timelean {
+  background-color: transparent;
+  border: 0;
+}
+
+#timelean img {
+  width: 125px;
+  height: auto;
+}
+
+.button {
+  border: 0;
+  text-align: center;
+  background-color: var(--laranja) !important;
+  color: var(--branco) !important;
+}
+
+/* Botão, variações de tamanho ↓ */
+button.small {
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+button.medium {
+  padding: 12px 48px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+button.big {
+  padding: 12px 60px;
+  border-radius: 4.5px;
+}
+
+#unset {
+  margin: unset;
+}
+=======
+@import url(variables.css);
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: min(2.5vh, 25px) 8vh;
+  position: sticky;
+  z-index: 1000;
+}
+
+.blur {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--weak-shadow);
+  border-radius: var(--border-medium);
+  border: 0;
+}
+
+header>:first-child, header>:last-child {
+  width: clamp(110px, 8vw, 160px);
+}
+
+header>nav {
+  color: var(--black);
+  margin: 0 8vw;
+}
+
+header>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto !important;
+}
+
+header>div>:nth-child(1) {
+  margin-right: 5vw;
+}
+
+header>nav>a, footer>nav>a {
+  text-align: center;
+}
+
+/*
+    Media Query ↓
+    max-width: 800px
+*/
+
+.sidebar {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  header {
+    display: none;
+  }
+}
+
+>>>>>>> refs/remotes/origin/dev

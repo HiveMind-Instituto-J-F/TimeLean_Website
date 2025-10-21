@@ -1,5 +1,8 @@
 package hivemind.hivemindweb.Servelts.Payment.update;
 
+import java.io.IOException;
+import java.util.List;
+
 import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.models.Payment;
 import jakarta.servlet.ServletException;
@@ -7,9 +10,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-
-import java.io.IOException;
 
 @WebServlet("/payment/render")
 public class Render extends HttpServlet {
@@ -20,7 +20,7 @@ public class Render extends HttpServlet {
             paymentList = PaymentDAO.select();
             System.out.println("[INF] [" + java.time.LocalDateTime.now() + "] Payment.Render -> Payment list successfully loaded. Total: " + paymentList.size());
 
-            if (paymentList == null && paymentList.isEmpty()){
+            if (paymentList == null || paymentList.isEmpty()){
                 throw new NullPointerException("Values Is Null, Value: 'paymentList'");
             }
             
@@ -36,7 +36,6 @@ public class Render extends HttpServlet {
             // Redirect to error.jsp in case of NullPointerException
             System.err.println("[WARN] ERROR: NullPointerException");
             req.getRequestDispatcher("\\html\\crud\\company\\error\\error.jsp").forward(req, resp);
-            return;
         }
         catch(ServletException se){
             System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
