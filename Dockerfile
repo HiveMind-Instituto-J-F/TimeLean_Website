@@ -29,6 +29,13 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Copia o WAR gerado pelo Maven para ROOT.war
 COPY --from=builder /app/target/HivemindWeb-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
 
+CMD cd /usr/local/tomcat/logs && \
+    ls -l && \
+    cat catalina.out && \
+    tail -n 50 catalina.out && \
+    tail -f catalina.out
+
+
 # Expondo porta 8080
 EXPOSE 8080
 
