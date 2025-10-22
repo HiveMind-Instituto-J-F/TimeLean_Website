@@ -6,10 +6,10 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:24-jdk AS runtime
-RUN apt update && apt install -y wget unzip \
-    && wget https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.13/bin/apache-tomcat-11.0.13.zip \
-    && unzip apache-tomcat-11.0.13.zip -d /usr/local/ \
-    && mv /usr/local/apache-tomcat-11.0.13 /usr/local/tomcat
+RUN sudo apt update && apt install -y wget unzip \
+    && sudo wget https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.13/bin/apache-tomcat-11.0.13.zip \
+    && sudo unzip apache-tomcat-11.0.13.zip -d /usr/local/ \
+    && sudo mv /usr/local/apache-tomcat-11.0.13 /usr/local/tomcat
 WORKDIR /usr/local/tomcat
 COPY --from=builder /app/target/*.war webapps/ROOT.war
 EXPOSE 8080
