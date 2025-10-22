@@ -64,7 +64,10 @@
                     <option value="paid">Pagos</option>
                     <option value="canceled">Cancelados</option>
                 </select>
+                <input type="number" placeholder="Digite o id do plano" name="idPlanSubscription">
                 <button class="inter" type="submit">Filtrar</button>
+
+                <input type="text">
             </form>
 
             <a href="${pageContext.request.contextPath}/html/crud/payment/create.jsp">

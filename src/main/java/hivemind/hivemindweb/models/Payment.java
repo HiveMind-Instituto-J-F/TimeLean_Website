@@ -32,6 +32,13 @@ public class Payment {
         this.status = status;
         this.idPlanSubscription = idPlanSubscription;
     }
+    public Payment(int id, LocalDate deadline, String method, String beneficiary, String status){
+        this.id = id;
+        this.deadline = deadline;
+        this.method = method;
+        this.beneficiary = beneficiary;
+        this.status = status;
+    }
     
     public Payment(int idPlanSubscription){
         this.idPlanSubscription = idPlanSubscription;
