@@ -1,26 +1,8 @@
-# Etapa 1 — Build do WAR com Maven
-FROM maven:3.9.8-eclipse-temurin-21 AS build
-WORKDIR /app
-
-# Copia os arquivos necessários e instala dependências
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
-
-# Copia o código e gera o WAR
-COPY src ./src
-RUN mvn clean package -DskipTests
-
-# Etapa 2 — Deploy no Tomcat 11.0.8 com JDK 24
-FROM tomcat:11.0.8-jdk24
-
-# Remove o app padrão do Tomcat
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
-
-# Copia o WAR gerado do build anterior
-COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
-
-# Expõe a porta padrão do Tomcat
+FROM eclipse-temurin:24-jdk AS jdk
+RUN sudo apt update && apt install -y wget unzip \
+    && wget https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.8/bin/apache-tomcat-11.0.8.zip \
+    && unzip apache-tomcat-11.0.8.zip -d /usr/local/ \
+    && mv /usr/local/apache-tomcat-11.0.8 /usr/local/tomcat
+WORKDIR /usr/local/tomcat
 EXPOSE 8080
-
-# Comando para iniciar o Tomcat
-CMD ["catalina.sh", "run"]
+CMD ["bin/catalina.sh", "run"]
