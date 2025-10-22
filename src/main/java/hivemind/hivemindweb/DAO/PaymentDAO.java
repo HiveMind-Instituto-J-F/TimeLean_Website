@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Filter;
 
 import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.Payment;
 
 public class PaymentDAO {
@@ -39,6 +41,33 @@ public class PaymentDAO {
         return PaymentList;
     }
 
+    public static Payment select(int id){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT * FROM payment WHERE id = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql);) {
+
+            pstm.setInt(1, id);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                return new Payment(
+                        rs.getInt("id"),
+                        rs.getDouble("value"),
+                        rs.getDate("deadline").toLocalDate(),
+                        rs.getString("method"),
+                        rs.getString("beneficiary"),
+                        rs.getString("status"),
+                        rs.getInt("id_plan_subscription")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Falied in select: " + e.getMessage());
+        }
+
+        return null;
+    }
+
     public static List<Payment> selectPendingPayments(String companyCnpj){
         List<Payment> paymentList = new ArrayList<>();
         DBConnection db = new DBConnection();
@@ -57,6 +86,60 @@ public class PaymentDAO {
         try (Connection conn = db.connected();
              PreparedStatement pstmt = conn.prepareStatement(sql);) {
             pstmt.setString(1, companyCnpj);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Payment PaymentLocal = new Payment(
+                        rs.getInt("id"),
+                        rs.getDouble("value"),
+                        rs.getDate("deadline").toLocalDate(),
+                        rs.getString("method"),
+                        rs.getString("beneficiary"),
+                        rs.getString("status"),
+                        rs.getInt("id_plan_subscription")
+                );
+                paymentList.add(PaymentLocal);
+            }
+            return paymentList;
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Falied in select: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static List<Payment> selectFilter(FilterType.Payment filterType, int filter){
+        List<Payment> paymentList = new ArrayList<>();
+        DBConnection db = new DBConnection();
+        String sql = null;
+
+        if (filterType == FilterType.Payment.ID_PLAN_SUBSCRIPTION){
+            sql = """
+                    SELECT *
+                    FROM PAYMENT
+                    WHERE id_plan_subscription = ?
+                    """;
+        } else if (filterType == FilterType.Payment.ALL_VALUES){
+            sql = """
+                    SELECT *
+                    FROM PAYMENT
+                    """;
+        } else {
+            sql = """
+                    SELECT *
+                    FROM PAYMENT
+                    WHERE status = ?
+                    """;
+        }
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+            if (filterType == FilterType.Payment.ID_PLAN_SUBSCRIPTION){
+                pstmt.setInt(1, filter);
+            } else if (!(filterType == FilterType.Payment.ALL_VALUES)){
+                pstmt.setString(1, String.valueOf(filterType));
+            }
+
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -114,24 +197,18 @@ public class PaymentDAO {
         DBConnection db = new DBConnection();
         String sql = """
             UPDATE payment
-            SET value = ?,
-                deadline = ?,
+            SET deadline = ?,
                 method = ?,
-                beneficiary = ?,
-                status = ?,
-                id_plan_subscription = ?
+                status = ?
             WHERE id = ?
         """;
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setDouble(1, payment.getValue());
-            pstm.setDate(2, java.sql.Date.valueOf(payment.getDeadline()));
-            pstm.setString(3, payment.getMethod());
-            pstm.setString(4, payment.getBeneficiary());
-            pstm.setString(5, payment.getStatus());
-            pstm.setInt(6, payment.getIdPlan());
-            pstm.setInt(7, payment.getId());
+            pstm.setDate(1, java.sql.Date.valueOf(payment.getDeadline()));
+            pstm.setString(2, payment.getMethod());
+            pstm.setString(3, payment.getStatus());
+            pstm.setInt(4, payment.getId());
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
@@ -144,7 +221,7 @@ public class PaymentDAO {
         DBConnection db = new DBConnection();
         String sql = """
             INSERT INTO payment (value,deadline,method,beneficiary,status,id_plan_subscription)
-            VALUES (?,?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?)
         """;
 
         try(Connection conn = db.connected();
