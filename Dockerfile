@@ -1,5 +1,6 @@
 FROM eclipse-temurin:24-jdk AS builder
 WORKDIR /app
+RUN apt update && apt install -y maven
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
