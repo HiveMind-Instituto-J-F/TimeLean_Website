@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.models.Plan;
 import hivemind.hivemindweb.models.PlanSubscription;
 
 public class PlanSubscriptionDAO {
@@ -36,6 +37,33 @@ public class PlanSubscriptionDAO {
         }
 
         return PlanSubscriptionList;
+    }
+
+    public static PlanSubscription select(int id){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT * FROM PLAN_SUBSCRIPTION WHERE ID = ?";
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql);) {
+
+            pstm.setInt(1, id);
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                PlanSubscription planSubscriptionLocal = new PlanSubscription(
+                        rs.getInt("id"),
+                        rs.getDate("start_date").toLocalDate(),
+                        rs.getString("cnpj_company"),
+                        rs.getInt("id_plan"),
+                        rs.getInt("number_installments")
+                );
+                return planSubscriptionLocal;
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Falied in select: " + e.getMessage());
+        }
+
+        return null;
     }
 
     public static int getID(PlanSubscription planSubscription){
