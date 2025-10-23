@@ -32,53 +32,20 @@ public class Create extends HttpServlet {
             
             String registrantCpf = req.getParameter("company-registrant-cpf");
             if(registrantCpf.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'registrantCpf'");}
-            
-            String psStartDateStr = req.getParameter("psubscription-start-date");
-            if(psStartDateStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'psStartDate'");}
-            LocalDate psStartDate = LocalDate.parse(psStartDateStr);
-
-            String numberInstallmentsString = req.getParameter("psubscription-start-date");
-            if(numberInstallmentsString.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'psStartDate'");}
-            int numberInstallments = Integer.parseInt(numberInstallmentsString);
 
             Integer message;
 
-            String planIDStr = req.getParameter("plan-description");
-            if(planIDStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'planID'");}
-            Integer planId = Integer.parseInt(planIDStr);
-            
-            try{
-                planId = PlanDAO.select(planIDStr).getId();
-            } catch (NullPointerException npe){
-                planId = null;
-            }
-            
             // Create company
             Company company = new Company(cnpj, name, cnae, registrantCpf, true);
 
             // try to make inserts by DAO and set messages
-            if (planId != null) {
-                if (CompanyDAO.insert(company)) {
-                    if (PlanSubscriptionDAO.insert(new PlanSubscription(psStartDate, cnpj, planId, numberInstallments), false)) {
-                        message = 1; // success
-                    } else {
-                        try {
-                            CompanyDAO.rollbackCreate(company);  // Rollback
-                        } catch (InvalidForeignKeyException ifk) {
-                            System.err.println("[ERROR] Invalid FK In Create Company:  " + ifk.getMessage());
-                            req.setAttribute("errorMessage", "[WARN] Unable to delete: " + ifk.getMessage());
-                            req.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(req, resp);
-                        }
-                        message = 2; // subscription insert failed
-                    }
-                } else {
-                    message = 3; // company insert failed
-                }
+
+            if (CompanyDAO.insert(company)) {
+                message = 1; // success
             } else {
-                message = 4; // planId null
+                message = 3; // company insert failed
             }
 
-            // REVER A ADIÇAO DE PLANO
 
             // Dispatch request with attribute 'message'
             req.setAttribute("status", message);
