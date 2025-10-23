@@ -6,4 +6,8 @@ public enum FilterType {
     public enum Payment{
         ALL_VALUES, ID_PLAN_SUBSCRIPTION, PENDING, PAID, CANCELED
     }
+
+    public enum PlanSubscription {
+        ALL_VALUES, ID_PLAN, CNPJ_COMPANY
+    }
 }

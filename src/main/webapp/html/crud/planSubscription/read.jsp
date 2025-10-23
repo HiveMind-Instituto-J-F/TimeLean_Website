@@ -57,15 +57,9 @@
         <h1 class="inter-bold">Inserções de Planos Cadastradas</h1>
 
         <div id="filter-bar" class="inter">
-            <form action="${pageContext.request.contextPath}/planSub/read" method="get">
-                <select class="inter" id="installments" name="installments">
-                    <option value="all">Todos</option>
-                    <option value="1">1x</option>
-                    <option value="2">2x</option>
-                    <option value="3">3x</option>
-                    <option value="6">6x</option>
-                    <option value="12">12x</option>
-                </select>
+            <form action="${pageContext.request.contextPath}/plan_subscription/read" method="get">
+                <input type="text" name="cnpj_company" placeholder="Filtrar por CNPJ da empresa">
+                <input type="text" name="id_plan" placeholder="Filtrar por ID de plano">
                 <button class="inter" type="submit">Filtrar</button>
             </form>
 
@@ -82,7 +76,9 @@
                 <th>CNPJ Empresa</th>
                 <th>ID Plano</th>
                 <th>Nº Parcelas</th>
+                <th>Status</th>
                 <th>Ações</th>
+            
             </tr>
             </thead>
             <tbody class="inter-thin">
@@ -96,7 +92,8 @@
                 <td><%= ps.getStartDate() %></td>
                 <td><%= ps.getCnpjCompany() %></td>
                 <td><%= ps.getIdPlan() %></td>
-                <td><%= ps.getNumberInstallments() %>x</td>
+                <td><%= ps.getNumberInstallments() %></td>
+                <td><%= ps.getStatus() %></td>
                 <td>
                     <div class="actions">
                         <form action="${pageContext.request.contextPath}/planSub/show" method="get">
@@ -105,13 +102,13 @@
                                 <img src="${pageContext.request.contextPath}/img/icons/ui/eye.png" alt="Mostrar">
                             </button>
                         </form>
-                        <form class="create" action="${pageContext.request.contextPath}/planSub/render-update" method="get">
+                        <form class="create" action="${pageContext.request.contextPath}/plan_subscription/render-update" method="get">
                             <input type="hidden" name="id" value="<%= ps.getId() %>">
                             <button type="submit">
                                 <img src="${pageContext.request.contextPath}/img/icons/ui/pencil (black).png" alt="Editar">
                             </button>
                         </form>
-                        <form class="delete" action="${pageContext.request.contextPath}/planSub/delete" method="get">
+                        <form class="delete" action="${pageContext.request.contextPath}/plan_subscription/delete" method="get">
                             <input type="hidden" name="id" value="<%= ps.getId() %>">
                             <button type="submit">
                                 <img src="${pageContext.request.contextPath}/img/icons/ui/trash (black).png" alt="Deletar">
