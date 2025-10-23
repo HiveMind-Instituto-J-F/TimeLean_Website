@@ -9,14 +9,16 @@ public class PlanSubscription {
     private String cnpjCompany;
     private int idPlan;
     private int numberInstallments;
+    private boolean status;
 
     // Construtor
-    public PlanSubscription(int id, LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments){
+    public PlanSubscription(int id, LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments, boolean status){
         this.id = id;
         this.startDate = startDate;
         this.cnpjCompany = cnpjCompany;
         this.idPlan = idPlan;
         this.numberInstallments = numberInstallments;
+        this.status = status;
     }
     public PlanSubscription(LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments){
         this.startDate = startDate;
@@ -25,6 +27,8 @@ public class PlanSubscription {
         this.numberInstallments = numberInstallments;
     }
 
+    // Builder method --> update
+    public PlanSubscription(int id, LocalDate startDate, boolean status) {this.id = id; this.startDate = startDate; this.status=status;}
     public PlanSubscription(int id){
         this.id = id;
     }
@@ -48,7 +52,12 @@ public class PlanSubscription {
     public int getIdPlan(){
         return idPlan;
     }
+    public boolean getStatus(){return status;}
     public int getNumberInstallments(){
         return numberInstallments;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
