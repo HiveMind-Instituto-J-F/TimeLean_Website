@@ -1,7 +1,9 @@
 package hivemind.hivemindweb.Services.AppListener;
 
+import hivemind.hivemindweb.Services.Email.EmailService;
 import hivemind.hivemindweb.config.EnvLoader;
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -25,6 +27,11 @@ public class AppListener implements ServletContextListener {
             EnvLoader.init(sce.getServletContext());
             Dotenv dotenv = EnvLoader.getDotenv();
             sce.getServletContext().setAttribute("data", dotenv);
+
+            // Start Email Service
+            EmailService Email = new EmailService();
+            Email.init(sce.getServletContext());
+            sce.getServletContext().setAttribute("EmailService", Email);
             System.out.println("=================================================");
         }
         catch (Exception de){
