@@ -2,11 +2,11 @@ package hivemind.hivemindweb.Servelts.PlanSubscription;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
-import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
-import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,60 +14,98 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/planSub/create")
+@WebServlet("/plan_subscription/create")
 public class Create extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
-        try{
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        System.out.println("[INFO] [" + LocalDateTime.now() + "] Entered Create PlanSubscription servlet");
+
+        try {
+            // Validate and parse start date
             String startDateStr = req.getParameter("start_date");
-            if(startDateStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'startDate'");}
-            LocalDate startDate = LocalDate.parse(startDateStr); 
+            if (startDateStr == null || startDateStr.isEmpty()) {
+                throw new IllegalArgumentException("Data de início não informada.");
+            }
+            LocalDate startDate = LocalDate.parse(startDateStr);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Received start_date: " + startDate);
 
+            // Validate company CNPJ
             String cnpjCompany = req.getParameter("cnpj_company");
-            if(cnpjCompany.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnjp_company'");}
-
-            String cnpjFromDB = CompanyDAO.getCNPJ(cnpjCompany);
-            if (cnpjFromDB == null || !cnpjFromDB.equalsIgnoreCase(cnpjCompany)) {
-                throw new InvalidForeignKeyException("Foreign Key is not valid");
+            if (cnpjCompany == null || cnpjCompany.isEmpty()) {
+                throw new IllegalArgumentException("CNPJ da empresa não informado.");
             }
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Received cnpj_company: " + cnpjCompany);
 
+            // Validate plan ID
             String idPlanStr = req.getParameter("id_plan");
-            if(idPlanStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id_plan'");}
-            int idpPlan = Integer.parseInt(idPlanStr);
+            if (idPlanStr == null || idPlanStr.isEmpty()) {
+                throw new IllegalArgumentException("ID do plano não informado.");
+            }
+            int idPlan = Integer.parseInt(idPlanStr);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Received id_plan: " + idPlan);
 
+            // Validate number of installments
             String numberInstallmentsStr = req.getParameter("number_installments");
-            if(numberInstallmentsStr == null || numberInstallmentsStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'number_installments'");}
+            if (numberInstallmentsStr == null || numberInstallmentsStr.isEmpty()) {
+                throw new IllegalArgumentException("Número de parcelas não informado.");
+            }
             int numberInstallments = Integer.parseInt(numberInstallmentsStr);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Received number_installments: " + numberInstallments);
 
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, idpPlan, numberInstallments);
-            if(PlanSubscriptionDAO.insert(planSubscriptionLocal,false)){
-                System.out.println("[WARN] Insert PlanSubscription Sussefly");
-                req.setAttribute("msg", "PlanSubscription Foi Adicionado Com Susseso!");
+            // Validate status
+            String statusStr = req.getParameter("status");
+            if (statusStr == null || statusStr.isEmpty()){
+                throw new IllegalArgumentException("Status inicial não fornecido");
             }
-            else{
-                System.out.println("[WARN] Erro in PlanSubscriptionDAO");
-                System.out.println("[ERROR] Plan Subscription Nao foi Adicionado devido a um Erro!");
-                req.setAttribute("msg", "Plan Subscription Nao foi Adicionado devido a um Erro!");
+            boolean status = Boolean.parseBoolean(statusStr);
+
+            // Create and insert PlanSubscription
+            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, idPlan, numberInstallments);
+            boolean inserted = PlanSubscriptionDAO.insert(planSubscriptionLocal, false);
+
+            // Check for existing active plan subscriptions
+            planSubscriptionLocal.setStatus(status);
+            List<PlanSubscription> activePlans = PlanSubscriptionDAO.selectActivePlans(cnpjCompany);
+            for (PlanSubscription ps : activePlans) {
+                if (ps.getStatus() && planSubscriptionLocal.getStatus()) {
+                    throw new IllegalArgumentException("Já existe uma assinatura ativa para esta empresa.");
+                }
             }
-            req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);;
-        }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-        }
-        catch(InvalidForeignKeyException ifk){
-            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
-            req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  ifk.getCause());
-        }
-        catch(DateTimeParseException dpe){
-            System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
-            req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  dpe.getCause());
-        }
-        catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+
+            if (inserted) {
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription.Create -> Record successfully created.");
+            } else {
+                throw new IllegalStateException("Falha ao inserir a assinatura no banco de dados.");
+            }
+
+            // Redirect after success
+            resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting successfully");
+
+        } catch (DateTimeParseException dpe) {
+            // Handle invalid date format
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] DateTimeParseException: " + dpe.getMessage());
+            req.setAttribute("errorMessage", "Formato de data inválido: " + dpe.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/plan_subscription/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (DateTimeParseException)");
+
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            // Handle invalid parameters, business rule violations, or database insert failure
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscription.Create -> " + e.getClass().getSimpleName() + ": " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro ao criar a assinatura: " + e.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/plan_subscription/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (" + e.getClass().getSimpleName() + ")");
+
+        } catch (Exception e) {
+            // Catch-all for unexpected errors
+            System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro inesperado ao criar a assinatura: " + e.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/plan_subscription/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (Exception)");
         }
     }
 }

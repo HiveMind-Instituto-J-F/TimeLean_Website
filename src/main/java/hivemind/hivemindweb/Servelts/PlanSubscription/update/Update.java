@@ -3,10 +3,9 @@ package hivemind.hivemindweb.Servelts.PlanSubscription.update;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
-import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
-import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,60 +13,103 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/planSub/update")
+@WebServlet("/plan_subscription/update")
 public class Update extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
-        try{
-            String id_planStr = req.getParameter("id_plan");
-            if(id_planStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id_plan'");}
-            int id_plan = Integer.parseInt(id_planStr);
 
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        System.out.println("[INFO] Entered Update PlanSubscription servlet");
+
+        try {
+            // Get and validate 'id' parameter
+            String idParam = req.getParameter("id");
+            if (idParam == null) {
+                throw new IllegalArgumentException("Parâmetro 'id' não informado.");
+            }
+            int id = Integer.parseInt(idParam);
+            System.out.println("[INFO] Received id: " + id);
+
+            // Get and validate 'start_date' parameter
             String startDateStr = req.getParameter("start_date");
-            if(startDateStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'startDate'");}
-            LocalDate startDate = LocalDate.parse(startDateStr); 
+            if (startDateStr == null || startDateStr.isEmpty()) {
+                throw new IllegalArgumentException("Data de início não informada.");
+            }
+            LocalDate startDate = LocalDate.parse(startDateStr);
+            System.out.println("[INFO] Received start_date: " + startDate);
 
+            // Get and validate 'status' parameter
+            String statusParam = req.getParameter("status");
+            if (statusParam == null || statusParam.isEmpty()) {
+                throw new IllegalArgumentException("Status não informado.");
+            }
+            boolean status = Boolean.parseBoolean(statusParam);
+            System.out.println("[INFO] Received status: " + status);
+
+            // Create local PlanSubscription object
+            PlanSubscription planSubscriptionLocal = new PlanSubscription(id, startDate, status);
+
+            // Get and validate 'cnpj_company' parameter
             String cnpjCompany = req.getParameter("cnpj_company");
-            if(cnpjCompany.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnjp_company'");}
+            if (cnpjCompany == null || cnpjCompany.isEmpty()) {
+                throw new IllegalArgumentException("CNPJ da empresa não informado.");
+            }
+            System.out.println("[INFO] Received cnpj_company: " + cnpjCompany);
 
-            String cnpjFromDB = CompanyDAO.getCNPJ(cnpjCompany);
-            if (cnpjFromDB == null || !cnpjFromDB.equalsIgnoreCase(cnpjCompany)) {
-                throw new InvalidForeignKeyException("Foreign Key is not valid");
+            // Check for existing active plan subscriptions
+            List<PlanSubscription> activePlans = PlanSubscriptionDAO.selectActivePlans(cnpjCompany);
+            for (PlanSubscription ps : activePlans) {
+                if (ps.getId() != id && ps.getStatus() && planSubscriptionLocal.getStatus()) {
+                    throw new IllegalArgumentException("Já existe uma assinatura ativa para esta empresa.");
+                }
             }
-            
-            String numberInstallmentsStr = req.getParameter("number_installments");
-            if(numberInstallmentsStr == null || numberInstallmentsStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'number_installments'");}
-            int numberInstallments = Integer.parseInt(numberInstallmentsStr);
 
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompany, id_plan, numberInstallments);
-            if(PlanSubscriptionDAO.update(planSubscriptionLocal)){
-                System.out.println("[WARN] Update PlanSubscription Sussefly");
-                req.setAttribute("msg", "PlanSubscription Foi Atalizado Com Susseso!");
+            // Update PlanSubscription
+            if (PlanSubscriptionDAO.update(planSubscriptionLocal)) {
+                System.out.println("[INFO] PlanSubscription updated successfully");
+            } else {
+                System.err.println("[WARN] PlanSubscription could not be updated due to an internal error");
+                req.setAttribute("errorMessage", "Não foi possível atualizar a assinatura. Verifique se ela existe.");
+                req.setAttribute("errorUrl", req.getContextPath() + "/company/read?id=" + id);
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                System.out.println("[INFO] Servlet exiting with failure (update failed)");
+                return;
             }
-            else{
-                System.out.println("[WARN] Erro in PlanSubscriptionDAO");
-                System.out.println("[ERROR] Plan Subscription Nao foi Adicionado devido a um Erro!");
-                req.setAttribute("msg", "Plan Subscription Nao Pode Ser encotrado!");
-            }
-            req.getRequestDispatcher("html\\crud\\planSub.jsp").forward(req, resp);;
-        }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Update Servelet, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-        }
-        catch(InvalidForeignKeyException ifk){
-            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
-            req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  ifk.getCause());
-        }
-        catch(DateTimeParseException dpe){
-            System.out.println("[ERRO] Failead Convert Date, Erro: " + dpe.getMessage());
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Dados inválidos: " + dpe.getMessage());
-            req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  dpe.getCause());
-        }
-        catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+
+            // Redirect to read page on success
+            resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
+            System.out.println("[INFO] Servlet exiting successfully");
+
+        } catch (IllegalArgumentException iae) {
+            // Handle invalid parameters or business rule violations
+            // e.g., missing id, missing start_date, missing status, or duplicate active plan
+            System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
+            req.setAttribute("errorMessage", "Erro nos parâmetros informados: " + iae.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read?id=" + req.getParameter("id"));
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            System.out.println("[INFO] Servlet exiting with failure (IllegalArgumentException)");
+
+        } catch (DateTimeParseException dpe) {
+            // Handle invalid date format when parsing start_date
+            System.err.println("[ERROR] Failed to parse date: " + dpe.getMessage());
+            req.setAttribute("errorMessage", "Formato de data inválido: " + dpe.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read?id=" + req.getParameter("id"));
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            System.out.println("[INFO] Servlet exiting with failure (DateTimeParseException)");
+
+        } catch (NullPointerException npe) {
+            // Handle unexpected null values
+            System.err.println("[ERROR] Null elements: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Elementos nulos: " + npe.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read?id=" + req.getParameter("id"));
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            System.out.println("[INFO] Servlet exiting with failure (NullPointerException)");
+
+        } catch (Exception e) {
+            // Catch-all for any other unexpected exceptions
+            System.err.println("[ERROR] Unexpected exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao atualizar a assinatura.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read?id=" + req.getParameter("id"));
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            System.out.println("[INFO] Servlet exiting with failure (Exception)");
         }
     }
 }
