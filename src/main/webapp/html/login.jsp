@@ -21,7 +21,7 @@
             <h1 class="inter-bold">Fazer Login</h1>
         </div>
         
-        <form action="/HivemindWeb_war/login" method="post" class="inter-thin">
+        <form action="${pageContext.request.contextPath}/login" method="post" class="inter-thin">
             <div class="input-div">
                 <p>Login</p>
                 <div>

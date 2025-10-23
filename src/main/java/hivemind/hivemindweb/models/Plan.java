@@ -35,7 +35,7 @@ public class Plan {
         this.id = id;
         this.is_active = is_active;
     }
-
+    
     // ToString
     public String toString(){
         return "ID: "+this.id+"\nName: "+this.name+"\nDescription: "+this.description+

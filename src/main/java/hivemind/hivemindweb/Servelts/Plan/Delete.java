@@ -2,20 +2,16 @@ package hivemind.hivemindweb.Servelts.Plan;
 
 import java.io.IOException;
 
-import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
-import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
-import hivemind.hivemindweb.models.Payment;
 import hivemind.hivemindweb.models.Plan;
-import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/plan/delete")
+@WebServlet("/delete-plan")
 public class Delete extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
         try{
@@ -31,22 +27,22 @@ public class Delete extends HttpServlet {
             }
             
             Plan planLocal = new Plan(id,name);
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(idDB);
-            Payment paymentLocal = new Payment(idDB);
-            if((PlanSubscriptionDAO.delete(planSubscriptionLocal)  && (PaymentDAO.delete(paymentLocal) && (PlanDAO.delete(planLocal))))){
-                System.out.println("[WARN] Delete Plan Sussefly");
+            planLocal.setActive(false);
+            
+            if(PlanDAO.setActive(planLocal)){
+                planLocal.setActive(false);
+                System.out.println("[INF] Plan Desativado Com susseso!");
                 req.setAttribute("msg", "Plano: " + planLocal.getName() + " Foi Removido Com Susseso!");
             }
             else{
-                System.out.println("[WARN] Erro in PlanDAO");
-                System.out.println("[ERROR] Plan Nao foi Adicionado devido a um Erro!");
-                req.setAttribute("msg", "Plan Nao foi Adicionado devido a um Erro!");
+                System.out.println("[WARN] Plano Ja esta desabilitado");
+                req.setAttribute("msg", "Plano Ja esta desabilitado");
             }
             req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
+        }catch(IllegalArgumentException ia){
+            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
+            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
         }catch(InvalidForeignKeyException ifk){
             System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
             // resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
@@ -56,6 +52,7 @@ public class Delete extends HttpServlet {
             System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp); //Error Page
         }
     }
-}   
+}

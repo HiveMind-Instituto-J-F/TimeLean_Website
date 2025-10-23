@@ -145,11 +145,13 @@ public class PlanSubscriptionDAO {
 
     public static int getID(PlanSubscription planSubscription){
         DBConnection db = new DBConnection();
-        String sql = "SELECT id FROM PLAN_SUBSCRIPTION ORDER BY id";
+        String sql = "SELECT id FROM PLAN_SUBSCRIPTION WHERE=? ORDER BY id";
         int id = 0;
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql);
              ResultSet rs = pstm.executeQuery()) {
+
+            id = rs.getInt("id");
 
             if(rs.next()){
                 id = rs.getInt("id");
@@ -160,6 +162,35 @@ public class PlanSubscriptionDAO {
         }
 
         return id;
+    }
+
+    public static PlanSubscription getPlanSubById(int id){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT *FROM PLAN_SUBSCRIPTION WHERE=? ORDER BY id";
+        PlanSubscription planSubscriptionLocal = null;
+
+        try (Connection conn = db.connected();
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) { 
+
+            pstm.setInt(1, id);
+
+            while(rs.next()){
+                planSubscriptionLocal = new PlanSubscription(
+                        rs.getInt("id"),
+                        rs.getDate("start_date").toLocalDate(),
+                        rs.getString("cnpj_company"),
+                        rs.getInt("id_plan"),
+                        rs.getInt("number_installments"),
+                        rs.getBoolean("status")
+                );
+            }
+            return planSubscriptionLocal;
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Falied in select: " + e.getMessage());
+        }
+
+        return planSubscriptionLocal;
     }
     
     public static boolean delete(PlanSubscription plansSubscription) {
