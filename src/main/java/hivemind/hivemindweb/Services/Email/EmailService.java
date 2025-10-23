@@ -44,7 +44,7 @@ public class EmailService {
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(EMAIL_NAME));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(Sender));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL_NAME));
             message.setReplyTo(new Address[]{ new InternetAddress(EMAIL_NAME) });
             message.setSubject(Subject);
             message.setText(msg);

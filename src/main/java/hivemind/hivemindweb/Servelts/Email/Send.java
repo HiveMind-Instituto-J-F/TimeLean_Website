@@ -28,17 +28,19 @@ public class Send extends HttpServlet{
             if(userMessage == null || userMessage.isEmpty()) {
                 throw new IllegalArgumentException("Values Is Null, Value: 'msg'");
             }
+
             String msg = "Olá,\n\n"
                 + "Você recebeu um novo contato de um cliente da HiveMind referente à aplicação TimeLean.\n"
-                + "Setor escolhido pelo usuário: " + sector + "\n\n"
+                + "Setor escolhido pelo usuário: " + sector + "\n"
+                + "Cliente/Remetente: " + sender + "\n\n"
                 + "Mensagem do cliente:\n" + userMessage + "\n\n"
+                + "Observação: Este e-mail foi enviado pelo sistema da HiveMind e será direcionado à equipe responsável.\n\n"
                 + "Atenciosamente,\n"
                 + "Equipe HiveMind";
-
             
             ServletContext context = req.getServletContext();
             EmailService Email = (EmailService) context.getAttribute("EmailService");
-            if (Email.SendEmail(sender, subject, msg)) {
+            if (Email.SendEmail("", subject, msg)) {
                 System.out.println("[INFO] Email sent successfully");
                 req.setAttribute("msg", "Email sent successfully!");
                 req.getRequestDispatcher("/webapp/html/Email/send.jsp").forward(req, resp);
