@@ -1,40 +1,24 @@
 package hivemind.hivemindweb.Servelts.Login;
 
 import java.io.IOException;
-
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import redis.clients.jedis.DefaultJedisClientConfig;
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisClientConfig;
+import jakarta.servlet.http.*;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
-    private Jedis jedis;
+    private Dotenv dotenv;
 
     @Override
     public void init() throws ServletException {
-        Dotenv dotenv = (Dotenv) getServletContext().getAttribute("data");
-        if(dotenv == null){
-            System.out.println("[ERROR] Dotenv Is null in Servelet Context");
-            return;
+        dotenv = (Dotenv) getServletContext().getAttribute("data");
+        if (dotenv == null) {
+            System.out.println("[ERROR] Dotenv is null in ServletContext");
+        } else {
+            RedisManager.initialize(dotenv);
         }
-
-        JedisClientConfig config = DefaultJedisClientConfig.builder()
-                .user("default")
-                .password(dotenv.get("rds_password"))
-                .build();
-        String host = dotenv.get("rds_host");
-
-        HostAndPort hostAndPort = new HostAndPort(host,17579);
-        jedis = new Jedis(hostAndPort, config);
     }
 
     @Override
@@ -42,14 +26,14 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session != null) {
             String sessionKey = "session:" + session.getId();
-            jedis.del(sessionKey);       // Remove do Redis
-            session.invalidate();        // invalidate Session HTTP
+            RedisManager.delete(sessionKey, dotenv);
+            session.invalidate();
         }
-        resp.sendRedirect(req.getContextPath() + "/html/login.jsp"); // manda pro login
+        resp.sendRedirect(req.getContextPath() + "/html/login.jsp");
     }
 
     @Override
     public void destroy() {
-        if (jedis != null) jedis.close();
+        RedisManager.close();
     }
 }
