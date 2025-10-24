@@ -27,7 +27,7 @@ public class Delete extends HttpServlet {
                         System.out.println("[INFO] Payment deleted successfully.");
                         req.setAttribute("msg", "Pagamento foi deletado com sucesso!");
                     } else {
-                        System.err.println("[WARN] Failed to delete payment in DB.");
+                        System.err.println("[ERROR] Failed to delete payment in DB.");
                         req.setAttribute("errorMessage", "Pagamento não foi deletado devido a um erro no banco de dados.");
                         req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete?id=" + id);
                         req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

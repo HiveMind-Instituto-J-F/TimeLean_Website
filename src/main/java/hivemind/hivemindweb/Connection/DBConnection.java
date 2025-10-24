@@ -17,7 +17,7 @@ public class DBConnection {
             String dbPassword = dotenv.get("db_password");
 
             if(dbUrl == null || dbUser == null || dbPassword == null){
-                System.out.println("[ERROR]: DB URL, DB USER, DB PASSWORD NULL");
+                System.out.println("[ERROR]: Dotenv for DB variables are null");
                 return null;
             }
 

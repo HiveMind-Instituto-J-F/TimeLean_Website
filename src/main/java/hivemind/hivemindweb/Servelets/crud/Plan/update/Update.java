@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.crud.Plan.update;
+package hivemind.hivemindweb.Servelets.crud.Plan.update;
 
 import java.io.IOException;
 

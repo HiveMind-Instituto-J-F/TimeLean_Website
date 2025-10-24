@@ -57,7 +57,7 @@ public class Create extends HttpServlet {
                 System.out.println("[INFO] Payment added successfully.");
                 req.setAttribute("msg", "Pagamento foi adicionado com sucesso!");
             } else {
-                System.err.println("[WARN] Failed to add payment to DB.");
+                System.err.println("[ERROR] Failed to add payment to DB.");
                 req.setAttribute("errorMessage", "Pagamento não foi adicionado devido a um erro no banco de dados.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

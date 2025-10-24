@@ -36,7 +36,7 @@ public class Read extends HttpServlet {
             req.getRequestDispatcher("html/crud/plan.jsp").forward(req, resp);
         }catch (NullPointerException npe) {
             // Redirect to error.jsp in case of NullPointerException
-            System.err.println("[WARN] ERROR: NullPointerException");
+            System.err.println("[ERROR] NullPointerException");
             req.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(req, resp);
             return;
         }

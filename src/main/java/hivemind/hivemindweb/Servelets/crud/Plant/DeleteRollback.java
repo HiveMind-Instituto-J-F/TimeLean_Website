@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.crud.Plant;
+package hivemind.hivemindweb.Servelets.crud.Plant;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlantDAO;

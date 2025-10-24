@@ -32,7 +32,7 @@ public class Delete extends HttpServlet {
             }
 
             if (CompanyDAO.switchActive(company, company.isActive())){
-                System.out.println("[WARN] Deleted Company.");
+                System.out.println("[INFO] Deleted Company.");
                 resp.sendRedirect(req.getContextPath() + "\\company\\read");
                 return;
             }

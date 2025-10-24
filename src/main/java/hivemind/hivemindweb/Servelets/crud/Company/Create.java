@@ -1,11 +1,7 @@
 package hivemind.hivemindweb.Servelets.crud.Company;
 
 import hivemind.hivemindweb.DAO.CompanyDAO;
-import hivemind.hivemindweb.DAO.PlanDAO;
-import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
-import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.Company;
-import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 @WebServlet("/company/create")

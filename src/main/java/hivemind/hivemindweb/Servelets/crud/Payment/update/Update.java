@@ -50,7 +50,7 @@ public class Update extends HttpServlet {
                 System.out.println("[INFO] Payment updated successfully.");
                 resp.sendRedirect(req.getContextPath() + "/payment/read");
             } else {
-                System.err.println("[WARN] Failed to update payment.");
+                System.err.println("[ERROR] Failed to update payment.");
                 req.setAttribute("errorMessage", "Pagamento não foi atualizado devido a um erro no banco de dados.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

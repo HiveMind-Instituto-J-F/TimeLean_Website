@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.crud.Worker;
+package hivemind.hivemindweb.Servelets.crud.Worker;
 
 import hivemind.hivemindweb.DAO.WorkerDAO;
 import hivemind.hivemindweb.models.Worker;
@@ -17,7 +17,7 @@ public class Delete extends HttpServlet {
         // Retrieve and validate the CPF parameter
         String cpf = request.getParameter("cpf");
         if (cpf == null || cpf.isEmpty()) {
-            System.err.println("[WORKER-DELETE] Missing CPF parameter.");
+            System.err.println("[WARN] Missing CPF parameter.");
             request.setAttribute("errorMessage", "Missing CPF parameter.");
             request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
             return;
@@ -34,7 +34,7 @@ public class Delete extends HttpServlet {
             }
 
             // Handle case where deletion did not occur (e.g., worker not found)
-            System.err.println("[WORKER-DELETE] Worker not found or could not be deleted.");
+            System.err.println("[ERROR] Worker not found or could not be deleted.");
             request.setAttribute("errorMessage", "Unable to delete the worker. Please verify the CPF and try again.");
             request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
         } catch (NullPointerException npe) {

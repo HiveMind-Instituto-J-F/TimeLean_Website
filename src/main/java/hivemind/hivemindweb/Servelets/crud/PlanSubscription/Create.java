@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.crud.PlanSubscription;
+package hivemind.hivemindweb.Servelets.crud.PlanSubscription;
 
 import java.io.IOException;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.crud.Login;
+package hivemind.hivemindweb.Servelets.crud.Login;
 
 import java.io.IOException;
 
@@ -57,8 +57,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            System.out.println("[WARN] Open LoginServlet");
-            System.out.println("[WARN] Method Use In Servlet: " + req.getMethod());
+            System.out.println("[INFO] Method Use In Servlet: " + req.getMethod());
 
             String email = req.getParameter("email");
             String password = req.getParameter("password");
@@ -82,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 
                 session.setAttribute("user", adminClient);
                 session.setAttribute("login", true);
-                System.out.println("[INFO] Login Successful - Salvo no Redis remoto com chave: " + sessionKey);
+                System.out.println("[INFO] Login successful - Saved in remote Redis with key: " + sessionKey);
 
                 req.getRequestDispatcher("/html/crud/toUser.html").forward(req, resp);
             } else {

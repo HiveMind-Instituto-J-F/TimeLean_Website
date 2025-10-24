@@ -40,7 +40,7 @@ public class Read extends HttpServlet {
                     filterType = FilterType.Payment.CANCELED;
                 } else if (!"all".equals(status)) {
                     // Invalid filter
-                    System.err.println("[WARN] Invalid filter.");
+                    System.err.println("[ERROR] Invalid filter.");
                     req.setAttribute("errorMessage", "Filtro inválido informado.");
                     req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
                     req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

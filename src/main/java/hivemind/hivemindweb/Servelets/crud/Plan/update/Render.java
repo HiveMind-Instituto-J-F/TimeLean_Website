@@ -25,13 +25,13 @@ public class Render extends HttpServlet {
                 PlanLocal = PlanDAO.selectByID(id);
                 if (PlanLocal == null){
                     // Redirect to error.jsp in case of plan being null
-                    System.err.println("[WARN] ERROR: Plan is null");
+                    System.err.println("[ERROR] Plan is null");
                     req.getRequestDispatcher("/html/crud/plan/error/error.jsp").forward(req, resp);
                     return;
                 }
             } catch (NullPointerException npe) {
                 // Redirect to error.jsp in case of NullPointerException
-                System.err.println("[WARN] ERROR: NullPointerException");
+                System.err.println("[ERROR] NullPointerException");
                 req.getRequestDispatcher("/html/crud/planSub/error/error.jsp").forward(req, resp);
                 return;
             }

@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.crud.PlanSubscription;
+package hivemind.hivemindweb.Servelets.crud.PlanSubscription;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

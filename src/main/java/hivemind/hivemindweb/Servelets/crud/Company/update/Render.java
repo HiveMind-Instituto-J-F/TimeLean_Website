@@ -24,13 +24,13 @@ public class Render extends HttpServlet {
                 company = CompanyDAO.select(cnpj);
                 if (company == null){
                     // Redirect to error.jsp in case of company being null
-                    System.err.println("[WARN] ERROR: Company is null");
+                    System.err.println("[WARN]Company is null");
                     req.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(req, resp);
                     return;
                 }
             } catch (NullPointerException npe) {
                 // Redirect to error.jsp in case of NullPointerException
-                System.err.println("[WARN] ERROR: NullPointerException");
+                System.err.println("[ERROR] NullPointerException");
                 req.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(req, resp);
                 return;
             }

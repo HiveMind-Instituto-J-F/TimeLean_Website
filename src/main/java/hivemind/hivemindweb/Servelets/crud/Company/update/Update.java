@@ -33,7 +33,7 @@ public class Update extends HttpServlet {
             // Update the company in the database via DAO
             if (CompanyDAO.update(company)) {
                 // Redirect to list page if update succeeds
-                System.out.println("[WARN] Update Company Sussefly");
+                System.out.println("[INFO] Update Company Sussefly");
                 req.setAttribute("msg", "Company Foi Atalizado Com Susseso!");
                 resp.sendRedirect(req.getContextPath() + "/company/read");
             } else {

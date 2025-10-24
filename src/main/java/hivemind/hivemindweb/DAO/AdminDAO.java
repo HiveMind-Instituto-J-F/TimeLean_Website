@@ -54,7 +54,7 @@ public class AdminDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in selectByEmail: " + e.getMessage());
+            System.out.println("[ERROR] Failed to select admin by email: " + e.getMessage() + "\n");
         }
 
         return null;

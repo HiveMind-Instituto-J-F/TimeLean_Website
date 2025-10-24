@@ -64,7 +64,7 @@ public class Update extends HttpServlet {
                     resp.sendRedirect(req.getContextPath() + "/worker/read");
                 } else {
                     // Handle database update failure
-                    System.err.println("[WORKER-UPDATE] Failed to update worker in the database.");
+                    System.err.println("[ERROR] Failed to update worker in the database.");
                     req.setAttribute("errorMessage", "Failed to update the worker.");
                     req.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(req, resp);
                 }

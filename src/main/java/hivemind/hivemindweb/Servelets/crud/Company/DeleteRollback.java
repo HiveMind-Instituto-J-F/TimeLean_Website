@@ -21,7 +21,7 @@ public class DeleteRollback extends HttpServlet {
             
             Company company = new Company(cnpj);
             if (CompanyDAO.switchActive(company, true)){
-                System.out.println("[COMPANY-DELETE] Deleted Company.");
+                System.out.println("[INFO] Deleted Company.");
                 resp.sendRedirect(req.getContextPath() + "/company/read");
                 return;
             }

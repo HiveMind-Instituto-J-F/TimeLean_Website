@@ -1,11 +1,8 @@
-package hivemind.hivemindweb.Servelts.crud.Worker;
+package hivemind.hivemindweb.Servelets.crud.Worker;
 
-import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.DAO.WorkerDAO;
 import hivemind.hivemindweb.Services.Enums.FilterType;
-import hivemind.hivemindweb.models.Plant;
 import hivemind.hivemindweb.models.Worker;
-import jakarta.servlet.Filter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,7 +25,7 @@ public class Read extends HttpServlet {
 
         if (plantCnpj == null || plantCnpj.isEmpty()) {
             // Handle missing or invalid session attribute
-            System.err.println("[WORKER-READ] Missing plantCnpj in session.");
+            System.err.println("[WARN] Missing plantCnpj in session.");
             request.setAttribute("errorMessage", "Plant information not found in session.");
             request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
             return;

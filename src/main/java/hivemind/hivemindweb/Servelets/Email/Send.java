@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.Email;
+package hivemind.hivemindweb.Servelets.Email;
 
 import java.io.IOException;
 
@@ -45,6 +45,8 @@ public class Send extends HttpServlet{
                 req.setAttribute("msg", "Email sent successfully!");
                 req.getRequestDispatcher("/webapp/html/Email/send.jsp").forward(req, resp);
                 return;
+            }else {
+                System.err.println("[ERROR] Email not sent successfully");
             }
 
             req.setAttribute("msg", "Email not sent successfully!");
