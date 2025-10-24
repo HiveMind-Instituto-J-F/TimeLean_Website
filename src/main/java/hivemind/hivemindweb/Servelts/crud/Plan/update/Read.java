@@ -33,18 +33,18 @@ public class Read extends HttpServlet {
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
+            req.getRequestDispatcher("html/crud/plan.jsp").forward(req, resp);
         }catch (NullPointerException npe) {
             // Redirect to error.jsp in case of NullPointerException
             System.err.println("[WARN] ERROR: NullPointerException");
-            req.getRequestDispatcher("\\html\\crud\\company\\error\\error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/company/error/error.jsp").forward(req, resp);
             return;
         }
         catch(ServletException se){
             System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
             req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+            req.getRequestDispatcher("\\html\\error/error.jsp").forward(req, resp);
         }
     }
 }

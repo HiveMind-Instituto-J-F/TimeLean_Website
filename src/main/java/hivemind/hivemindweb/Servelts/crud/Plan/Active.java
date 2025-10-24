@@ -26,16 +26,16 @@ public class Active extends HttpServlet {
             Plan planLocal = new Plan(idDB,true);
             if(PlanDAO.getAction(idDB)){
                 PlanDAO.setActive(planLocal);
-                System.out.println("[WARN] Insert Plan Sussefly");
+                System.out.println("[INFO] Insert Plan Sussefly");
                 req.setAttribute("msg", "Plan Foi Adicionado Com Susseso!");
                 req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
             }
             else{
-                System.err.println("[WARN] Erro in PlanDAO");
-                System.err.println("[ERROR] Plan Nao foi Ativo devido a um Erro!");
+                System.err.println("[ERROR] Erro in PlanDAO");
+                System.err.println("[WARN] Plan Not Added Due to Error!");
                 req.setAttribute("Errro", "Plan Nao foi Adicionado devido a um Erro!");
             }
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
+            req.getRequestDispatcher("html/crud/plan.jsp").forward(req, resp);
         }catch(IllegalArgumentException se){
             System.err.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());

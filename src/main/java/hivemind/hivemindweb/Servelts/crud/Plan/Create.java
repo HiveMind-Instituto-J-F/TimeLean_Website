@@ -38,13 +38,13 @@ public class Create extends HttpServlet {
             Plan planLocal = new Plan(name, description, duration, price);
             System.out.println(planLocal);
             if(PlanDAO.insert(planLocal,false)){
-                System.out.println("[WARN] Insert Plan Sussefly");
+                System.out.println("[INFO] Insert Plan Sussefly");
                 req.setAttribute("msg", "Plan Foi Adicionado Com Susseso!");
                 req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
             }
             else{
-                System.out.println("[WARN] Erro in PlanDAO");
-                System.out.println("[ERROR] Plan Nao foi Adicionado devido a um Erro!");
+                System.out.println("[ERROR] Erro in PlanDAO");
+                System.out.println("[WARN] Plan Not Added Due to Error!");
                 System.out.println("[ERROR]:" + nameDB + " " +  planLocal);
                 req.setAttribute("Errro", "Plan Nao foi Adicionado devido a um Erro!");
             }
