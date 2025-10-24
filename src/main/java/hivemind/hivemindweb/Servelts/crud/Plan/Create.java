@@ -16,22 +16,21 @@ public class Create extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
         try{
             String durationStr = req.getParameter("duration");
-            if(durationStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'duration'");}
+            if(durationStr == null || durationStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'duration'");}
             int duration = Integer.parseInt(durationStr);
 
             String description = req.getParameter("description");
-            if(description.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'description'");}
+            if(description == null || description.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'description'");}
 
             String priceStr = req.getParameter("price");
-            if(priceStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'price'");}
+            if(priceStr == null || priceStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'price'");}
             double price = Double.parseDouble(priceStr);
 
             String name = req.getParameter("name");
             if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'nameStr'");}
             
             String nameDB = PlanDAO.getName(name);
-            System.out.println(nameDB);
-
+    
             if(nameDB.equalsIgnoreCase(name)){
                 throw new InvalidForeignKeyException("Name already exists in the database");
             }

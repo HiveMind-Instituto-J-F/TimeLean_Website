@@ -54,10 +54,10 @@ public class Create extends HttpServlet {
 
             // Insert payment
             if (PaymentDAO.insert(paymentLocal)) {
-                System.out.println("[INF] Pagamento adicionado com sucesso.");
+                System.out.println("[INFO] Payment added successfully.");
                 req.setAttribute("msg", "Pagamento foi adicionado com sucesso!");
             } else {
-                System.err.println("[WARN] Falha ao adicionar pagamento no banco.");
+                System.err.println("[WARN] Failed to add payment to DB.");
                 req.setAttribute("errorMessage", "Pagamento não foi adicionado devido a um erro no banco de dados.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -69,14 +69,14 @@ public class Create extends HttpServlet {
 
         } catch (IllegalArgumentException iae) {
             // Handle invalid input
-            System.err.println("[ERROR] Entrada inválida: " + iae.getMessage());
+            System.err.println("[ERROR] Invalid input: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // Handle date parsing errors
-            System.err.println("[ERROR] Falha ao converter data: " + dpe.getMessage());
+            System.err.println("[ERROR] Failed to convert date: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Data inválida: " + dpe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -90,7 +90,7 @@ public class Create extends HttpServlet {
 
         } catch (Exception e) {
             // Handle unexpected errors
-            System.err.println("[ERROR] Erro inesperado: " + e.getMessage());
+            System.err.println("[ERROR] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao criar o pagamento.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

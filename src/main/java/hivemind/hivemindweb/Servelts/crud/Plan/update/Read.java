@@ -19,7 +19,8 @@ public class Read extends HttpServlet {
             // Create and validate company
             List<Plan> planList;
             planList = PlanDAO.select();
-            System.out.println("[INF] [" + LocalDateTime.now() + "] Plan.Read -> Plan list successfully loaded. Total: " + planList.size());
+            // Log level tag standardized to [INFO]
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Plan.Read -> Plan list successfully loaded. Total: " + planList.size());
 
             if (planList == null){
                 throw new NullPointerException("Values Is Null, Value: 'planList'");

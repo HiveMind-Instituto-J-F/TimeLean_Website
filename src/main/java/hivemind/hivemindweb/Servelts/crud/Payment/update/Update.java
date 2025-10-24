@@ -47,10 +47,10 @@ public class Update extends HttpServlet {
 
             // Attempt update
             if (PaymentDAO.update(paymentLocal)) {
-                System.out.println("[INF] Pagamento atualizado com sucesso.");
+                System.out.println("[INFO] Payment updated successfully.");
                 resp.sendRedirect(req.getContextPath() + "/payment/read");
             } else {
-                System.err.println("[WARN] Falha na atualização do pagamento.");
+                System.err.println("[WARN] Failed to update payment.");
                 req.setAttribute("errorMessage", "Pagamento não foi atualizado devido a um erro no banco de dados.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -58,14 +58,14 @@ public class Update extends HttpServlet {
 
         } catch (IllegalArgumentException iae) {
             // Handle invalid input
-            System.err.println("[ERROR] Entrada inválida: " + iae.getMessage());
+            System.err.println("[ERROR] Invalid input: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // Handle date parsing errors
-            System.err.println("[ERROR] Falha ao converter data: " + dpe.getMessage());
+            System.err.println("[ERROR] Failed to parse date: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Data inválida: " + dpe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

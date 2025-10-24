@@ -17,34 +17,34 @@ import java.io.IOException;
 public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        // Get parameters:
-        String plantCnpj = request.getParameter("plant-cnpj");
-        String responsibleCpf = request.getParameter("plant-responsible-cpf");
-        String responsibleLoginEmail = request.getParameter("plant-responsible-login-email");
-        String responsibleLoginPassword = request.getParameter("plant-responsible-login-password");
-
-        // Validate plant
-        Plant plant = PlantDAO.selectByPlantCnpj(plantCnpj);
-        if (plant == null) {
-            System.out.println("[WORKER-LOGIN] ERROR: plant is null");
-            request.setAttribute("status", false);
-            request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
-            return;
-        }
-
-        // Validate worker
-        Worker worker = WorkerDAO.selectByCpf(responsibleCpf);
-        if (worker == null) {
-            System.out.println("[WORKER-LOGIN] ERROR: worker is null");
-            request.setAttribute("status", false);
-            request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
-            return;
-        }
-
-        // Login logic
+    throws ServletException, IOException {
         try {
+            // Get parameters:
+            String plantCnpj = request.getParameter("plant-cnpj");
+            if(plantCnpj == null || plantCnpj.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");}
+            
+            String responsibleCpf = request.getParameter("plant-responsible-cpf");
+            if(responsibleCpf == null || responsibleCpf.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'responsibleCpf'");}
+
+            String responsibleLoginEmail = request.getParameter("plant-responsible-login-email");
+            if(responsibleLoginEmail == null || responsibleLoginEmail.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'responsibleLoginEmail'");}
+
+            String responsibleLoginPassword = request.getParameter("plant-responsible-login-password");
+            if(responsibleLoginEmail == null || responsibleLoginEmail.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'responsibleLoginEmail'");}
+
+            // Validate plant
+            Plant plant = PlantDAO.selectByPlantCnpj(plantCnpj);
+            if (plant == null) {
+                throw new NullPointerException("plant is null");
+            }
+
+            // Validate worker
+            Worker worker = WorkerDAO.selectByCpf(responsibleCpf);
+            if (worker == null) {
+                throw new NullPointerException("plant is null");
+            }
+
+            // Login logic
             if (plant.getResponsibleCpf().equals(worker.getCpf())) {
                 boolean loginOk = AuthService.login(
                         responsibleLoginEmail,
@@ -65,12 +65,12 @@ public class Login extends HttpServlet {
                 }
 
                 // Wrong credentials
-                System.out.println("[WORKER-LOGIN] ERROR: Incorrect Credentials");
+                System.out.println("[ERROR] Incorrect Credentials");
                 request.setAttribute("status", false);
                 request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
             }
         } catch (NullPointerException npe) {
-            System.out.println("[WORKER-LOGIN] EXCEPTION: NullPointerException");
+            System.out.println("[ERROR] " + npe.getMessage());
             request.setAttribute("status", false);
             request.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(request, response);
         }

@@ -31,11 +31,11 @@ public class Delete extends HttpServlet {
             
             if(PlanDAO.setActive(planLocal)){
                 planLocal.setActive(false);
-                System.out.println("[INF] Plan Desativado Com susseso!");
+                System.out.println("[INFO] Plan deactivated successfully!");
                 req.setAttribute("msg", "Plano: " + planLocal.getName() + " Foi Removido Com Susseso!");
             }
             else{
-                System.out.println("[WARN] Plano Ja esta desabilitado");
+                System.out.println("[WARN] Plan is already disabled");
                 req.setAttribute("msg", "Plano Ja esta desabilitado");
             }
             req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);

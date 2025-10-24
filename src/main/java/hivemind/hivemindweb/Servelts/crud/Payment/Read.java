@@ -50,7 +50,8 @@ public class Read extends HttpServlet {
 
             // Retrieve filtered payments
             List<Payment> paymentList = PaymentDAO.selectFilter(filterType, idPlanSubscription);
-            System.out.println("[INF] [" + LocalDateTime.now() + "] Payment.Read -> Lista carregada com sucesso. Total: " + paymentList.size());
+            // Log: backend messages should be in English
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Payment.Read -> Payment list loaded successfully. Total: " + paymentList.size());
 
             // Forward to payment list page
             req.setAttribute("payments", paymentList);

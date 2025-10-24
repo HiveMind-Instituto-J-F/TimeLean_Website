@@ -16,19 +16,18 @@ public class Delete extends HttpServlet {
         try {
             // Get and validate 'id' parameter
             String idStr = req.getParameter("id");
-            if (idStr == null || idStr.isEmpty()) {
-                throw new IllegalArgumentException("Parâmetro 'id' não informado.");
-            }
+            if (idStr == null || idStr.isEmpty()) {throw new IllegalArgumentException("Parameter 'id' not informed.");}
             int id = Integer.parseInt(idStr);
 
             // Attempt to delete payment only if not paid
             try {
                 if (!PaymentDAO.select(id).getStatus().equalsIgnoreCase("paid")) {
                     if (PaymentDAO.delete(id)) {
-                        System.out.println("[INF] Pagamento deletado com sucesso.");
+                        // Backend log in English; UI message remains Portuguese
+                        System.out.println("[INFO] Payment deleted successfully.");
                         req.setAttribute("msg", "Pagamento foi deletado com sucesso!");
                     } else {
-                        System.err.println("[WARN] Falha ao deletar pagamento no banco.");
+                        System.err.println("[WARN] Failed to delete payment in DB.");
                         req.setAttribute("errorMessage", "Pagamento não foi deletado devido a um erro no banco de dados.");
                         req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete?id=" + id);
                         req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -36,7 +35,7 @@ public class Delete extends HttpServlet {
                     }
                 } else {
                     // Payment already paid
-                    System.err.println("[WARN] Tentativa de deletar pagamento já pago.");
+                    System.err.println("[WARN] Attempt to delete an already paid payment.");
                     req.setAttribute("errorMessage", "Pagamento não pode ser deletado porque já foi pago.");
                     req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete?id=" + id);
                     req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -44,7 +43,7 @@ public class Delete extends HttpServlet {
                 }
             } catch (NullPointerException npe) {
                 // Payment not found or null
-                System.err.println("[WARN] Pagamento não encontrado.");
+                System.err.println("[WARN] Payment not found, Error: " +  npe.getMessage());
                 req.setAttribute("errorMessage", "Pagamento não encontrado ou inválido.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete?id=" + id);
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -56,21 +55,21 @@ public class Delete extends HttpServlet {
 
         } catch (IllegalArgumentException iae) {
             // Handle invalid input
-            System.err.println("[ERROR] Entrada inválida: " + iae.getMessage());
+            System.err.println("[ERROR] Invalid input: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // Handle date parsing errors (for future use)
-            System.err.println("[ERROR] Falha ao converter data: " + dpe.getMessage());
+            System.err.println("[ERROR] Failed to convert date: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + dpe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // Handle unexpected errors
-            System.err.println("[ERROR] Erro inesperado: " + e.getMessage());
+            System.err.println("[ERROR] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao deletar o pagamento.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
