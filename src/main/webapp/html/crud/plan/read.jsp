@@ -16,6 +16,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/crud/read.css">
 </head>
 <body>
+    <%
+        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+        if (isLogged == null || !isLogged) {
+            response.sendRedirect(request.getContextPath() + "/html/login.jsp");
+            return;
+        }
+    %>
     <div id="background-img">
         <header class="blur">
             <a href="#background-img" class="branding">
@@ -52,33 +59,19 @@
             <div class="block"></div>
             <h1 class="inter-bold">Planos Cadastrados</h1>
 
-            <div id="filter-bar" class="inter">
-                <form action="${pageContext.request.contextPath}/plan/read" method="get">
-                    <select class="inter" id="duration" name="duration">
-                        <option value="all">Todos</option>
-                        <option value="1">1 mês</option>
-                        <option value="3">3 meses</option>
-                        <option value="6">6 meses</option>
-                        <option value="12">12 meses</option>
-                    </select>
-                    <button class="inter" type="submit">Filtrar</button>
-                </form>
-                <a href="${pageContext.request.contextPath}/html/crud/plan/create.jsp">
-                    <button class="inter" type="submit">Cadastrar +</button>
-                </a>
-            </div>
-
             <table>
                 <thead class="inter-hard">
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Descrição</th>
-                        <th>Duração (meses)</th>
+                        <th>Duração (dias)</th>
                         <th>Preço (R$)</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
+                <a href="${pageContext.request.contextPath}/html/crud/plan/create.jsp">Criar Novo Plano</a>
                 <tbody class="inter-thin">
                     <%
                         List<Plan> plans = (List<Plan>) request.getAttribute("plans");
@@ -91,26 +84,34 @@
                         <td><%= p.getDescription() %></td>
                         <td><%= p.getDuration() %></td>
                         <td><%= String.format("%.2f", p.getPrice()) %></td>
+                        <td><%= p.getActive() ? "Ativo" : "Inativo" %></td>
                         <td>
                             <div class="actions">
-                                <form action="${pageContext.request.contextPath}/plan/show" method="get">
-                                    <input type="hidden" name="id" value="<%= p.getId() %>">
-                                    <button type="submit" class="see">
-                                        <img src="${pageContext.request.contextPath}/img/icons/ui/eye.png" alt="Mostrar">
-                                    </button>
-                                </form>
-                                <form class="create" action="${pageContext.request.contextPath}/plan/render-update" method="get">
-                                    <input type="hidden" name="id" value="<%= p.getId() %>">
-                                    <button type="submit">
-                                        <img src="${pageContext.request.contextPath}/img/icons/ui/pencil (black).png" alt="Editar">
-                                    </button>
-                                </form>
-                                <form class="delete" action="${pageContext.request.contextPath}/plan/delete" method="get">
-                                    <input type="hidden" name="id" value="<%= p.getId() %>">
-                                    <button type="submit">
-                                        <img src="${pageContext.request.contextPath}/img/icons/ui/trash (black).png" alt="Deletar">
-                                    </button>
-                                </form>
+                                <% if (p.getActive()) { %>
+                                    <form action="${pageContext.request.contextPath}/plan/show" method="get">
+                                        <input type="hidden" name="id" value="<%= p.getId() %>">
+                                        <button type="submit" class="see">
+                                            <img src="${pageContext.request.contextPath}/img/icons/ui/eye.png" alt="Mostrar">
+                                        </button>
+                                    </form>
+                                    <form class="create" action="${pageContext.request.contextPath}/plan/render-update" method="get">
+                                        <input type="hidden" name="id" value="<%= p.getId() %>">
+                                        <button type="submit">
+                                            <img src="${pageContext.request.contextPath}/img/icons/ui/pencil (black).png" alt="Editar">
+                                        </button>
+                                    </form>
+                                    <form class="delete" action="${pageContext.request.contextPath}/plan/delete" method="get">
+                                        <input type="hidden" name="id" value="<%= p.getId() %>">
+                                        <button type="submit">
+                                            <img src="${pageContext.request.contextPath}/img/icons/ui/trash (black).png" alt="Deletar">
+                                        </button>
+                                    </form>
+                                <% } else { %>
+                                    <form action="${pageContext.request.contextPath}/plan/delete/rollback" method="get">
+                                        <input type="hidden" name="id" value="<%= p.getId() %>">
+                                        <button type="submit">reativar</button>
+                                    </form>
+                                <% } %>
                             </div>
                         </td>
                     </tr>
@@ -119,7 +120,7 @@
                         } else {
                     %>
                     <tr>
-                        <td colspan="6" style="text-align:center;">Nenhum plano encontrado.</td>
+                        <td colspan="7" style="text-align:center;">Nenhum plano encontrado.</td>
                     </tr>
                     <%
                         }

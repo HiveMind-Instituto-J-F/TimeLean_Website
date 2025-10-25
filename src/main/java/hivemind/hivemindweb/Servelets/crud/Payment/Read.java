@@ -2,6 +2,7 @@ package hivemind.hivemindweb.Servelets.crud.Payment;
 
 import java.io.IOException;
 import java.util.List;
+import java.time.LocalDateTime;
 import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.Payment;
@@ -10,27 +11,29 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
 
 @WebServlet("/payment/read")
 public class Read extends HttpServlet {
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
 
-            // Get filters
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        // [PROCESS] Retrieve and filter payments
+        try {
             FilterType.Payment filterType = FilterType.Payment.ALL_VALUES;
-            Integer filter = null;
+            Integer idPlanSubscriptionParam = -1;
 
             String statusParam = req.getParameter("status");
             String idParam = req.getParameter("idPlanSubscription");
 
-            String status = statusParam != null && !statusParam.isEmpty() ? statusParam : null;
-            Integer idPlanSubscription = idParam != null && !idParam.isEmpty() ? Integer.parseInt(idParam) : -1;
+            String status = (statusParam != null && !statusParam.isEmpty()) ? statusParam : null;
+            idPlanSubscriptionParam = (idParam != null && !idParam.isEmpty()) ? Integer.parseInt(idParam) : -1;
 
-            // Determine filter type based on parameters
-            if (idPlanSubscription != -1) {
+            // [LOGIC] Determine filter type based on parameters
+            if (idPlanSubscriptionParam != -1) {
                 filterType = FilterType.Payment.ID_PLAN_SUBSCRIPTION;
             } else if (status != null) {
+<<<<<<< HEAD:src/main/java/hivemind/hivemindweb/Servelets/crud/Payment/Read.java
                 idPlanSubscription = -1;
                 if ("pending".equals(status)) {
                     filterType = FilterType.Payment.PENDING;
@@ -52,35 +55,57 @@ public class Read extends HttpServlet {
             List<Payment> paymentList = PaymentDAO.selectFilter(filterType, idPlanSubscription);
             // Log: backend messages should be in English
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Payment.Read -> Payment list loaded successfully. Total: " + paymentList.size());
+=======
+                idPlanSubscriptionParam = -1;
+                switch (status.toLowerCase()) {
+                    case "pending" -> filterType = FilterType.Payment.PENDING;
+                    case "paid" -> filterType = FilterType.Payment.PAID;
+                    case "canceled" -> filterType = FilterType.Payment.CANCELED;
+                    case "all" -> filterType = FilterType.Payment.ALL_VALUES;
+                    default -> {
+                        // [FAILURE LOG] Invalid filter
+                        System.err.println("[FAILURE] Invalid filter provided: " + status);
+                        req.setAttribute("errorMessage", "Filtro inválido informado.");
+                        req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
+                        req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                        return;
+                    }
+                }
+            }
 
-            // Forward to payment list page
+            // [DATA ACCESS] Retrieve filtered payments
+            List<Payment> paymentList = PaymentDAO.selectFilter(filterType, idPlanSubscriptionParam);
+            System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] Payment list loaded successfully. Total: " + paymentList.size());
+>>>>>>> 350d8ab7eb3a2ea5bf518c8c121e454150a4ec26:src/main/java/hivemind/hivemindweb/Servelts/crud/Payment/Read.java
+
+            // [PROCESS] Forward to payment list page
             req.setAttribute("payments", paymentList);
             req.getRequestDispatcher("/html/crud/payment/read.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
-            // Handle invalid argument errors
-            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
+            // [FAILURE LOG] Invalid argument errors
+            System.err.println("[FAILURE] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados. Verifique os valores e tente novamente.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
-            // Handle null pointer exceptions
-            System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
+            // [FAILURE LOG] Null pointer exception
+            System.err.println("[FAILURE] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: dado necessário não foi encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
-            // Handle servlet dispatch errors
-            System.err.println("[ERROR] ServletException: " + se.getMessage());
+            // [FAILURE LOG] Servlet dispatch errors
+            System.err.println("[FAILURE] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
-            // Handle unexpected errors
-            System.err.println("[ERROR] Exception: " + e.getMessage());
+            // [FAILURE LOG] Unexpected errors
+            System.err.println("[FAILURE] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao carregar os pagamentos.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

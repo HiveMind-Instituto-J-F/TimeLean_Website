@@ -12,79 +12,80 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet("/worker/create")
 public class Create extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{
-            // Retrieve worker data from the form
-            String cpf = req.getParameter("cpf");
-            if(cpf.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");}
-            
-            String name = req.getParameter("name");
-            if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'name'");}
-            
-            String role = req.getParameter("role");
-            if(role.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'role'");}
-            
-            String sector = req.getParameter("sector");
-            if(sector.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'sector'");}
-            
-            String loginEmail = req.getParameter("loginEmail");
-            if(sector.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'sector'");}
-            
-            String passwordLocal = req.getParameter("loginPassword");
-            if(passwordLocal.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'password'");}
-            String loginPassword = AuthService.hash(passwordLocal);
-            
-            // Get the current session (does not create a new one if absent)
+        try {
+            // [VALIDATION] Get and validate form parameters
+            String paramCpf = req.getParameter("cpf");
+            String paramName = req.getParameter("name");
+            String paramRole = req.getParameter("role");
+            String paramSector = req.getParameter("sector");
+            String paramLoginEmail = req.getParameter("loginEmail");
+            String paramPassword = req.getParameter("loginPassword");
+
+            if(paramCpf == null || paramCpf.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");
+            if(paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'name'");
+            if(paramRole == null || paramRole.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'role'");
+            if(paramSector == null || paramSector.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'sector'");
+            if(paramLoginEmail == null || paramLoginEmail.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'loginEmail'");
+            if(paramPassword == null || paramPassword.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'password'");
+
+            // [PROCESS] Hash the password
+            String hashedPassword = AuthService.hash(paramPassword);
+
+            // [VALIDATION] Retrieve the session
             HttpSession session = req.getSession(false);
-            
-            if (session == null) {
-                // Handle invalid or expired session
-                throw new SessionExpiredException("Session expired. Please log in again.");
-            }
-            String plantCnpj = (String) session.getAttribute("plantCnpj");
-            
-            Worker worker;
-            // Attempt to create a Worker object with validated data
-            worker = new Worker(
-                cpf,
-                role,
-                sector,
-                name,
-                loginEmail,
-                loginPassword,
-                plantCnpj
-            );
-                
-            // Try to insert the worker into the database                
-            if (WorkerDAO.insert(worker)) {
-                // Redirect to list page if insertion is successful
-                resp.sendRedirect(req.getContextPath() + "\\worker\\read");
+            if(session == null) throw new SessionExpiredException("Session expired. Please log in again.");
+
+            String paramPlantCnpj = (String) session.getAttribute("plantCnpj");
+
+            // [PROCESS] Create Worker object
+            Worker worker = new Worker(paramCpf, paramRole, paramSector, paramName, paramLoginEmail, hashedPassword, paramPlantCnpj);
+
+            // [DATA ACCESS] Insert Worker into the database
+            if(WorkerDAO.insert(worker)) {
+                // [SUCCESS LOG] Worker created successfully
+                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Worker created: " + paramCpf);
+                resp.sendRedirect(req.getContextPath() + "/worker/read");
             } else {
-                // Handle insertion failure (e.g., duplicate CPF)
-                System.err.println("[ERROR] Failed to insert worker in the database.");
-                req.setAttribute("errorMessage", "Unable to create worker. Please try again later.");
-                req.getRequestDispatcher("\\html\\crud\\worker\\error\\error.jsp").forward(req, resp);
+                // [FAILURE LOG] Database insertion failed
+                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Failed to insert worker: " + paramCpf);
+                req.setAttribute("errorMessage", "Não foi possível criar o trabalhador. Tente novamente mais tarde.");
+                req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
             }
-        }catch(IllegalArgumentException ia){
-            System.err.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }catch(SessionExpiredException see){
-            System.err.println("[ERROR] Session Expirar, Error: "+ see.getMessage());
-            req.setAttribute("errorMessage", "Session expired. Please log in again.");
-            req.getRequestDispatcher("\\html\\login.jsp").forward(req, resp);
-        }
-        catch(ServletException se){
-            System.err.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+
+        } catch(IllegalArgumentException ia) {
+            // [FAILURE LOG] Parameter validation error
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch(SessionExpiredException see) {
+            // [FAILURE LOG] Session expired
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] SessionExpiredException: " + see.getMessage());
+            req.setAttribute("errorMessage", "Sua sessão expirou. Faça login novamente.");
+            req.setAttribute("errorUrl", "/html/login.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch(ServletException se) {
+            // [FAILURE LOG] Dispatcher error
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch(Exception e) {
+            // [FAILURE LOG] Unexpected error
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }
-    

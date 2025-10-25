@@ -3,7 +3,6 @@ package hivemind.hivemindweb.Servelets.crud.Plan;
 import java.io.IOException;
 
 import hivemind.hivemindweb.DAO.PlanDAO;
-import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,22 +10,36 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/delete-plan")
+@WebServlet("/plan/delete")
 public class Delete extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
-        try{
-            String idStr = req.getParameter("id");
-            if(idStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id'");}
-            int id = Integer.parseInt(idStr);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            // [VALIDATION] Validate and parse ID parameter
+            String idParam = req.getParameter("id");
+            if (idParam == null || idParam.isEmpty()) {
+                throw new IllegalArgumentException("Values Is Null, Value: 'id'");
+            }
 
-            int idDB = PlanDAO.getID(id);
-            String name = PlanDAO.getName(id);
+            int id = Integer.parseInt(idParam);
 
-            if(!(idDB == id)){
-                throw new InvalidForeignKeyException("ID not exit in DB");
+            // [DATA ACCESS] Retrieve plan by ID from database
+            Plan planDb = PlanDAO.selectByID(id);
+
+            // [BUSINESS RULES] Disable plan
+            planDb.setActive(false);
+
+            // [PROCESS] Attempt to update plan status
+            if (PlanDAO.update(planDb)) {
+                // [SUCCESS LOG] Log successful plan deactivation
+                System.err.println("[INFO] Plan successfully deactivated: " + planDb.getName());
+                req.setAttribute("msg", "Plano " + planDb.getName() + " foi removido com sucesso!");
+            } else {
+                // [BUSINESS RULES] Plan already inactive
+                System.err.println("[INFO] Plan already inactive: " + planDb.getName());
+                req.setAttribute("msg", "O plano já está desabilitado.");
             }
             
-            Plan planLocal = new Plan(id,name);
+            Plan planLocal = new Plan(id);
             planLocal.setActive(false);
             
             if(PlanDAO.setActive(planLocal)){
@@ -43,10 +56,6 @@ public class Delete extends HttpServlet {
             System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-        }catch(InvalidForeignKeyException ifk){
-            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
-            // resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
-            req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  ifk.getCause());
         }
         catch(ServletException se){
             System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());

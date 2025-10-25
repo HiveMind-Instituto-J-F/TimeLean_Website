@@ -18,57 +18,48 @@ public class Read extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("[INFO] [" + LocalDateTime.now() + "] Entered Read PlanSubscription servlet");
-
+        // [PROCESS] Handle retrieval of PlanSubscription list
         try {
-            // Define default filter
             FilterType.PlanSubscription filterType = FilterType.PlanSubscription.ALL_VALUES;
             String filter = null;
 
-            // Read request parameters
-            String cnpjCompany = req.getParameter("cnpj_company");
-            String idPlan = req.getParameter("id_plan");
+            String cnpjCompanyParam = req.getParameter("cnpj_company");
+            String idPlanParam = req.getParameter("id_plan");
 
-            // Set filter type based on parameters
-            if (cnpjCompany != null && !cnpjCompany.isEmpty()) {
+            // [LOGIC] Determine filter type
+            if (cnpjCompanyParam != null && !cnpjCompanyParam.isEmpty()) {
                 filterType = FilterType.PlanSubscription.CNPJ_COMPANY;
-                filter = cnpjCompany;
-            } else if (idPlan != null && !idPlan.isEmpty()) {
+                filter = cnpjCompanyParam;
+            } else if (idPlanParam != null && !idPlanParam.isEmpty()) {
                 filterType = FilterType.PlanSubscription.ID_PLAN;
-                filter = idPlan;
+                filter = idPlanParam;
             }
 
-            // Retrieve filtered list
+            // [DATA ACCESS] Retrieve filtered list of PlanSubscriptions
             List<PlanSubscription> planSubList = PlanSubscriptionDAO.selectFilter(filterType, filter);
-
-            // Null check
             if (planSubList == null) {
-                throw new NullPointerException("A lista retornada é nula (PlanSubscriptionDAO.selectFilter).");
+                throw new NullPointerException("Returned list is null (PlanSubscriptionDAO.selectFilter).");
             }
 
-            // Log success
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription.Read -> Lista carregada com sucesso. Total: " + planSubList.size());
+            System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] PlanSubscription.Read -> List successfully loaded. Total: " + planSubList.size());
 
-            // Forward data to JSP
+            // [PROCESS] Forward list to JSP
             req.setAttribute("planSubs", planSubList);
             req.getRequestDispatcher("/html/crud/planSubscription/read.jsp").forward(req, resp);
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting successfully");
 
         } catch (IllegalArgumentException | NullPointerException | ServletException | IOException e) {
-            // Handle expected errors like invalid parameters, null list, servlet forwarding issues, or IO problems
+            // [FAILURE LOG] Handle invalid params, null list, servlet forwarding or IO errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscription.Read -> " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro ao carregar as assinaturas: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (" + e.getClass().getSimpleName() + ")");
 
         } catch (Exception e) {
-            // Catch-all for unexpected errors
+            // [FAILURE LOG] Catch-all unexpected errors
             System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao carregar as assinaturas: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (Exception)");
         }
     }
 }

@@ -12,44 +12,52 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/plant/render-update")
 public class Render extends HttpServlet {
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{
-            // Get and validate parameter
-            String cnpj = req.getParameter("cnpj");
-            if(cnpj.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");}
-            
-            // Create and validate plant
-            Plant PlantLocal;
-            try {
-                PlantLocal = PlantDAO.selectByPlantCnpj(cnpj);
-                if (PlantLocal == null){
-                    // Redirect to error.jsp in case of plant being null
-                    System.err.println("[WARN] ERROR: Plant is null");
-                    req.getRequestDispatcher("/html/crud/plant/error/error.jsp").forward(req, resp);
-                    return;
-                }
-            } catch (NullPointerException npe) {
-                // Redirect to error.jsp in case of NullPointerException
-                System.err.println("[WARN] ERROR: NullPointerException");
-                req.getRequestDispatcher("/html/crud/planSubscription/error/error.jsp").forward(req, resp);
+        // [PROCESS] Handle rendering of Plant update page
+        try {
+            // [VALIDATION] Get and validate 'cnpj' parameter
+            String cnpjParam = req.getParameter("cnpj");
+            if (cnpjParam == null || cnpjParam.isEmpty()) {
+                throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");
+            }
+
+            // [DATA ACCESS] Retrieve Plant by CNPJ
+            Plant plantLocal = PlantDAO.selectByPlantCnpj(cnpjParam);
+            if (plantLocal == null) {
+                System.err.println("[FAILURE LOG] [" + cnpjParam + "] Plant not found.");
+                req.setAttribute("errorMessage", "Planta não encontrada para o CNPJ informado.");
+                req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                 return;
             }
-            
-            // Render and dispatch planSubscription
-            req.setAttribute("plant", PlantLocal);
-            req.getRequestDispatcher("/html/crud/plan/update.jsp").forward(req, resp);
-        }catch(IllegalArgumentException ia){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }
-        catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+
+            // [PROCESS] Forward Plant data to update JSP
+            req.setAttribute("plant", plantLocal);
+            req.getRequestDispatcher("/html/crud/plant/update.jsp").forward(req, resp);
+            System.err.println("[SUCCESS LOG] [" + cnpjParam + "] Plant loaded successfully for update.");
+
+        } catch (IllegalArgumentException iae) {
+            // [FAILURE LOG] Handle invalid 'cnpj' parameter
+            System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
+            req.setAttribute("errorMessage", "Erro ao processar CNPJ: " + iae.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (ServletException | IOException e) {
+            // [FAILURE LOG] Handle servlet forwarding or IO errors
+            System.err.println("[ERROR] " + e.getClass().getSimpleName() + ": " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro ao carregar a página de atualização da planta: " + e.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Catch-all unexpected errors
+            System.err.println("[FATAL] Unexpected error: " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro inesperado ao processar a planta: " + e.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }
-    

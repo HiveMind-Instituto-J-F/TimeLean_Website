@@ -12,6 +12,13 @@ Company company = (Company) request.getAttribute("company");
         <title>TIMELEAN</title>
     </head>
     <body>
+    <%
+        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+        if (isLogged == null || !isLogged) {
+            response.sendRedirect(request.getContextPath() + "/html/login.jsp");
+            return;
+        }
+    %>
         <h1>Relação COMPANY</h1>
         <h2>UPDATE COMPANY</h2>
         <form action="${pageContext.request.contextPath}/company/update" method="post">

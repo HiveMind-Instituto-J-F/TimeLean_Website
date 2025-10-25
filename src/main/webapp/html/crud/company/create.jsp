@@ -59,7 +59,7 @@
         <h1 class="inter-bold">Adicionar empresa</h1>
 
         <div class="inter-medium">
-            <form action="/company/create" method="post">
+            <form action="${pageContext.request.contextPath}/company/create" method="post">
                 <div>
                     <h3>Adicionar informações cadastrais da empresa</h3>
 
@@ -67,26 +67,13 @@
                     <input type="text" name="company-name" maxlength="60" required><br>
 
                     <label for="company-cnpj">CNPJ da empresa</label><br>
-                    <input type="text" name="company-cnpj" placeholder="Ex: 17.212.365/0001-82" maxlength="18" required
-                           pattern="[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}/?[0-9]{4}-?[0-9]{2}"><br>
+                    <input type="text" name="company-cnpj" placeholder="Ex: 17.212.365/0001-82" maxlength="18" required><br>
 
                     <label for="company-cnae">CNAE (Código de Classificação Nacional das Atividades Econômicas)</label><br>
-                    <input type="text" name="company-cnae" placeholder="Ex: 47.89-0/99" required
-                           pattern="[0-9]{2}\.?[0-9]{2}-?[0-9]/?[0-9]{2}"><br>
+                    <input type="text" name="company-cnae" placeholder="Ex: 47.89-0/99" required><br>
 
                     <label for="company-registrant-cpf">CPF do cliente</label><br>
-                    <input type="text" name="company-registrant-cpf" placeholder="Ex: 854.969.710-98" maxlength="17" required
-                           pattern="[0-9]{3}\.?[0-9]{3}\.?[0-9]-?[0-9]{2}">
-                </div>
-
-                <div>
-                    <h3>Adicionar informações para a inscrição do plano</h3><br>
-
-                    <label for="plan-description">Nome do plano</label><br>
-                    <input type="text" name="plan-description"><br>
-
-                    <label for="psubscription-start-date">Data de início do plano</label><br>
-                    <input type="date" name="psubscription-start-date"><br>
+                    <input type="text" name="company-registrant-cpf" placeholder="Ex: 854.969.710-98" maxlength="17" required>
                 </div>
                 <input class="button submit inter" type="submit">
             </form>

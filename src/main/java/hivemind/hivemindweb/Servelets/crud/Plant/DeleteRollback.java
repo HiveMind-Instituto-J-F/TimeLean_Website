@@ -11,48 +11,59 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet("/plant/delete/rollback")
 public class DeleteRollback extends HttpServlet {
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // get attributes
-        String cnpj = request.getParameter("cnpj");
 
-        if (cnpj == null){
-            System.err.println("[PLANT-DELETE-ROLLBACK] cnpj is null");
-            request.setAttribute("errorMessage", "Unable to delete: cnpj is null)");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
-        }
-
-        // Verify if company is active:
-        Plant plant = PlantDAO.selectByPlantCnpj(cnpj); // Quitto, coloca try-catch aq pq tou com preguica e esse é teu papel:)
-        Company comapany = CompanyDAO.select(plant.getCnpjCompany());
-
-
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // [PROCESS] Handle rollback of plant deletion
         try {
-            if (comapany.isActive()){
-                plant.setOperationalStatus(true);
-                if (PlantDAO.switchOperationalStatus(plant)){
-                    System.out.println("[PLANT-DELETE-ROLLBACK] Rollback: Rollback plant delete.");
-                    response.sendRedirect(request.getContextPath() + "/plant/read");
-                    return;
-
-                }
-
+            // [VALIDATION] Get and validate CNPJ parameter
+            String cnpjParam = req.getParameter("cnpj");
+            if (cnpjParam == null || cnpjParam.isEmpty()) {
+                throw new IllegalArgumentException("Parâmetro 'cnpj' não informado.");
             }
 
-            System.err.println("[PLANT-DELETE-ROLLBACK] ERROR: Company is deactivated.");
-            request.setAttribute("errorMessage", "Company is deactivated.");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
-        } catch (NullPointerException npe){
-            System.err.println("[PLANT-DELETE-ROLLBACK] NullPointerException exception.");
-            request.setAttribute("errorMessage", "Unable to delete: NullPointerException");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
+            // [DATA ACCESS] Retrieve Plant and Company
+            Plant plantLocal = PlantDAO.selectByPlantCnpj(cnpjParam);
+            if (plantLocal == null) {
+                throw new NullPointerException("Planta não encontrada para CNPJ: " + cnpjParam);
+            }
+
+            Company companyLocal = CompanyDAO.select(plantLocal.getCnpjCompany());
+            if (companyLocal == null) {
+                throw new NullPointerException("Empresa associada não encontrada para a planta: " + cnpjParam);
+            }
+
+            // [LOGIC] Verify if company is active and perform rollback
+            if (companyLocal.isActive()) {
+                plantLocal.setOperationalStatus(true);
+                if (PlantDAO.switchOperationalStatus(plantLocal)) {
+                    System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Rollback plant delete successfully: " + cnpjParam);
+                    resp.sendRedirect(req.getContextPath() + "/plant/read");
+                    return;
+                } else {
+                    throw new IllegalStateException("Falha ao reativar a planta: " + cnpjParam);
+                }
+            } else {
+                throw new IllegalStateException("A empresa associada está desativada.");
+            }
+
+        } catch (IllegalArgumentException | NullPointerException | IllegalStateException e) {
+            // [FAILURE LOG] Handle expected errors
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] DeleteRollback -> " + e.getClass().getSimpleName() + ": " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro ao reverter exclusão da planta: " + e.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Catch-all for unexpected errors
+            System.err.println("[FATAL] [" + LocalDateTime.now() + "] DeleteRollback unexpected error: " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro inesperado ao reverter exclusão da planta: " + e.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }
-/*
-* BUSINESS RULES (DO NOT DELETE)
-* In order to rollback, the system must verify if company is active.
-* Workers must not be deactivated/deleted after a plant deactivation/deletion.
-*/

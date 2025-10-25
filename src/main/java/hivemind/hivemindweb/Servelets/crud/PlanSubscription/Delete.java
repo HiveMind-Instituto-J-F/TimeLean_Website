@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import hivemind.hivemindweb.Exception.InvalidPrimaryKeyException;
@@ -19,64 +18,48 @@ public class Delete extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        System.out.println("[INFO] [" + LocalDateTime.now() + "] Entered Delete PlanSubscription servlet");
-
+        // [PROCESS] Handle deletion of a PlanSubscription
         try {
-            // Get and validate ID parameter
-            String idStr = req.getParameter("id");
-            if (idStr == null || idStr.isEmpty()) {
+            String idParam = req.getParameter("id");
+
+            // [VALIDATION] Ensure ID parameter is provided
+            if (idParam == null || idParam.isEmpty()) {
                 throw new IllegalArgumentException("Parâmetro 'id' não informado.");
             }
-            int id = Integer.parseInt(idStr);
+            int id = Integer.parseInt(idParam);
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Received id: " + id);
 
-            // Create local PlanSubscription object
             PlanSubscription planSubscriptionLocal = new PlanSubscription(id);
 
-            // Attempt to delete
+            // [DATA ACCESS] Attempt to delete PlanSubscription
             boolean deleted = PlanSubscriptionDAO.delete(planSubscriptionLocal);
-
-            if (deleted) {
-                System.out.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription.Delete -> Record successfully deleted (ID: " + id + ")");
-                resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
-                System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting successfully");
-                return;
+            if (!deleted) {
+                throw new IllegalStateException("Falha ao deletar a assinatura (ID: " + id + ").");
             }
 
-            // If deletion failed without exception
-            throw new IllegalStateException("Falha ao deletar a assinatura (ID: " + id + ").");
+            System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] PlanSubscription deleted successfully (ID: " + id + ")");
+            resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
 
         } catch (InvalidPrimaryKeyException ipk) {
-            // Handle invalid primary key or foreign key issues
+            // [FAILURE LOG] Invalid primary key or foreign key issue
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] InvalidPrimaryKeyException: " + ipk.getMessage());
             req.setAttribute("errorMessage", "Chave primária inválida ou referência inexistente: " + ipk.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (InvalidPrimaryKeyException)");
-
-        } catch (DateTimeParseException dpe) {
-            // Handle errors parsing dates, if applicable
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] DateTimeParseException: " + dpe.getMessage());
-            req.setAttribute("errorMessage", "Erro ao interpretar data: " + dpe.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (DateTimeParseException)");
 
         } catch (IllegalArgumentException | IllegalStateException | IOException e) {
-            // Handle invalid arguments, deletion failures, or I/O exceptions
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscription.Delete -> " + e.getClass().getSimpleName() + ": " + e.getMessage());
+            // [FAILURE LOG] Invalid arguments, deletion failure, or I/O error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro ao deletar a assinatura: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (" + e.getClass().getSimpleName() + ")");
 
         } catch (Exception e) {
-            // Catch-all for unexpected errors
+            // [FAILURE LOG] Catch-all unexpected errors
             System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao deletar a assinatura: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Servlet exiting with failure (Exception)");
         }
     }
 }

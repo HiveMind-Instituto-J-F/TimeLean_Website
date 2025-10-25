@@ -19,6 +19,13 @@ Worker worker = (Worker) request.getAttribute("worker");
         <link rel="shortcut icon" href="../img/favicon/home-v2.png" type="image/x-icon">
     </head>
     <body>
+    <%
+        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+        if (isLogged == null || !isLogged) {
+            response.sendRedirect("../login.jsp");
+            return;
+        }
+    %>
         <h1>Relacao WORKER</h1>
         <h2>UPDATE WORKER</h2>
         <form action="${pageContext.request.contextPath}/worker/update" method="post">

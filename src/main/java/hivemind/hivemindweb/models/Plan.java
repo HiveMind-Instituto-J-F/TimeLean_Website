@@ -9,6 +9,15 @@ public class Plan {
     private double price;
     private boolean is_active;
 
+    public Plan(int id, String name, String description, int duration, double price, boolean is_active) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.price = price;
+        this.is_active = is_active;
+    }
+
     // Construtor
     public Plan(int id, String name, String description, int duration, double price){
         this.id = id;
@@ -26,6 +35,12 @@ public class Plan {
         this.price = price;
     }
 
+    public Plan(String name,double price,String description){
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     public Plan(int id, String name){
         this.id = id;
         this.name = name;
@@ -34,6 +49,10 @@ public class Plan {
     public Plan(int id, boolean is_active){
         this.id = id;
         this.is_active = is_active;
+    }
+
+    public Plan(int id){
+        this.id = id;
     }
     
     // ToString

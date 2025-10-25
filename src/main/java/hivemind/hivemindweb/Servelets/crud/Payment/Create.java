@@ -3,7 +3,6 @@ package hivemind.hivemindweb.Servelets.crud.Payment;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-
 import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
@@ -16,50 +15,52 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/payment/create")
 public class Create extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            // Get and validate parameters
-            String method = req.getParameter("method");
-            if (method != null) method = method.trim();
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-            String beneficiary = req.getParameter("beneficiary");
-            if (beneficiary == null || beneficiary.isEmpty()) {
+        // [PROCESS] Handle creation of a new payment
+        try {
+            String methodParam = req.getParameter("method");
+            if (methodParam != null) methodParam = methodParam.trim();
+
+            String beneficiaryParam = req.getParameter("beneficiary");
+            if (beneficiaryParam == null || beneficiaryParam.isEmpty()) {
                 throw new IllegalArgumentException("Parâmetro 'beneficiary' não informado.");
             }
 
-            String deadlineStr = req.getParameter("deadline");
-            if (deadlineStr == null || deadlineStr.isEmpty()) {
+            String deadlineParam = req.getParameter("deadline");
+            if (deadlineParam == null || deadlineParam.isEmpty()) {
                 throw new IllegalArgumentException("Parâmetro 'deadline' não informado.");
             }
-            LocalDate deadline = LocalDate.parse(deadlineStr);
+            LocalDate deadline = LocalDate.parse(deadlineParam);
 
             String status = "PENDING";
 
-            String idStr = req.getParameter("id_plan_sub");
-            if (idStr == null || idStr.isEmpty()) {
+            String idPlanSubParam = req.getParameter("id_plan_sub");
+            if (idPlanSubParam == null || idPlanSubParam.isEmpty()) {
                 throw new IllegalArgumentException("Parâmetro 'id_plan_sub' não informado.");
             }
-            int id_plan_sub = Integer.parseInt(idStr);
+            int idPlanSub = Integer.parseInt(idPlanSubParam);
 
-            // Calculate payment value
-            double value = PlanDAO.getPrice(id_plan_sub) / PlanSubscriptionDAO.select(id_plan_sub).getNumberInstallments();
+            // [DATA ACCESS] Calculate payment value
+            double value = PlanDAO.getPrice(idPlanSub) / PlanSubscriptionDAO.select(idPlanSub).getNumberInstallments();
 
-            // Validate all required fields
-            if (method == null || method.isEmpty() || beneficiary.isEmpty() || deadline == null) {
+            // [VALIDATION] Ensure all required fields are valid
+            if (methodParam == null || methodParam.isEmpty() || beneficiaryParam.isEmpty() || deadline == null) {
                 throw new ServletException("Valores inválidos ou nulos.");
             }
 
-            // Create payment object
-            Payment paymentLocal = new Payment(value, deadline, method, beneficiary, status, id_plan_sub);
+            // [LOGIC] Create payment object
+            Payment paymentLocal = new Payment(value, deadline, methodParam, beneficiaryParam, status, idPlanSub);
 
-            // Insert payment
+            // [DATA ACCESS] Insert payment into DB
             if (PaymentDAO.insert(paymentLocal)) {
                 System.out.println("[INFO] Payment added successfully.");
                 req.setAttribute("msg", "Pagamento foi adicionado com sucesso!");
             } else {
                 System.err.println("[ERROR] Failed to add payment to DB.");
                 req.setAttribute("errorMessage", "Pagamento não foi adicionado devido a um erro no banco de dados.");
-                req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
+                req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                 return;
             }
@@ -71,28 +72,28 @@ public class Create extends HttpServlet {
             // Handle invalid input
             System.err.println("[ERROR] Invalid input: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
+            req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // Handle date parsing errors
             System.err.println("[ERROR] Failed to convert date: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Data inválida: " + dpe.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
+            req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
-            // Handle servlet errors
-            System.err.println("[ERROR] ServletException: " + se.getMessage());
+            // [FAILURE LOG] Servlet dispatch error
+            System.err.println("[FAILURE] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor: " + se.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
+            req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // Handle unexpected errors
             System.err.println("[ERROR] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao criar o pagamento.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/create");
+            req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }

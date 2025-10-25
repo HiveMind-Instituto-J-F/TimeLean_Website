@@ -17,7 +17,6 @@
        return;
    }
 
-    // Captura o ID do pagamento da URL
     String idParam = request.getParameter("id");
     if (idParam == null || idParam.isEmpty()) {
         response.sendRedirect("list.jsp");
