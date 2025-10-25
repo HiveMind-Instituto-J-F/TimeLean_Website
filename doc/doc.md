@@ -14,6 +14,7 @@
   - [Modelos (POJOs)](#modelos-pojos)
 - [Fluxo de uma Requisição](#fluxo-de-uma-requisição)
 - [Configuração e Build](#configuração-e-build)
+  - [Compilação e Deploy com Docker](#compilação-e-deploy-com-docker)
 - [Estrutura De Classes](#estrutura-de-classes)
 - [toString](#tostring)
 - [Padrão de Código](#padrao-de-codigo)
@@ -324,6 +325,50 @@ As classes no pacote `models` (como `Admin.java`, `Company.java`, etc.) são Pla
 O projeto utiliza o Maven para gerenciar as dependências e o processo de build. O arquivo `pom.xml` define as dependências do projeto (como o driver JDBC do PostgreSQL, a biblioteca de Servlets, etc.) e os plugins necessários para compilar e empacotar a aplicação em um arquivo WAR (Web Application Archive). Este arquivo WAR pode então ser implantado em um servidor Tomcat.
 
 **OBS: Driver Do Postgree Se encotra no diretorio `Drivers` e tem que ser linkado no habiente de desenvolvimento**
+
+### Compilação e Deploy com Docker
+
+O projeto utiliza um `Dockerfile` para automatizar o processo de build e deploy em um container Docker, garantindo um ambiente de execução consistente e isolado.
+
+O processo de build é dividido em duas etapas (Multi-stage build):
+
+#### 1. Build Stage (`FROM eclipse-temurin:21-jdk AS builder`)
+
+Esta etapa é responsável por compilar a aplicação Java e gerar o arquivo `.war`.
+
+| Comando | Descrição |
+| :--- | :--- |
+| `FROM eclipse-temurin:21-jdk AS builder` | Define a imagem base para o build, utilizando o JDK 21 do Eclipse Temurin. |
+| `RUN apt-get update && apt-get install -y maven` | Instala o gerenciador de dependências Maven, essencial para o build do projeto. |
+| `COPY pom.xml .` | Copia o arquivo de configuração do Maven (`pom.xml`). |
+| `RUN mvn dependency:go-offline` | Baixa todas as dependências do projeto para o cache local do Maven, otimizando builds futuros. |
+| `COPY src ./src` | Copia o código-fonte da aplicação. |
+| `RUN mvn clean package -DskipTests` | Executa o build do projeto, gerando o arquivo `.war` na pasta `target`, e pula a execução dos testes. |
+
+#### 2. Runtime Stage (`FROM tomcat:11.0-jdk21`)
+
+Esta etapa cria a imagem final, que será leve e conterá apenas o necessário para rodar a aplicação (o servidor Tomcat e o arquivo `.war` gerado).
+
+| Comando | Descrição |
+| :--- | :--- |
+| `FROM tomcat:11.0-jdk21` | Define a imagem base para o runtime, utilizando o servidor de aplicação Apache Tomcat 11 com JDK 21. |
+| `RUN rm -rf /usr/local/tomcat/webapps/*` | Limpa os aplicativos padrão do Tomcat. |
+| `COPY --from=builder /app/target/*.war /usr/local/tomcat/webapps/ROOT.war` | Copia o arquivo `.war` gerado na etapa de build para o diretório de deploy do Tomcat, renomeando-o para `ROOT.war` para que seja acessado na raiz do servidor. |
+| `EXPOSE 8080` | Expõe a porta padrão do Tomcat (8080) no container. |
+| `CMD ["catalina.sh", "run"]` | Define o comando de inicialização do Tomcat. |
+| `LABEL key="Timelean Backend"` | Adiciona um metadado de identificação à imagem. |
+
+**Como Compilar:**
+Para gerar a imagem Docker, execute o comando na raiz do projeto:
+```bash
+docker build -t timelean-backend:latest .
+```
+
+**Como Executar:**
+Para rodar o container, mapeando a porta 8080 do container para a porta 8080 da sua máquina:
+```bash
+docker run -d -p 8080:8080 timelean-backend:latest
+```
 ---
 
 ## Arquivos de Frontend (HTML, CSS, JavaScript)
