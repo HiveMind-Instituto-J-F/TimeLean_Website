@@ -1,9 +1,10 @@
 package hivemind.hivemindweb.Servelts.crud.Plan;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import hivemind.hivemindweb.DAO.PlanDAO;
-import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,36 +12,24 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/plan/delete")
-public class Delete extends HttpServlet {
+@WebServlet("/plan/read")
+public class Read extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            // [VALIDATION] Validate and parse ID parameter
-            String idParam = req.getParameter("id");
-            if (idParam == null || idParam.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'id'");
+            // [DATA ACCESS] Retrieve list of plans from database
+            List<Plan> planList = PlanDAO.select();
+
+            // [SUCCESS LOG] Log successful retrieval of plan list
+            System.err.println("[SUCCESS LOG] Plan list successfully loaded. Total: " + planList.size());
+
+            // [VALIDATION] Check if plan list is null
+            if (planList == null) {
+                throw new NullPointerException("Values Is Null, Value: 'planList'");
             }
 
-            int id = Integer.parseInt(idParam);
-
-            // [DATA ACCESS] Retrieve plan by ID from database
-            Plan planDb = PlanDAO.selectByID(id);
-
-            // [BUSINESS RULES] Disable plan
-            planDb.setActive(false);
-
-            // [PROCESS] Attempt to update plan status
-            if (PlanDAO.update(planDb)) {
-                // [SUCCESS LOG] Log successful plan deactivation
-                System.err.println("[SUCCESS LOG] Plan successfully deactivated: " + planDb.getName());
-                req.setAttribute("msg", "Plano " + planDb.getName() + " foi removido com sucesso!");
-            } else {
-                // [BUSINESS RULES] Plan already inactive
-                System.err.println("[INFO LOG] Plan already inactive: " + planDb.getName());
-                req.setAttribute("msg", "O plano já está desabilitado.");
-            }
-
-            resp.sendRedirect(req.getContextPath() + "/plan/read");
+            // [PROCESS] Set attribute and forward to JSP for rendering
+            req.setAttribute("plans", planList);
+            req.getRequestDispatcher("/html/crud/plan/read.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception
@@ -52,19 +41,26 @@ public class Delete extends HttpServlet {
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exception
             System.err.println("[FAILURE LOG] NullPointerException occurred: " + npe.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro ao localizar o plano. Verifique se o plano existe.");
+            req.setAttribute("errorMessage", "Ocorreu um erro ao carregar os planos. Nenhum plano foi encontrado.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (ServletException se) {
+            // [FAILURE LOG] Handle servlet dispatching exception
+            System.err.println("[FAILURE LOG] ServletException occurred: " + se.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IOException ioe) {
             // [FAILURE LOG] Handle IO exception
             System.err.println("[FAILURE LOG] IOException occurred: " + ioe.getMessage());
-            req.setAttribute("errorMessage", "Erro de entrada/saída ao processar a solicitação: " + ioe.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro de entrada/saída ao processar os dados: " + ioe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
-            // [FAILURE LOG] Handle unexpected exceptions
+            // [FAILURE LOG] Catch any other unexpected exceptions
             System.err.println("[FAILURE LOG] Unexpected exception occurred: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");

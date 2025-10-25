@@ -9,6 +9,15 @@ public class Plan {
     private double price;
     private boolean is_active;
 
+    public Plan(int id, String name, String description, int duration, double price, boolean is_active) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.price = price;
+        this.is_active = is_active;
+    }
+
     // Construtor
     public Plan(int id, String name, String description, int duration, double price){
         this.id = id;

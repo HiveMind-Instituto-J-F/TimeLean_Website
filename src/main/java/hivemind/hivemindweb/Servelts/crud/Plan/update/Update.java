@@ -1,9 +1,7 @@
 package hivemind.hivemindweb.Servelts.crud.Plan.update;
 
 import java.io.IOException;
-
 import hivemind.hivemindweb.DAO.PlanDAO;
-import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,71 +11,74 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/plan/update")
 public class Update extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
-        try{
-            //Inputs
-            String intStr = req.getParameter("id");
-            if(intStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id'");}
-            int id = Integer.parseInt(intStr);
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        try {
+            // [VALIDATION] Validate and parse request parameters
+            String idParam = req.getParameter("id");
+            if (idParam == null || idParam.isEmpty()) {
+                throw new IllegalArgumentException("Valor nulo: 'id'");
+            }
+            int id = Integer.parseInt(idParam);
 
-            String durationStr = req.getParameter("duration");
-            if(durationStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'duration'");}
-            int duration = Integer.parseInt(durationStr);
+            String durationParam = req.getParameter("duration");
+            if (durationParam == null || durationParam.isEmpty()) {
+                throw new IllegalArgumentException("Valor nulo: 'duration'");
+            }
+            int duration = Integer.parseInt(durationParam);
 
-            String description = req.getParameter("description");
-            if(description.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'description'");}
-
-            String priceStr = req.getParameter("price");
-            if(priceStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'price'");}
-            double price = Double.parseDouble(priceStr);
-
-            String name = req.getParameter("name");
-            if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'nameStr'");}
-            
-            //Get name In DB
-            String nameDB = PlanDAO.getName(name);
-
-            if(!(nameDB.equalsIgnoreCase(name))){
-                throw new InvalidForeignKeyException("Name already exists in the database");
+            String descriptionParam = req.getParameter("description");
+            if (descriptionParam == null || descriptionParam.isEmpty()) {
+                throw new IllegalArgumentException("Valor nulo: 'description'");
             }
 
-            // Get id of DB 
-            int idDB = PlanDAO.getID(id);
-            
-            //Comapare Frontend id with id of DB
-            if(!(id == idDB)){
-                throw new InvalidForeignKeyException("ID already exists in the database");
+            String priceParam = req.getParameter("price");
+            if (priceParam == null || priceParam.isEmpty()) {
+                throw new IllegalArgumentException("Valor nulo: 'price'");
             }
-            
-            Plan planLocal = new Plan(id,name, description, duration, price);
-            
-            if(PlanDAO.update(planLocal)){
-                System.out.println("[WARN] Insert Plan Sussefly");
-                req.setAttribute("msg", "Plano Foi Atalizado Com Susseso!");
-                req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
+            double price = Double.parseDouble(priceParam);
+
+            String nameParam = req.getParameter("name");
+            if (nameParam == null || nameParam.isEmpty()) {
+                throw new IllegalArgumentException("Valor nulo: 'name'");
             }
-            else{
-                System.out.println("[WARN] Erro in PlanDAO");
-                System.out.println("[ERROR] Plan Nao foi Adicionado devido a um Erro!");
-                req.setAttribute("msg", "Plan Nao foi Adicionado devido a um Erro!");
+
+            // [PROCESS] Create local Plan instance
+            Plan planLocal = new Plan(id, nameParam, descriptionParam, duration, price, true);
+
+            // [DATA ACCESS] Attempt to update plan
+            if (PlanDAO.update(planLocal)) {
+                // [SUCCESS LOG] Plan successfully updated
+                System.err.println("[SUCCESS] Plan updated successfully");
+                resp.sendRedirect(req.getContextPath() + "/plan/read");
+            } else {
+                // [FAILURE LOG] Plan update failed
+                System.err.println("[ERROR] Plan not updated due to an internal error");
+                req.setAttribute("errorMessage", "O plano não pôde ser atualizado devido a um erro interno.");
+                req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + id);
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
             }
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }catch(IllegalArgumentException ia){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }catch(InvalidForeignKeyException ifk){
-            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
-            // resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
-            req.setAttribute("error","[ERROR] Ocorreu um erro interno no servidor: " +  ifk.getCause());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }
-        catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+
+        } catch (IllegalArgumentException ia) {
+            // [FAILURE LOG] Invalid or missing parameters
+            System.err.println("[ERROR] Invalid argument in Update Servlet: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Erro nos dados enviados: " + ia.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + req.getParameter("id"));
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (ServletException se) {
+            // [FAILURE LOG] Servlet dispatch error
+            System.err.println("[ERROR] ServletException in Update Servlet: " + se.getMessage());
+            req.setAttribute("errorMessage", "Erro ao processar a atualização do plano.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + req.getParameter("id"));
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (IOException ioe) {
+            // [FAILURE LOG] IOException during response handling
+            System.err.println("[ERROR] IOException in Update Servlet: " + ioe.getMessage());
+            req.setAttribute("errorMessage", "Erro de comunicação com o servidor.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + req.getParameter("id"));
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

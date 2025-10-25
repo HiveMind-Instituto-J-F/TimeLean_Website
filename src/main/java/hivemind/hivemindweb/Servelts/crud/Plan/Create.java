@@ -13,56 +13,82 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/plan/create")
 public class Create extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IllegalArgumentException, IOException, ServletException {
-        try{
-            String durationStr = req.getParameter("duration");
-            if(durationStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'duration'");}
-            int duration = Integer.parseInt(durationStr);
-
-            String description = req.getParameter("description");
-            if(description.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'description'");}
-
-            String priceStr = req.getParameter("price");
-            if(priceStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'price'");}
-            double price = Double.parseDouble(priceStr);
-
-            String name = req.getParameter("name");
-            if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'nameStr'");}
-            
-            String nameDB = PlanDAO.getName(name);
-            System.out.println(nameDB);
-
-            if(nameDB.equalsIgnoreCase(name)){
-                throw new InvalidForeignKeyException("Name already exists in the database");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            // [VALIDATION] Validate and parse request parameters
+            String durationParam = req.getParameter("duration");
+            if (durationParam == null || durationParam.isEmpty()) {
+                throw new IllegalArgumentException("Values Is Null, Value: 'duration'");
             }
-            
-            Plan planLocal = new Plan(name, description, duration, price);
-            System.out.println(planLocal);
-            if(PlanDAO.insert(planLocal,false)){
-                System.out.println("[WARN] Insert Plan Sussefly");
-                req.setAttribute("msg", "Plan Foi Adicionado Com Susseso!");
-                req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
+            int duration = Integer.parseInt(durationParam);
+
+            String descriptionParam = req.getParameter("description");
+            if (descriptionParam == null || descriptionParam.isEmpty()) {
+                throw new IllegalArgumentException("Values Is Null, Value: 'description'");
             }
-            else{
-                System.out.println("[WARN] Erro in PlanDAO");
-                System.out.println("[ERROR] Plan Nao foi Adicionado devido a um Erro!");
-                System.out.println("[ERROR]:" + nameDB + " " +  planLocal);
-                req.setAttribute("Errro", "Plan Nao foi Adicionado devido a um Erro!");
+
+            String priceParam = req.getParameter("price");
+            if (priceParam == null || priceParam.isEmpty()) {
+                throw new IllegalArgumentException("Values Is Null, Value: 'price'");
             }
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }catch(IllegalArgumentException se){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-        }catch(InvalidForeignKeyException ifk){
-            System.out.println("[ERROR] Foreign Key is not valid, Erro: (Cause: " + ifk.getCause() + " Erro: " + ifk.getMessage() + ")");
-            // resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Value: " + ifk.getMessage());
-            req.setAttribute("error","[ERROR] Valor Nao Pode Ser encotrado No banco: " +  ifk.getCause());
-        }
-        catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
+            double price = Double.parseDouble(priceParam);
+
+            String nameParam = req.getParameter("name");
+            if (nameParam == null || nameParam.isEmpty()) {
+                throw new IllegalArgumentException("Values Is Null, Value: 'name'");
+            }
+
+            // [LOGIC] Create local Plan object and insert into database
+            Plan planLocal = new Plan(nameParam, descriptionParam, duration, price);
+            planLocal.setActive(true);
+
+            if (PlanDAO.insert(planLocal, false)) {
+                // [SUCCESS LOG] Log successful plan creation
+                System.err.println("[SUCCESS LOG] Plan successfully created: " + nameParam);
+                req.setAttribute("msg", "Plano adicionado com sucesso!");
+                resp.sendRedirect(req.getContextPath() + "/plan/read");
+            } else {
+                // [FAILURE LOG] Log failure when inserting plan
+                System.err.println("[FAILURE LOG] Failed to insert plan into database.");
+                req.setAttribute("errorMessage", "O plano não foi adicionado devido a um erro interno.");
+                req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            }
+
+        } catch (IllegalArgumentException ia) {
+            // [FAILURE LOG] Handle invalid argument exception
+            System.err.println("[FAILURE LOG] IllegalArgumentException occurred: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro nos dados fornecidos: " + ia.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Handle null pointer exception
+            System.err.println("[FAILURE LOG] NullPointerException occurred: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro ao processar os dados. Verifique os campos e tente novamente.");
+            req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (ServletException se) {
+            // [FAILURE LOG] Handle servlet exception
+            System.err.println("[FAILURE LOG] ServletException occurred: " + se.getMessage());
+            req.setAttribute("errorMessage", "Erro interno ao redirecionar a página: " + se.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (IOException ioe) {
+            // [FAILURE LOG] Handle IO exception
+            System.err.println("[FAILURE LOG] IOException occurred: " + ioe.getMessage());
+            req.setAttribute("errorMessage", "Erro de entrada/saída ao processar a solicitação: " + ioe.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Handle unexpected exceptions
+            System.err.println("[FAILURE LOG] Unexpected exception occurred: " + e.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
+            req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

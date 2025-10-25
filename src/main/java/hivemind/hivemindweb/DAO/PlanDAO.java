@@ -55,13 +55,16 @@ public class PlanDAO {
 
     public static boolean update(Plan plan) {
         DBConnection db = new DBConnection();
-        String sql = "UPDATE plan SET name = ?,description=? WHERE id = ?";
+        String sql = "UPDATE plan SET name = ?, description = ?, price = ?, duration = ?, is_active = ?  WHERE id = ?";
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(1, plan.getName());
-            pstm.setString(4, plan.getDescription());
-            pstm.setInt(5, plan.getId());
+            pstm.setString(2, plan.getDescription());
+            pstm.setDouble(3, plan.getPrice());
+            pstm.setInt(4, plan.getDuration());
+            pstm.setBoolean(5, plan.getActive());
+            pstm.setInt(6, plan.getId());
 
             return pstm.executeUpdate() > 0;
 
@@ -102,7 +105,8 @@ public class PlanDAO {
                         rs.getString("name"),
                         rs.getString("description"),
                         rs.getInt("duration"),
-                        rs.getDouble("price")
+                        rs.getDouble("price"),
+                        rs.getBoolean("is_active")
                 );
                 plansList.add(planLocal);
             }
@@ -138,7 +142,7 @@ public class PlanDAO {
 
     public static Plan selectByID(int id){
         DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM PLAN WHERE NAME = ?";
+        String sql = "SELECT * FROM PLAN WHERE ID = ?";
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
@@ -161,7 +165,7 @@ public class PlanDAO {
 
     public static double getPrice(int id_plan){
         DBConnection db = new DBConnection();
-        String sql = "SELECT price FROM Plan WHERE id=?;";
+        String sql = "SELECT price FROM Plan WHERE id=?";
         double price = 0.0;
         try(Connection conn = db.connected();
             PreparedStatement psmt = conn.prepareStatement(sql);){

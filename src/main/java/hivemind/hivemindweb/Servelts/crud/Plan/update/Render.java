@@ -1,7 +1,6 @@
 package hivemind.hivemindweb.Servelts.crud.Plan.update;
 
 import java.io.IOException;
-
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
@@ -13,44 +12,62 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/plan/render-update")
 public class Render extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{
-            // Get and validate parameter
-            String idStr = req.getParameter("id");
-            if(idStr.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'id'");}
-            int id = Integer.parseInt(idStr);
-            
-            // Create and validate planSubscription
-            Plan PlanLocal;
+        try {
+            // [VALIDATION] Validate and parse plan ID parameter
+            String idParam = req.getParameter("id");
+            if (idParam == null) {
+                throw new IllegalArgumentException("Values Is Null, Value: 'id'");
+            }
+            int id = Integer.parseInt(idParam);
+
+            // [DATA ACCESS] Retrieve plan by ID
+            Plan planLocal;
             try {
-                PlanLocal = PlanDAO.selectByID(id);
-                if (PlanLocal == null){
-                    // Redirect to error.jsp in case of plan being null
-                    System.err.println("[WARN] ERROR: Plan is null");
-                    req.getRequestDispatcher("/html/crud/plan/error/error.jsp").forward(req, resp);
+                planLocal = PlanDAO.selectByID(id);
+                if (planLocal == null) {
+                    // [FAILURE LOG] Plan not found in database
+                    System.err.println("[ERROR] Plan is null");
+                    req.setAttribute("errorMessage", "O plano solicitado não foi encontrado.");
+                    req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
+                    req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                     return;
                 }
             } catch (NullPointerException npe) {
-                // Redirect to error.jsp in case of NullPointerException
-                System.err.println("[WARN] ERROR: NullPointerException");
-                req.getRequestDispatcher("/html/crud/planSub/error/error.jsp").forward(req, resp);
+                // [FAILURE LOG] NullPointerException while accessing plan
+                System.err.println("[ERROR] NullPointerException while selecting plan");
+                req.setAttribute("errorMessage", "Erro interno ao acessar o plano solicitado.");
+                req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                 return;
             }
-            
-            // Render and dispatch plan
-            req.setAttribute("plans", PlanLocal);
+
+            // [PROCESS] Attach plan to request and render update page
+            req.setAttribute("plan", planLocal);
             req.getRequestDispatcher("/html/crud/plan/update.jsp").forward(req, resp);
-        }catch(IllegalArgumentException ia){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }
-        catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+
+            // [SUCCESS LOG] Successful rendering
+            System.err.println("[SUCCESS] Plan render executed successfully");
+
+        } catch (IllegalArgumentException ia) {
+            // [FAILURE LOG] Invalid argument in servlet
+            System.err.println("[ERROR] Invalid argument in Render Servlet: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno ao processar o plano.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (ServletException se) {
+            // [FAILURE LOG] Servlet dispatching error
+            System.err.println("[ERROR] Servlet dispatch error: " + se.getMessage());
+            req.setAttribute("errorMessage", "Falha ao carregar a página de atualização do plano.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (IOException ioe) {
+            // [FAILURE LOG] IOException during request handling
+            System.err.println("[ERROR] IOException while processing Render Servlet: " + ioe.getMessage());
+            req.setAttribute("errorMessage", "Erro de comunicação com o servidor.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }
-    

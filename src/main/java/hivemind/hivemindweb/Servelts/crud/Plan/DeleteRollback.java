@@ -2,8 +2,8 @@ package hivemind.hivemindweb.Servelts.crud.Plan;
 
 import java.io.IOException;
 
+import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
-import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,55 +11,61 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/plan/delete")
-public class Delete extends HttpServlet {
+@WebServlet("/plan/delete/rollback")
+public class DeleteRollback extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            // [VALIDATION] Validate and parse ID parameter
+            // [VALIDATION] Validate and parse 'id' parameter
             String idParam = req.getParameter("id");
             if (idParam == null || idParam.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'id'");
+                throw new IllegalArgumentException("Parameter 'id' is required but was null or empty");
             }
 
             int id = Integer.parseInt(idParam);
 
             // [DATA ACCESS] Retrieve plan by ID from database
-            Plan planDb = PlanDAO.selectByID(id);
+            Plan plan = PlanDAO.selectByID(id);
+            plan.setActive(true);
 
-            // [BUSINESS RULES] Disable plan
-            planDb.setActive(false);
-
-            // [PROCESS] Attempt to update plan status
-            if (PlanDAO.update(planDb)) {
-                // [SUCCESS LOG] Log successful plan deactivation
-                System.err.println("[SUCCESS LOG] Plan successfully deactivated: " + planDb.getName());
-                req.setAttribute("msg", "Plano " + planDb.getName() + " foi removido com sucesso!");
-            } else {
-                // [BUSINESS RULES] Plan already inactive
-                System.err.println("[INFO LOG] Plan already inactive: " + planDb.getName());
-                req.setAttribute("msg", "O plano já está desabilitado.");
+            // [PROCESS] Attempt to update the plan in database
+            if (PlanDAO.update(plan)) {
+                // [SUCCESS LOG] Log successful rollback
+                System.err.println("[SUCCESS LOG] Plan rollback successfully processed. ID: " + id);
+                resp.sendRedirect(req.getContextPath() + "/plan/read");
+                return;
             }
 
-            resp.sendRedirect(req.getContextPath() + "/plan/read");
+            // [FAILURE LOG] Unknown failure when updating plan
+            System.err.println("[FAILURE LOG] Failed to update plan during rollback. ID: " + id);
+            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor ao reativar o plano.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception
             System.err.println("[FAILURE LOG] IllegalArgumentException occurred: " + ia.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro ao processar o rollback: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exception
             System.err.println("[FAILURE LOG] NullPointerException occurred: " + npe.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro ao localizar o plano. Verifique se o plano existe.");
+            req.setAttribute("errorMessage", "O plano não foi encontrado para reativação.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (ServletException se) {
+            // [FAILURE LOG] Handle servlet exception
+            System.err.println("[FAILURE LOG] ServletException occurred: " + se.getMessage());
+            req.setAttribute("errorMessage", "Erro interno ao redirecionar a página: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IOException ioe) {
             // [FAILURE LOG] Handle IO exception
             System.err.println("[FAILURE LOG] IOException occurred: " + ioe.getMessage());
-            req.setAttribute("errorMessage", "Erro de entrada/saída ao processar a solicitação: " + ioe.getMessage());
+            req.setAttribute("errorMessage", "Erro de entrada/saída ao processar o rollback: " + ioe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
