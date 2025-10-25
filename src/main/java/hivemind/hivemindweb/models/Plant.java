@@ -28,10 +28,17 @@ public class Plant {
     }
 
     // ToString
-    public String toString(){
-        return "CNAE: "+this.cnae+"\nCNPJ: "+this.cnpj+"\nResponsible CPF: "+this.responsibleCpf+"\nOperational Status: "
-                +this.operationalStatus +"\nAdress Number: "+this.addressNumber+"\nAdress CEP: "+this.addressCep+"\nCNPJ Company: "
-                +this.cnpjCompany;
+    @Override
+    public String toString() {
+        return "=== Dados da Planta ===\n" +
+               "CNAE             : " + cnae + "\n" +
+               "CNPJ             : " + cnpj + "\n" +
+               "CPF Responsável  : " + responsibleCpf + "\n" +
+               "Status Operacional: " + operationalStatus + "\n" +
+               "Número do Endereço: " + addressNumber + "\n" +
+               "CEP do Endereço  : " + addressCep + "\n" +
+               "CNPJ da Empresa  : " + cnpjCompany + "\n" +
+               "=========================";
     }
 
     // Getters e Setters

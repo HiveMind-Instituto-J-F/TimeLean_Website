@@ -33,17 +33,14 @@ public class Delete extends HttpServlet {
                 throw new IllegalArgumentException("Company has pending payments and cannot be deleted");
             }
 
-<<<<<<< HEAD:src/main/java/hivemind/hivemindweb/Servelets/crud/Company/Delete.java
             if (CompanyDAO.switchActive(company, company.isActive())){
                 System.out.println("[INFO] Deleted Company.");
                 resp.sendRedirect(req.getContextPath() + "\\company\\read");
-=======
             // [PROCESS] Attempt to switch company active status (soft delete)
             if (CompanyDAO.switchActive(company, company.isActive())) {
                 // [SUCCESS LOG] Company deleted/deactivated successfully
                 System.err.println("[SUCCESS LOG] Company deleted/deactivated: " + paramCnpj);
                 resp.sendRedirect(req.getContextPath() + "/company/read");
->>>>>>> 350d8ab7eb3a2ea5bf518c8c121e454150a4ec26:src/main/java/hivemind/hivemindweb/Servelts/crud/Company/Delete.java
                 return;
             }
 

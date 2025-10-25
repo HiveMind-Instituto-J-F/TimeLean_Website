@@ -14,8 +14,13 @@ public class ContactEmail {
     }
 
     // ToString
-    public String toString(){
-        return "Id: "+this.id+"\nEmail: "+this.email+"\nCompany: "+this.company;
+    @Override
+    public String toString() {
+        return "=== Dados do Contato ===\n" +
+               "Id    : " + id + "\n" +
+               "Email : " + email + "\n" +
+               "Empresa: " + company + "\n" +
+               "========================";
     }
 
     // Getters e Setters

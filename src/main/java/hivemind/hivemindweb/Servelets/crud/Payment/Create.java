@@ -84,7 +84,7 @@ public class Create extends HttpServlet {
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch error
-            System.err.println("[FAILURE] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

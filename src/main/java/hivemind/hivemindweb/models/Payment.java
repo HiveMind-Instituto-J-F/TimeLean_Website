@@ -47,15 +47,15 @@ public class Payment {
     // ToString
     @Override
     public String toString() {
-        return String.format(
-            "\nValue: %.2f\nDeadline: %s\nMethod: %s\nBeneficiary: %s\nStatus: %s\nId Plan Subscription: %d",
-            this.value,
-            this.deadline,
-            this.method,
-            this.beneficiary,
-            this.status,
-            this.idPlanSubscription
-        );
+        return "=== Dados do Pagamento ===\n" +
+               "Id               : " + id + "\n" +
+               "Valor            : " + value + "\n" +
+               "Data de Vencimento: " + deadline + "\n" +
+               "Método           : " + method + "\n" +
+               "Beneficiário     : " + beneficiary + "\n" +
+               "Status           : " + status + "\n" +
+               "Id Assinatura    : " + idPlanSubscription + "\n" +
+               "==========================";
     }
 
     // Getters e Setters

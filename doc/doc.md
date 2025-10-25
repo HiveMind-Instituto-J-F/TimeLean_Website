@@ -20,7 +20,7 @@
 - [Padrão de Código](#padrao-de-codigo)
   - [Convenções de Classes e Métodos](#convenções-de-classes-e-métodos)
   - [Separação De Pacotes](#separaçao-de-pacotes)
-  - [Estrutura da Classe Tool (Exemplo)](#estrutura-da-classe-tool-exemplo)
+  
   - [Uso da Classe List](#uso-da-classe-list)
 - [Exceções e Logs](#exceções-e-logs)
   - [Exceções Customizadas](#exceções-customizadas)
@@ -417,56 +417,21 @@ O toString deve seguir o seguinte modelo
 ## Convenções de Classes e Métodos
 
 -   **Classes:** PascalCase → `UserController`, `Tool`,
-    `DatabaseHelper`\
+    **Classes:** PascalCase → `UserController`, `DatabaseHelper`\
 -   **Métodos:** verbo + ação, camelCase → `createUser()`,
     `calculateScore()`\
 -   **Atributos:** camelCase → `userName`, `userEmail`\
 -   **Constantes:** UPPER_CASE → `MAX_ATTEMPTS`, `DEFAULT_TIMEOUT`
 
 ## Separação De Pacotes
--   **Tool** → contém métodos estáticos reutilizáveis para todo o
-    sistema.\
--   **modules** → classes diretas do projeto.\
--   **ExtraPackage**\* → pacotes adicionais conforme necessidade futura,
-    ex.: *Analytics, Security, Helpers*.\
-    **OBS: Este Package pode mudar de nome dependendo da sua especificação, por exemplo**
-    ```bash
-      C:.
-        └───Tool
-          └───Critografy
-    ````
--   **Servlets** → servlets que recebem requisições HTTP e chamam
-    DAO/Tool/modules.
-
-### Estrutura da Classe Tool (Exemplo)
-
-``` java
-package hivemind.hivemindweb.Tool;
-
-public class Tool {
-
-    // Exemplo de função geral
-    public static boolean isNullOrEmpty(String value) {
-        return value == null || value.isEmpty();
-    }
-
-    public static String sanitizeInput(String input) {
-        return input == null ? "" : input.trim();
-    }
-
-    // Outras funções gerais do sistema podem ser adicionadas aqui
-}
-```
+-   **Services** → diretório que contém classes de serviço e utilitários compartilhados, localizado em `src/main/java/hivemind/hivemindweb/Services`. Exemplos: `AppListener`, `EmailService` (no subdiretório `Email`), e enums em `Enums/`. Essas classes fornecem funcionalidades reutilizáveis e gerenciam aspectos da aplicação (inicialização, envio de email, utilitários comuns). Elas fazem parte do mesmo aplicativo (componentes internos), não são microservices independentes.
+-   **modules** → classes diretamente relacionadas às funcionalidades do domínio do projeto.
+-   **Servlets** → servlets que recebem requisições HTTP e chamam DAOs/modules.
 
 ## Uso da Classe List
 
 Para facilitar a locomoção e manipulação de dados é preferível o uso da classe `List<>`.
 Dependendo da necessidade, pode ser implementada como `ArrayList` ou `LinkedList`.
-
-### Descrição breve
-`List` é uma interface em Java que representa uma coleção ordenada de elementos, permitindo acesso por índice e suporte a elementos duplicados.
-Na prática, ela oferece flexibilidade para armazenar e percorrer dados de forma simples e eficiente.
-
 
 # Boas Práticas de Commits
 

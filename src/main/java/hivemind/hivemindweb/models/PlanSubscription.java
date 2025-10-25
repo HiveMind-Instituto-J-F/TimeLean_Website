@@ -34,9 +34,16 @@ public class PlanSubscription {
     }
 
     // ToString
-    public String toString(){
-    return "Id: "+this.id+"\nStart Date: "+this.startDate+"\nCNPJ Company: "+this.cnpjCompany+
-        "\nId Plan: "+this.idPlan+"\nNumber Installments: "+this.numberInstallments;
+    @Override
+    public String toString() {
+        return "=== Dados da Assinatura ===\n" +
+               "Id                : " + id + "\n" +
+               "Data de Início    : " + startDate + "\n" +
+               "CNPJ da Empresa   : " + cnpjCompany + "\n" +
+               "Id do Plano       : " + idPlan + "\n" +
+               "Parcelas          : " + numberInstallments + "\n" +
+               "Status            : " + status + "\n" +
+               "===========================";
     }
 
     // Getters e Setters

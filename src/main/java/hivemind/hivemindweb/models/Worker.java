@@ -65,14 +65,14 @@ public class Worker {
     // Method toString()
     @Override
     public String toString() {
-        return "Worker{" +
-                "cpf='" + cpf + '\'' +
-                ", role='" + role + '\'' +
-                ", sector='" + sector + '\'' +
-                ", name='" + name + '\'' +
-                ", loginEmail='" + loginEmail + '\'' +
-                ", loginPassword='" + loginPassword + '\'' +
-                ", cnpjPlant='" + cnpjPlant + '\'' +
-                '}';
+        return "=== Dados do Trabalhador ===\n" +
+                "CPF          : " + cpf + "\n" +
+                "Função       : " + role + "\n" +
+                "Setor        : " + sector + "\n" +
+                "Nome         : " + name + "\n" +
+                "Email de Login: " + loginEmail + "\n" +
+                "Senha de Login: " + loginPassword + "\n" +
+                "CNPJ da Planta: " + cnpjPlant + "\n" +
+                "=============================";
     }
 }

@@ -33,18 +33,13 @@ public class Update extends HttpServlet {
 
             // [DATA ACCESS] Attempt to update the company
             if (CompanyDAO.update(company)) {
-<<<<<<< HEAD:src/main/java/hivemind/hivemindweb/Servelets/crud/Company/update/Update.java
                 // Redirect to list page if update succeeds
                 System.out.println("[INFO] Update Company Sussefly");
                 req.setAttribute("msg", "Company Foi Atalizado Com Susseso!");
-=======
-                // [SUCCESS LOG] Company updated successfully
-                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Company updated successfully: " + paramCnpj);
->>>>>>> 350d8ab7eb3a2ea5bf518c8c121e454150a4ec26:src/main/java/hivemind/hivemindweb/Servelts/crud/Company/update/Update.java
                 resp.sendRedirect(req.getContextPath() + "/company/read");
             } else {
-                // [FAILURE LOG] Failed to update company in DB
-                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Failed to update company: " + paramCnpj);
+                // [ERROR] Failed to update company in DB
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update company: " + paramCnpj);
                 req.setAttribute("company", company);
                 req.setAttribute("errorMessage", "Falha ao atualizar a empresa.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
@@ -52,22 +47,22 @@ public class Update extends HttpServlet {
             }
 
         } catch (IllegalArgumentException iae) {
-            // [FAILURE LOG] Invalid input parameters
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
+            // [ERROR] Invalid input parameters
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
-            // [FAILURE LOG] Servlet dispatching error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
+            // [ERROR] Servlet dispatching error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
-            // [FAILURE LOG] Unexpected exception
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            // [ERROR] Unexpected exception
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

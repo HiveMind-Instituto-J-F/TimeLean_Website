@@ -36,7 +36,12 @@ public class Admin{
     }
 
     // ToString
-    public String toString(){
-        return "Id: "+this.id+"\nEmail: "+this.email+"\n ID: "+ this.id;
+    @Override
+    public String toString() {
+        return "=== Dados do Admin ===\n" +
+               "Id          : " + id + "\n" +
+               "Email       : " + email + "\n" +
+               "HashPassword: " + hashPassword + "\n" +
+               "=======================";
     }
 }

@@ -42,9 +42,15 @@ public class Company {
     }
 
     // ToString
-    public String toString(){
-        return "CNPJ: "+this.cnpj+"\nName: "+this.name+"\nCNAE: "+this.cnae
-                +"\nRegistrant CPF: "+this.registrantCpf;
+    @Override
+    public String toString() {
+        return "=== Dados da Empresa ===\n" +
+               "CNPJ         : " + cnpj + "\n" +
+               "Nome         : " + name + "\n" +
+               "CNAE         : " + cnae + "\n" +
+               "CPF Registrante: " + registrantCpf + "\n" +
+               "Ativo        : " + isActive + "\n" +
+               "========================";
     }
 
     // Getters e Setters

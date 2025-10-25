@@ -56,9 +56,16 @@ public class Plan {
     }
 
     // ToString
-    public String toString(){
-        return "ID: "+this.id+"\nName: "+this.name+"\nDescription: "+this.description+
-                "\nDuration: "+this.duration+ ("\nPrice: %.2f," +  this.price);
+    @Override
+    public String toString() {
+        return "=== Dados do Plano ===\n" +
+               "Id          : " + id + "\n" +
+               "Nome        : " + name + "\n" +
+               "Descrição   : " + description + "\n" +
+               "Duração     : " + duration + " meses\n" +
+               "Preço       : R$ " + price + "\n" +
+               "Ativo       : " + is_active + "\n" +
+               "=======================";
     }
 
     // Getters e Setters
