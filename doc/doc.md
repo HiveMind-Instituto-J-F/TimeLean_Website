@@ -279,7 +279,35 @@ Fornece os métodos para conectar e desconectar do banco de dados PostgreSQL. El
 
 Implementa a interface `ServletContextListener`, o que permite executar código na inicialização e finalização da aplicação. No método `contextInitialized()`, ele inicializa o `EnvLoader` para garantir que as variáveis de ambiente estejam disponíveis desde o início. O método `contextDestroyed()` é utilizado para liberar recursos quando a aplicação é encerrada.
 
+#### Sistema de Email (`EmailService.java`)
+
+O sistema de email é implementado pela classe `EmailService.java`, que utiliza a API **Jakarta Mail** (anteriormente JavaMail) para enviar emails de forma assíncrona.
+
+**Configuração e Inicialização:**
+A classe é inicializada pelo `AppListener` (ou um componente similar) no método `init(ServletContext)`. Ela carrega as credenciais de email (`email_name` e `email_password`) a partir do `Dotenv` (variáveis de ambiente) e configura as propriedades de conexão.
+
+**Protocolo SMTP (Simple Mail Transfer Protocol)**
+O **SMTP** é o protocolo padrão da Internet para a transmissão de emails. O `EmailService` configura as propriedades para utilizar um servidor SMTP (neste caso, `smtp.gmail.com` na porta `587` com `STARTTLS`), que é o responsável por rotear as mensagens para o destinatário.
+
+| Propriedade | Valor | Descrição |
+| :--- | :--- | :--- |
+| `mail.smtp.host` | `smtp.gmail.com` | Servidor de email de saída (Mail Server) |
+| `mail.smtp.port` | `587` | Porta padrão para SMTP seguro (TLS/STARTTLS) |
+| `mail.smtp.auth` | `true` | Requer autenticação de usuário e senha |
+| `mail.smtp.starttls.enable` | `true` | Habilita a criptografia TLS para a sessão |
+
+**Envio de Email:**
+O método `SendEmail(String Sender, String Subject, String msg)` é o responsável pelo envio. Ele cria uma sessão de email com as propriedades e autenticação configuradas, constrói a mensagem (`MimeMessage`) com o remetente, destinatário, assunto e corpo, e utiliza o `Transport.send(message)` para enviar a mensagem através do servidor SMTP.
+
+**Conceitos Básicos de Protocolos de Email:**
+- **SMTP (Simple Mail Transfer Protocol):** Usado para **enviar** emails. É o "carteiro" da internet.
+- **POP3 (Post Office Protocol 3) e IMAP (Internet Message Access Protocol):** Usados para **receber** emails. O POP3 baixa o email para o dispositivo local, enquanto o IMAP sincroniza o email entre o servidor e o dispositivo.
+
+O sistema de email atual foca apenas no envio, utilizando o protocolo SMTP.
+
 #### Data Access Objects (DAOs)
+
+
 
 Os DAOs (como `AdminDAO`, `CompanyDAO`, etc.) são um padrão de projeto que isola a lógica de acesso a dados do resto da aplicação. Cada DAO é responsável por realizar as operações de CRUD (Create, Read, Update, Delete) para uma entidade específica do modelo. Eles utilizam o `DBConnection` para obter uma conexão com o banco de dados e `PreparedStatement` para executar as queries de forma segura, prevenindo ataques de injeção de SQL.
 
