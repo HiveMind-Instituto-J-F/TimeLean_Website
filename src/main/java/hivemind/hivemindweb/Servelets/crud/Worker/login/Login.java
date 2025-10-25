@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.crud.Worker.login;
+package hivemind.hivemindweb.Servelets.crud.Worker.login;
 
 import hivemind.hivemindweb.AuthService.AuthService;
 import hivemind.hivemindweb.DAO.PlantDAO;
