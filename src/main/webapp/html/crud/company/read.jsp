@@ -18,6 +18,13 @@
 </head>
 
 <body>
+<%
+    Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+    if (isLogged == null || !isLogged) {
+        response.sendRedirect(request.getContextPath() + "/html/login.jsp");
+        return;
+    }
+%>
 <div id="background-img">
     <header class="blur">
         <a href="#background-img" class="branding">

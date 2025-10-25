@@ -7,53 +7,64 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet("/company/update")
 public class Update extends HttpServlet {
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            // Receive form parameters
-            String cnpj = req.getParameter("company-cnpj");
-            if(cnpj.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");}
-            
-            String name = req.getParameter("company-name");
-            if(name.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'name'");}
-            
-            String cnae = req.getParameter("company-cnae");
-            if(cnae.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnae'");}
-            
-            String registrantCpf = req.getParameter("company-registrant-cpf");
-            if(registrantCpf.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'registrantCpf'");}
+            // [VALIDATION] Receive and validate form parameters
+            String paramCnpj = req.getParameter("cnpj");
+            if (paramCnpj == null || paramCnpj.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");
 
-            // Create a Company object with the updated data
-            Company company = new Company(cnpj, name, cnae, registrantCpf, true);
-    
-            // Update the company in the database via DAO
+            String paramName = req.getParameter("name");
+            if (paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'name'");
+
+            String paramCnae = req.getParameter("cnae");
+            if (paramCnae == null || paramCnae.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cnae'");
+
+            String paramRegistrantCpf = req.getParameter("registrantCpf");
+            if (paramRegistrantCpf == null || paramRegistrantCpf.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'registrantCpf'");
+
+            // [PROCESS] Create Company object with updated data
+            Company company = new Company(paramCnpj, paramName, paramCnae, paramRegistrantCpf, true);
+
+            // [DATA ACCESS] Attempt to update the company
             if (CompanyDAO.update(company)) {
-                // Redirect to list page if update succeeds
-                System.out.println("[WARN] Update Company Sussefly");
-                req.setAttribute("msg", "Company Foi Atalizado Com Susseso!");
+                // [SUCCESS LOG] Company updated successfully
+                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Company updated successfully: " + paramCnpj);
                 resp.sendRedirect(req.getContextPath() + "/company/read");
             } else {
-                // Forward back to update page with error message if update fails
+                // [FAILURE LOG] Failed to update company in DB
+                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Failed to update company: " + paramCnpj);
                 req.setAttribute("company", company);
-                req.setAttribute("error", "Failed to update the company.");
-                req.getRequestDispatcher("/html/crud/company/update.jsp").forward(req, resp);
+                req.setAttribute("errorMessage", "Falha ao atualizar a empresa.");
+                req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
             }
 
-        }catch(IllegalArgumentException ia){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }
-        catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+        } catch (IllegalArgumentException iae) {
+            // [FAILURE LOG] Invalid input parameters
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + iae.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (ServletException se) {
+            // [FAILURE LOG] Servlet dispatching error
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Unexpected exception
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

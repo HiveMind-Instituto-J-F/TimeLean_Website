@@ -7,8 +7,15 @@
     <title>Lista de Empresas</title>
 </head>
 <body>
+<%
+    Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+    if (isLogged == null || !isLogged) {
+        response.sendRedirect("../login.jsp");
+        return;
+    }
+%>
 <h2>Plantas industriais Cadastradas</h2>
-
+<a href="${pageContext.request.contextPath}/html/crud/plant/create.jsp">CRIARR</a>
 <form action="${pageContext.request.contextPath}/plant/read" method="get">
     <select id="filter" name="filter">
         <option value="active-plants">Apenas plantas ativas</option>
@@ -51,7 +58,7 @@
                 <input type="hidden" name="cnpj" value="<%= p.getCNPJ() %>"/>
                 <input type="submit" value="Delete"/>
             </form>
-            <form action="${pageContext.request.contextPath}/plant/update" method="get" style="display:inline;">
+            <form action="${pageContext.request.contextPath}/plant/render-update" method="get" style="display:inline;">
                 <input type="hidden" name="cnpj" value="<%= p.getCNPJ() %>"/>
                 <input type="submit" value="Modify"/>
             </form>

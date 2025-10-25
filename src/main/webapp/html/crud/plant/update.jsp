@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="hivemind.hivemindweb.models.Plant" %>
-<%@ include file="read.jsp" %>
 
 <html lang="en">
 <head>
@@ -8,6 +7,13 @@
     <title>Modify Plant</title>
 </head>
 <body>
+<%
+    Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+    if (isLogged == null || !isLogged) {
+        response.sendRedirect("../login.jsp");
+        return;
+    }
+%>
 <header>
     <h1>Modify Industrial Plant</h1>
 </header>
@@ -17,7 +23,7 @@
         Plant plant = (Plant) request.getAttribute("plant");
         if (plant != null) {
     %>
-    <form action="${pageContext.request.contextPath}/update-plant" method="post">
+    <form action="${pageContext.request.contextPath}/plant/update" method="post">
         <label for="cnpj">CNPJ:</label>
         <input type="text" id="cnpj" name="CNPJ" value="<%= plant.getCNPJ() %>" readonly><br>
 

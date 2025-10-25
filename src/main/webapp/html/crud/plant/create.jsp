@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="hivemind.hivemindweb.models.Plant" %>
-<%@ include file="read.jsp" %>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -10,10 +9,17 @@
     <title>TimeLean - Administração</title>
 </head>
 <body>
+<%
+    Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+    if (isLogged == null || !isLogged) {
+        response.sendRedirect("../login.jsp");
+        return;
+    }
+%>
 <main>
     <section name="crud_plant" class="crud">
         <h2>Adicionar planta</h2>
-        <form action="create-plant" method="post">
+        <form action="${pageContext.request.contextPath}/plant/create" method="post">
             <label for="cnpj">CNPJ:</label><br>
             <input type="text" id="cnpj" name="cnpj" required><br><br>
 
@@ -34,6 +40,9 @@
 
             <label for="address_cep">Address CEP:</label><br>
             <input type="text" id="address_cep" name="address_cep"><br><br>
+
+            <label for="company_cnpj">CNPJ da empresa dona da planta:</label><br>
+            <input type="text" name="company_cnpj" placeholder="CNPJ da empresa dona da planta" required><br><br>
 
             <input type="submit" value="Create Plant">
         </form>

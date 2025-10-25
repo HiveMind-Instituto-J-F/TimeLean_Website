@@ -1,11 +1,8 @@
 package hivemind.hivemindweb.Servelts.crud.Worker;
 
-import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.DAO.WorkerDAO;
 import hivemind.hivemindweb.Services.Enums.FilterType;
-import hivemind.hivemindweb.models.Plant;
 import hivemind.hivemindweb.models.Worker;
-import jakarta.servlet.Filter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,68 +11,74 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/worker/read")
 public class Read extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve the current session (creates one if not existing)
-        HttpSession session = request.getSession();
-
-        // Get the plant CNPJ stored in the session
-        String plantCnpj = (String) session.getAttribute("plantCnpj");
-
-        if (plantCnpj == null || plantCnpj.isEmpty()) {
-            // Handle missing or invalid session attribute
-            System.err.println("[WORKER-READ] Missing plantCnpj in session.");
-            request.setAttribute("errorMessage", "Plant information not found in session.");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
-            return;
-        }
-
-        // get filter
-        FilterType filterType = FilterType.INPUT_TEXT;
-        String filter = null; // default: all workers
-
-        String requestCpfFilter = request.getParameter("cpfFilter");
-        String requestSectorFilter = request.getParameter("sectorFilter");
-
-        if (requestCpfFilter != null && !requestCpfFilter.isEmpty()){
-            filterType = FilterType.INPUT_CPF;
-            filter = requestCpfFilter;
-        } else if (requestSectorFilter != null && !requestSectorFilter.isEmpty()){
-            filterType = FilterType.INPUT_SECTOR;
-            filter = requestSectorFilter;
-        }
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            // Retrieve all workers associated with the plant
+            // [VALIDATION] Retrieve the current session and plantCnpj
+            HttpSession session = req.getSession();
+            String plantCnpj = (String) session.getAttribute("plantCnpj");
+            if (plantCnpj == null || plantCnpj.isEmpty()) {
+                throw new IllegalArgumentException("Missing or empty plantCnpj in session");
+            }
+
+            // [LOGIC] Determine filter type based on request parameters
+            FilterType filterType = FilterType.INPUT_TEXT;
+            String filter = null;
+
+            String paramCpfFilter = req.getParameter("cpfFilter");
+            String paramSectorFilter = req.getParameter("sectorFilter");
+
+            if (paramCpfFilter != null && !paramCpfFilter.isEmpty()) {
+                filterType = FilterType.INPUT_CPF;
+                filter = paramCpfFilter;
+            } else if (paramSectorFilter != null && !paramSectorFilter.isEmpty()) {
+                filterType = FilterType.INPUT_SECTOR;
+                filter = paramSectorFilter;
+            }
+
+            // [DATA ACCESS] Retrieve workers with applied filter
             List<Worker> workers = WorkerDAO.selectFilter(filterType, filter, plantCnpj);
 
-            // Set attributes for the JSP view
-            request.setAttribute("workers", workers);
-            request.setAttribute("plantCnpj", plantCnpj);
+            // [PROCESS] Set attributes and forward to JSP
+            req.setAttribute("workers", workers);
+            req.setAttribute("plantCnpj", plantCnpj);
+            req.getRequestDispatcher("/html/crud/worker/read.jsp").forward(req, resp);
 
-            // Forward to the JSP page for display
-            request.getRequestDispatcher("/html/crud/worker/read.jsp").forward(request, response);
-        } catch (NullPointerException npe) {
-            // Handle null references (e.g., DAO returned null unexpectedly)
-            System.err.println("[WORKER-READ] Null reference encountered: " + npe.getMessage());
-            request.setAttribute("errorMessage", "Internal error while retrieving plant or worker data.");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
-
-        } catch (IllegalStateException ise) {
-            // Handle session or response errors
-            System.err.println("[WORKER-READ] Illegal state error: " + ise.getMessage());
-            request.setAttribute("errorMessage", "Session or response error. Please reload the page.");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
+            // [SUCCESS LOG] Workers retrieved successfully
+            System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Workers retrieved for plant: " + plantCnpj);
 
         } catch (IllegalArgumentException iae) {
-            // Handle invalid plantCnpj or DAO argument
-            System.err.println("[WORKER-READ] Invalid argument: " + iae.getMessage());
-            request.setAttribute("errorMessage", "Invalid plant data. Please verify the session information.");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
+            // [FAILURE LOG] Missing or invalid plantCnpj
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos da planta. Verifique as informações da sessão.");
+            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Null reference encountered in DAO
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Erro interno ao recuperar dados de trabalhadores ou planta.");
+            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (IllegalStateException ise) {
+            // [FAILURE LOG] Session or response error
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalStateException: " + ise.getMessage());
+            req.setAttribute("errorMessage", "Erro de sessão ou resposta. Recarregue a página.");
+            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Unexpected error
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
+            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

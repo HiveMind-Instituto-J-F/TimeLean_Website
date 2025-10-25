@@ -15,53 +15,65 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/company/delete")
 public class Delete extends HttpServlet {
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{
-            // Get attribute
-            String cnpj = req.getParameter("cnpj");
-            if(cnpj.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");}
+        try {
+            // [VALIDATION] Retrieve and validate 'cnpj' parameter
+            String paramCnpj = req.getParameter("cnpj");
+            if (paramCnpj == null || paramCnpj.isEmpty()) {
+                throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");
+            }
 
-            List<Payment> pendingPayments = null;
-            Company company = new Company(cnpj);
+            // [DATA ACCESS] Check for pending payments
+            Company company = new Company(paramCnpj);
+            List<Payment> pendingPayments = PaymentDAO.selectPendingPayments(paramCnpj);
 
-            pendingPayments = PaymentDAO.selectPendingPayments(cnpj);
-
-            // Handle case where there are pending payments: if list is non-empty, prevent delete
-            if (pendingPayments != null && !pendingPayments.isEmpty()){
+            // [BUSINESS RULES] Prevent deletion if pending payments exist
+            if (pendingPayments != null && !pendingPayments.isEmpty()) {
                 throw new IllegalArgumentException("Company has pending payments and cannot be deleted");
             }
 
-            if (CompanyDAO.switchActive(company, company.isActive())){
-                System.out.println("[WARN] Deleted Company.");
-                resp.sendRedirect(req.getContextPath() + "\\company\\read");
+            // [PROCESS] Attempt to switch company active status (soft delete)
+            if (CompanyDAO.switchActive(company, company.isActive())) {
+                // [SUCCESS LOG] Company deleted/deactivated successfully
+                System.err.println("[SUCCESS LOG] Company deleted/deactivated: " + paramCnpj);
+                resp.sendRedirect(req.getContextPath() + "/company/read");
                 return;
             }
 
-            System.err.println("[ERROR] Unknown error.");
-            req.setAttribute("errorMessage", "Unable to delete (Unknown)");
-            req.getRequestDispatcher("\\html\\crud\\company\\erro\\error.jsp").forward(req, resp);
+            // [FAILURE LOG] Unknown deletion error
+            System.err.println("[FAILURE LOG] Unknown error deleting company: " + paramCnpj);
+            req.setAttribute("errorMessage", "Não foi possível deletar a empresa (Erro desconhecido).");
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
-            System.err.println("[ERRO] NullPointerException. , Erro: " + npe.getMessage());
-            req.setAttribute("errorMessage", "Unable to delete (Unknown)");
-            req.getRequestDispatcher("\\tml/crud\\compan\\error\\error.jsp").forward(req, resp);
-        }
-        catch(IllegalArgumentException ia){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
-            // resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
-        }
-        catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
+            // [FAILURE LOG] Null reference encountered
+            System.err.println("[FAILURE LOG] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Não foi possível deletar a empresa (Erro interno).");
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (IllegalArgumentException iae) {
+            // [FAILURE LOG] Invalid input or business rule violation
+            System.err.println("[FAILURE LOG] IllegalArgumentException: " + iae.getMessage());
+            req.setAttribute("errorMessage", "Erro: " + iae.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (ServletException se) {
+            // [FAILURE LOG] Servlet dispatch error
+            System.err.println("[FAILURE LOG] ServletException: " + se.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Unexpected exception
+            System.err.println("[FAILURE LOG] Unexpected exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }
-/*
- * BUSINESS RULES (DO NOT DELETE):
- * If the company is set as deactivated, it will be treated the same as a deleted company; this means, it cannot make any operation.
- * Deleted/deactivated companies may be visible depending on the used filter.
- * */

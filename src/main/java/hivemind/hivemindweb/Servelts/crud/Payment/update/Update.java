@@ -3,7 +3,6 @@ package hivemind.hivemindweb.Servelts.crud.Payment.update;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-
 import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.models.Payment;
 import jakarta.servlet.ServletException;
@@ -14,74 +13,78 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/payment/update")
 public class Update extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        // [PROCESS] Handle payment update
         try {
-            // Get and validate parameters
-            String idStr = req.getParameter("id");
-            if (idStr == null || idStr.isEmpty()) {
+            String idParam = req.getParameter("id");
+            if (idParam == null || idParam.isEmpty()) {
                 throw new IllegalArgumentException("Parâmetro 'id' não informado.");
             }
-            int id = Integer.parseInt(idStr);
+            int id = Integer.parseInt(idParam);
 
-            String method = req.getParameter("method");
-            if (method != null) method = method.trim();
+            String methodParam = req.getParameter("method");
+            if (methodParam != null) methodParam = methodParam.trim();
 
-            String beneficiary = req.getParameter("beneficiary");
-            if (beneficiary == null || beneficiary.isEmpty()) {
+            String beneficiaryParam = req.getParameter("beneficiary");
+            if (beneficiaryParam == null || beneficiaryParam.isEmpty()) {
                 throw new IllegalArgumentException("Parâmetro 'beneficiary' não informado.");
             }
 
-            String deadlineStr = req.getParameter("deadline");
-            if (deadlineStr == null || deadlineStr.isEmpty()) {
+            String deadlineParam = req.getParameter("deadline");
+            if (deadlineParam == null || deadlineParam.isEmpty()) {
                 throw new IllegalArgumentException("Parâmetro 'deadline' não informado.");
             }
-            LocalDate deadline = LocalDate.parse(deadlineStr);
+            LocalDate deadline = LocalDate.parse(deadlineParam);
 
-            String status = req.getParameter("status");
-            if (status == null || status.isEmpty()) {
+            String statusParam = req.getParameter("status");
+            if (statusParam == null || statusParam.isEmpty()) {
                 throw new IllegalArgumentException("Parâmetro 'status' não informado.");
             }
 
-            // Create payment object
-            Payment paymentLocal = new Payment(id, deadline, method, beneficiary, status);
+            // [LOGIC] Create payment object
+            Payment paymentLocal = new Payment(id, deadline, methodParam, beneficiaryParam, statusParam);
 
-            // Attempt update
+            // [DATA ACCESS] Attempt to update payment
             if (PaymentDAO.update(paymentLocal)) {
-                System.out.println("[INF] Pagamento atualizado com sucesso.");
+                // [SUCCESS LOG] Payment updated successfully
+                System.err.println("[SUCCESS] Payment updated successfully, id: " + id);
                 resp.sendRedirect(req.getContextPath() + "/payment/read");
             } else {
-                System.err.println("[WARN] Falha na atualização do pagamento.");
+                // [FAILURE LOG] Failed database update
+                System.err.println("[FAILURE] Failed to update payment, id: " + id);
                 req.setAttribute("errorMessage", "Pagamento não foi atualizado devido a um erro no banco de dados.");
-                req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
+                req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + id);
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException iae) {
-            // Handle invalid input
-            System.err.println("[ERROR] Entrada inválida: " + iae.getMessage());
+            // [FAILURE LOG] Invalid input parameters
+            System.err.println("[FAILURE] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
+            req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
-            // Handle date parsing errors
-            System.err.println("[ERROR] Falha ao converter data: " + dpe.getMessage());
+            // [FAILURE LOG] Date parsing error
+            System.err.println("[FAILURE] DateTimeParseException: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Data inválida: " + dpe.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
+            req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
-            // Handle servlet dispatch errors
-            System.err.println("[ERROR] ServletException: " + se.getMessage());
+            // [FAILURE LOG] Servlet dispatch error
+            System.err.println("[FAILURE] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor: " + se.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
+            req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
-            // Handle unexpected errors
-            System.err.println("[ERROR] Exception inesperada: " + e.getMessage());
+            // [FAILURE LOG] Unexpected exception
+            System.err.println("[FAILURE] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao atualizar o pagamento.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/update");
+            req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }

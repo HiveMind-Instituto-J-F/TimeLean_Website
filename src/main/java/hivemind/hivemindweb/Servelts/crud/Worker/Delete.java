@@ -9,51 +9,61 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet("/worker/delete")
 public class Delete extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve and validate the CPF parameter
-        String cpf = request.getParameter("cpf");
-        if (cpf == null || cpf.isEmpty()) {
-            System.err.println("[WORKER-DELETE] Missing CPF parameter.");
-            request.setAttribute("errorMessage", "Missing CPF parameter.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
-            return;
-        }
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            // Attempt to delete the worker from the database
-            boolean deleted = WorkerDAO.delete(new Worker(cpf));
-
-            if (deleted) {
-                // Redirect to the list page if deletion succeeded
-                response.sendRedirect(request.getContextPath() + "/worker/read");
-                return;
+            // [VALIDATION] Get and validate CPF parameter
+            String paramCpf = req.getParameter("cpf");
+            if (paramCpf == null || paramCpf.isEmpty()) {
+                throw new IllegalArgumentException("CPF parameter is missing");
             }
 
-            // Handle case where deletion did not occur (e.g., worker not found)
-            System.err.println("[WORKER-DELETE] Worker not found or could not be deleted.");
-            request.setAttribute("errorMessage", "Unable to delete the worker. Please verify the CPF and try again.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
-        } catch (NullPointerException npe) {
-            // Handle null references (e.g., DAO returned null or invalid worker)
-            System.err.println("[WORKER-DELETE] Null reference encountered: " + npe.getMessage());
-            request.setAttribute("errorMessage", "Internal error while processing worker deletion.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+            // [DATA ACCESS] Attempt to delete worker
+            boolean deleted = WorkerDAO.delete(new Worker(paramCpf));
 
-        } catch (IllegalStateException ise) {
-            // Handle session or response errors
-            System.err.println("[WORKER-DELETE] Illegal state: " + ise.getMessage());
-            request.setAttribute("errorMessage", "Session or response error. Please reload the page.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+            if (deleted) {
+                // [SUCCESS LOG] Worker deleted successfully
+                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Worker deleted: " + paramCpf);
+                resp.sendRedirect(req.getContextPath() + "/worker/read");
+            } else {
+                // [FAILURE LOG] Worker not found or deletion failed
+                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Worker not found or could not be deleted: " + paramCpf);
+                req.setAttribute("errorMessage", "Não foi possível deletar o trabalhador. Verifique o CPF e tente novamente.");
+                req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            }
 
         } catch (IllegalArgumentException iae) {
-            // Handle invalid CPF or input data
-            System.err.println("[WORKER-DELETE] Invalid data: " + iae.getMessage());
-            request.setAttribute("errorMessage", "Invalid CPF format or data provided.");
-            request.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(request, response);
+            // [FAILURE LOG] Invalid input parameter
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
+            req.setAttribute("errorMessage", "CPF inválido ou parâmetro ausente.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Null reference encountered
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Erro interno ao processar a exclusão do trabalhador.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (IllegalStateException ise) {
+            // [FAILURE LOG] Session or response error
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalStateException: " + ise.getMessage());
+            req.setAttribute("errorMessage", "Erro de sessão ou resposta. Recarregue a página e tente novamente.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Unexpected error
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }
