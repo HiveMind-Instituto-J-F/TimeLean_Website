@@ -35,6 +35,7 @@ public class Create extends HttpServlet {
                 throw new InvalidForeignKeyException("Name already exists in the database");
             }
             
+            // [LOGIC] Create local Plan object and insert into database
             Plan planLocal = new Plan(name, description, duration, price);
             System.out.println(planLocal);
             if(PlanDAO.insert(planLocal,false)){
@@ -48,29 +49,6 @@ public class Create extends HttpServlet {
                 System.out.println("[ERROR]:" + nameDB + " " +  planLocal);
                 req.setAttribute("Errro", "Plan Nao foi Adicionado devido a um Erro!");
             }
-
-            String nameParam = req.getParameter("name");
-            if (nameParam == null || nameParam.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'name'");
-            }
-
-            // [LOGIC] Create local Plan object and insert into database
-            Plan planLocal = new Plan(nameParam,price,duration);
-            planLocal.setActive(true);
-
-            if (PlanDAO.insert(planLocal, false)) {
-                // [SUCCESS LOG] Log successful plan creation
-                System.err.println("[SUCCESS LOG] Plan successfully created: " + nameParam);
-                req.setAttribute("msg", "Plano adicionado com sucesso!");
-                resp.sendRedirect(req.getContextPath() + "/plan/read");
-            } else {
-                // [ERROR] Log failure when inserting plan
-                System.err.println("[ERROR] Failed to insert plan into database.");
-                req.setAttribute("errorMessage", "O plano não foi adicionado devido a um erro interno.");
-                req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-            }
-
         } catch (IllegalArgumentException ia) {
             // [ERROR] Handle invalid argument exception
             System.err.println("[ERROR] IllegalArgumentException occurred: " + ia.getMessage());

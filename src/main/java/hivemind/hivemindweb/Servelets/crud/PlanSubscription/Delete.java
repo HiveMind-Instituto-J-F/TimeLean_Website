@@ -24,7 +24,7 @@ public class Delete extends HttpServlet {
 
             // [VALIDATION] Ensure ID parameter is provided
             if (idParam == null || idParam.isEmpty()) {
-                throw new IllegalArgumentException("Parâmetro 'id' não informado.");
+                throw new IllegalArgumentException("Parameter 'id' not provided.");
             }
             int id = Integer.parseInt(idParam);
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Received id: " + id);
@@ -34,30 +34,30 @@ public class Delete extends HttpServlet {
             // [DATA ACCESS] Attempt to delete PlanSubscription
             boolean deleted = PlanSubscriptionDAO.delete(planSubscriptionLocal);
             if (!deleted) {
-                throw new IllegalStateException("Falha ao deletar a assinatura (ID: " + id + ").");
+                throw new IllegalStateException("Failed to delete the subscription (ID: " + id + ").");
             }
 
             System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] PlanSubscription deleted successfully (ID: " + id + ")");
             resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
 
         } catch (InvalidPrimaryKeyException ipk) {
-            // [FAILURE LOG] Invalid primary key or foreign key issue
+            // [ERROR] Invalid primary key or foreign key issue
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] InvalidPrimaryKeyException: " + ipk.getMessage());
-            req.setAttribute("errorMessage", "Chave primária inválida ou referência inexistente: " + ipk.getMessage());
+            req.setAttribute("errorMessage", "Invalid primary key or non-existent reference: " + ipk.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException | IllegalStateException | IOException e) {
-            // [FAILURE LOG] Invalid arguments, deletion failure, or I/O error
+            // [ERROR] Invalid arguments, deletion failure, or I/O error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro ao deletar a assinatura: " + e.getMessage());
+            req.setAttribute("errorMessage", "An error occurred while deleting the subscription: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
-            // [FAILURE LOG] Catch-all unexpected errors
-            System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
-            req.setAttribute("errorMessage", "Erro inesperado ao deletar a assinatura: " + e.getMessage());
+            // [ERROR] Catch-all unexpected errors
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
+            req.setAttribute("errorMessage", "Unexpected error while deleting the subscription: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }

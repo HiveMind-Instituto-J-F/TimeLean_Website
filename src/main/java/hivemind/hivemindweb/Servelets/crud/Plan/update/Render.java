@@ -23,19 +23,6 @@ public class Render extends HttpServlet {
             // [DATA ACCESS] Retrieve plan by ID
             Plan planLocal;
             try {
-<<<<<<< HEAD:src/main/java/hivemind/hivemindweb/Servelets/crud/Plan/update/Render.java
-                PlanLocal = PlanDAO.selectByID(id);
-                if (PlanLocal == null){
-                    // Redirect to error.jsp in case of plan being null
-                    System.err.println("[ERROR] Plan is null");
-                    req.getRequestDispatcher("/html/crud/plan/error/error.jsp").forward(req, resp);
-                    return;
-                }
-            } catch (NullPointerException npe) {
-                // Redirect to error.jsp in case of NullPointerException
-                System.err.println("[ERROR] NullPointerException");
-                req.getRequestDispatcher("/html/crud/planSub/error/error.jsp").forward(req, resp);
-=======
                 planLocal = PlanDAO.selectByID(id);
                 if (planLocal == null) {
                     // [FAILURE LOG] Plan not found in database
@@ -51,7 +38,6 @@ public class Render extends HttpServlet {
                 req.setAttribute("errorMessage", "Erro interno ao acessar o plano solicitado.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
->>>>>>> 350d8ab7eb3a2ea5bf518c8c121e454150a4ec26:src/main/java/hivemind/hivemindweb/Servelts/crud/Plan/update/Render.java
                 return;
             }
 
@@ -60,7 +46,7 @@ public class Render extends HttpServlet {
             req.getRequestDispatcher("/html/crud/plan/update.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Successful rendering
-            System.err.println("[SUCCESS] Plan render executed successfully");
+            System.err.println("[INFO] Plan render executed successfully");
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid argument in servlet

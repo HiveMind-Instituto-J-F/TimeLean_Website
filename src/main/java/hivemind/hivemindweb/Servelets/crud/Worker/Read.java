@@ -17,40 +17,7 @@ import java.util.List;
 @WebServlet("/worker/read")
 public class Read extends HttpServlet {
     @Override
-<<<<<<< HEAD:src/main/java/hivemind/hivemindweb/Servelets/crud/Worker/Read.java
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve the current session (creates one if not existing)
-        HttpSession session = request.getSession();
-
-        // Get the plant CNPJ stored in the session
-        String plantCnpj = (String) session.getAttribute("plantCnpj");
-
-        if (plantCnpj == null || plantCnpj.isEmpty()) {
-            // Handle missing or invalid session attribute
-            System.err.println("[WARN] Missing plantCnpj in session.");
-            request.setAttribute("errorMessage", "Plant information not found in session.");
-            request.getRequestDispatcher("/html/error/error.jsp").forward(request, response);
-            return;
-        }
-
-        // get filter
-        FilterType filterType = FilterType.INPUT_TEXT;
-        String filter = null; // default: all workers
-
-        String requestCpfFilter = request.getParameter("cpfFilter");
-        String requestSectorFilter = request.getParameter("sectorFilter");
-
-        if (requestCpfFilter != null && !requestCpfFilter.isEmpty()){
-            filterType = FilterType.INPUT_CPF;
-            filter = requestCpfFilter;
-        } else if (requestSectorFilter != null && !requestSectorFilter.isEmpty()){
-            filterType = FilterType.INPUT_SECTOR;
-            filter = requestSectorFilter;
-        }
-
-=======
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
->>>>>>> 350d8ab7eb3a2ea5bf518c8c121e454150a4ec26:src/main/java/hivemind/hivemindweb/Servelts/crud/Worker/Read.java
         try {
             // [VALIDATION] Retrieve the current session and plantCnpj
             HttpSession session = req.getSession();
@@ -82,33 +49,33 @@ public class Read extends HttpServlet {
             req.setAttribute("plantCnpj", plantCnpj);
             req.getRequestDispatcher("/html/crud/worker/read.jsp").forward(req, resp);
 
-            // [SUCCESS LOG] Workers retrieved successfully
-            System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Workers retrieved for plant: " + plantCnpj);
+            // [INFO] Workers retrieved successfully
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] Workers retrieved for plant: " + plantCnpj);
 
         } catch (IllegalArgumentException iae) {
-            // [FAILURE LOG] Missing or invalid plantCnpj
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
+            // [ERROR] Missing or invalid plantCnpj
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos da planta. Verifique as informações da sessão.");
             req.setAttribute("errorUrl", "/html/toUser.html");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
-            // [FAILURE LOG] Null reference encountered in DAO
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            // [ERROR] Null reference encountered in DAO
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno ao recuperar dados de trabalhadores ou planta.");
             req.setAttribute("errorUrl", "/html/toUser.html");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IllegalStateException ise) {
-            // [FAILURE LOG] Session or response error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalStateException: " + ise.getMessage());
+            // [ERROR] Session or response error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalStateException: " + ise.getMessage());
             req.setAttribute("errorMessage", "Erro de sessão ou resposta. Recarregue a página.");
             req.setAttribute("errorUrl", "/html/toUser.html");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
-            // [FAILURE LOG] Unexpected error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            // [ERROR] Unexpected error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", "/html/toUser.html");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

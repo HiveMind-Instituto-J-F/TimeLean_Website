@@ -54,7 +54,7 @@ public class Plan {
     public Plan(int id){
         this.id = id;
     }
-    
+
     // ToString
     public String toString(){
         return "ID: "+this.id+"\nName: "+this.name+"\nDescription: "+this.description+

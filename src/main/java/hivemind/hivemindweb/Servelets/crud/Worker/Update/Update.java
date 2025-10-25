@@ -38,41 +38,6 @@ public class Update extends HttpServlet {
             if(paramPassword == null || paramPassword.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'password'");
             if(paramPlantCnpj == null || paramPlantCnpj.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");
 
-<<<<<<< HEAD:src/main/java/hivemind/hivemindweb/Servelets/crud/Worker/Update/Update.java
-            // Attempt to create a Worker object with the provided data
-            worker = new Worker(
-                cpf,
-                role,
-                sector,
-                name,
-                loginEmail,
-                loginPassword,
-                plantCnpj
-                );
-                
-                // Attempt to update worker information in the database
-                boolean updated = WorkerDAO.update(worker);
-                
-                if (updated) {
-                    // Redirect to the worker list if the update succeeds
-                    resp.sendRedirect(req.getContextPath() + "/worker/read");
-                } else {
-                    // Handle database update failure
-                    System.err.println("[ERROR] Failed to update worker in the database.");
-                    req.setAttribute("errorMessage", "Failed to update the worker.");
-                    req.getRequestDispatcher("/html/crud/worker/error/error.jsp").forward(req, resp);
-                }
-        }catch(IllegalArgumentException ia){
-            System.out.println("[ERROR] Error In Create Servelet, Error: "+ ia.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + ia.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + ia.getMessage());
-            req.getRequestDispatcher("html\\crud\\plan.jsp").forward(req, resp);
-        }catch(ServletException se){
-            System.out.println("[ERROR] Error In Servelet Dispacher, Error: "+ se.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "[ERROR] Ocorreu um erro interno no servidor. " + req.getMethod() + "Erro: " + se.getMessage());
-            req.setAttribute("errorMessage", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
-=======
             // [PROCESS] Hash password and create Worker object
             String hashedPassword = AuthService.hash(paramPassword);
             Worker worker = new Worker(paramCpf, paramRole, paramSector, paramName, paramLoginEmail, hashedPassword, paramPlantCnpj);
@@ -81,37 +46,36 @@ public class Update extends HttpServlet {
             boolean updated = WorkerDAO.update(worker);
             if(updated) {
                 // [SUCCESS LOG] Worker updated successfully
-                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Worker updated: " + paramCpf);
+                System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker updated: " + paramCpf);
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
             } else {
-                // [FAILURE LOG] Database update failed
-                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Failed to update worker in the database: " + paramCpf);
+                // [ERROR] Database update failed
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update worker in the database: " + paramCpf);
                 req.setAttribute("errorMessage", "Não foi possível atualizar o trabalhador.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
             }
 
         } catch(IllegalArgumentException ia) {
-            // [FAILURE LOG] Parameter validation error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
+            // [ERROR] Parameter validation error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch(ServletException se) {
-            // [FAILURE LOG] Dispatcher error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
+            // [ERROR] Dispatcher error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch(Exception e) {
-            // [FAILURE LOG] Unexpected error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            // [ERROR] Unexpected error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
->>>>>>> 350d8ab7eb3a2ea5bf518c8c121e454150a4ec26:src/main/java/hivemind/hivemindweb/Servelts/crud/Worker/Update/Update.java
         }
     }
 }

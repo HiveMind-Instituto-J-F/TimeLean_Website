@@ -33,29 +33,6 @@ public class Read extends HttpServlet {
             if (idPlanSubscriptionParam != -1) {
                 filterType = FilterType.Payment.ID_PLAN_SUBSCRIPTION;
             } else if (status != null) {
-<<<<<<< HEAD:src/main/java/hivemind/hivemindweb/Servelets/crud/Payment/Read.java
-                idPlanSubscription = -1;
-                if ("pending".equals(status)) {
-                    filterType = FilterType.Payment.PENDING;
-                } else if ("paid".equals(status)) {
-                    filterType = FilterType.Payment.PAID;
-                } else if ("canceled".equals(status)) {
-                    filterType = FilterType.Payment.CANCELED;
-                } else if (!"all".equals(status)) {
-                    // Invalid filter
-                    System.err.println("[ERROR] Invalid filter.");
-                    req.setAttribute("errorMessage", "Filtro inválido informado.");
-                    req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
-                    req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-                    return;
-                }
-            }
-
-            // Retrieve filtered payments
-            List<Payment> paymentList = PaymentDAO.selectFilter(filterType, idPlanSubscription);
-            // Log: backend messages should be in English
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Payment.Read -> Payment list loaded successfully. Total: " + paymentList.size());
-=======
                 idPlanSubscriptionParam = -1;
                 switch (status.toLowerCase()) {
                     case "pending" -> filterType = FilterType.Payment.PENDING;
@@ -63,8 +40,8 @@ public class Read extends HttpServlet {
                     case "canceled" -> filterType = FilterType.Payment.CANCELED;
                     case "all" -> filterType = FilterType.Payment.ALL_VALUES;
                     default -> {
-                        // [FAILURE LOG] Invalid filter
-                        System.err.println("[FAILURE] Invalid filter provided: " + status);
+                        // [ERROR] Invalid filter
+                        System.err.println("[ERROR] Invalid filter provided: " + status);
                         req.setAttribute("errorMessage", "Filtro inválido informado.");
                         req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
                         req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -76,35 +53,34 @@ public class Read extends HttpServlet {
             // [DATA ACCESS] Retrieve filtered payments
             List<Payment> paymentList = PaymentDAO.selectFilter(filterType, idPlanSubscriptionParam);
             System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] Payment list loaded successfully. Total: " + paymentList.size());
->>>>>>> 350d8ab7eb3a2ea5bf518c8c121e454150a4ec26:src/main/java/hivemind/hivemindweb/Servelts/crud/Payment/Read.java
 
             // [PROCESS] Forward to payment list page
             req.setAttribute("payments", paymentList);
             req.getRequestDispatcher("/html/crud/payment/read.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
-            // [FAILURE LOG] Invalid argument errors
+            // [ERROR] Invalid argument errors
             System.err.println("[FAILURE] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados. Verifique os valores e tente novamente.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
-            // [FAILURE LOG] Null pointer exception
+            // [ERROR] Null pointer exception
             System.err.println("[FAILURE] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: dado necessário não foi encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
-            // [FAILURE LOG] Servlet dispatch errors
+            // [ERROR] Servlet dispatch errors
             System.err.println("[FAILURE] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
-            // [FAILURE LOG] Unexpected errors
+            // [ERROR] Unexpected errors
             System.err.println("[FAILURE] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao carregar os pagamentos.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
