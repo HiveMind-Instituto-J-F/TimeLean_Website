@@ -237,7 +237,11 @@ O **MVE** é uma forma simples de organizar projetos web, parecida com o **MVC**
         *   `DAO/`: Data Access Objects, responsáveis pela interação com o banco de dados para cada entidade.
         *   `Exception/`: Classes de exceção personalizadas para a aplicação.
         *   `Servelts/`: Servlets que atuam como controladores, processando requisições HTTP e interagindo com os DAOs e modelos.
-        *   `Services/`: Classes de serviço que podem conter lógica de negócio ou utilitários, como `AppListener.java` e `Enums/`.
+        *   `Services/`: Contém classes que oferecem serviços reutilizáveis ou gerenciam o ciclo de vida da aplicação. Está dividido em:
+
+    *   `AppListener/`: Contém o `AppListener.java`, que gerencia o ciclo de vida da aplicação (inicialização e finalização).
+    *   `Email/`: Inclui o `EmailService.java`, responsável pelo envio de emails transacionais.
+    *   `Enums/`: Armazena enumerações utilizadas em toda a aplicação, como `FilterType.java`.
         *   `config/`: Classes de configuração, como `EnvLoader.java` para carregar variáveis de ambiente.
         *   `models/`: Classes de modelo (POJOs) que representam as entidades do banco de dados.
 
