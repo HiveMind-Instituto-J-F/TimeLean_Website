@@ -33,11 +33,17 @@ public class Update extends HttpServlet {
             LocalDate deadline = LocalDate.parse(deadlineParam);
             int id = Integer.parseInt(idParam);
 
-            // [LOGIC] Create payment object
-            Payment paymentLocal = new Payment(id, deadline, methodParam, beneficiaryParam, statusParam);
+            // [DATA ACCESS]  Select payment object
+            Payment paymentFromDb = PaymentDAO.select(id);
+
+            // [PROCESS] Update object
+            paymentFromDb.setMethod(methodParam);
+            paymentFromDb.setBeneficiary(beneficiaryParam);
+            paymentFromDb.setStatus(statusParam);
+            paymentFromDb.setDeadline(deadline);
 
             // [DATA ACCESS] Attempt to update payment
-            if (PaymentDAO.update(paymentLocal)) {
+            if (PaymentDAO.update(paymentFromDb)) {
                 // [SUCCESS LOG] Payment updated successfully
                 System.err.println("[INFO] Payment updated successfully, id: " + id);
                 resp.sendRedirect(req.getContextPath() + "/payment/read");

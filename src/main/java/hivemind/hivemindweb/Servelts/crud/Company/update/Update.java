@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.concurrent.ConcurrentMap;
 
 @WebServlet("/company/update")
 public class Update extends HttpServlet {
@@ -26,18 +27,20 @@ public class Update extends HttpServlet {
             if (paramCnae == null || paramCnae.isEmpty()) throw new IllegalArgumentException("Null value: 'cnae'");
             if (paramRegistrantCpf == null || paramRegistrantCpf.isEmpty()) throw new IllegalArgumentException("Null value: 'registrantCpf'");
 
-            // [PROCESS] Create Company object with updated data
-            Company company = new Company(paramCnpj, paramName, paramCnae, paramRegistrantCpf, true);
+            // [PROCESS] Create Company object and update data
+            Company companyFromDb = CompanyDAO.select(paramCnpj);
+            companyFromDb.setName(paramName);
+            companyFromDb.setCnae(paramCnae);
 
             // [DATA ACCESS] Attempt to update the company
-            if (CompanyDAO.update(company)) {
+            if (CompanyDAO.update(companyFromDb)) {
                 // [SUCCESS LOG] Company updated successfully
                 System.err.println("[INFO] [" + LocalDateTime.now() + "] Company updated successfully: " + paramCnpj);
                 resp.sendRedirect(req.getContextPath() + "/company/read");
             } else {
                 // [FAILURE LOG] Failed to update company in DB
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update company: " + paramCnpj);
-                req.setAttribute("company", company);
+                req.setAttribute("company", companyFromDb);
                 req.setAttribute("errorMessage", "Falha ao atualizar a empresa.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

@@ -29,10 +29,8 @@ public class Delete extends HttpServlet {
             int id = Integer.parseInt(idParam);
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Received id: " + id);
 
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(id);
-
             // [DATA ACCESS] Attempt to delete PlanSubscription
-            boolean deleted = PlanSubscriptionDAO.delete(planSubscriptionLocal);
+            boolean deleted = PlanSubscriptionDAO.delete(id);
             if (!deleted) {
                 throw new IllegalStateException("Failed while trying to delete plan subscription (ID: " + id + ").");
             }

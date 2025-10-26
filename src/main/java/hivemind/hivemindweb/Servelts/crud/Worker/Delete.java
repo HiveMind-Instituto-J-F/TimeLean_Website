@@ -23,7 +23,7 @@ public class Delete extends HttpServlet {
             }
 
             // [DATA ACCESS] Attempt to delete worker
-            boolean deleted = WorkerDAO.delete(new Worker(paramCpf));
+            boolean deleted = WorkerDAO.delete(paramCpf);
 
             if (deleted) {
                 // [SUCCESS LOG] Worker deleted successfully

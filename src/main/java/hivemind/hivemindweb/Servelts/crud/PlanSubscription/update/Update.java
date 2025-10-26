@@ -34,18 +34,24 @@ public class Update extends HttpServlet {
             LocalDate startDate = LocalDate.parse(startDateParam);
             boolean status = Boolean.parseBoolean(statusParam);
 
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(id, startDate, status);
+
+            // [DATA ACCESS] select planSubscription on database
+            PlanSubscription planSubscriptionFromDb = PlanSubscriptionDAO.select(id);
 
             // [BUSINESS RULES] Check for existing active subscriptions
             List<PlanSubscription> activePlans = PlanSubscriptionDAO.selectActivePlans(cnpjCompanyParam);
             for (PlanSubscription ps : activePlans) {
-                if (ps.getId() != id && ps.getStatus() && planSubscriptionLocal.getStatus()) {
+                if (ps.getId() != id && ps.getStatus() && planSubscriptionFromDb.getStatus()) {
                     throw new IllegalArgumentException("There is already a valid plan subscription for the company.");
                 }
             }
 
+            // [PROCESS] update object
+            planSubscriptionFromDb.setStartDate(startDate);
+            planSubscriptionFromDb.setStatus(status);
+
             // [DATA ACCESS] Attempt to update the subscription
-            if (PlanSubscriptionDAO.update(planSubscriptionLocal)) {
+            if (PlanSubscriptionDAO.update(planSubscriptionFromDb)) {
                 System.err.println("[INFO] PlanSubscription updated successfully");
             } else {
                 // [FAILURE LOG] Update failed in database

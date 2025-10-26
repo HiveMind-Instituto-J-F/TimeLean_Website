@@ -169,17 +169,18 @@ public class PlantDAO {
                SET cnae = ?,
                    responsible_cpf = ?,
                    address_cep = ?,
-                   address_number = ?
+                   address_number = ?,
+                   OPERATIONAL_STATUS = ?
              WHERE cnpj = ?
         """;
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setString(1, plant.getCNAE());
+            pstm.setString(1, plant.getCnae());
             pstm.setString(2, plant.getResponsibleCpf());
-            pstm.setString(3, plant.getAdressCep());
-            pstm.setInt(4, plant.getAdressNumber());
-            pstm.setString(5, plant.getCNPJ()); // usado no WHERE
+            pstm.setString(3, plant.getAddressCep());
+            pstm.setInt(4, plant.getAddressNumber());
+            pstm.setString(5, plant.getCnpj());
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
@@ -188,33 +189,13 @@ public class PlantDAO {
         return false;
     }
 
-    public static boolean switchOperationalStatus(Plant plant) {
-        DBConnection db = new DBConnection();
-        String sql = """
-            UPDATE plant
-               SET OPERATIONAL_STATUS = ?
-             WHERE cnpj = ?
-        """;
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setBoolean(1, plant.getOperationalStatus());
-            pstm.setString(2, plant.getCNPJ());
-            return pstm.executeUpdate() > 0;
-
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update" + sqle.getMessage());
-        }
-        return false;
-    }
-
-    public static boolean delete(Plant plant) {
+    public static boolean delete(String cnpj) {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM plant WHERE CNPJ = ?";
 
         try(Connection conn = db.connected()) { // Create Temp conn
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, plant.getCNPJ());
+            pstmt.setString(1, cnpj);
             return pstmt.executeUpdate() >= 0;
         }catch (SQLException sqle){
             System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
@@ -230,12 +211,12 @@ public class PlantDAO {
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
 
-            pstm.setString(1, plant.getCNPJ());
-            pstm.setString(2, plant.getCNAE());
+            pstm.setString(1, plant.getCnpj());
+            pstm.setString(2, plant.getCnae());
             pstm.setString(3, plant.getResponsibleCpf());
             pstm.setBoolean(4, plant.getOperationalStatus());
-            pstm.setString(5, plant.getAdressCep());
-            pstm.setInt(6, plant.getAdressNumber());
+            pstm.setString(5, plant.getAddressCep());
+            pstm.setInt(6, plant.getAddressNumber());
             pstm.setString(7, plant.getCnpjCompany());
 
             return pstm.executeUpdate() > 0;
@@ -245,6 +226,4 @@ public class PlantDAO {
         }
         return false;
     }
-
-
 }

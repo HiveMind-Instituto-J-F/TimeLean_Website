@@ -124,48 +124,18 @@ public class WorkerDAO {
         return false;
     }
 
-    public static boolean delete(Worker worker) {
+    public static boolean delete(String cpf) {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM worker WHERE CPF = ?";
 
         try (Connection conn = db.connected();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, worker.getCpf());
+            pstmt.setString(1, cpf);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("[ERROR] Failed in delete: " + e.getMessage());
         }
         return false;
-    }
-
-    public static List<Worker> selectByPlantCnpj(String cnpjPlant) {
-        List<Worker> workersList = new ArrayList<>();
-        DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM worker WHERE cnpj_plant = ?";
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, cnpjPlant);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Worker worker = new Worker(
-                        rs.getString("cpf"),
-                        rs.getString("role"),
-                        rs.getString("sector"),
-                        rs.getString("name"),
-                        rs.getString("login_email"),
-                        rs.getString("login_password"),
-                        rs.getString("cnpj_plant")
-                );
-                workersList.add(worker);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in selectByPlantCnpj: " + e.getMessage());
-        }
-        return workersList;
     }
 
     public static List<Worker> selectFilter(FilterType.Worker filterType, String filter, String companyCnpj) {

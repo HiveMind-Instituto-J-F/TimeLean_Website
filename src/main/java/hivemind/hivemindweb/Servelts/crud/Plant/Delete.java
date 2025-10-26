@@ -23,10 +23,10 @@ public class Delete extends HttpServlet {
                 throw new IllegalArgumentException("Parâmetro 'cnpj' não informado.");
             }
 
-            // [LOGIC] Create Plant object and switch operational status
-            Plant plantLocal = new Plant(cnpjParam);
-            plantLocal.setOperationalStatus(false);
-            PlantDAO.switchOperationalStatus(plantLocal);
+            // [DATA ACCESS] Select plant and switch operational status
+            Plant plantFromDb = PlantDAO.selectByPlantCnpj(cnpjParam);
+            plantFromDb.setOperationalStatus(false);
+            PlantDAO.update(plantFromDb);
 
             System.err.println("[INFO] [" + LocalDateTime.now() + "] Plant operational status set to false successfully: " + cnpjParam);
             resp.sendRedirect(req.getContextPath() + "/plant/read");

@@ -161,22 +161,6 @@ public class PaymentDAO {
         return null;
     }
 
-    public static boolean delete(Payment payment) {
-        DBConnection db = new DBConnection();
-        String sql = "DELETE FROM payment WHERE id = ?";
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-
-            pstm.setInt(1, payment.getId());
-            return pstm.executeUpdate() > 0;
-
-        } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in delete: " + sqle.getMessage());
-        }
-        return false;
-    }
-
     public static boolean delete(int id) {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM payment WHERE id = ?";
@@ -231,7 +215,7 @@ public class PaymentDAO {
             psmt.setString(3, payment.getMethod());
             psmt.setString(4, payment.getBeneficiary());
             psmt.setString(5, payment.getStatus());
-            psmt.setInt(6, payment.getIdPlan());
+            psmt.setInt(6, payment.getIdPlanSubscription());
 
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {

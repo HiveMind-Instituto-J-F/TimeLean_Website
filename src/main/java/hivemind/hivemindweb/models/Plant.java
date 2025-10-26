@@ -1,8 +1,7 @@
 package hivemind.hivemindweb.models;
 
-
 public class Plant {
-    // Variáveis
+    // Variables
     private String cnae;
     private String cnpj;
     private String responsibleCpf;
@@ -11,7 +10,7 @@ public class Plant {
     private String cnpjCompany;
     private String addressCep;
 
-    // Construtor
+    // Constructor - all values
     public Plant(String cnpj, String cnae, String responsibleCpf, boolean operationalStatus, String addressCep,
                  int addressNumber, String cnpjCompany) {
         this.cnae = cnae;
@@ -23,50 +22,72 @@ public class Plant {
         this.addressCep = addressCep;
     }
 
-    public Plant(String cnpj) {
+    // Constructor - minimum values
+    public Plant(String cnpj, String responsibleCpf, boolean operationalStatus, String cnpjCompany) {
         this.cnpj = cnpj;
+        this.responsibleCpf = responsibleCpf;
+        this.operationalStatus = operationalStatus;
+        this.cnpjCompany = cnpjCompany;
     }
 
-    // ToString
-    public String toString(){
-        return "CNAE: "+this.cnae+"\nCNPJ: "+this.cnpj+"\nResponsible CPF: "+this.responsibleCpf+"\nOperational Status: "
-                +this.operationalStatus +"\nAdress Number: "+this.addressNumber+"\nAdress CEP: "+this.addressCep+"\nCNPJ Company: "
-                +this.cnpjCompany;
-    }
-
-    // Getters e Setters
-    public String getCNAE() {
+    // Getters
+    public String getCnae() {
         return cnae;
     }
-    public String getCNPJ() {
+
+    public String getCnpj() {
         return cnpj;
     }
+
     public String getResponsibleCpf() {
         return responsibleCpf;
     }
+
     public boolean getOperationalStatus() {
         return operationalStatus;
     }
-    public int getAdressNumber() {
+
+    public int getAddressNumber() {
         return addressNumber;
     }
+
     public String getCnpjCompany() {
         return cnpjCompany;
     }
-    public String getAdressCep() {
+
+    public String getAddressCep() {
         return addressCep;
     }
-    public void setResponsibleCpf(String responsible) {
-        this.responsibleCpf = responsible;
+
+    // Setters (only for attributes that can be modified)
+    public void setCnae(String cnae) {
+        this.cnae = cnae;
     }
+
     public void setOperationalStatus(boolean operationalStatus) {
         this.operationalStatus = operationalStatus;
     }
-    public void setAdressCep(String adressCep) {
-        this.addressCep = adressCep;
-    }
-    public void setAdressNumber(int adressNumber) {
-        this.addressNumber = adressNumber;
+
+    public void setAddressNumber(int addressNumber) {
+        this.addressNumber = addressNumber;
     }
 
+    public void setAddressCep(String addressCep) {
+        this.addressCep = addressCep;
+    }
+
+    // String representation of the object
+    @Override
+    public String toString() {
+        return String.format(
+                "CNAE: %s\nCNPJ: %s\nResponsible CPF: %s\nOperational Status: %b\nAddress Number: %d\nAddress CEP: %s\nCNPJ Company: %s",
+                this.cnae,
+                this.cnpj,
+                this.responsibleCpf,
+                this.operationalStatus,
+                this.addressNumber,
+                this.addressCep,
+                this.cnpjCompany
+        );
+    }
 }

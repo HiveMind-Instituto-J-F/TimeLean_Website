@@ -63,7 +63,7 @@ public class PlanDAO {
             pstm.setString(2, plan.getDescription());
             pstm.setDouble(3, plan.getPrice());
             pstm.setInt(4, plan.getDuration());
-            pstm.setBoolean(5, plan.getActive());
+            pstm.setBoolean(5, plan.isActive());
             pstm.setInt(6, plan.getId());
 
             return pstm.executeUpdate() > 0;
@@ -129,9 +129,13 @@ public class PlanDAO {
             ResultSet rs = pstm.executeQuery();
 
             if (rs.next()){
-                return new Plan(rs.getInt("ID"), rs.getString("NAME"),
-                        rs.getString("DESCRIPTION"), rs.getInt("DURATION"),
-                        rs.getDouble("PRICE"));
+                return new Plan(rs.getInt("ID"),
+                        rs.getString("NAME"),
+                        rs.getString("DESCRIPTION"),
+                        rs.getInt("DURATION"),
+                        rs.getDouble("PRICE"),
+                        rs.getBoolean("IS_ACTIVE")
+                );
             }
 
         } catch (SQLException sqle) {
@@ -152,9 +156,13 @@ public class PlanDAO {
             ResultSet rs = pstm.executeQuery();
 
             if (rs.next()){
-                return new Plan(rs.getInt("ID"), rs.getString("NAME"),
-                        rs.getString("DESCRIPTION"), rs.getInt("DURATION"),
-                        rs.getDouble("PRICE"));
+                return new Plan(rs.getInt("ID"),
+                        rs.getString("NAME"),
+                        rs.getString("DESCRIPTION"),
+                        rs.getInt("DURATION"),
+                        rs.getDouble("PRICE"),
+                        rs.getBoolean("IS_ACTIVE")
+                );
             }
 
         } catch (SQLException sqle) {
@@ -219,69 +227,4 @@ public class PlanDAO {
         }
         return nameDB;
     }
-
-    public static int getID(int id){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT id AS idDB FROM Plan WHERE id=?;";
-        int idDB = 0;
-        try(Connection conn = db.connected();
-            PreparedStatement psmt = conn.prepareStatement(sql);){
-            psmt.setInt(1, id);
-
-            try (ResultSet rs = psmt.executeQuery()) {
-                if (rs.next()) {
-                    idDB = rs.getInt("idDB");
-                }
-            }
-        }catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
-        }
-        return idDB;
-    }
-
-    public static boolean getAction(int id) {
-        DBConnection db = new DBConnection();
-        String sql = "SELECT is_active FROM Plan WHERE id=?;";
-        boolean is_active = false;
-
-        try (Connection conn = db.connected();
-            PreparedStatement psmt = conn.prepareStatement(sql)) {
-
-            psmt.setInt(1, id);
-
-            try (ResultSet rs = psmt.executeQuery()) {
-                if (rs.next()) {
-                    is_active = rs.getBoolean("is_active");
-                }
-            }
-
-        } catch (SQLException sqle) {
-            System.err.println("[ERROR] Failed in select: " + sqle.getMessage());
-        }
-
-        return is_active;
-    }
-
-    public static boolean setActive(Plan planLocal) {
-        DBConnection db = new DBConnection();
-        String sql = "UPDATE plan SET is_active = ? WHERE id = ?;";
-
-        try (Connection conn = db.connected();
-            PreparedStatement pstm = conn.prepareStatement(sql)) {
-
-            pstm.setBoolean(1, planLocal.getActive());
-            pstm.setInt(2, planLocal.getId());
-
-            return pstm.executeUpdate() > 0;
-
-        } catch (SQLException sqle) {
-            System.err.println("[ERROR] Failed to update: " + sqle.getMessage());
-            return false;
-        }
-    }
-
-    public static boolean setActiveFalse(Plan planLocal) {
-        return false;
-    }
-
 }

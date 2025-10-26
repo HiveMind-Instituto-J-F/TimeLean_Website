@@ -38,8 +38,7 @@ public class Create extends HttpServlet {
             int numberInstallments = Integer.parseInt(numberInstallmentsParam);
             boolean status = Boolean.parseBoolean(statusParam);
 
-            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompanyParam, idPlan, numberInstallments);
-            planSubscriptionLocal.setStatus(status);
+            PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompanyParam, idPlan, numberInstallments, status);
 
             // [BUSINESS RULES] Ensure no active subscription exists for this company
             List<PlanSubscription> activePlans = PlanSubscriptionDAO.selectActivePlans(cnpjCompanyParam);

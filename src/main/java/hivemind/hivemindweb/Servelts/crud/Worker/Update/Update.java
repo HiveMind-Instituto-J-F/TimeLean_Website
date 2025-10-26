@@ -38,12 +38,18 @@ public class Update extends HttpServlet {
             if(paramPassword == null || paramPassword.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'password'");
             if(paramPlantCnpj == null || paramPlantCnpj.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");
 
-            // [PROCESS] Hash password and create Worker object
+            // [PROCESS] Hash password, create Worker object and update worker
             String hashedPassword = AuthService.hash(paramPassword);
-            Worker worker = new Worker(paramCpf, paramRole, paramSector, paramName, paramLoginEmail, hashedPassword, paramPlantCnpj);
+
+            Worker workerFromDb = WorkerDAO.selectByCpf(paramCpf);
+            workerFromDb.setLoginEmail(paramLoginEmail);
+            workerFromDb.setName(paramName);
+            workerFromDb.setRole(paramRole);
+            workerFromDb.setLoginPassword(hashedPassword);
+            workerFromDb.setSector(paramSector);
 
             // [DATA ACCESS] Attempt to update worker in database
-            boolean updated = WorkerDAO.update(worker);
+            boolean updated = WorkerDAO.update(workerFromDb);
             if(updated) {
                 // [SUCCESS LOG] Worker updated successfully
                 System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker updated: " + paramCpf);

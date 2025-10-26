@@ -31,11 +31,15 @@ public class Update extends HttpServlet {
             int duration = Integer.parseInt(durationParam);
             double price = Double.parseDouble(priceParam);
 
-            // [PROCESS] Create local Plan instance
-            Plan planLocal = new Plan(id, nameParam, descriptionParam, duration, price, true);
+            // [DATA ACCESS] get plan and update
+            Plan planFromDb = PlanDAO.selectByID(id);
+            planFromDb.setDescription(descriptionParam);
+            planFromDb.setName(nameParam);
+            planFromDb.setDuration(duration);
+            planFromDb.setPrice(price);
 
             // [DATA ACCESS] Attempt to update plan
-            if (PlanDAO.update(planLocal)) {
+            if (PlanDAO.update(planFromDb)) {
                 // [SUCCESS LOG] Plan successfully updated
                 System.err.println("[INFO] Plan updated successfully");
                 resp.sendRedirect(req.getContextPath() + "/plan/read");

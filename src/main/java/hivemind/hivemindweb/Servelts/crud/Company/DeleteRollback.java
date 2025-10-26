@@ -21,9 +21,12 @@ public class DeleteRollback extends HttpServlet {
                 throw new IllegalArgumentException("Null value: 'cnpj'");
             }
 
+            // [DATA ACCESS] define companyFromDb using CompanyDAO
+            Company companyFromDb = CompanyDAO.select(paramCnpj);
+
             // [PROCESS] Attempt to reactivate (rollback delete) the company
-            Company company = new Company(paramCnpj);
-            if (CompanyDAO.switchActive(company, true)) {
+            companyFromDb.setActive(true);
+            if (CompanyDAO.update(companyFromDb)) {
                 // [SUCCESS LOG] Company reactivated successfully
                 System.err.println("[INFO] Company reactivated: " + paramCnpj);
                 resp.sendRedirect(req.getContextPath() + "/company/read");

@@ -29,9 +29,9 @@ public class Create extends HttpServlet {
             int duration = Integer.parseInt(durationParam);
             double price = Double.parseDouble(priceParam);
 
-            // [LOGIC] Create local Plan object and insert into database
-            Plan planLocal = new Plan(nameParam, descriptionParam, duration, price);
-            planLocal.setActive(true);
+            // [PROCESS] Create local Plan object and insert into database
+            Plan planLocal = new Plan(nameParam, duration, price, true);
+            planLocal.setDescription(descriptionParam);
 
             if (PlanDAO.insert(planLocal, false)) {
                 // [SUCCESS LOG] Log successful plan creation

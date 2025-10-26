@@ -24,9 +24,9 @@ public class Delete extends HttpServlet {
                 throw new IllegalArgumentException("Null value: 'cnpj'");
             }
 
-            // [DATA ACCESS] Check for pending payments
-            Company company = new Company(paramCnpj);
+            // [DATA ACCESS] Check for pending payments and define companyFromDb
             List<Payment> pendingPayments = PaymentDAO.selectPendingPayments(paramCnpj);
+            Company companyFromDb = CompanyDAO.select(paramCnpj);
 
             // [BUSINESS RULES] Prevent deletion if pending payments exist
             if (pendingPayments != null && !pendingPayments.isEmpty()) {
@@ -34,7 +34,8 @@ public class Delete extends HttpServlet {
             }
 
             // [PROCESS] Attempt to switch company active status (soft delete)
-            if (CompanyDAO.switchActive(company, company.isActive())) {
+            companyFromDb.setActive(false);
+            if (CompanyDAO.update(companyFromDb)) {
                 // [SUCCESS LOG] Company deleted/deactivated successfully
                 System.err.println("[INFO] Company deleted/deactivated: " + paramCnpj);
                 resp.sendRedirect(req.getContextPath() + "/company/read");

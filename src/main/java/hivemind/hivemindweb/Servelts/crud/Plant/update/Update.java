@@ -34,15 +34,18 @@ public class Update extends HttpServlet {
             if (addressNumberRaw == null || addressNumberRaw.isEmpty()) throw new IllegalArgumentException("Null value: 'ADDRESS_NUMBER'");
             if (cnpjCompanyParam == null || cnpjCompanyParam.isEmpty()) throw new IllegalArgumentException("Null value: 'CNPJ_COMPANY'");
 
-            boolean operationalStatusParam = Boolean.parseBoolean(operationalStatusRaw);
-            int addressNumberParam = Integer.parseInt(addressNumberRaw);
+            boolean operationalStatus = Boolean.parseBoolean(operationalStatusRaw);
+            int addressNumber = Integer.parseInt(addressNumberRaw);
 
-            // [PROCESS] Create Plant object
-            Plant plantLocal = new Plant(cnpjParam, cnaeParam, responsibleCpfParam,
-                    operationalStatusParam, addressCepParam, addressNumberParam, cnpjCompanyParam);
+            // [DATA ACCESS] Get plant and update
+            Plant plantFromDb = PlantDAO.selectByPlantCnpj(cnpjParam);
+            plantFromDb.setOperationalStatus(operationalStatus);
+            plantFromDb.setAddressCep(addressCepParam);
+            plantFromDb.setAddressNumber(addressNumber);
+            plantFromDb.setCnae(cnaeParam);
 
             // [DATA ACCESS] Update Plant in database
-            boolean updated = PlantDAO.update(plantLocal);
+            boolean updated = PlantDAO.update(plantFromDb);
             if (updated) {
                 System.err.println("[INFO] [" + cnpjParam + "] Plant updated successfully.");
                 req.setAttribute("companyCnpj", cnpjCompanyParam);

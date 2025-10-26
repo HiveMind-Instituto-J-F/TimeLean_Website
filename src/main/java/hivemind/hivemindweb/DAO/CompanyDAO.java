@@ -45,36 +45,6 @@ public class CompanyDAO {
         return false;
     }
 
-    public static boolean rollbackCreate(Company company) throws InvalidForeignKeyException {
-        DBConnection db = new DBConnection();
-        String sql = "DELETE FROM company WHERE CNPJ = ?";
-        try (Connection conn = db.connected()) { // Create Temp conn
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, company.getCNPJ());
-            return pstmt.executeUpdate() >= 0;
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
-            if ("23503".equals(sqle.getSQLState())) {
-                throw new InvalidForeignKeyException("There are data related to company.");
-            }
-        }
-        return false;
-    }
-
-    public static boolean switchActive(Company company, boolean is_active) {
-        DBConnection db = new DBConnection();
-        String sql = "UPDATE company SET is_active = ? WHERE CNPJ = ?";
-        try (Connection conn = db.connected()) {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setBoolean(1, is_active);
-            pstmt.setString(2, company.getCNPJ());
-            return pstmt.executeUpdate() >= 0;
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
-        }
-        return false;
-    }
-
     public static List<Company> selectFilter(FilterType.Company filter) {
         List<Company> companysList = new ArrayList<>();
         DBConnection db = new DBConnection();
@@ -155,25 +125,5 @@ public class CompanyDAO {
 
         // Return the found company (or null if not found)
         return companyLocal;
-    }
-
-    public static String getCNPJ(String cnpj) {
-        DBConnection db = new DBConnection();
-        String sql = "SELECT cnpj FROM company WHERE cnpj=? ORDER BY CNPJ";
-        String cpnj = "";
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql);
-             ResultSet rs = pstm.executeQuery()) {
-
-            pstm.setString(1, cpnj);
-            if (rs.next()) {
-                cpnj = rs.getString("cnpj");
-            }
-            return cnpj;
-        } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
-            return cnpj;
-        }
     }
 }

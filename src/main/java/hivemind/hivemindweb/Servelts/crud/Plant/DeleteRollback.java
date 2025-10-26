@@ -27,23 +27,22 @@ public class DeleteRollback extends HttpServlet {
             }
 
             // [DATA ACCESS] Retrieve Plant and Company
-            Plant plantLocal = PlantDAO.selectByPlantCnpj(cnpjParam);
-            if (plantLocal == null) {
+            Plant plantFromDb = PlantDAO.selectByPlantCnpj(cnpjParam);
+            if (plantFromDb == null) {
                 throw new NullPointerException("Plant not found. CNPJ: " + cnpjParam);
             }
 
-            Company companyLocal = CompanyDAO.select(plantLocal.getCnpjCompany());
+            Company companyLocal = CompanyDAO.select(plantFromDb.getCnpjCompany());
             if (companyLocal == null) {
                 throw new NullPointerException("Company linked to plant: not found: " + cnpjParam);
             }
 
             // [LOGIC] Verify if company is active and perform rollback
             if (companyLocal.isActive()) {
-                plantLocal.setOperationalStatus(true);
-                if (PlantDAO.switchOperationalStatus(plantLocal)) {
+                plantFromDb.setOperationalStatus(true);
+                if (PlantDAO.update(plantFromDb)) {
                     System.err.println("[INFO] [" + LocalDateTime.now() + "] Rollback plant delete successfully: " + cnpjParam);
                     resp.sendRedirect(req.getContextPath() + "/plant/read");
-                    return;
                 } else {
                     throw new IllegalStateException("Failed while trying to reactive the plant: " + cnpjParam);
                 }

@@ -3,7 +3,7 @@ package hivemind.hivemindweb.models;
 import java.time.LocalDate;
 
 public class PlanSubscription {
-    // Variáveis
+    // Variables
     private int id;
     private LocalDate startDate;
     private String cnpjCompany;
@@ -11,7 +11,7 @@ public class PlanSubscription {
     private int numberInstallments;
     private boolean status;
 
-    // Construtor
+    // Constructor - all values
     public PlanSubscription(int id, LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments, boolean status){
         this.id = id;
         this.startDate = startDate;
@@ -20,44 +20,61 @@ public class PlanSubscription {
         this.numberInstallments = numberInstallments;
         this.status = status;
     }
-    public PlanSubscription(LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments){
+
+    // Constructor - minimum values
+    public PlanSubscription(LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments, boolean status){
         this.startDate = startDate;
         this.cnpjCompany = cnpjCompany;
         this.idPlan = idPlan;
         this.numberInstallments = numberInstallments;
+        this.status = status;
     }
 
-    // Builder method --> update
-    public PlanSubscription(int id, LocalDate startDate, boolean status) {this.id = id; this.startDate = startDate; this.status=status;}
-    public PlanSubscription(int id){
-        this.id = id;
-    }
-
-    // ToString
-    public String toString(){
-    return "Id: "+this.id+"\nStart Date: "+this.startDate+"\nCNPJ Company: "+this.cnpjCompany+
-        "\nId Plan: "+this.idPlan+"\nNumber Installments: "+this.numberInstallments;
-    }
-
-    // Getters e Setters
+    // Getters
     public int getId() {
         return id;
     }
+
     public LocalDate getStartDate() {
         return startDate;
     }
+
     public String getCnpjCompany() {
         return cnpjCompany;
     }
-    public int getIdPlan(){
+
+    public int getIdPlan() {
         return idPlan;
     }
-    public boolean getStatus(){return status;}
-    public int getNumberInstallments(){
+
+    public int getNumberInstallments() {
         return numberInstallments;
     }
 
+    public boolean getStatus() {
+        return status;
+    }
+
+    // Setters (only for attributes that can be modified)
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    // String representation of the object
+    @Override
+    public String toString(){
+        return String.format(
+                "Id: %d\nStart Date: %s\nCNPJ Company: %s\nId Plan: %d\nNumber Installments: %d\nStatus: %b",
+                this.id,
+                this.startDate,
+                this.cnpjCompany,
+                this.idPlan,
+                this.numberInstallments,
+                this.status
+        );
     }
 }
