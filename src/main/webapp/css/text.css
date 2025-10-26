@@ -30,8 +30,8 @@ h3 {
     font-size: clamp(0.685rem, calc(0.715vw + 1rem), 1.15rem);
 }
 
-nav>a {
-    color: var(--preto);
+nav>a, li>a {
+    color: var(--black);
     font-size: clamp(0.550rem, calc(0.815vw + 1rem), 1rem);
     text-decoration: none;
     white-space: nowrap;
@@ -65,7 +65,7 @@ nav>a {
     font-style: normal;
 }
 
-button.inter, a.inter, input::placeholder {
+button.inter, a.inter, input, input::placeholder, select.inter, textarea.inter {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;

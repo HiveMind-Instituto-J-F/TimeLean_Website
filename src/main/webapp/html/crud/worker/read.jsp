@@ -10,8 +10,22 @@
     <link rel="shortcut icon" href="../img/favicon/home-v2.png" type="image/x-icon">
 </head>
 <body>
+<%
+    boolean isLogged = session != null && session.getAttribute("plantCnpj") != null;
+    if (!isLogged) {
+        response.sendRedirect(request.getContextPath() + "/html/crud/worker/login/login.jsp");
+        return;
+    }
+%>
 <h1>Relacao WORKER</h1>
 <h2>Workers List</h2>
+
+<form action="${pageContext.request.contextPath}/worker/read" method="get">
+    <input type="text" name="cpfFilter" placeholder="Filtrar por cpf">
+    <input type="text" name="sectorFilter" placeholder="Filtrar por setor">
+    <button type="submit">Filtrar</button>
+</form>
+
 <a href="<%= request.getContextPath() %>/html/crud/worker/create.jsp">Add worker</a>
 
 <table border="1" cellpadding="5" cellspacing="0">

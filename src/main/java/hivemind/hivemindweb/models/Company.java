@@ -2,27 +2,27 @@ package hivemind.hivemindweb.models;
 
 public class Company {
     // Variáveis
-    private String cnpj;
+    private final String cnpj;
     private String name;
     private String cnae;
-    private String registrantCpf;
+    private final String registrantCpf;
+    private boolean isActive;
 
     // Construtor
-    public Company(String cnpj, String name, String cnae, String registrantCpf){
+        // Define all values
+    public Company(String cnpj, String name, String cnae, String registrantCpf, boolean isActive){
         this.cnpj = cnpj;
         this.name = name;
         this.cnae = cnae;
         this.registrantCpf = registrantCpf;
+        this.isActive = isActive;
     }
-    public Company(String cnpj){
+        // Define minimium values
+    public Company(String cnpj, String name, String registrantCpf){
         this.cnpj = cnpj;
-    }
-
-    public Company(String name,String registrantCpf){
         this.name = name;
         this.registrantCpf = registrantCpf;
     }
-
 
     // ToString
     public String toString(){
@@ -40,7 +40,21 @@ public class Company {
     public String getCnae() {
         return cnae;
     }
+    public boolean isActive(){ return isActive;}
     public String getRegistrantCpf() {
         return registrantCpf;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCnae(String cnae) {
+        this.cnae = cnae;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

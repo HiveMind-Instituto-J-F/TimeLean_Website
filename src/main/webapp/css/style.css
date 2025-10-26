@@ -19,7 +19,7 @@ img {
   user-select: none;
 }
 
-nav {
+header>nav, footer>nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,59 +40,6 @@ nav {
   top: 5vh;
   width: max(450px, 100%);
   max-width: fit-content;
-}
-
-header {  
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: min(2vh, 15px) 8vh;
-  z-index: 1;
-  
-  /* .js ↓ */
-  transition: transform 0.7s ease-in-out, opacity 0.5s ease-in-out;
-  opacity: 1;
-}
-
-@media (max-width: 800px) {
-  header {
-    opacity: 0;
-  }
-}
-
-.blur {
-  background: transparent;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: var(--weak-shadow);
-  border-radius: var(--border-medium);
-  border: 0;
-}
-
-header.hide {
-  transform: translateY(-150%);
-  opacity: 0;
-}
-
-header>:first-child, header>:last-child {
-  width: clamp(110px, 8vw, 160px);
-}
-
-header>nav {
-  color: var(--black);
-  margin: 0 8vw;
-}
-
-header>nav>a, footer>nav>a {
-  text-align: center;
-}
-
-header>nav>a:nth-child(2) {
-  margin: 0 8vh;
-}
-
-aside>* {
-  opacity: 0;
 }
 
 footer {
@@ -138,28 +85,104 @@ footer>a {
   opacity: 75%;
 }
 
-#hivemind {
-  background-color: transparent;
-  border: 0;
-}
-
 #hivemind>img {
   width: 180px;
 }
 
-#timelean {
+.branding {
   background-color: transparent;
   border: 0;
 }
 
-#timelean img {
-  width: 125px;
+.branding img, img {
+  width: 150px;
   height: auto;
 }
 
 a, a:visited, a:hover, a:active {
   text-decoration: none !important;
 }
+
+button, input, select, textarea {
+  outline: none;
+}
+
+textarea {
+  background-color: var(--polar);
+  width: 100%;
+  
+  min-height: 28px;
+  resize: vertical;
+  padding: 5px 8px 0;
+  text-align: left !important;
+
+  border: 0;
+  border-bottom: var(--border-traced);
+  border-color: var(--grey);
+}
+
+input {
+  background-color: var(--polar);
+  width: 100%;
+  height: 28px;
+  padding: 0 8px;
+  text-align: left !important;
+
+  border: 0;
+  border-bottom: var(--border-traced);
+  border-color: var(--orange);
+  
+  transition: border-color 0.4s ease-in-out;
+}
+
+input::placeholder {
+  color: var(--black);
+  opacity: 80%;
+}
+
+input:valid {
+  border-color: var(--green) !important;
+}
+
+input:user-invalid {
+  border-color: var(--red) !important;
+}
+
+input.password {
+  border-color: var(--orange) !important;
+}
+
+.input-div>* {
+  margin-top: 1%;
+}
+
+/* Apenas uma cor permanenente ↓ */
+.always-orange {
+  border-color: var(--orange) !important;
+}
+
+/* Removendo o mostrar senha padrão de navegador */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+}
+
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button {
+    display: none;
+}
+
 
 .button {
   background-color: var(--orange) !important;
@@ -178,14 +201,13 @@ a, a:visited, a:hover, a:active {
   de box
 */
 
-.contact {
+a.contact {
   padding: 12px 48px;
   font-size: 12px;
 }
 
-header>.contact {
-  padding: 8px 20px;
-  font-size: 10px;
+button.submit {
+  height: 28px;
 }
 
 #unset {
@@ -199,11 +221,11 @@ header>.contact {
 
 .block {
   display: flex;
-  border: 8px solid var(--orange);
+  border: 6px solid var(--orange);
   margin: 0 auto;
   margin-bottom: 20px !important;
-  padding: 16px 0px;
-  width: 240px;
+  padding: 8px 0px;
+  width: 200px;
 }
 
 .arrow {
@@ -230,4 +252,16 @@ header>.contact {
 
 .medias>a:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Removendo a Scrollbar das páginas ↓ */
+::-webkit-scrollbar {
+  display: none;
+}
+
+#background-universal {
+  background-image: url('../img/background/hero.jpg');
+  background-size: 405vh;
+  background-position: top;
+  background-attachment: local;
 }

@@ -1,7 +1,7 @@
 package hivemind.hivemindweb.models;
 
 public class Worker {
-    // Declare attributes
+    // Variables
     private String cpf;
     private String role;
     private String sector;
@@ -10,8 +10,7 @@ public class Worker {
     private String loginPassword;
     private String cnpjPlant;
 
-    // Constructor Methods
-    public Worker(String cpf) {this.cpf = cpf;};
+    // Constructor - all values
     public Worker(String cpf, String role, String sector, String name,
                   String loginEmail, String loginPassword, String cnpjPlant) {
         this.cpf = cpf;
@@ -22,57 +21,79 @@ public class Worker {
         this.loginPassword = loginPassword;
         this.cnpjPlant = cnpjPlant;
     }
-    // Getters:
+
+    // Constructor - minimum values
+    public Worker(String cpf, String cnpjPlant, String sector, String name, String loginEmail, String loginPassword) {
+        this.cpf = cpf;
+        this.cnpjPlant = cnpjPlant;
+        this.sector = sector;
+        this.name = name;
+        this.loginEmail = loginEmail;
+        this.loginPassword = loginPassword;
+    }
+
+    // Getters
     public String getCpf() {
         return cpf;
     }
+
     public String getRole() {
         return role;
     }
+
     public String getSector() {
         return sector;
     }
+
     public String getName() {
         return name;
     }
+
     public String getLoginEmail() {
         return loginEmail;
     }
+
     public String getLoginPassword() {
         return loginPassword;
     }
+
     public String getCnpjPlant() {
         return cnpjPlant;
     }
 
-    // Setters:
+    // Setters (only for editable attributes)
     public void setRole(String role) {
         this.role = role;
     }
+
     public void setSector(String sector) {
         this.sector = sector;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public void setLoginEmail(String loginEmail) {
         this.loginEmail = loginEmail;
     }
+
     public void setLoginPassword(String loginPassword) {
         this.loginPassword = loginPassword;
     }
 
-    // Method toString()
+    // String representation of the object
     @Override
     public String toString() {
-        return "Worker{" +
-                "cpf='" + cpf + '\'' +
-                ", role='" + role + '\'' +
-                ", sector='" + sector + '\'' +
-                ", name='" + name + '\'' +
-                ", loginEmail='" + loginEmail + '\'' +
-                ", loginPassword='" + loginPassword + '\'' +
-                ", cnpjPlant='" + cnpjPlant + '\'' +
-                '}';
+        return String.format(
+                "CPF: %s\nRole: %s\nSector: %s\nName: %s\nLogin Email: %s\nLogin Password: %s\nCNPJ Plant: %s",
+                this.cpf,
+                this.role,
+                this.sector,
+                this.name,
+                this.loginEmail,
+                this.loginPassword,
+                this.cnpjPlant
+        );
     }
 }

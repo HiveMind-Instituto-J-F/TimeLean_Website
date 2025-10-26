@@ -1,0 +1,61 @@
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../../css/header.css">
+        <link rel="stylesheet" href="../../../css/style.css">
+        <link rel="stylesheet" href="../../../css/text.css">
+        <link rel="shortcut icon" href="../../../img/icons/favicon/home-v2.png" type="image/x-icon">
+        <title>Criar — TIMELEAN</title>
+        
+        <link rel="stylesheet" href="../../../css/crud/form.css">
+    </head>
+    <body>
+        <div class="form">
+            <div>
+                <div class="block"></div>
+                <h1 class="inter-bold">Registrar Empresa</h1>
+            </div>
+        
+            <form class="inter-thin" action="${pageContext.request.contextPath}/company/update" method="post">
+                <div>
+                    <h3 class="inter-medium">Informações da empresa</h3>
+                    
+                    <div class="input-div">
+                        <label for="name">Nome da empresa</label>
+                        <input class="always-orange" type="text" id="name" name="name" value="" required>
+                    </div>
+                    <div class="input-div">
+                        <label for="cnpj">CNPJ da empresa</label>
+                        <input type="text" id="cnpj" name="cnpj" value="" placeholder="Ex: 60.960.145/0001-66" required
+                        pattern="[0-9]{2}?\.?[0-9]{3}\.?[0-9]{3}/?[0-9]{4}-?[0-9]{2}">
+                    </div>
+                    <div class="input-div">
+                        <label for="cnae">CNAE</label>
+                        <input type="text" id="cnae" name="cnae" value="" placeholder="Ex: 62.01-5/13" required
+                        pattern="[0-9]{2}.?[0-9]{2}-?[0-9]/?[0-9]{2}">
+                    </div>
+                    <div class="input-div">
+                        <label for="registrantCpf">CPF do registrante</label>
+                        <input type="text" id="registrantCpf" name="registrantCpf" value="" placeholder="Ex: 979.160.830-23" required
+                        pattern="[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}">
+                    </div>
+                </div>
+                <div>
+                    <h3 class="inter-medium">Informações do plano</h3>
+                    
+                    <div class="input-div">
+                        <label for="plan-description">Nome do plano</label>
+                        <input class="always-orange" type="text" name="plan-description" required>
+                    </div>
+                    
+                    <div class="input-div">
+                        <label for="psubscription-start-date">Data de início do plano</label>
+                        <input type="date" name="psubscription-start-date" required>
+                    </div>
+                </div>
+                <input class="button submit inter" type="submit" value="Registrar">
+            </form>
+        </div>
+    </body>
+</html>

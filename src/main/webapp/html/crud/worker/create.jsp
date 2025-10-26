@@ -14,6 +14,13 @@
         <link rel="shortcut icon" href="../img/favicon/home-v2.png" type="image/x-icon">
     </head>
     <body>
+    <%
+        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+        if (isLogged == null || !isLogged) {
+            response.sendRedirect(request.getContextPath() + "/html/crud/worker/login/login.jsp");
+            return;
+        }
+    %>
         <h1>Relacao WORKER</h1>
         <h2>ADD WORKER</h2>
         <form action="${pageContext.request.contextPath}/worker/create" method="post">

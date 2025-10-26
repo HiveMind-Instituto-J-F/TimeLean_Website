@@ -1,10 +1,15 @@
 package hivemind.hivemindweb.DAO;
 
-import hivemind.hivemindweb.Connection.DBConnection;
-import hivemind.hivemindweb.models.Worker;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import hivemind.hivemindweb.Connection.DBConnection;
+import hivemind.hivemindweb.Services.Enums.FilterType;
+import hivemind.hivemindweb.models.Worker;
 
 public class WorkerDAO {
 
@@ -14,8 +19,8 @@ public class WorkerDAO {
         String sql = "SELECT * FROM worker";
 
         try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rs = pstm.executeQuery()) {
 
             while (rs.next()) {
                 Worker worker = new Worker(
@@ -119,13 +124,13 @@ public class WorkerDAO {
         return false;
     }
 
-    public static boolean delete(Worker worker) {
+    public static boolean delete(String cpf) {
         DBConnection db = new DBConnection();
         String sql = "DELETE FROM worker WHERE CPF = ?";
 
         try (Connection conn = db.connected();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, worker.getCpf());
+            pstmt.setString(1, cpf);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("[ERROR] Failed in delete: " + e.getMessage());
@@ -133,16 +138,28 @@ public class WorkerDAO {
         return false;
     }
 
-    public static List<Worker> selectByPlantCnpj(String cnpjPlant) {
+    public static List<Worker> selectFilter(FilterType.Worker filterType, String filter, String companyCnpj) {
         List<Worker> workersList = new ArrayList<>();
         DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM worker WHERE cnpj_plant = ?";
+
+        String sql;
+        if (filterType == FilterType.Worker.CPF) {
+            sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ? AND CPF = ?";
+        } else if (filterType == FilterType.Worker.SECTOR){
+            sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ? AND SECTOR = ?";
+        } else {
+            sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ?";
+        }
 
         try (Connection conn = db.connected();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstm = conn.prepareStatement(sql);) {
 
-            pstmt.setString(1, cnpjPlant);
-            ResultSet rs = pstmt.executeQuery();
+            pstm.setString(1, companyCnpj);
+            if (filterType == FilterType.Worker.CPF || filterType == FilterType.Worker.SECTOR) {
+                pstm.setString(2, filter);
+            }
+
+            ResultSet rs = pstm.executeQuery();
 
             while (rs.next()) {
                 Worker worker = new Worker(
@@ -158,8 +175,9 @@ public class WorkerDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in selectByPlantCnpj: " + e.getMessage());
+            System.out.println("[ERROR] Failed in select: " + e.getMessage());
         }
+
         return workersList;
     }
 }

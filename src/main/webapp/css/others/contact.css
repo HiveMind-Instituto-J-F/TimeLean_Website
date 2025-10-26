@@ -1,0 +1,45 @@
+@import url('../variables.css');
+
+body>* {
+    color: var(--black);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+main {
+    display: flex;
+}
+
+section {
+    text-align: center;
+}
+
+section ul {
+    text-align: left;
+}
+
+form {
+    background-color: var(--black-oil);
+    color: var(--polar);
+    padding: 5%;
+}
+
+form>:first-child input {
+    border-color: var(--orange) !important;
+}
+
+form>:nth-child(2) input {
+    border-color: var(--blue);
+}
+
+form>:nth-child(3) input {
+    border-color: var(--red) !important;
+}
+
+button {
+    width: 100%;
+    height: 28px;
+}
