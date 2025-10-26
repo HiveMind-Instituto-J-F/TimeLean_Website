@@ -1,7 +1,6 @@
 package hivemind.hivemindweb.Servelts.crud.Login;
 
 import java.io.IOException;
-
 import javax.security.auth.login.LoginException;
 
 import hivemind.hivemindweb.AuthService.AuthService;
@@ -9,57 +8,33 @@ import hivemind.hivemindweb.models.Admin;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import redis.clients.jedis.DefaultJedisClientConfig;
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisClientConfig;
+import jakarta.servlet.http.*;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private Jedis jedis;
+    private Dotenv dotenv;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        Dotenv dotenv = (Dotenv) getServletContext().getAttribute("data");
-        if(dotenv == null){
-            System.out.println("[ERROR] Dotenv Is null in Servelet Context");
-            return;
+        dotenv = (Dotenv) getServletContext().getAttribute("data");
+        if (dotenv == null) {
+            System.out.println("[ERROR] Dotenv is null in ServletContext");
+        } else {
+            RedisManager.initialize(dotenv);
         }
-
-        JedisClientConfig config = DefaultJedisClientConfig.builder()
-                .user("default")
-                .password(dotenv.get("rds_password"))
-                .build();
-        
-        String host = dotenv.get("rds_host");
-        HostAndPort hostAndPort = new HostAndPort(host,17579);
-
-        jedis = new Jedis(hostAndPort, config);
-
-        System.out.println("[INFO] Conectado ao Redis remoto.");
     }
 
     @Override
     public void destroy() {
-        if (jedis != null) {
-            jedis.close();
-            System.out.println("[INFO] Conexão Redis fechada.");
-        }
+        RedisManager.close();
         super.destroy();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            System.out.println("[WARN] Open LoginServlet");
-            System.out.println("[WARN] Method Use In Servlet: " + req.getMethod());
-
             String email = req.getParameter("email");
             String password = req.getParameter("password");
 
@@ -68,40 +43,38 @@ public class LoginServlet extends HttpServlet {
             }
 
             Admin adminClient = new Admin(email, password);
-
-            // Criar HTTP Session
             HttpSession session = req.getSession(true);
             session.setMaxInactiveInterval(600);
 
             if (AuthService.login(adminClient)) {
-                // Save login in Redis
                 String sessionKey = "session:" + session.getId();
-                jedis.hset(sessionKey, "email", email);
-                jedis.hset(sessionKey, "logged", "true");
-                jedis.expire(sessionKey, 600);
+                RedisManager.save(sessionKey, "email", email, dotenv);
+                RedisManager.save(sessionKey, "logged", "true", dotenv);
+                RedisManager.expire(sessionKey, 600, dotenv);
 
                 session.setAttribute("user", adminClient);
                 session.setAttribute("login", true);
-                System.out.println("[INFO] Login Successful - Salvo no Redis remoto com chave: " + sessionKey);
 
+                Cookie cookie = new Cookie("JSESSIONID", session.getId());
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true);
+                cookie.setAttribute("SameSite", "None");
+                resp.addCookie(cookie);
+
+                System.out.println("[INFO] Login Successful - Sessão salva no Redis: " + sessionKey);
                 req.getRequestDispatcher("/html/crud/toUser.html").forward(req, resp);
             } else {
                 session.setAttribute("login", false);
                 throw new LoginException("Email ou senha incorretos.");
             }
 
-        } catch (IllegalArgumentException ime) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email ou senha inválidos ou nulos.");
-            System.err.println("[ERROR] Invalid User");
-            req.setAttribute("error", ime.getMessage());
-            req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
-        } catch (LoginException le) {
-            req.setAttribute("errorMessage", le.getMessage());
+        } catch (IllegalArgumentException | LoginException e) {
+            req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
         } catch (Exception e) {
-            System.err.println("[ERROR] Exception: " + e.getMessage());
+            System.out.println("[ERROR] Exception: " + e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro interno: " + e.getMessage());
-            req.getRequestDispatcher("\\html\\error\\error.jsp").forward(req, resp);
         }
     }
 }
