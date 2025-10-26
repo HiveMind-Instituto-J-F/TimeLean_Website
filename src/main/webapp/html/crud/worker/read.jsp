@@ -11,9 +11,9 @@
 </head>
 <body>
 <%
-    Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
-    if (isLogged == null || !isLogged) {
-        response.sendRedirect("../login.jsp");
+    boolean isLogged = session != null && session.getAttribute("plantCnpj") != null;
+    if (!isLogged) {
+        response.sendRedirect(request.getContextPath() + "/html/crud/worker/login/login.jsp");
         return;
     }
 %>

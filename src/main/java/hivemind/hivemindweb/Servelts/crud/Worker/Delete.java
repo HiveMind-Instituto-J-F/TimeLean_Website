@@ -27,11 +27,11 @@ public class Delete extends HttpServlet {
 
             if (deleted) {
                 // [SUCCESS LOG] Worker deleted successfully
-                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Worker deleted: " + paramCpf);
+                System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker deleted: " + paramCpf);
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
             } else {
                 // [FAILURE LOG] Worker not found or deletion failed
-                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Worker not found or could not be deleted: " + paramCpf);
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Worker not found or could not be deleted: " + paramCpf);
                 req.setAttribute("errorMessage", "Não foi possível deletar o trabalhador. Verifique o CPF e tente novamente.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -39,28 +39,28 @@ public class Delete extends HttpServlet {
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid input parameter
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "CPF inválido ou parâmetro ausente.");
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno ao processar a exclusão do trabalhador.");
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IllegalStateException ise) {
             // [FAILURE LOG] Session or response error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalStateException: " + ise.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalStateException: " + ise.getMessage());
             req.setAttribute("errorMessage", "Erro de sessão ou resposta. Recarregue a página e tente novamente.");
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

@@ -52,9 +52,9 @@ public class Create extends HttpServlet {
             // [DATA ACCESS] Insert new PlanSubscription
             boolean inserted = PlanSubscriptionDAO.insert(planSubscriptionLocal, false);
             if (!inserted) {
-                throw new IllegalStateException("Falha ao inserir a assinatura no banco de dados.");
+                throw new IllegalStateException("Failed when inserting plan subscription on database.");
             }
-            System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] PlanSubscription record created successfully");
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription record created successfully");
 
             // [SUCCESS LOG] Redirect to read page
             resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
@@ -75,7 +75,7 @@ public class Create extends HttpServlet {
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
-            System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao criar a assinatura: " + e.getMessage());
             req.setAttribute("errorUrl", "/html/crud/planSubscription/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

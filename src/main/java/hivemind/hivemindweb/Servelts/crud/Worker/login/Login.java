@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
 
             // [PROCESS] Validate responsible relation and login
             if (!plant.getResponsibleCpf().equals(worker.getCpf())) {
-                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Plant responsible mismatch with worker CPF.");
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Plant responsible mismatch with worker CPF.");
                 req.setAttribute("status", false);
                 req.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(req, resp);
                 return;
@@ -70,11 +70,11 @@ public class Login extends HttpServlet {
                 session.setAttribute("plantCnpj", paramPlantCnpj);
                 session.setAttribute("responsibleCpf", paramResponsibleCpf);
 
-                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Worker login successful for CPF: " + paramResponsibleCpf);
+                System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker login successful for CPF: " + paramResponsibleCpf);
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
             } else {
                 // [FAILURE LOG] Invalid credentials
-                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Invalid credentials for worker CPF: " + paramResponsibleCpf);
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Invalid credentials for worker CPF: " + paramResponsibleCpf);
                 req.setAttribute("status", false);
                 req.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(req, resp);
             }

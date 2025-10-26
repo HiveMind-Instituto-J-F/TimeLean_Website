@@ -18,7 +18,7 @@ public class Render extends HttpServlet {
             // [VALIDATION] Get and validate parameter
             String paramCnpj = req.getParameter("cnpj");
             if (paramCnpj == null || paramCnpj.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");
+                throw new IllegalArgumentException("Null value: 'cnpjParam'");
             }
 
             // [DATA ACCESS] Retrieve company from database
@@ -37,32 +37,32 @@ public class Render extends HttpServlet {
             req.getRequestDispatcher("/html/crud/company/update.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Company render successful
-            System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Company render successful for CNPJ: " + paramCnpj);
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] Company render successful for CNPJ: " + paramCnpj);
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid parameter
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: referência nula encontrada.");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Dispatcher error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

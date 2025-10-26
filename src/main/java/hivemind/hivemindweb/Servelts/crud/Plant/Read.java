@@ -23,27 +23,25 @@ public class Read extends HttpServlet {
             // [VALIDATION] Get and validate parameters
             String paramChosenFilter = req.getParameter("filter");
             String paramFilterCompanyName = req.getParameter("filterCompanyName");
-            FilterType filterType = FilterType.INPUT_OPTION;
+            FilterType.Plant filterType = FilterType.Plant.ACTIVE;
+            String filterValue = null;
 
-            if (paramFilterCompanyName == null || paramFilterCompanyName.isEmpty()) {
-                paramFilterCompanyName = null;
-            }
-
-            String filterValue = "active-plants";
-            if (paramFilterCompanyName == null && paramChosenFilter != null) {
+            if (paramFilterCompanyName != null && !paramFilterCompanyName.isEmpty()) {
+                filterType = FilterType.Plant.COMPANY_NAME;
+                filterValue = paramFilterCompanyName;
+            } else if (paramChosenFilter != null) {
                 switch (paramChosenFilter.toLowerCase()) {
-                    case "active-plants", "inactive-plants", "all-plants" -> filterValue = paramChosenFilter;
+                    case "active-plants" -> filterType = FilterType.Plant.ACTIVE;
+                    case "inactive-plants" -> filterType = FilterType.Plant.INACTIVE;
+                    case "all-plants" -> filterType = FilterType.Plant.ALL_VALUES;
                     default -> {
-                        System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Invalid filter: " + paramChosenFilter);
+                        System.err.println("[ERROR] [" + LocalDateTime.now() + "] Invalid filter: " + paramChosenFilter);
                         req.setAttribute("errorMessage", "Filtro inválido fornecido.");
                         req.setAttribute("errorUrl", "/html/toUser.html");
                         req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                         return;
                     }
                 }
-            } else if (paramFilterCompanyName != null) {
-                filterType = FilterType.INPUT_TEXT;
-                filterValue = paramFilterCompanyName;
             }
 
             // [DATA ACCESS] Retrieve filtered list of plants
@@ -52,7 +50,7 @@ public class Read extends HttpServlet {
 
             // [SUCCESS LOG] Forward to JSP
             req.getRequestDispatcher("/html/crud/plant/read.jsp").forward(req, resp);
-            System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Plants read successfully. Total: " + (plantList != null ? plantList.size() : 0));
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] Plants read successfully. Total: " + (plantList != null ? plantList.size() : 0));
 
         } catch (Exception e) {
             // [FAILURE LOG] Handle unexpected errors

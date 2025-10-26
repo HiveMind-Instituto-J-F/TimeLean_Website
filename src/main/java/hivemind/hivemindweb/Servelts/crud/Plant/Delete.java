@@ -28,7 +28,7 @@ public class Delete extends HttpServlet {
             plantLocal.setOperationalStatus(false);
             PlantDAO.switchOperationalStatus(plantLocal);
 
-            System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Plant operational status set to false successfully: " + cnpjParam);
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] Plant operational status set to false successfully: " + cnpjParam);
             resp.sendRedirect(req.getContextPath() + "/plant/read");
 
         } catch (IllegalArgumentException e) {
@@ -40,7 +40,7 @@ public class Delete extends HttpServlet {
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors
-            System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao desativar a planta: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

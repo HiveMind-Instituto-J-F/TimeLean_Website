@@ -168,14 +168,14 @@ public class WorkerDAO {
         return workersList;
     }
 
-    public static List<Worker> selectFilter(FilterType filterType, String filter, String companyCnpj) {
+    public static List<Worker> selectFilter(FilterType.Worker filterType, String filter, String companyCnpj) {
         List<Worker> workersList = new ArrayList<>();
         DBConnection db = new DBConnection();
 
-        String sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ?";
-        if (filterType == FilterType.INPUT_CPF) {
+        String sql;
+        if (filterType == FilterType.Worker.CPF) {
             sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ? AND CPF = ?";
-        } else if (filterType == FilterType.INPUT_SECTOR){
+        } else if (filterType == FilterType.Worker.SECTOR){
             sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ? AND SECTOR = ?";
         } else {
             sql = "SELECT * FROM worker WHERE CNPJ_PLANT = ?";
@@ -185,7 +185,7 @@ public class WorkerDAO {
              PreparedStatement pstm = conn.prepareStatement(sql);) {
 
             pstm.setString(1, companyCnpj);
-            if (filterType == FilterType.INPUT_CPF || filterType == FilterType.INPUT_SECTOR) {
+            if (filterType == FilterType.Worker.CPF || filterType == FilterType.Worker.SECTOR) {
                 pstm.setString(2, filter);
             }
 

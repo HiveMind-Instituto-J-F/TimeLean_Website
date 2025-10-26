@@ -37,17 +37,14 @@ public class Read extends HttpServlet {
 
             // [DATA ACCESS] Retrieve filtered list of PlanSubscriptions
             List<PlanSubscription> planSubList = PlanSubscriptionDAO.selectFilter(filterType, filter);
-            if (planSubList == null) {
-                throw new NullPointerException("Returned list is null (PlanSubscriptionDAO.selectFilter).");
-            }
 
-            System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] PlanSubscription.Read -> List successfully loaded. Total: " + planSubList.size());
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription.Read -> List successfully loaded. Total: " + planSubList.size());
 
             // [PROCESS] Forward list to JSP
             req.setAttribute("planSubs", planSubList);
             req.getRequestDispatcher("/html/crud/planSubscription/read.jsp").forward(req, resp);
 
-        } catch (IllegalArgumentException | NullPointerException | ServletException | IOException e) {
+        } catch (IllegalArgumentException | ServletException | IOException e) {
             // [FAILURE LOG] Handle invalid params, null list, servlet forwarding or IO errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscription.Read -> " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro ao carregar as assinaturas: " + e.getMessage());
@@ -56,7 +53,7 @@ public class Read extends HttpServlet {
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors
-            System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao carregar as assinaturas: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

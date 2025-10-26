@@ -46,11 +46,11 @@ public class Update extends HttpServlet {
             boolean updated = WorkerDAO.update(worker);
             if(updated) {
                 // [SUCCESS LOG] Worker updated successfully
-                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Worker updated: " + paramCpf);
+                System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker updated: " + paramCpf);
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
             } else {
                 // [FAILURE LOG] Database update failed
-                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Failed to update worker in the database: " + paramCpf);
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update worker in the database: " + paramCpf);
                 req.setAttribute("errorMessage", "Não foi possível atualizar o trabalhador.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -58,21 +58,21 @@ public class Update extends HttpServlet {
 
         } catch(IllegalArgumentException ia) {
             // [FAILURE LOG] Parameter validation error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch(ServletException se) {
             // [FAILURE LOG] Dispatcher error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch(Exception e) {
             // [FAILURE LOG] Unexpected error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

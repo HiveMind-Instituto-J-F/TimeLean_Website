@@ -19,7 +19,7 @@ public class Render extends HttpServlet {
             // [VALIDATION] Get and validate parameter
             String paramCpf = req.getParameter("cpf");
             if (paramCpf == null || paramCpf.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");
+                throw new IllegalArgumentException("Null value: 'cpf'");
             }
 
             // [DATA ACCESS] Retrieve worker by CPF
@@ -32,32 +32,32 @@ public class Render extends HttpServlet {
             req.setAttribute("worker", worker);
             req.getRequestDispatcher("/html/crud/worker/update.jsp").forward(req, resp);
 
-            System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Worker render successful for CPF: " + paramCpf);
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker render successful for CPF: " + paramCpf);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Parameter validation error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Worker not found
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Trabalhador não encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Dispatcher error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected error
-            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

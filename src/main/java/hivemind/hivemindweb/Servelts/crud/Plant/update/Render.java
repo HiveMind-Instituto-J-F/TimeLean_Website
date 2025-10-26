@@ -20,13 +20,13 @@ public class Render extends HttpServlet {
             // [VALIDATION] Get and validate 'cnpj' parameter
             String cnpjParam = req.getParameter("cnpj");
             if (cnpjParam == null || cnpjParam.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");
+                throw new IllegalArgumentException("Null value: 'cnpj'");
             }
 
             // [DATA ACCESS] Retrieve Plant by CNPJ
             Plant plantLocal = PlantDAO.selectByPlantCnpj(cnpjParam);
             if (plantLocal == null) {
-                System.err.println("[FAILURE LOG] [" + cnpjParam + "] Plant not found.");
+                System.err.println("[ERROR] [" + cnpjParam + "] Plant not found.");
                 req.setAttribute("errorMessage", "Planta não encontrada para o CNPJ informado.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -36,7 +36,7 @@ public class Render extends HttpServlet {
             // [PROCESS] Forward Plant data to update JSP
             req.setAttribute("plant", plantLocal);
             req.getRequestDispatcher("/html/crud/plant/update.jsp").forward(req, resp);
-            System.err.println("[SUCCESS LOG] [" + cnpjParam + "] Plant loaded successfully for update.");
+            System.err.println("[INFO] [" + cnpjParam + "] Plant loaded successfully for update.");
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Handle invalid 'cnpj' parameter
@@ -54,7 +54,7 @@ public class Render extends HttpServlet {
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors
-            System.err.println("[FATAL] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao processar a planta: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

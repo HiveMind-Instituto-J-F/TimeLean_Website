@@ -29,7 +29,7 @@ public class Render extends HttpServlet {
             Payment payment = PaymentDAO.select(id);
             if (payment == null) {
                 // [FAILURE LOG] Payment not found
-                System.err.println("[FAILURE] Payment not found, id: " + id);
+                System.err.println("[ERROR] Payment not found, id: " + id);
                 req.setAttribute("errorMessage", "Pagamento não encontrado.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -37,27 +37,27 @@ public class Render extends HttpServlet {
             }
 
             // [SUCCESS LOG] Payment retrieved successfully
-            System.err.println("[SUCCESS] Payment loaded successfully, id: " + id);
+            System.err.println("[INFO] Payment loaded successfully, id: " + id);
             req.setAttribute("payment", payment);
             req.getRequestDispatcher("/html/crud/payment/update.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid parameter input
-            System.err.println("[FAILURE] IllegalArgumentException: " + ia.getMessage());
+            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch exception
-            System.err.println("[FAILURE] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
-            System.err.println("[FAILURE] Exception: " + e.getMessage());
+            System.err.println("[ERROR] Exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao carregar o pagamento.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

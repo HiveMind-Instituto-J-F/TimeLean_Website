@@ -18,7 +18,7 @@ public class Delete extends HttpServlet {
             // [VALIDATION] Validate and parse ID parameter
             String idParam = req.getParameter("id");
             if (idParam == null || idParam.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'id'");
+                throw new IllegalArgumentException("Null value: 'id'");
             }
 
             int id = Integer.parseInt(idParam);
@@ -32,40 +32,38 @@ public class Delete extends HttpServlet {
             // [PROCESS] Attempt to update plan status
             if (PlanDAO.update(planDb)) {
                 // [SUCCESS LOG] Log successful plan deactivation
-                System.err.println("[SUCCESS LOG] Plan successfully deactivated: " + planDb.getName());
-                req.setAttribute("msg", "Plano " + planDb.getName() + " foi removido com sucesso!");
+                System.err.println("[INFO] Plan successfully deactivated: " + planDb.getName());
             } else {
                 // [BUSINESS RULES] Plan already inactive
-                System.err.println("[INFO LOG] Plan already inactive: " + planDb.getName());
-                req.setAttribute("msg", "O plano já está desabilitado.");
+                System.err.println("[INFO] Plan already inactive: " + planDb.getName());
             }
 
             resp.sendRedirect(req.getContextPath() + "/plan/read");
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception
-            System.err.println("[FAILURE LOG] IllegalArgumentException occurred: " + ia.getMessage());
+            System.err.println("[ERROR] IllegalArgumentException occurred: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exception
-            System.err.println("[FAILURE LOG] NullPointerException occurred: " + npe.getMessage());
+            System.err.println("[ERROR] NullPointerException occurred: " + npe.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro ao localizar o plano. Verifique se o plano existe.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IOException ioe) {
             // [FAILURE LOG] Handle IO exception
-            System.err.println("[FAILURE LOG] IOException occurred: " + ioe.getMessage());
+            System.err.println("[ERROR] IOException occurred: " + ioe.getMessage());
             req.setAttribute("errorMessage", "Erro de entrada/saída ao processar a solicitação: " + ioe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Handle unexpected exceptions
-            System.err.println("[FAILURE LOG] Unexpected exception occurred: " + e.getMessage());
+            System.err.println("[ERROR] Unexpected exception occurred: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

@@ -3,8 +3,11 @@ package hivemind.hivemindweb.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Filter;
+
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
+import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.Company;
 
 public class CompanyDAO {
@@ -72,16 +75,16 @@ public class CompanyDAO {
         return false;
     }
 
-    public static List<Company> selectFilter(String filter) {
+    public static List<Company> selectFilter(FilterType.Company filter) {
         List<Company> companysList = new ArrayList<>();
         DBConnection db = new DBConnection();
         String sql;
 
-        if ("active-companies".equalsIgnoreCase(filter)) {
+        if (FilterType.Company.ACTIVE == filter) {
             sql = "SELECT * FROM company WHERE IS_ACTIVE = TRUE ORDER BY CNPJ";
-        } else if ("inactive-companies".equalsIgnoreCase(filter)) {
+        } else if (FilterType.Company.INACTIVE == filter) {
             sql = "SELECT * FROM company WHERE IS_ACTIVE = FALSE ORDER BY CNPJ";
-        } else if ("companies-with-pending-payments".equalsIgnoreCase(filter)) {
+        } else if (FilterType.Company.WITH_PENDING_PAYMENT == filter) {
             sql = """
                     SELECT DISTINCT c.*
                     FROM COMPANY c
@@ -90,7 +93,7 @@ public class CompanyDAO {
                     WHERE p.STATUS = 'PENDING'
                     """;
         } else {
-            sql = "SELECT * FROM company ORDER BY CNPJ"; // todas
+            sql = "SELECT * FROM company ORDER BY CNPJ";
         }
 
         try (Connection conn = db.connected();

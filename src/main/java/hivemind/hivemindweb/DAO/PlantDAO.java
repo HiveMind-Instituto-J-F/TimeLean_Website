@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,54 +98,52 @@ public class PlantDAO {
         return null;
     }
 
-    public static List<Plant> selectFilter(String filter, FilterType filterType) throws IllegalArgumentException{
+    public static List<Plant> selectFilter(String filter, FilterType.Plant filterType) throws IllegalArgumentException {
         DBConnection db = new DBConnection();
         List<Plant> plantList = new ArrayList<>();
         String sql;
 
-        if (filterType == FilterType.INPUT_TEXT){
-             sql = """
-                    SELECT p.*
-                    FROM PLANT p
-                    JOIN COMPANY c ON c.cnpj = p.CNPJ_COMPANY
-                    WHERE c.name = ?
-                    """;
-        } else if (filterType == FilterType.INPUT_OPTION){
-            if (filter.equals("active-plants")){
+        switch (filterType) {
+            case COMPANY_NAME -> {
                 sql = """
-                    SELECT p.*
-                    FROM PLANT p
-                    JOIN COMPANY c ON c.cnpj = p.CNPJ_COMPANY
-                    WHERE p.OPERATIONAL_STATUS = TRUE;
-                    """;
-            } else if (filter.equals("inactive-plants")){
+                SELECT p.*
+                FROM PLANT p
+                JOIN COMPANY c ON c.cnpj = p.CNPJ_COMPANY
+                WHERE c.name = ?
+                """;
+            }
+            case ACTIVE -> {
                 sql = """
-                        SELECT p.*
-                        FROM PLANT p
-                        JOIN COMPANY c ON c.cnpj = p.CNPJ_COMPANY
-                        WHERE p.OPERATIONAL_STATUS  = FALSE;
-                        """;
-            } else if (filter.equals("all-plants")){
+                SELECT p.*
+                FROM PLANT p
+                JOIN COMPANY c ON c.cnpj = p.CNPJ_COMPANY
+                WHERE p.OPERATIONAL_STATUS = TRUE
+                """;
+            }
+            case INACTIVE -> {
+                sql = """
+                SELECT p.*
+                FROM PLANT p
+                JOIN COMPANY c ON c.cnpj = p.CNPJ_COMPANY
+                WHERE p.OPERATIONAL_STATUS = FALSE
+                """;
+            }
+            case ALL_VALUES -> {
                 sql = "SELECT * FROM PLANT";
             }
-                else {
-                    throw new IllegalArgumentException("Illegal Filter");
-            }
-        } else {
-            throw new IllegalArgumentException("Illegal FilterType");
+            default -> throw new IllegalArgumentException("Illegal FilterType");
         }
 
         try (Connection conn = db.connected();
-             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            if (filterType == FilterType.INPUT_TEXT){
+            if (filterType == FilterType.Plant.COMPANY_NAME) {
                 pstmt.setString(1, filter);
             }
 
             ResultSet rs = pstmt.executeQuery();
-
             while (rs.next()) {
-                plantList.add( new Plant(
+                plantList.add(new Plant(
                         rs.getString("cnpj"),
                         rs.getString("cnae"),
                         rs.getString("responsible_cpf"),
@@ -156,10 +155,12 @@ public class PlantDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Failed in select: " + e.getMessage());
         }
+
         return plantList;
     }
+
 
     public static boolean update(Plant plant) {
         DBConnection db = new DBConnection();
@@ -182,7 +183,7 @@ public class PlantDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update" + sqle.getMessage());
+            System.out.println("[ERROR] Falied in select" + sqle.getMessage());
         }
         return false;
     }

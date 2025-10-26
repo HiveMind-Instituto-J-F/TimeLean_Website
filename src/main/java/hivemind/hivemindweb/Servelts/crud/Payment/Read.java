@@ -17,11 +17,10 @@ public class Read extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        // [PROCESS] Retrieve and filter payments
         try {
+            // [PROCESS] Retrieve and filter payments
             FilterType.Payment filterType = FilterType.Payment.ALL_VALUES;
-            Integer idPlanSubscriptionParam = -1;
+            int idPlanSubscriptionParam = -1;
 
             String statusParam = req.getParameter("status");
             String idParam = req.getParameter("idPlanSubscription");
@@ -33,7 +32,6 @@ public class Read extends HttpServlet {
             if (idPlanSubscriptionParam != -1) {
                 filterType = FilterType.Payment.ID_PLAN_SUBSCRIPTION;
             } else if (status != null) {
-                idPlanSubscriptionParam = -1;
                 switch (status.toLowerCase()) {
                     case "pending" -> filterType = FilterType.Payment.PENDING;
                     case "paid" -> filterType = FilterType.Payment.PAID;
@@ -41,7 +39,7 @@ public class Read extends HttpServlet {
                     case "all" -> filterType = FilterType.Payment.ALL_VALUES;
                     default -> {
                         // [FAILURE LOG] Invalid filter
-                        System.err.println("[FAILURE] Invalid filter provided: " + status);
+                        System.err.println("[ERROR] Invalid filter provided: " + status);
                         req.setAttribute("errorMessage", "Filtro inválido informado.");
                         req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
                         req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -52,7 +50,7 @@ public class Read extends HttpServlet {
 
             // [DATA ACCESS] Retrieve filtered payments
             List<Payment> paymentList = PaymentDAO.selectFilter(filterType, idPlanSubscriptionParam);
-            System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] Payment list loaded successfully. Total: " + paymentList.size());
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] Payment list loaded successfully. Total: " + paymentList.size());
 
             // [PROCESS] Forward to payment list page
             req.setAttribute("payments", paymentList);
@@ -60,28 +58,28 @@ public class Read extends HttpServlet {
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid argument errors
-            System.err.println("[FAILURE] IllegalArgumentException: " + ia.getMessage());
+            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados. Verifique os valores e tente novamente.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null pointer exception
-            System.err.println("[FAILURE] NullPointerException: " + npe.getMessage());
+            System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: dado necessário não foi encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch errors
-            System.err.println("[FAILURE] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected errors
-            System.err.println("[FAILURE] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao carregar os pagamentos.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

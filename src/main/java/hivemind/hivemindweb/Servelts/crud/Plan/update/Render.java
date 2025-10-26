@@ -46,7 +46,7 @@ public class Render extends HttpServlet {
             req.getRequestDispatcher("/html/crud/plan/update.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Successful rendering
-            System.err.println("[SUCCESS] Plan render executed successfully");
+            System.err.println("[INFO] Plan render executed successfully");
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid argument in servlet

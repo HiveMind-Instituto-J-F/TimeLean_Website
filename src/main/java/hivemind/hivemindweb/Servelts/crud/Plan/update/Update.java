@@ -16,32 +16,20 @@ public class Update extends HttpServlet {
         try {
             // [VALIDATION] Validate and parse request parameters
             String idParam = req.getParameter("id");
-            if (idParam == null || idParam.isEmpty()) {
-                throw new IllegalArgumentException("Valor nulo: 'id'");
-            }
-            int id = Integer.parseInt(idParam);
-
             String durationParam = req.getParameter("duration");
-            if (durationParam == null || durationParam.isEmpty()) {
-                throw new IllegalArgumentException("Valor nulo: 'duration'");
-            }
-            int duration = Integer.parseInt(durationParam);
-
             String descriptionParam = req.getParameter("description");
-            if (descriptionParam == null || descriptionParam.isEmpty()) {
-                throw new IllegalArgumentException("Valor nulo: 'description'");
-            }
-
             String priceParam = req.getParameter("price");
-            if (priceParam == null || priceParam.isEmpty()) {
-                throw new IllegalArgumentException("Valor nulo: 'price'");
-            }
-            double price = Double.parseDouble(priceParam);
-
             String nameParam = req.getParameter("name");
-            if (nameParam == null || nameParam.isEmpty()) {
-                throw new IllegalArgumentException("Valor nulo: 'name'");
-            }
+
+            if (idParam == null || idParam.isEmpty()) throw new IllegalArgumentException("Null value: 'id'");
+            if (durationParam == null || durationParam.isEmpty()) throw new IllegalArgumentException("Null value: 'duration'");
+            if (descriptionParam == null || descriptionParam.isEmpty()) throw new IllegalArgumentException("Null value: 'description'");
+            if (priceParam == null || priceParam.isEmpty()) throw new IllegalArgumentException("Null value: 'price'");
+            if (nameParam == null || nameParam.isEmpty()) throw new IllegalArgumentException("Null value: 'name'");
+
+            int id = Integer.parseInt(idParam);
+            int duration = Integer.parseInt(durationParam);
+            double price = Double.parseDouble(priceParam);
 
             // [PROCESS] Create local Plan instance
             Plan planLocal = new Plan(id, nameParam, descriptionParam, duration, price, true);
@@ -49,7 +37,7 @@ public class Update extends HttpServlet {
             // [DATA ACCESS] Attempt to update plan
             if (PlanDAO.update(planLocal)) {
                 // [SUCCESS LOG] Plan successfully updated
-                System.err.println("[SUCCESS] Plan updated successfully");
+                System.err.println("[INFO] Plan updated successfully");
                 resp.sendRedirect(req.getContextPath() + "/plan/read");
             } else {
                 // [FAILURE LOG] Plan update failed

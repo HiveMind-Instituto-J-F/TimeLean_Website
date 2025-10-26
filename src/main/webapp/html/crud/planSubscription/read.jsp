@@ -21,7 +21,7 @@
 <%
     Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
     if (isLogged == null || !isLogged) {
-        response.sendRedirect("../login.jsp");
+        response.sendRedirect(request.getContextPath() + "/html/login.jsp");
         return;
     }
 %>

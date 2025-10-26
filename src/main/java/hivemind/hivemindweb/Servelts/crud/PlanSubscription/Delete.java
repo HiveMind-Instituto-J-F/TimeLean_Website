@@ -24,7 +24,7 @@ public class Delete extends HttpServlet {
 
             // [VALIDATION] Ensure ID parameter is provided
             if (idParam == null || idParam.isEmpty()) {
-                throw new IllegalArgumentException("Parâmetro 'id' não informado.");
+                throw new IllegalArgumentException("Null value: 'id'");
             }
             int id = Integer.parseInt(idParam);
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Received id: " + id);
@@ -34,10 +34,10 @@ public class Delete extends HttpServlet {
             // [DATA ACCESS] Attempt to delete PlanSubscription
             boolean deleted = PlanSubscriptionDAO.delete(planSubscriptionLocal);
             if (!deleted) {
-                throw new IllegalStateException("Falha ao deletar a assinatura (ID: " + id + ").");
+                throw new IllegalStateException("Failed while trying to delete plan subscription (ID: " + id + ").");
             }
 
-            System.err.println("[SUCCESS] [" + LocalDateTime.now() + "] PlanSubscription deleted successfully (ID: " + id + ")");
+            System.err.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription deleted successfully (ID: " + id + ")");
             resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
 
         } catch (InvalidPrimaryKeyException ipk) {
@@ -56,7 +56,7 @@ public class Delete extends HttpServlet {
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors
-            System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao deletar a assinatura: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

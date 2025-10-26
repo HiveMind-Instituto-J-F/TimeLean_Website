@@ -23,8 +23,19 @@ public class Create extends HttpServlet {
             String operationalStatusStringParam = req.getParameter("operational_status");
             String responsibleCpfParam = req.getParameter("responsible_cpf");
             String addressCepParam = req.getParameter("address_cep");
-            int addressNumberParam = Integer.parseInt(req.getParameter("address_number"));
+            String addressNumberRaw = req.getParameter("address_number");
             String companyCnpjParam = req.getParameter("company_cnpj");
+
+            if (cnpjParam == null || cnpjParam.isEmpty()) throw new IllegalArgumentException("Null value: 'cnpj'");
+            if (cnaeParam == null || cnaeParam.isEmpty()) throw new IllegalArgumentException("Null value: 'cnae'");
+            if (operationalStatusStringParam == null || operationalStatusStringParam.isEmpty()) throw new IllegalArgumentException("Null value: 'operational_status'");
+            if (responsibleCpfParam == null || responsibleCpfParam.isEmpty()) throw new IllegalArgumentException("Null value: 'responsible_cpf'");
+            if (addressCepParam == null || addressCepParam.isEmpty()) throw new IllegalArgumentException("Null value: 'address_cep'");
+            if (addressNumberRaw == null || addressNumberRaw.isEmpty()) throw new IllegalArgumentException("Null value: 'address_number'");
+            if (companyCnpjParam == null || companyCnpjParam.isEmpty()) throw new IllegalArgumentException("Null value: 'company_cnpj'");
+
+            int addressNumberParam = Integer.parseInt(addressNumberRaw);
+
 
             boolean operationalStatusParam = "Active".equalsIgnoreCase(operationalStatusStringParam);
 
@@ -36,10 +47,10 @@ public class Create extends HttpServlet {
             // [DATA ACCESS] Insert Plant into database
             boolean inserted = PlantDAO.insert(plantLocal);
             if (inserted) {
-                System.err.println("[SUCCESS LOG] [" + LocalDateTime.now() + "] Plant created successfully: " + cnpjParam);
+                System.err.println("[INFO] [" + LocalDateTime.now() + "] Plant created successfully: " + cnpjParam);
                 resp.sendRedirect(req.getContextPath() + "/plant/read");
             } else {
-                throw new IllegalStateException("Falha ao inserir a planta no banco de dados.");
+                throw new IllegalStateException("Failed after trying to insert plan on database");
             }
 
         } catch (IllegalArgumentException | IllegalStateException e) {
@@ -51,7 +62,7 @@ public class Create extends HttpServlet {
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors
-            System.err.println("[FATAL] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao criar a planta: " + e.getMessage());
             req.setAttribute("errorUrl", "/html/crud/plant/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

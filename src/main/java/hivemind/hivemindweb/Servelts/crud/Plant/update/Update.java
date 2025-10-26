@@ -21,22 +21,34 @@ public class Update extends HttpServlet {
             String cnpjParam = req.getParameter("CNPJ");
             String cnaeParam = req.getParameter("CNAE");
             String responsibleCpfParam = req.getParameter("RESPONSIBLE_CPF");
-            boolean operationalStatusParam = Boolean.parseBoolean(req.getParameter("OPERATIONAL_STATUS"));
+            String operationalStatusRaw = req.getParameter("OPERATIONAL_STATUS");
             String addressCepParam = req.getParameter("ADDRESS_CEP");
-            int addressNumberParam = Integer.parseInt(req.getParameter("ADDRESS_NUMBER"));
+            String addressNumberRaw = req.getParameter("ADDRESS_NUMBER");
             String cnpjCompanyParam = req.getParameter("CNPJ_COMPANY");
 
+            if (cnpjParam == null || cnpjParam.isEmpty()) throw new IllegalArgumentException("Null value: 'CNPJ'");
+            if (cnaeParam == null || cnaeParam.isEmpty()) throw new IllegalArgumentException("Null value: 'CNAE'");
+            if (responsibleCpfParam == null || responsibleCpfParam.isEmpty()) throw new IllegalArgumentException("Null value: 'RESPONSIBLE_CPF'");
+            if (operationalStatusRaw == null || operationalStatusRaw.isEmpty()) throw new IllegalArgumentException("Null value: 'OPERATIONAL_STATUS'");
+            if (addressCepParam == null || addressCepParam.isEmpty()) throw new IllegalArgumentException("Null value: 'ADDRESS_CEP'");
+            if (addressNumberRaw == null || addressNumberRaw.isEmpty()) throw new IllegalArgumentException("Null value: 'ADDRESS_NUMBER'");
+            if (cnpjCompanyParam == null || cnpjCompanyParam.isEmpty()) throw new IllegalArgumentException("Null value: 'CNPJ_COMPANY'");
+
+            boolean operationalStatusParam = Boolean.parseBoolean(operationalStatusRaw);
+            int addressNumberParam = Integer.parseInt(addressNumberRaw);
+
+            // [PROCESS] Create Plant object
             Plant plantLocal = new Plant(cnpjParam, cnaeParam, responsibleCpfParam,
                     operationalStatusParam, addressCepParam, addressNumberParam, cnpjCompanyParam);
 
             // [DATA ACCESS] Update Plant in database
             boolean updated = PlantDAO.update(plantLocal);
             if (updated) {
-                System.err.println("[SUCCESS LOG] [" + cnpjParam + "] Plant updated successfully.");
+                System.err.println("[INFO] [" + cnpjParam + "] Plant updated successfully.");
                 req.setAttribute("companyCnpj", cnpjCompanyParam);
                 resp.sendRedirect(req.getContextPath() + "/plant/read");
             } else {
-                throw new IllegalStateException("Falha ao atualizar a planta com CNPJ: " + cnpjParam);
+                throw new IllegalStateException("Failure when updating plant. CNPJ:  " + cnpjParam);
             }
 
         } catch (IllegalArgumentException | IllegalStateException e) {
@@ -48,7 +60,7 @@ public class Update extends HttpServlet {
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all for unexpected errors
-            System.err.println("[FATAL] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao atualizar a planta: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

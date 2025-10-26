@@ -21,7 +21,7 @@ public class Delete extends HttpServlet {
             // [VALIDATION] Retrieve and validate 'cnpj' parameter
             String paramCnpj = req.getParameter("cnpj");
             if (paramCnpj == null || paramCnpj.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'cnpj'");
+                throw new IllegalArgumentException("Null value: 'cnpj'");
             }
 
             // [DATA ACCESS] Check for pending payments
@@ -36,41 +36,41 @@ public class Delete extends HttpServlet {
             // [PROCESS] Attempt to switch company active status (soft delete)
             if (CompanyDAO.switchActive(company, company.isActive())) {
                 // [SUCCESS LOG] Company deleted/deactivated successfully
-                System.err.println("[SUCCESS LOG] Company deleted/deactivated: " + paramCnpj);
+                System.err.println("[INFO] Company deleted/deactivated: " + paramCnpj);
                 resp.sendRedirect(req.getContextPath() + "/company/read");
                 return;
             }
 
             // [FAILURE LOG] Unknown deletion error
-            System.err.println("[FAILURE LOG] Unknown error deleting company: " + paramCnpj);
+            System.err.println("[ERROR] Unknown error deleting company: " + paramCnpj);
             req.setAttribute("errorMessage", "Não foi possível deletar a empresa (Erro desconhecido).");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered
-            System.err.println("[FAILURE LOG] NullPointerException: " + npe.getMessage());
+            System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Não foi possível deletar a empresa (Erro interno).");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid input or business rule violation
-            System.err.println("[FAILURE LOG] IllegalArgumentException: " + iae.getMessage());
+            System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Erro: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch error
-            System.err.println("[FAILURE LOG] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
-            System.err.println("[FAILURE LOG] Unexpected exception: " + e.getMessage());
+            System.err.println("[ERROR] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

@@ -19,7 +19,7 @@ public class Render extends HttpServlet {
         try {
             String idParam = req.getParameter("id");
             if (idParam == null || idParam.isEmpty()) {
-                throw new IllegalArgumentException("Parâmetro 'id' não informado ou inválido.");
+                throw new IllegalArgumentException("Null value: 'id'");
             }
             int id = Integer.parseInt(idParam);
 
@@ -27,7 +27,7 @@ public class Render extends HttpServlet {
             PlanSubscription planSubscription = PlanSubscriptionDAO.select(id);
             if (planSubscription == null) {
                 // [FAILURE LOG] Plan subscription not found
-                System.err.println("[FAILURE] PlanSubscription not found for id: " + id);
+                System.err.println("[ERROR] PlanSubscription not found for id: " + id);
                 req.setAttribute("errorMessage", "Assinatura não encontrada.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -35,27 +35,27 @@ public class Render extends HttpServlet {
             }
 
             // [SUCCESS LOG] Forward plan subscription to update page
-            System.err.println("[SUCCESS] PlanSubscription retrieved successfully: " + planSubscription);
+            System.err.println("[INFO] PlanSubscription retrieved successfully: " + planSubscription);
             req.setAttribute("planSubscription", planSubscription);
             req.getRequestDispatcher("/html/crud/planSubscription/update.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid ID parameter
-            System.err.println("[FAILURE] IllegalArgumentException: " + ia.getMessage());
+            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch errors
-            System.err.println("[FAILURE] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected errors
-            System.err.println("[FAILURE] Exception: " + e.getMessage());
+            System.err.println("[ERROR] Exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao carregar a assinatura.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
