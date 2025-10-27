@@ -1,10 +1,15 @@
 package hivemind.hivemindweb.Servelts.crud.Login;
 
 import java.io.IOException;
+
+import hivemind.hivemindweb.Connection.RedisManager;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/checkSession")
 public class CheckSessionServlet extends HttpServlet {

@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.crud.Login;
+package hivemind.hivemindweb.Connection;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import redis.clients.jedis.DefaultJedisClientConfig;
