@@ -30,9 +30,9 @@ public class RedisManager {
             HostAndPort hostAndPort = new HostAndPort(host, 17579);
             jedis = new Jedis(hostAndPort, config);
 
-            System.out.println("✅ Conectado ao Redis remoto!");
+            System.out.println("[INFO] Connected to remote Redis!");
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao conectar ao Redis: " + e.getMessage(), e);
+            throw new RuntimeException("[ERROR] Error connecting to Redis: " + e.getMessage(), e);
         }
     }
 
@@ -72,7 +72,7 @@ public class RedisManager {
         if (jedis != null) {
             jedis.close();
             jedis = null;
-            System.out.println("🔒 Conexão com Redis encerrada.");
+            System.out.println("[INFO] Redis connection closed.");
         }
     }
 }

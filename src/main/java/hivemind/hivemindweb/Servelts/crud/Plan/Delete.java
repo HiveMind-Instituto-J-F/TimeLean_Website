@@ -3,7 +3,6 @@ package hivemind.hivemindweb.Servelts.crud.Plan;
 import java.io.IOException;
 
 import hivemind.hivemindweb.DAO.PlanDAO;
-import hivemind.hivemindweb.Exception.InvalidForeignKeyException;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
