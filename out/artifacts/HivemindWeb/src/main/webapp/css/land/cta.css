@@ -1,0 +1,41 @@
+@import url('../variables.css');
+
+#cta>* {
+    color: var(--polar);
+}
+
+#cta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 900px;
+    margin: 0 auto;
+}
+
+#cta>.major {
+    padding-right: 20px;
+    width: 420px;
+}
+
+#cta>.major>:first-child {
+    margin-bottom: 40px;
+}
+
+#cta>.major>:nth-child(2) {
+    margin-bottom: 40px;
+}
+
+#cta:last-child {
+    width: 420px;
+    padding: 420px;
+}
+
+#cta>div>div>h1 {
+    font-size: 28px;
+    line-height: 32px;
+    margin-bottom: 8px;
+}
+
+#cta img {
+    width: 200px;
+}

@@ -31,7 +31,7 @@ public class Create extends HttpServlet {
             if (deadlineParam == null || deadlineParam.isEmpty()) throw new IllegalArgumentException("Null value: 'deadline'");
 
             LocalDate deadline = LocalDate.parse(deadlineParam);
-            String status = "Pendente";
+            String status = "PENDING";
             int idPlanSub = Integer.parseInt(idPlanSubParam);
 
             // [DATA ACCESS] Calculate payment value
