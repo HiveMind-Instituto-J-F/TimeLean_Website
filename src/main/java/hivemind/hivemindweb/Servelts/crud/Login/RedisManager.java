@@ -1,7 +1,10 @@
-package hivemind.hivemindweb.Servelts.Login;
+package hivemind.hivemindweb.Servelts.crud.Login;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import redis.clients.jedis.*;
+import redis.clients.jedis.DefaultJedisClientConfig;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisClientConfig;
 
 public class RedisManager {
 
