@@ -54,9 +54,7 @@ public class DeleteRollback extends HttpServlet {
             // [FAILURE LOG] Handle expected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] DeleteRollback -> " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Erro ao reverter exclusão da planta: " + e.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-
+            req.getRequestDispatcher("/html/crud/plant/delete.jsp").forward(req, resp);
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all for unexpected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] DeleteRollback unexpected error: " + e.getMessage());

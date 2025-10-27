@@ -41,16 +41,14 @@ public class Create extends HttpServlet {
                 // [FAILURE LOG] Log failure when inserting plan
                 System.err.println("[ERROR] Failed to insert plan into database.");
                 req.setAttribute("errorMessage", "O plano não foi adicionado devido a um erro interno.");
-                req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/html/crud/plan/create.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception
             System.err.println("[ERROR] IllegalArgumentException occurred: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro nos dados fornecidos: " + ia.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exception
@@ -77,8 +75,7 @@ public class Create extends HttpServlet {
             // [FAILURE LOG] Handle unexpected exceptions
             System.err.println("[ERROR] Unexpected exception occurred: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/plan/create.jsp").forward(req, resp);
         }
     }
 }

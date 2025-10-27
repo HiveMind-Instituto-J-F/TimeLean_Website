@@ -38,8 +38,7 @@ public class DeleteRollback extends HttpServlet {
             // [FAILURE LOG] Unknown failure when updating plan
             System.err.println("[ERROR] Failed to update plan during rollback. ID: " + id);
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor ao reativar o plano.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/plan/create.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception

@@ -33,17 +33,14 @@ public class Delete extends HttpServlet {
                 // [FAILURE LOG] Worker not found or deletion failed
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Worker not found or could not be deleted: " + paramCpf);
                 req.setAttribute("errorMessage", "Não foi possível deletar o trabalhador. Verifique o CPF e tente novamente.");
-                req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/html/crud/Worker/delete.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid input parameter
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "CPF inválido ou parâmetro ausente.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-
+            req.getRequestDispatcher("/html/crud/Worker/delete.jsp").forward(req, resp);
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());

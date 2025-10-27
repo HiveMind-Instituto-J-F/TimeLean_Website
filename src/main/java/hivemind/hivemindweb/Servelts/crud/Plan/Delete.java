@@ -42,9 +42,8 @@ public class Delete extends HttpServlet {
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception
             System.err.println("[ERROR] IllegalArgumentException occurred: " + ia.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorMessage", "Não foi possível processar a solicitação de exclusão do plano. Verifique o ID informado e tente novamente. Se o problema persistir, contate o suporte. Detalhes: " + ia.getMessage());
+            req.getRequestDispatcher("/html/crud/plan/delete.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exception

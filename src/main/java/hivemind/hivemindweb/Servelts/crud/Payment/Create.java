@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Servelts.crud.Payment;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import hivemind.hivemindweb.DAO.PaymentDAO;
@@ -47,9 +48,8 @@ public class Create extends HttpServlet {
             } else {
                 // [FAILURE LOG] Failed DB insertion
                 System.err.println("[ERROR] Failed to add payment to DB, id_plan_sub: " + idPlanSub);
-                req.setAttribute("errorMessage", "Pagamento não foi adicionado devido a um erro no banco de dados.");
-                req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.setAttribute("errorMessage", "Não foi possível adicionar o pagamento. Verifique os dados e tente novamente. (OBS: data dever ser maior que o dia atual)");
+                req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
                 return;
             }
 
@@ -60,8 +60,7 @@ public class Create extends HttpServlet {
             // [FAILURE LOG] Invalid input
             System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // [FAILURE LOG] Date parsing error
