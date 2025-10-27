@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="src/main/webapp/img/icons/branding/TIMELEAN%20%28black%29.png" alt="Hivemind" width="200" />
+	<img src="src/main/webapp/img/icons/branding/TIMELEAN%20%28black%29.png](https://timeleanwebsite-production.up.railway.app/img/icons/branding/TIMELEAN%20(black).png" alt="Hivemind" width="200" />
 </p>
 
 # TimeLean — Backend
@@ -26,5 +26,6 @@ Contribuições são bem-vindas. Para alterações maiores, abra uma issue descr
 ## Licença
 
 MIT License
+
 
 ---
