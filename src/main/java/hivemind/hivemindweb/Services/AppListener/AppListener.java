@@ -3,7 +3,6 @@ package hivemind.hivemindweb.Services.AppListener;
 import hivemind.hivemindweb.Services.Email.EmailService;
 import hivemind.hivemindweb.config.EnvLoader;
 import io.github.cdimascio.dotenv.Dotenv;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
