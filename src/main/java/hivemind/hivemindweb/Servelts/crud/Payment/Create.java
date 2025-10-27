@@ -48,8 +48,7 @@ public class Create extends HttpServlet {
                 // [FAILURE LOG] Failed DB insertion
                 System.err.println("[ERROR] Failed to add payment to DB, id_plan_sub: " + idPlanSub);
                 req.setAttribute("errorMessage", "Pagamento não foi adicionado devido a um erro no banco de dados.");
-                req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
                 return;
             }
 
@@ -60,8 +59,7 @@ public class Create extends HttpServlet {
             // [FAILURE LOG] Invalid input
             System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // [FAILURE LOG] Date parsing error

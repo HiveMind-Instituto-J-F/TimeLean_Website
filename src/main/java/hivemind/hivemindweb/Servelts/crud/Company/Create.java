@@ -48,8 +48,7 @@ public class Create extends HttpServlet {
             // [FAILURE LOG] Invalid input parameter
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + iae.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // [FAILURE LOG] Date parsing error

@@ -21,6 +21,10 @@
         response.sendRedirect(request.getContextPath() + "/html/login.jsp");
         return;
     }
+
+    String errorMsg = (String) request.getAttribute("errorMessage");
+    String msg = (String) request.getAttribute("msg");
+
 %>
 <div id="background-img">
     <header class="blur">
@@ -57,6 +61,8 @@
     <section>
         <div class="block"></div>
         <h1 class="inter-bold">Adicionar pagamento</h1>
+
+        <p><%= (errorMsg != null) ? "Erro: " + errorMsg : (msg != null ? msg : "") %></p>
 
         <div class="inter-medium">
             <form action="${pageContext.request.contextPath}/payment/create" method="post">

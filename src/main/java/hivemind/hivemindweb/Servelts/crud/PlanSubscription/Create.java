@@ -69,8 +69,7 @@ public class Create extends HttpServlet {
             // [FAILURE LOG] Invalid input or business rule violation
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Erro ao criar a assinatura: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/planSubscription/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/planSubscription/create.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception

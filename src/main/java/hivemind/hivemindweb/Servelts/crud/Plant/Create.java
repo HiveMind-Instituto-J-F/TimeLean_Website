@@ -57,8 +57,7 @@ public class Create extends HttpServlet {
             // [FAILURE LOG] Handle validation or insertion failures
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Erro ao criar a planta: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/plant/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/plant/create.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors

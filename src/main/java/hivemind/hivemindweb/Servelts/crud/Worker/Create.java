@@ -55,8 +55,7 @@ public class Create extends HttpServlet {
                 // [FAILURE LOG] Database insertion failed
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to insert worker: " + paramCpf);
                 req.setAttribute("errorMessage", "Não foi possível criar o trabalhador. Tente novamente mais tarde.");
-                req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/html/crud/Worker/create.jsp").forward(req, resp);
             }
 
         } catch(IllegalArgumentException ia) {
