@@ -108,7 +108,7 @@
                 <td><%= p.getMethod() %></td>
                 <td><%= p.getBeneficiary() %></td>
                 <td><%= p.getStatus() %></td>
-                <td><%= p.getIdPlan() %></td>
+                <td><%= p.getIdPlanSubscription() %></td>
                 <td>
                     <div class="actions">
                         <form action="${pageContext.request.contextPath}/payment/show" method="get">

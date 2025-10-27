@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
-import hivemind.hivemindweb.models.PlanSubscription;
 
 @WebServlet("/plan_subscription/delete")
 public class Delete extends HttpServlet {
