@@ -23,7 +23,6 @@ public class DBConnection {
 
             con = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-            System.out.println("[DEBUG] Conectado com sucesso!");
             return con;
         }
         catch (SQLException sqle){
