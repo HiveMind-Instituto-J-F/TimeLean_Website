@@ -16,15 +16,17 @@
 </head>
 <body>
 <%
-   Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
-   if (isLogged == null || !isLogged) {
+    Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+    if (isLogged == null || !isLogged) {
        response.sendRedirect(request.getContextPath() + "/html/login.jsp");
        return;
-   }
+    }
+    String errorMsg = (String) request.getAttribute("errorMessage");
+    String msg = (String) request.getAttribute("msg");
 %>
 
 <h2>Criar Nova PlanSubscription</h2>
-
+<p><%= (errorMsg != null) ? "Erro: " + errorMsg : (msg != null ? msg : "") %></p>
 <form action="${pageContext.request.contextPath}/plan_subscription/create" method="post">
     <label for="start_date">Data de Início:</label>
     <input type="date" id="start_date" name="start_date" required>

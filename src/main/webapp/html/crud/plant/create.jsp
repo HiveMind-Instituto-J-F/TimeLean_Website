@@ -15,8 +15,11 @@
         response.sendRedirect(request.getContextPath() + "/html/login.jsp");
         return;
     }
+    String errorMsg = (String) request.getAttribute("errorMessage");
+    String msg = (String) request.getAttribute("msg");
 %>
 <main>
+    <p><%= (errorMsg != null) ? "Erro: " + errorMsg : (msg != null ? msg : "") %></p>
     <section name="crud_plant" class="crud">
         <h2>Adicionar planta</h2>
         <form action="${pageContext.request.contextPath}/plant/create" method="post">

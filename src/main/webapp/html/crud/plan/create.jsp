@@ -12,10 +12,13 @@
             response.sendRedirect(request.getContextPath() + "/html/login.jsp");
             return;
         }
+        String errorMsg = (String) request.getAttribute("errorMessage");
+        String msg = (String) request.getAttribute("msg");
     %>
 
     <div class="container">
         <h1>Criar Plano</h1>
+        <p><%= (errorMsg != null) ? "Erro: " + errorMsg : (msg != null ? msg : "") %></p>
 
         <form action="${pageContext.request.contextPath}/plan/create" method="post">
             <div class="form-group">

@@ -20,9 +20,13 @@
             response.sendRedirect(request.getContextPath() + "/html/crud/worker/login/login.jsp");
             return;
         }
+
+        String errorMsg = (String) request.getAttribute("errorMessage");
+        String msg = (String) request.getAttribute("msg");
     %>
         <h1>Relacao WORKER</h1>
         <h2>ADD WORKER</h2>
+        <p><%= (errorMsg != null) ? "Erro: " + errorMsg : (msg != null ? msg : "") %></p>
         <form action="${pageContext.request.contextPath}/worker/create" method="post">
             <label for="cpf">CPF:</label>
             <input type="text" id="cpf" name="cpf" required><br><br>
