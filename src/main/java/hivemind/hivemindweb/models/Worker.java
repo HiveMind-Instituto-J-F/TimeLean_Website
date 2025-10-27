@@ -2,6 +2,7 @@ package hivemind.hivemindweb.models;
 
 public class Worker {
     // Variables
+    private Integer id;
     private String cpf;
     private String role;
     private String sector;
@@ -11,6 +12,19 @@ public class Worker {
     private String cnpjPlant;
 
     // Constructor - all values
+    public Worker(Integer id, String cpf, String role, String sector, String name,
+                  String loginEmail, String loginPassword, String cnpjPlant) {
+        this.id = id;
+        this.cpf = cpf;
+        this.role = role;
+        this.sector = sector;
+        this.name = name;
+        this.loginEmail = loginEmail;
+        this.loginPassword = loginPassword;
+        this.cnpjPlant = cnpjPlant;
+    }
+
+    // Constructor - minimum values (without id)
     public Worker(String cpf, String role, String sector, String name,
                   String loginEmail, String loginPassword, String cnpjPlant) {
         this.cpf = cpf;
@@ -33,6 +47,8 @@ public class Worker {
     }
 
     // Getters
+    public Integer getId() { return id; }
+
     public String getCpf() {
         return cpf;
     }
@@ -62,6 +78,10 @@ public class Worker {
     }
 
     // Setters (only for editable attributes)
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public void setRole(String role) {
         this.role = role;
     }
@@ -86,7 +106,8 @@ public class Worker {
     @Override
     public String toString() {
         return String.format(
-                "CPF: %s\nRole: %s\nSector: %s\nName: %s\nLogin Email: %s\nLogin Password: %s\nCNPJ Plant: %s",
+                "Id: %s\nCPF: %s\nRole: %s\nSector: %s\nName: %s\nLogin Email: %s\nLogin Password: %s\nCNPJ Plant: %s",
+                this.id,
                 this.cpf,
                 this.role,
                 this.sector,

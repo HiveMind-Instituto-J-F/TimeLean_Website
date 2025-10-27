@@ -22,6 +22,7 @@ public class Update extends HttpServlet {
             // [VALIDATION] Retrieve and validate session and parameters
             HttpSession session = req.getSession();
 
+            String oldCpf = req.getParameter("oldCpf");
             String paramCpf = req.getParameter("cpf");
             String paramName = req.getParameter("name");
             String paramRole = req.getParameter("role");
@@ -30,6 +31,7 @@ public class Update extends HttpServlet {
             String paramPassword = req.getParameter("loginPassword");
             String paramPlantCnpj = (String) session.getAttribute("plantCnpj");
 
+            if(oldCpf == null || oldCpf.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'oldCpf'");
             if(paramCpf == null || paramCpf.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");
             if(paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'name'");
             if(paramRole == null || paramRole.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'role'");
@@ -41,7 +43,8 @@ public class Update extends HttpServlet {
             // [PROCESS] Hash password, create Worker object and update worker
             String hashedPassword = AuthService.hash(paramPassword);
 
-            Worker workerFromDb = WorkerDAO.selectByCpf(paramCpf);
+            Worker workerFromDb = WorkerDAO.selectByCpf(oldCpf);
+            workerFromDb.setCpf(paramCpf);
             workerFromDb.setLoginEmail(paramLoginEmail);
             workerFromDb.setName(paramName);
             workerFromDb.setRole(paramRole);
@@ -49,7 +52,7 @@ public class Update extends HttpServlet {
             workerFromDb.setSector(paramSector);
 
             // [DATA ACCESS] Attempt to update worker in database
-            boolean updated = WorkerDAO.update(workerFromDb);
+            boolean updated = WorkerDAO.update(workerFromDb, oldCpf);
             if(updated) {
                 // [SUCCESS LOG] Worker updated successfully
                 System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker updated: " + paramCpf);

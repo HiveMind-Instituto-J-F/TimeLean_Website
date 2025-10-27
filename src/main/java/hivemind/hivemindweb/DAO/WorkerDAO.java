@@ -24,6 +24,7 @@ public class WorkerDAO {
 
             while (rs.next()) {
                 Worker worker = new Worker(
+                        rs.getInt("id"),
                         rs.getString("cpf"),
                         rs.getString("role"),
                         rs.getString("sector"),
@@ -53,6 +54,7 @@ public class WorkerDAO {
 
             if (rs.next()) {
                 return new Worker(
+                        rs.getInt("id"),
                         rs.getString("cpf"),
                         rs.getString("role"),
                         rs.getString("sector"),
@@ -92,11 +94,12 @@ public class WorkerDAO {
         return false;
     }
 
-    public static boolean update(Worker worker) {
+    public static boolean update(Worker worker, String oldCpf) {
         DBConnection db = new DBConnection();
         String sql = """
             UPDATE worker
-               SET role = ?,
+               SET cpf = ?,
+                   role = ?,
                    sector = ?,
                    name = ?,
                    login_email = ?,
@@ -108,13 +111,14 @@ public class WorkerDAO {
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
 
-            pstm.setString(1, worker.getRole());
-            pstm.setString(2, worker.getSector());
-            pstm.setString(3, worker.getName());
-            pstm.setString(4, worker.getLoginEmail());
-            pstm.setString(5, worker.getLoginPassword());
-            pstm.setString(6, worker.getCnpjPlant());
-            pstm.setString(7, worker.getCpf());
+            pstm.setString(1, worker.getCpf());
+            pstm.setString(2, worker.getRole());
+            pstm.setString(3, worker.getSector());
+            pstm.setString(4, worker.getName());
+            pstm.setString(5, worker.getLoginEmail());
+            pstm.setString(6, worker.getLoginPassword());
+            pstm.setString(7, worker.getCnpjPlant());
+            pstm.setString(8, oldCpf);
 
             return pstm.executeUpdate() > 0;
 
@@ -163,6 +167,7 @@ public class WorkerDAO {
 
             while (rs.next()) {
                 Worker worker = new Worker(
+                        rs.getInt("id"),
                         rs.getString("cpf"),
                         rs.getString("role"),
                         rs.getString("sector"),

@@ -47,6 +47,7 @@ Worker worker = (Worker) request.getAttribute("worker");
             <label for="loginPassword">Senha:</label>
             <input type="password" id="loginPassword" name="loginPassword" placeholder="Apenas digite se for mudar a senha"><br><br>
 
+            <input type="hidden" name="oldCpf" value="${worker.cpf}" />
             <input type="submit" value="Cadastrar">
         </form>
     </body>
