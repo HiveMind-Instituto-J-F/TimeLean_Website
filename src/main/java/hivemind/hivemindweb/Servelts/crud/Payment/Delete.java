@@ -39,7 +39,7 @@ public class Delete extends HttpServlet {
                     // [FAILURE LOG] Payment already paid
                     System.err.println("[ERROR] Attempt to delete an already paid payment, id: " + id);
                     req.setAttribute("errorMessage", "Pagamento não pode ser deletado porque já foi pago.");
-                    req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/html/crud/payment/delete.jsp").forward(req, resp);
                     return;
                 }
             } catch (NullPointerException npe) {
@@ -58,7 +58,7 @@ public class Delete extends HttpServlet {
             // [FAILURE LOG] Invalid input
             System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
-            req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/crud/payment/delete.jsp").forward(req, resp);
 
         } catch (NullPointerException npe){
             // [FAILURE LOG] Null values
