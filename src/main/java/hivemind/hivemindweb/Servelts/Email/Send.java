@@ -43,16 +43,16 @@ public class Send extends HttpServlet{
             if (Email.SendEmail("", subject, msg)) {
                 System.out.println("[INFO] Email sent successfully");
                 req.setAttribute("msg", "Email sent successfully!");
-                req.getRequestDispatcher("/html/Email/send.jsp").forward(req, resp);
+                req.getRequestDispatcher("/html/email/send.jsp").forward(req, resp);
                 return;
             }
 
             req.setAttribute("msg", "Email not sent successfully!");
-            req.getRequestDispatcher("/html/Email/send.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/email/send.jsp").forward(req, resp);
         }catch(IllegalArgumentException se){
             System.err.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
             req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("/html/Email/send.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/email/send.jsp").forward(req, resp);
         }
     }
     

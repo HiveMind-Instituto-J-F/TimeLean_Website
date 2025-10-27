@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
                 cookie.setAttribute("SameSite", "None");
                 resp.addCookie(cookie);
 
-                System.out.println("[INFO] Login Successful - Sessão salva no Redis: " + sessionKey);
+                System.out.println("[INFO] Login Successful");
                 req.getRequestDispatcher("/html/crud/toUser.html").forward(req, resp);
             } else {
                 session.setAttribute("login", false);
