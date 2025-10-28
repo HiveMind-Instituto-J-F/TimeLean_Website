@@ -37,7 +37,7 @@ public class WorkerDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in select: " + e.getMessage());
+            System.err.println("[ERROR] Failed in select: " + e.getMessage());
         }
 
         return workersList;
@@ -66,7 +66,7 @@ public class WorkerDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in selectByCpf: " + e.getMessage());
+            System.err.println("[ERROR] Failed in selectByCpf: " + e.getMessage());
         }
         return null;
     }
@@ -89,7 +89,7 @@ public class WorkerDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in insert: " + e.getMessage());
+            System.err.println("[ERROR] Failed in insert: " + e.getMessage());
         }
         return false;
     }
@@ -123,7 +123,7 @@ public class WorkerDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in update: " + e.getMessage());
+            System.err.println("[ERROR] Failed in update: " + e.getMessage());
         }
         return false;
     }
@@ -137,7 +137,7 @@ public class WorkerDAO {
             pstmt.setString(1, cpf);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in delete: " + e.getMessage());
+            System.err.println("[ERROR] Failed in delete: " + e.getMessage());
         }
         return false;
     }
@@ -180,7 +180,7 @@ public class WorkerDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in select: " + e.getMessage());
+            System.err.println("[ERROR] Failed in select: " + e.getMessage());
         }
 
         return workersList;

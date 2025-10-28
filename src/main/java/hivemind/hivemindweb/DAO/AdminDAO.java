@@ -27,10 +27,9 @@ public class AdminDAO {
                     rs.getString("password")
                 );
                 adminsList.add(adminLocal);
-                System.out.println(adminLocal);
             }
          } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select " + e.getMessage() + "\n");
+            System.err.println("[ERROR] Falied in select " + e.getMessage() + "\n");
         }
         return adminsList;
     }
@@ -54,7 +53,7 @@ public class AdminDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in selectByEmail: " + e.getMessage());
+            System.err.println("[ERROR] Failed in selectByEmail: " + e.getMessage());
         }
 
         return null;

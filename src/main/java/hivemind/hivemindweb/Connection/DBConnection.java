@@ -17,7 +17,7 @@ public class DBConnection {
             String dbPassword = dotenv.get("db_password");
 
             if(dbUrl == null || dbUser == null || dbPassword == null){
-                System.out.println("[ERROR]: DB URL, DB USER, DB PASSWORD NULL");
+                System.err.println("[ERROR]: DB URL, DB USER, DB PASSWORD NULL");
                 return null;
             }
 
@@ -26,10 +26,10 @@ public class DBConnection {
             return con;
         }
         catch (SQLException sqle){
-            System.out.println("[ERROR] Erro Al Conetar: " + sqle.getMessage());
+            System.err.println("[ERROR] Erro Al Conetar: " + sqle.getMessage());
         }
         catch (ClassNotFoundException cnfe){
-            System.out.println("[ERROR] Error Class Not Found Exception: " + cnfe.getMessage());
+            System.err.println("[ERROR] Error Class Not Found Exception: " + cnfe.getMessage());
         }
     return con;
     }

@@ -21,7 +21,7 @@ public class CompanyDAO {
             pstm.setString(4, company.getRegistrantCpf());
             return pstm.executeUpdate() > 0;
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
         }
         return false;
     }
@@ -38,7 +38,7 @@ public class CompanyDAO {
             pstm.setString(4, company.getCNPJ());
             return pstm.executeUpdate() > 0;
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update" + sqle.getMessage());
+            System.err.println("[ERROR] Falied in update" + sqle.getMessage());
         }
         return false;
     }
@@ -79,7 +79,7 @@ public class CompanyDAO {
                 companysList.add(companyLocal);
             }
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Failed in select: " + sqle.getMessage());
+            System.err.println("[ERROR] Failed in select: " + sqle.getMessage());
         }
 
         System.out.println("[DEBUG] In select CompanyDAO, Companies found: " + companysList.size());
@@ -115,7 +115,7 @@ public class CompanyDAO {
             }
             // Handle SQL exceptions
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in select: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in select: " + sqle.getMessage());
         }
 
         // Debug log with the found company

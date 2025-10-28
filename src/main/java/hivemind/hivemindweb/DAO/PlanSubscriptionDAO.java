@@ -10,7 +10,6 @@ import java.util.List;
 
 import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.Services.Enums.FilterType;
-import hivemind.hivemindweb.models.Plan;
 import hivemind.hivemindweb.models.PlanSubscription;
 
 public class PlanSubscriptionDAO {
@@ -35,7 +34,7 @@ public class PlanSubscriptionDAO {
                 PlanSubscriptionList.add(planSubscriptionLocal);
             }
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select: " + e.getMessage());
+            System.err.println("[ERROR] Falied in select: " + e.getMessage());
         }
         return PlanSubscriptionList;
     }
@@ -62,7 +61,7 @@ public class PlanSubscriptionDAO {
                 return planSubscriptionLocal;
             }
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select: " + e.getMessage());
+            System.err.println("[ERROR] Falied in select: " + e.getMessage());
         }
 
         return null;
@@ -106,9 +105,9 @@ public class PlanSubscriptionDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in selectFilter: " + e.getMessage());
+            System.err.println("[ERROR] Failed in selectFilter: " + e.getMessage());
         } catch (NumberFormatException e) {
-            System.out.println("[ERROR] Invalid number format in filter: " + filter);
+            System.err.println("[ERROR] Invalid number format in filter: " + filter);
         }
 
         return planSubscriptionList;
@@ -136,7 +135,7 @@ public class PlanSubscriptionDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("[ERROR] Failed in select: " + e.getMessage());
+            System.err.println("[ERROR] Failed in select: " + e.getMessage());
         }
         return planSubscriptionList;
     }
@@ -174,7 +173,7 @@ public class PlanSubscriptionDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in update: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in update: " + sqle.getMessage());
         }
         return false;
     }
@@ -198,7 +197,7 @@ public class PlanSubscriptionDAO {
 
                 return psmt.executeUpdate() > 0;
             }catch (SQLException sqle) {
-                System.out.println("[ERROR] Falied in insert" + sqle.getMessage());
+                System.err.println("[ERROR] Falied in insert" + sqle.getMessage());
                 return false;
             }
         }
@@ -218,7 +217,7 @@ public class PlanSubscriptionDAO {
 
             return psmt.executeUpdate() > 0;
         }catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
             return false;
         }
     }

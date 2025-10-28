@@ -36,7 +36,7 @@ public class PlantDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.err.println("[ERROR] Falied in select" + e.getMessage());
         }
 
         return plantsList;
@@ -66,7 +66,7 @@ public class PlantDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.err.println("[ERROR] Falied in select" + e.getMessage());
         }
         return plantsList;
     }
@@ -93,7 +93,7 @@ public class PlantDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("[ERROR] Falied in select" + e.getMessage());
+            System.err.println("[ERROR] Falied in select" + e.getMessage());
         }
         return null;
     }
@@ -184,7 +184,7 @@ public class PlantDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in select" + sqle.getMessage());
+            System.err.println("[ERROR] Falied in select" + sqle.getMessage());
         }
         return false;
     }
@@ -198,7 +198,7 @@ public class PlantDAO {
             pstmt.setString(1, cnpj);
             return pstmt.executeUpdate() >= 0;
         }catch (SQLException sqle){
-            System.out.println("[ERROR] Falied in delete: " + sqle.getMessage());
+            System.err.println("[ERROR] Falied in delete: " + sqle.getMessage());
         }
         return false;
     }
@@ -222,7 +222,7 @@ public class PlantDAO {
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Failed in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] Failed in insert: " + sqle.getMessage());
         }
         return false;
     }
