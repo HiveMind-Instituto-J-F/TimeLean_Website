@@ -30,6 +30,9 @@ public class EmailService {
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.connectiontimeout", "8000");  // 8s for/ connect
+        props.put("mail.smtp.timeout", "8000");             // 8s for/ response
+        props.put("mail.smtp.writetimeout", "8000");        // 8s for/ send
     }
 
     public boolean SendEmail(String Sender , String Subject, String msg){
