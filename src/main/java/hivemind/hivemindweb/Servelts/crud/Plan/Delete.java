@@ -59,12 +59,6 @@ public class Delete extends HttpServlet {
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch (Exception e) {
-            // [FAILURE LOG] Handle unexpected exceptions
-            System.err.println("[ERROR] Unexpected exception occurred: " + e.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

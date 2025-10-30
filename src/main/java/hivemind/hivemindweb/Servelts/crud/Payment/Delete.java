@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Servelts.crud.Payment;
 
 import java.io.IOException;
+
 import hivemind.hivemindweb.DAO.PaymentDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -54,10 +55,10 @@ public class Delete extends HttpServlet {
             // [PROCESS] edirect to payment list
             resp.sendRedirect(req.getContextPath() + "/payment/read");
 
-        } catch (IllegalArgumentException iae) {
+        } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid input
-            System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
-            req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
+            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.getRequestDispatcher("/html/crud/payment/delete.jsp").forward(req, resp);
 
         } catch (NullPointerException npe){

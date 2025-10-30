@@ -1,5 +1,9 @@
 package hivemind.hivemindweb.Servelts.crud.Company;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.models.Company;
 import jakarta.servlet.ServletException;
@@ -7,11 +11,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.time.LocalDateTime;
 
 @WebServlet("/company/create")
 public class Create extends HttpServlet {
@@ -44,10 +43,10 @@ public class Create extends HttpServlet {
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to create company: " + paramCnpj);
             }
 
-        } catch (IllegalArgumentException iae) {
+        } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid input parameter
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + iae.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
@@ -57,12 +56,6 @@ public class Create extends HttpServlet {
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch (Exception e) {
-            // [FAILURE LOG] Unexpected exception
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
-            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }
