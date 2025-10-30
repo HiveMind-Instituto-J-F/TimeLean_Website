@@ -1,14 +1,5 @@
 @import url(variables.css);
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: min(2.5vh, 25px) 8vh;
-  position: sticky;
-  z-index: 1000;
-}
-
 .blur {
   background: transparent;
   backdrop-filter: blur(10px);
@@ -18,28 +9,55 @@ header {
   border: 0;
 }
 
-header>:first-child, header>:last-child {
-  width: clamp(110px, 8vw, 160px);
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 6vh;
+  padding: min(2.5vh, 25px) 8vh;
+  position: sticky;
+  z-index: 1000;
 }
 
-header>nav {
-  color: var(--black);
-  margin: 0 8vw;
+header>* {
+  height: 100%;
 }
 
-header>div {
+header #redirects {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: auto !important;
+  width: 30vw;
+  gap: 2vw;
 }
 
-header>div>:nth-child(1) {
-  margin-right: 5vw;
+#hamburguer-label img {
+  width: 5vh;
 }
 
-header>nav>a, footer>nav>a {
-  text-align: center;
+#menu {
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+#expanded {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  background-color: var(--polar);
+  color: var(--black);
+
+  z-index: 10001;
+}
+
+#hamburguer-input:checked ~ #expanded {
+  display: flex;
+  flex-direction: column;
 }
 
 /*
@@ -47,17 +65,34 @@ header>nav>a, footer>nav>a {
     max-width: 800px
 */
 
-/* .sidebar {
+#menu, #hamburguer-label, #hamburguer-input {
   display: none;
-} */
+}
 
-@media (max-width: 1000px) {
-  header nav, header>:last-child {
+@media (max-width: 800px) {
+  header #redirects {
     display: none;
   }
   
-  .sidebar {
+  #menu {
+    display: flex;
+  }
+
+  #hamburguer-label {
+    display: inline-flex;
+  }
+
+  #menu input {
+    display: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  header {
+    justify-content: flex-end;
+  }
+
+  header .branding {
     display: none;
-    background-color: var(--orange);
   }
 }

@@ -1,62 +1,99 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="hivemind.hivemindweb.models.Plant" %>
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Modify Plant</title>
-</head>
-<body>
 <%
+    // Controle de login
     Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
     if (isLogged == null || !isLogged) {
         response.sendRedirect(request.getContextPath() + "/html/login.jsp");
         return;
     }
+
+    // Recupera objeto plant
+    Plant plant = (Plant) request.getAttribute("plant");
 %>
-<header>
-    <h1>Modify Industrial Plant</h1>
-</header>
 
-<main>
-    <%
-        Plant plant = (Plant) request.getAttribute("plant");
-        if (plant != null) {
-    %>
-    <form action="${pageContext.request.contextPath}/plant/update" method="post">
-        <label for="cnpj">CNPJ:</label>
-        <input type="text" id="cnpj" name="CNPJ" value="<%= plant.getCNPJ() %>" readonly><br>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/text.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/crud/form.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/icons/favicon/home-v2.png" type="image/x-icon">
+    <title>Modificar Planta — TIMELEAN</title>
+</head>
 
-        <label for="cnae">CNAE:</label>
-        <input type="text" id="cnae" name="CNAE" value="<%= plant.getCNAE() %>"><br>
+<body>
 
-        <label for="responsibleCpf">Responsible CPF:</label>
-        <input type="text" id="responsibleCpf" name="RESPONSIBLE_CPF" value="<%= plant.getResponsibleCpf() %>"><br>
+<div class="form">
+    <div>
+        <div class="block"></div>
+        <h1 class="inter-bold">Modificar Planta</h1>
+    </div>
 
-        <label for="status">Operational Status:</label>
-        <select id="status" name="OPERATIONAL_STATUS">
-            <option value="true" <%= plant.getOperationalStatus() ? "selected" : "" %>>Active</option>
-            <option value="false" <%= !plant.getOperationalStatus() ? "selected" : "" %>>Inactive</option>
-        </select><br>
+    <% if (plant != null) { %>
+        <form class="inter-thin" action="${pageContext.request.contextPath}/plant/update" method="post">
 
-        <label for="cep">Address CEP:</label>
-        <input type="text" id="cep" name="ADDRESS_CEP" value="<%= plant.getAdressCep() %>"><br>
+            <div>
+                <h3 class="inter-medium">Informações da planta</h3>
 
-        <label for="number">Address Number:</label>
-        <input type="number" id="number" name="ADDRESS_NUMBER" value="<%= plant.getAdressNumber() %>"><br>
+                <div class="input-div">
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" id="cnpj" name="CNPJ"
+                           value="<%= (plant.getCNPJ() != null) ? plant.getCNPJ() : "" %>" readonly>
+                </div>
 
-        <label for="companyCnpj">Company CNPJ:</label>
-        <input type="text" id="companyCnpj" name="CNPJ_COMPANY" value="<%= plant.getCnpjCompany() %>" readonly><br>
+                <div class="input-div">
+                    <label for="cnae">CNAE</label>
+                    <input type="text" id="cnae" name="CNAE"
+                           value="<%= (plant.getCNAE() != null) ? plant.getCNAE() : "" %>"
+                           required pattern="^[0-9]{7}$">
+                </div>
 
-        <input type="submit" value="Save Changes">
-    </form>
-    <%
-    } else {
-    %>
-    <p>Plant not found.</p>
-    <%
-        }
-    %>
-</main>
+                <div class="input-div">
+                    <label for="responsibleCpf">CPF do responsável</label>
+                    <input type="text" id="responsibleCpf" name="RESPONSIBLE_CPF"
+                           value="<%= (plant.getResponsibleCpf() != null) ? plant.getResponsibleCpf() : "" %>"
+                           required pattern="^[0-9]{11}$">
+                </div>
+
+                <div class="input-div">
+                    <label for="companyCnpj">CNPJ da empresa proprietária</label>
+                    <input type="text" id="companyCnpj" name="CNPJ_COMPANY"
+                           value="<%= (plant.getCnpjCompany() != null) ? plant.getCnpjCompany() : "" %>" readonly>
+                </div>
+
+                <div class="input-div">
+                    <label for="number">Número do endereço</label>
+                    <input type="number" id="number" name="ADDRESS_NUMBER"
+                           value="<%= (plant.getAdressNumber() != null) ? plant.getAdressNumber() : "" %>">
+                </div>
+
+                <div class="input-div">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" name="ADDRESS_CEP"
+                           value="<%= (plant.getAdressCep() != null) ? plant.getAdressCep() : "" %>">
+                </div>
+
+                <div class="input-div">
+                    <label for="status">Status operacional</label>
+                    <select id="status" name="OPERATIONAL_STATUS">
+                        <option value="true" <%= (plant.getOperationalStatus()) ? "selected" : "" %>>Ativa</option>
+                        <option value="false" <%= (!plant.getOperationalStatus()) ? "selected" : "" %>>Inativa</option>
+                    </select>
+                </div>
+            </div>
+
+            <input class="button submit inter" type="submit" value="Salvar Alterações">
+        </form>
+
+    <% } else { %>
+        <p class="inter-medium" style="color:red;">Planta não encontrada.</p>
+    <% } %>
+</div>
+
 </body>
 </html>

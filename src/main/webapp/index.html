@@ -4,19 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
+    <!-- Imports Genéricos ↓ -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/text.css">
+
+    <!-- favicon, icones e animações ↓ -->
     <link rel="shortcut icon" href="img/icons/favicon/home-v2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <title>Home — TIMELEAN</title>
 
+    <!-- Imports da página ↓ -->
     <link rel="stylesheet" href="css/land/hero.css">
     <link rel="stylesheet" href="css/land/cta.css">
-    <link rel="stylesheet" href="css/land/ctaf.css">
     <link rel="stylesheet" href="css/land/features.css">
-    <link rel="stylesheet" href="css/land/faq.css">
+    <link rel="stylesheet" href="css/land/functions.css">
     <link rel="stylesheet" href="css/land/ods.css">
     <link rel="stylesheet" href="css/land/target.css">
 </head>
@@ -24,205 +30,254 @@
 <body>
     <div id="background-img">
         <header class="blur">
-            <a href="#background-img" class="branding">
+            <a href="#" class="branding">
                 <img src="img/icons/branding/TIMELEAN (black).png" alt="TIMELEAN">
             </a>
-            
-            <div>
+
+            <div id="redirects">
                 <nav class="inter navbar">
-                    <a href="html/login.html">Home</a>
-                    <a href="" target="_blank">Quem somos</a>
-                    <a href="" target="_blank">FAQ</a>
+                    <a href="#">Home</a>
+                    <a href="">Quem somos</a>
                     <a href="html/crud/worker/login/login.jsp">Gestão de trabalhadores</a>
                 </nav>
-                <a href="html/contact.html" target="_blank" class="button contact inter">Entrar em contato</a>
+            </div>
+
+            <div id="menu">
+                <label id="hamburguer-label" for="hamburguer-input"><img
+                        src="img/icons/ui/hamburguer (black).png"></label>
+                <input name="hamburguer-input" id="hamburguer-input" type="checkbox">
+
+                <aside id="land-sidebar" class="sidebar inter-thin">
+                    <div id="summary">
+                        <details>
+                            <summary class="topic-title">
+                                <h3 class="inter-hard">Home</h3>
+                                <i class="seta fa-solid fa-caret-right"></i>
+                            </summary>
+
+                            <ul>
+                                <li><a href="#features">Funcionalidade</a></li>
+                                <li><a href="#compatibility-wrap">Compatibilidade Industrial</a></li>
+                                <li><a href="#suport-wrap">Suporte em abrangência</a></li>
+                                <li><a href="#ods">Agenda 2030</a></li>
+                            </ul>
+                        </details>
+
+                        <a href="">
+                            <h3>Sobre nós</h3>
+                        </a>
+                        <a href="html/email/send.jsp" target="_blank">
+                            <h3>Entrar em contato</h3>
+                        </a>
+                    </div>
+                </aside>
             </div>
         </header>
 
-<<<<<<< HEAD
-        <!-- Botão do <aside> -->
-        <button class="sidebar">
-            <img src="img/icons/ui/hamburguer.png" alt="Abrir menu">
-        </button>
-        
-        <aside>
-            <!-- Botão de close do <aside> -->
-            <button class="sidebar">
-                <img src="img/icons/ui/hamburguer.png" alt="Abrir menu">
-            </button>
-            
-            <a href="" id="timelean">
-                <img src="img/icons/branding/TIMELEAN.png" alt="TIMELEAN">
-            </a>
-    
-            <nav class="inter float">
-                <a href="html/login.jsp">Home</a>
-                <a href="" target="_blank">Quem somos</a>
-                <a href="" target="_blank"></a>
-                <a href="" target="_blank">FAQ</a>
-            </nav>
-            <a href="" target="_blank" class="button contact inter">Entrar em contato</a>
-
-=======
-        <aside class="sidebar">
-            <img src="img/icons/branding/TIMELEAN (black).png" alt="TIMELEAN">
->>>>>>> 27f05bbfde5778f81e88d70aa5b6436e446639ef
-            <a href="html/login.html">Home</a>
-            <a href="" target="_blank">Quem somos</a>
-            <a href="" target="_blank">FAQ</a>
-        </aside>
-        
         <div id="hero">
             <div class="container">
-                <h1 class="inter-bold">Eficiência industrial.<br>Otimização de máquinas.<br>Logística de registros.</h1>
-                <p class="inter-thin" id="unset">Tudo em um aplicativo só. Máquinas otimizadas, registros impecáveis e
+                <h1 data-aos="fade-up" class="inter-bold">Eficiência industrial.<br>Otimização de máquinas.<br>Logística
+                    de registros.</h1>
+                <p data-aos="fade-up" data-aos-delay="200" class="inter-thin" id="unset">Tudo em um aplicativo só.
+                    Máquinas otimizadas, registros impecáveis e
                     sua logística sob controle.</p>
+            </div>
+            <div>
+                <p class="inter-thin" data-aos="fade-up" data-aos-delay="500">Não oferecemos atalhos.</p>
+                <h3 class="inter-medium" data-aos="fade-up" data-aos-delay="600">Entregamos eficiência.</h3>
+            </div>
+            <a data-aos="fade-up" data-aos-delay="800" href="html/email/send.jsp" target="_blank" class="button contact inter">Entrar em
+                contato</a>
+        </div>
+    </div>
+
+    <main id="land" data-aos="fade-down">
+        <div id="features">
+            <div class="title">
+                <div class="block" data-aos="fade-up"></div>
+                <h1 class="inter-bold" data-aos="fade-up" data-aos-delay="200">Nossas funcionalidades</h1>
+                <p class="inter-thin" data-aos="fade-up" data-aos-delay="300">Com amplo foco no setor industrial,
+                    possuimos diferenciais acertivos
+                    possibilitando pequenas industrias ascenderem no mercado sem a necessidade de grandes investimentos.
+                </p>
+            </div>
+
+            <div class="major" id="features-wrap">
+                <section id="carousel">
+                    <div id="slides-wrap">
+                        <div class="slide inner" data-aos="fade-up" data-aos-delay="800">
+                            <img class="box" src="img/icons/demo/home-settings.png" alt="configurações icon">
+                            <h2 class="inter-bold">Gerência de máquinas</h2>
+                            <p class="inter-thin">Controle de cadastro, centralizando todas as máquinas em uma só tela,
+                                viabilizando e facilitando o transporte de informações</p>
+                        </div>
+                        <div class="slide inner" data-aos="fade-up" data-aos-delay="1100">
+                            <img class="box" src="img/icons/demo/clipboard.png" alt="prancheta icon">
+                            <h2 class="inter-bold">Registro de microparadas</h2>
+                            <p class="inter-thin">Ferramenta principal de nosso software, auxiliando na anotação de
+                                microparadas e relatórios de sua abrangência</p>
+                        </div>
+                        <div class="slide inner" data-aos="fade-up" data-aos-delay="1400">
+                            <img class="box" src="img/icons/demo/wifi.png" alt="wifi icon">
+                            <h2 class="inter-bold">Suporte half-offline</h2>
+                            <p class="inter-thin">Possibilidade de uso da aplicação em pontos sem acesso a internet,
+                                otimizando tempo gasto com conexões online</p>
+                        </div>
+                        <div class="slide inner" data-aos="fade-up" data-aos-delay="1700">
+                            <img class="box" src="img/icons/demo/bolt (orange).png" alt="eletricidade icon">
+                            <h2 class="inter-bold">Independência de ERPS</h2>
+                            <p class="inter-thin">Aplicação sem dependências com sistemas legados, viabilizando o uso da
+                                aplicação em estruturas menores</p>
+                        </div>
+                        <div class="slide inner" data-aos="fade-up" data-aos-delay="1500">
+                            <img class="box" src="img/icons/demo/calendar.png" alt="agenda icon">
+                            <h2 class="inter-bold">Histórico de relatórios</h2>
+                            <p class="inter-thin">Registro fácil e acessível a todos os relátorios em processo e em
+                                conclusão, viabilizando a manipulação dos dados como um todo</p>
+                        </div>
+                        <div class="slide inner" data-aos="fade-up" data-aos-delay="1800">
+                            <img class="box" src="img/icons/demo/chart.png" alt="gráfico icon">
+                            <h2 class="inter-bold">Plano de desenvolvimento</h2>
+                            <p class="inter-thin">Acesso a um plano de desenvolvimento e melhorias, impulsionando uma
+                                otimizaçãoconstante e linear nos maquinários.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="defs-wrap" class="major">
+                <div id="defs" data-aos="fade-up" data-aos-offset="300">
+                    <section class="inner">
+                        <div data-aos="fade-up" data-aos-offset="300">
+                            <img class="box" src="img/icons/demo/pencil.png" alt="Edição de arquivos">
+                            <div>
+                                <h3 class="inter-bold">Manipulação de arquivos</h3>
+                                <p class="inter-thin">Fácil manipulação de documentos e arquivos após o preenchimento.
+                                </p>
+                            </div>
+                        </div>
+                        <div data-aos="fade-up" data-aos-offset="400">
+                            <img class="box" src="img/icons/demo/calendar.png" alt="Agenda de manutenções">
+                            <div>
+                                <h3 class="inter-bold">Agenda de manutenções</h3>
+                                <p class="inter-thin">Possibilidade de agendar e concluir manutenções.</p>
+                            </div>
+                        </div>
+                        <div data-aos="fade-up" data-aos-offset="450">
+                            <img class="box" src="img/icons/demo/spreadsheet.png" alt="Inserção de relatórios">
+                            <div>
+                                <h3 class="inter-bold">Inserção de relatórios</h3>
+                                <p class="inter-thin">Aplicabilidade de comentários e inserções de arquivos em
+                                    documentos.</p>
+                            </div>
+                        </div>
+                        <div data-aos="fade-up" data-aos-offset="500">
+                            <img class="box" src="img/icons/demo/layers.png" alt="Histórico geral">
+                            <div>
+                                <h3 class="inter-bold">Histórico geral</h3>
+                                <p class="inter-thin">Armazenamento do histórico de todos os relatórios passados.</p>
+                            </div>
+                        </div>
+                    </section>
+
                 </div>
-                <div>
-                    <p class="inter-thin">Não oferecemos atalhos.</p>
-                    <h3 class="inter-medium">Entregamos eficiência.</h3>
             </div>
-            <a href="" target="_blank" class="button contact inter">Entrar em contato</a>
-        </div>
-    </div>
-
-    <div id="cta">
-        <div class="major">
-            <div>
-                <h1 class="inter-bold small">Sua gestão industrial independete de ERPS</h1>
-                    <p class="inter-thin">Com foco operacional total no auxílio de cargos que abrangem a manipulação e observação de maquinários, em vertentes como manipulação de registros, trânsito de arquivos e comunicações de nossas funções atendidas.</p>
-            </div>
-            <div>
-                <h3 class="inter-hard">Apresentamos, o Timelean</h3>
-                <p class="inter-thin">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            </div>
-            <a class="button contact inter">Adquira nossos serviços</a>
         </div>
 
-        <img src="img/assets/pictures/manutencista.png" alt="Mockup">
-    </div>
+        <div id="target">
+            <div id="compatibility-wrap" class="major">
+                <div id="flow-showcase" data-aos="fade-up" data-aos-delay="300">
+                    <img class="card" src="img/assets/showcase/screen-calendar.png">
+                    <img class="card" src="img/assets/showcase/screen-maintenance.png">
+                    <img class="card" src="img/assets/showcase/screen-warning.png">
+                    <img class="card" src="img/assets/showcase/screen-confirmation.png">
+                </div>
+                <div class="title">
+                    <div class="block" data-aos="fade-up" data-aos-delay="500"></div>
+                    <h1 class="inter-bold" data-aos="fade-up" data-aos-delay="800">Compatibilidade industrial</h1>
+                    <p class="inter-thin" data-aos="fade-up" data-aos-delay="900">Funções pensadas diretamente na
+                        compatibilidade com o piso industrial,
+                        viabilizadas e organizadas da melhor forma possível para o fácil manejo de todas as classes
+                        etárias durante o trabalho na fábrica.</p>
+                </div>
+            </div>
 
-    <div id="features">
-        <section>
-            <div class="box">
-                <img src="img/icons/demo/home-settings.png" alt="configurações icon">
-                <h2 class="inter-bold">Gerência de máquinas</h2>
-                <p class="inter-thin">Controle de cadastro, centralizando todas as máquinas em uma só tela, viabilizando e facilitando o transporte de informações</p>
-            </div>
-            <div class="box">
-                <img src="img/icons/demo/clipboard.png" alt="prancheta icon">
-                <h2 class="inter-bold">Registro de microparadas</h2>
-                <p class="inter-thin">Ferramenta principal de nosso software, auxiliando na anotação de microparadas e relatórios de sua abrangência</p>
-            </div>
-            <div class="box">
-                <img src="img/icons/demo/wifi.png" alt="wifi icon">
-                <h2 class="inter-bold">Suporte half-offline</h2>
-                <p class="inter-thin">Possibilidade de uso da aplicação em pontos sem acesso a internet, otimizando tempo gasto com conexões online</p>
-            </div>
-        </section>
+            <div id="suport-wrap" class="major">
+                <div class="title">
+                    <div class="block" data-aos="fade-up" data-aos-delay="300"></div>
+                    <h1 class="inter-bold" data-aos="fade-up" data-aos-delay="500">Suporte em abrangência</h1>
+                </div>
 
-        <section>
-            <div class="box">
-                <img src="img/icons/demo/bolt (orange).png" alt="eletricidade icon">
-                <h2 class="inter-bold">Independência de ERPS</h2>
-                <p class="inter-thin">Aplicação sem dependências com sistemas legados, viabilizando o uso da aplicação em estruturas menores e oferecendo serviços sem mudanças bruscas na logística da empresa</p>
-            </div>
-            <div class="box">
-                <img src="img/icons/demo/calendar.png" alt="agenda icon">
-                <h2 class="inter-bold">Histórico de relatórios</h2>
-                <p class="inter-thin">Registro fácil e acessível a todos os relátorios em processo e em conclusão, viabilizando a manipulação dos dados como um todo</p>
-            </div>
-            <div class="box">
-                <img src="img/icons/demo/chart.png" alt="gráfico icon">
-                <h2 class="inter-bold">Plano de desenvolvimento</h2>
-                <p class="inter-thin">Acesso a um plano de desenvolvimento e melhorias, impulsionando uma otimização constante e linear nos maquinários.</p>
-            </div>
-        </section>
-    </div>
+                <div id="slides-target">
+                    <div class="slide inner" data-aos="fade-up" data-aos-delay="600">
+                        <img class="box" src="img/icons/demo/money.png">
+                        <h2 class="inter-bold">Analistas de processos</h2>
+                        <p class="inter-thin">Fácil análise e transporte de dados por meio de registros e anotações.
+                            Conta também com um dashboard interativo pensado no auxílio de profissionais.</p>
+                    </div>
 
-    <div id="target">
-        <div>
-            <div class="block"></div>
-            <h1 class="inter-bold">Atendimentos de nossos serviços</h1>
-            <p class="inter-thin">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                has been the industry's standard dummy text.</p>
-        </div>
-        <div class="pictures">
-            <img src="img/assets/pictures/operario.jpg" alt="Operário manuseando maquinário">
-            <img src="img/assets/pictures/coordenador.png" alt="Coordenador de melhoria">
-            <img src="img/assets/pictures/manutencista.png" alt="Manutencista em ação">
-        </div>
-    </div>
+                    <div class="slide inner" data-aos="fade-up" data-aos-delay="900">
+                        <img class="box" src="img/icons/demo/document.png">
+                        <h2 class="inter-bold">Supervisores de produção</h2>
+                        <p class="inter-thin">Fluxo e composição de telas pensado diretamente no auxílio das anotações
+                            de um supervisor de produção, permitindo a fácil manipulação de registros e alterações mesmo
+                            após o envio.</p>
+                    </div>
 
-    <div id="ods">
-        <div>
-            <div class="block "></div>
-            <h1 class="inter-bold">Agenda 2030</h1>
-            <p class="inter-thin">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus molestias aliquid ut<br>architecto laboriosam voluptatum temporibus eveniet, incidunt quis amet.</p>
+                    <div class="slide inner" data-aos="fade-up" data-aos-delay="1200">
+                        <img class="box" src="img/icons/demo/wrench.png">
+                        <h2 class="inter-bold">Manutencistas industriais</h2>
+                        <p class="inter-thin">Contando com uma agenda de manutenções, possui funções específicas que
+                            permitem e viabilizam o rápido transporte de relatórios de manutencistas.</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <section>
-            <div class="ods" id="ods-7">
-                <img src="img/assets/ods/text-7.png" alt="missão 7">
-                <img src="img/assets/ods/symbol-7.png" alt="icone 7">
+        <div id="ods">
+            <div class="title">
+                <div class="block" data-aos="fade-up" data-aos-delay="300"></div>
+                <h1 class="inter-bold" data-aos="fade-up" data-aos-delay="500">Agenda 2030</h1>
+                <p class="inter-thin" data-aos="fade-up" data-aos-delay="600">Estamos alinhados à Agenda 2030 da ONU,
+                    onde através da tecnologia, impulsionamos
+                    uma indústria mais responsável, competitiva e conectada ao futuro.</p>
             </div>
-            <div class="ods" id="ods-8">
-                <img src="img/assets/ods/text-8.png" alt="missão 8">
-                <img src="img/assets/ods/symbol-8.png" alt="icone 8">
-            </div>
-            <div class="ods" id="ods-9">
-                <img src="img/assets/ods/text-9.png" alt="missão 9">
-                <img src="img/assets/ods/symbol-9.png" alt="icone 9">
-            </div>
-            <div class="ods" id="ods-12">
-                <img src="img/assets/ods/text-12.png" alt="missão 12">
-                <img src="img/assets/ods/symbol-12.png" alt="icone 12">
-            </div>
-        </section>
-    </div>
 
-    <div id="functions">
-        <div class="line">
-            <img src="img/icons/" alt="">
+            <section>
+                <a href="https://brasil.un.org/pt-br/sdgs/7" target="_blank" class="ods" id="ods-7" data-aos="fade-up"
+                    data-aos-delay="600">
+                    <img src="img/assets/ods/text-7.png" alt="missão 7">
+                    <img src="img/assets/ods/symbol-7.png" alt="icone 7">
+                </a>
+                <a href="https://brasil.un.org/pt-br/sdgs/8" target="_blank" class="ods" id="ods-8" data-aos="fade-up"
+                    data-aos-delay="800">
+                    <img src="img/assets/ods/text-8.png" alt="missão 8">
+                    <img src="img/assets/ods/symbol-8.png" alt="icone 8">
+                </a>
+                <a href="https://brasil.un.org/pt-br/sdgs/9" target="_blank" class="ods" id="ods-9" data-aos="fade-up"
+                    data-aos-delay="850">
+                    <img src="img/assets/ods/text-9.png" alt="missão 9">
+                    <img src="img/assets/ods/symbol-9.png" alt="icone 9">
+                </a>
+                <a href="https://brasil.un.org/pt-br/sdgs/12" target="_blank" class="ods" id="ods-12" data-aos="fade-up"
+                    data-aos-delay="900">
+                    <img src="img/assets/ods/text-12.png" alt="missão 12">
+                    <img src="img/assets/ods/symbol-12.png" alt="icone 12">
+                </a>
+            </section>
         </div>
-    </div>
-    
-    <div id="faq">
-        <div>
-            <h1 class="inter-bold">FAQs</h1>
-            <p class="inter-thin">Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br>Excepturi ab ea maxime.</p>
+
+        <div id="cta">
+            <div class="title">
+                <div class="block" data-aos="fade-up" data-aos-delay="100"></div>
+                <h1 class="inter-bold" data-aos="fade-up" data-aos-delay="300">Otimize sua indústria sem contratempos
+                </h1>
+                <h2 class="inter-medium" data-aos="fade-up" data-aos-delay="500">Economize tempo. Otimize processos.
+                    Utilize o Timelean.</h2>
+            </div>
+            <a class="button contact inter" href="html/email/send.jsp" target="_blank" data-aos="fade-up" data-aos-delay="1200">Adquira nossos serviços</a>
         </div>
-        <section class="inter">
-            <div>
-                <p class="inter-medium">Lorem, ipsum dolor.</p>
-                <button class="toggle inter">+</button>
-            </div>
-            <div>
-                <p class="inter-medium">Lorem, ipsum dolor.</p>
-                <button class="toggle inter">+</button>
-            </div>
-            <div>
-                <p class="inter-medium">Lorem, ipsum dolor.</p>
-                <button class="toggle inter">+</button>
-            </div>
-            <div>
-                <p class="inter-medium">Lorem, ipsum dolor.</p>
-                <button class="toggle inter">+</button>
-            </div>
-            <div>
-                <p class="inter-medium">Lorem, ipsum dolor.</p>
-                <button class="toggle inter">+</button>
-            </div>
-        </section>
-    </div>
-    
-    <div id="ctaf">
-        <div>
-            <h1 class="inter-bold">Otimize sua indústria sem contratempos</h1>
-            <h2 class="inter-medium">Economize tempo. Otimize processos. Utilize o Timelean.</h2>
-        </div>
-        <a class="button contact inter">Adquira nossos serviços</a>
-    </div>
+    </main>
 
     <footer class="inter-thin">
         <a href="html/login.jsp">
@@ -230,20 +285,26 @@
                 <img src="img/icons/branding/HIVEMIND (white).png" alt="HIVEMIND">
             </button>
         </a>
-
-        <nav class="float">
-                <a href="html/login.jsp">Home</a>
-                <a href="" target="_blank">Quem somos</a>
-                <a href="" target="_blank">FAQ</a>
+        <nav id="redirects" class="inter navbar">
+            <a href="" target="_blank">Quem somos</a>
+            <a href="html/login.html" target="">Home</a>
+            <a href="html/crud/worker/login/login.jsp">Gestão de trabalhadores</a>
         </nav>
-
         <nav class="medias">
             <a href=""><img src="img/icons/social/github.png" alt="github" class="icon"></a>
             <a href=""><img src="img/icons/social/whatsapp.png" alt="whatsapp" class="icon"></a>
             <a href=""><img src="img/icons/social/instagram.png" alt="instagram" class="icon"></a>
         </nav>
-        <p class="inter">&copy; Copyright 2025, Todos os direitos preservados</p>
+        <p id="copy-right" class="inter">&copy; Copyright 2025, Todos os direitos preservados</p>
     </footer>
 </body>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: false,
+    });
+</script>
 
 </html>

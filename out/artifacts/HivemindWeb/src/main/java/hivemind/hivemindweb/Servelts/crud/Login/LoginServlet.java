@@ -1,14 +1,20 @@
 package hivemind.hivemindweb.Servelts.crud.Login;
 
 import java.io.IOException;
+
 import javax.security.auth.login.LoginException;
 
 import hivemind.hivemindweb.AuthService.AuthService;
+import hivemind.hivemindweb.Connection.RedisManager;
 import hivemind.hivemindweb.models.Admin;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -62,8 +68,8 @@ public class LoginServlet extends HttpServlet {
                 cookie.setAttribute("SameSite", "None");
                 resp.addCookie(cookie);
 
-                System.out.println("[INFO] Login Successful - Sessão salva no Redis: " + sessionKey);
-                req.getRequestDispatcher("/html/crud/toUser.html").forward(req, resp);
+                System.out.println("[INFO] Login Successful");
+                req.getRequestDispatcher("/html/chooser.html").forward(req, resp);
             } else {
                 session.setAttribute("login", false);
                 throw new LoginException("Email ou senha incorretos.");

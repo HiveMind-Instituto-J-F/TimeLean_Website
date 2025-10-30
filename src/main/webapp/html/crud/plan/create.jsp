@@ -1,10 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Criar Plano</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/text.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/icons/favicon/home-v2.png" type="image/x-icon">
+    <title>Criar Plano — TIMELEAN</title>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/crud/form.css">
 </head>
+
 <body>
     <%
         Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
@@ -16,45 +24,40 @@
         String msg = (String) request.getAttribute("msg");
     %>
 
-    <div class="container">
-        <h1>Criar Plano</h1>
-        <p><%= (errorMsg != null) ? "Erro: " + errorMsg : (msg != null ? msg : "") %></p>
+    <div class="form">
+        <div>
+            <div class="block"></div>
+            <h1 class="inter-bold">Criar Plano</h1>
+        </div>
 
-        <form action="${pageContext.request.contextPath}/plan/create" method="post">
-            <div class="form-group">
-                <label for="name">Nome do Plano *</label>
-                <input type="text" id="name" name="name" placeholder="Ex: Plano Premium" required>
+        <form class="inter-thin" action="${pageContext.request.contextPath}/plan/create" method="post">
+            <div>
+                <h3 class="inter-medium">Informações do Plano</h3>
+
+                <div class="input-div">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" placeholder="Insira o nome do plano aqui" required>
+                </div>
+
+                <div class="input-div">
+                    <label for="description">Descrição</label>
+                    <input type="text" id="description" name="description" placeholder="Insira uma breve descrição do plano aqui"></input>
+                </div>
+
+                <div class="input-div">
+                    <label for="duration">Duração (em dias)</label>
+                    <input type="number" id="duration" name="duration" placeholder="Insira a duração do plano aqui" min="1" required>
+                </div>
+
+                <div class="input-div">
+                    <label for="price">Preço (R$)</label>
+                    <input type="text" id="price" name="price" placeholder="Insira o preço do plano aqui" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="description">Descrição *</label>
-                <textarea id="description" name="description" placeholder="Ex: Inclui todas as funcionalidades..." required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="duration">Duração (em dias) *</label>
-                <input type="number" id="duration" name="duration" placeholder="Ex: 30" min="1" required>
-            </div>
-            <div class="form-group">
-                <label for="price">Preço *</label>
-                <input type="text" id="price" name="price" placeholder="Ex: 99.99" required>
-            </div>
-            <button type="submit">Criar Plano</button>
+
+            <p><%= (errorMsg != null) ? "Erro: " + errorMsg : (msg != null ? msg : "") %></p>
+            <input class="button submit inter" type="submit" value="Criar">
         </form>
-
-        <%
-            String msg = (String) request.getAttribute("msg");
-            String error = (String) request.getAttribute("error");
-
-            if (msg != null && !msg.isEmpty()) {
-        %>
-            <div class="message success"><%= msg %></div>
-        <%
-            }
-            if (error != null && !error.isEmpty()) {
-        %>
-            <div class="message error"><%= error %></div>
-        <%
-            }
-        %>
     </div>
 </body>
 </html>

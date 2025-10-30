@@ -1,0 +1,63 @@
+@import url(variables.css);
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: min(2.5vh, 25px) 8vh;
+  position: sticky;
+  z-index: 1000;
+}
+
+.blur {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--weak-shadow);
+  border-radius: var(--border-medium);
+  border: 0;
+}
+
+header>:first-child, header>:last-child {
+  width: clamp(110px, 8vw, 160px);
+}
+
+header>nav {
+  color: var(--black);
+  margin: 0 8vw;
+}
+
+header>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto !important;
+}
+
+header>div>:nth-child(1) {
+  margin-right: 5vw;
+}
+
+header>nav>a, footer>nav>a {
+  text-align: center;
+}
+
+/*
+    Media Query ↓
+    max-width: 800px
+*/
+
+/* .sidebar {
+  display: none;
+} */
+
+@media (max-width: 1000px) {
+  header nav, header>:last-child {
+    display: none;
+  }
+  
+  .sidebar {
+    display: none;
+    background-color: var(--orange);
+  }
+}

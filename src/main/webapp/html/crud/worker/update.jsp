@@ -1,54 +1,82 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="hivemind.hivemindweb.models.Worker" %>
 
 <%
-Worker worker = (Worker) request.getAttribute("worker");
+    Worker worker = (Worker) request.getAttribute("worker");
 %>
 
+<!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../css/text.css">
-        <link rel="stylesheet" href="../css/others/login.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>TIMELEAN</title>
-        <link rel="shortcut icon" href="../img/favicon/home-v2.png" type="image/x-icon">
-    </head>
-    <body>
-    <%
-        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
-        if (isLogged == null || !isLogged) {
-            response.sendRedirect(request.getContextPath() + "/html/crud/worker/login/login.jsp");
-            return;
-        }
-    %>
-        <h1>Relacao WORKER</h1>
-        <h2>UPDATE WORKER</h2>
-        <form action="${pageContext.request.contextPath}/worker/update" method="post">
-            <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" name="cpf" value="<%= worker.getCpf() %>" required readonly><br><br>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/header.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/text.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/crud/form.css">
+    <link rel="shortcut icon" href="<%= request.getContextPath() %>/img/icons/favicon/home-v2.png" type="image/x-icon">
 
-            <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" value="<%= worker.getName() %>" required><br><br>
+    <title>Atualizar Funcionário — TIMELEAN</title>
+</head>
+<body>
+<%
+    boolean isLogged = session != null && session.getAttribute("plantCnpj") != null;
+    if (!isLogged) {
+        response.sendRedirect(request.getContextPath() + "/html/crud/worker/login/login.jsp");
+        return;
+    }
+%>
+<div class="form">
+    <div>
+        <div class="block"></div>
+        <h1 class="inter-bold">Atualizar Funcionário</h1>
+    </div>
 
-            <label for="role">Cargo:</label>
-            <input type="text" id="role" name="role" value="<%= worker.getRole() %>" required><br><br>
+    <% if (worker != null) { %>
+    <form class="inter-thin" action="<%= request.getContextPath() %>/worker/update" method="post">
+        <div>
+            <h3 class="inter-medium">Informações do Funcionário</h3>
 
-            <label for="sector">Setor:</label>
-            <input type="text" id="sector" name="sector" value="<%= worker.getSector() %>" required><br><br>
+            <div class="input-div">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" name="cpf" value="<%= worker.getCpf() %>" readonly required>
+            </div>
 
-            <label for="loginEmail">E-mail de login:</label>
-            <input type="email" id="loginEmail" name="loginEmail" value="<%= worker.getLoginEmail() %>" required><br><br>
+            <div class="input-div">
+                <label for="name">Nome</label>
+                <input type="text" id="name" name="name" value="<%= worker.getName() %>" required>
+            </div>
 
-            <label for="loginPassword">Senha:</label>
-            <input type="password" id="loginPassword" name="loginPassword" placeholder="Apenas digite se for mudar a senha"><br><br>
+            <div class="input-div">
+                <label for="role">Cargo</label>
+                <input type="text" id="role" name="role" value="<%= worker.getRole() %>" required>
+            </div>
 
-            <input type="hidden" name="oldCpf" value="${worker.cpf}" />
-            <input type="submit" value="Cadastrar">
-        </form>
-    </body>
+            <div class="input-div">
+                <label for="sector">Setor</label>
+                <input type="text" id="sector" name="sector" value="<%= worker.getSector() %>" required>
+            </div>
+
+            <div class="input-div">
+                <label for="loginEmail">E-mail de Login</label>
+                <input type="email" id="loginEmail" name="loginEmail" value="<%= worker.getLoginEmail() %>" required>
+            </div>
+
+            <div class="input-div">
+                <label for="loginPassword">Senha</label>
+                <input type="password" id="loginPassword" name="loginPassword" placeholder="Apenas digite se for mudar a senha">
+            </div>
+
+            <input type="hidden" name="oldCpf" value="<%= worker.getCpf() %>">
+        </div>
+
+        <input class="button submit inter" type="submit" value="Atualizar">
+    </form>
+    <% } else { %>
+        <p class="inter-medium" style="color:red;">Funcionário não encontrado.</p>
+    <% } %>
+</div>
+
+</body>
 </html>

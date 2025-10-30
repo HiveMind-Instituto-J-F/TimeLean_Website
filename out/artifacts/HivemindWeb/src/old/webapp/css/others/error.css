@@ -1,0 +1,28 @@
+@import url('../variables.css');
+
+body>* {
+    color: var(--black);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+div {
+    width: 40vw;
+    text-align: center;
+}
+
+div>:first-child, div>:nth-child(3) {
+    margin-bottom: 5%;
+}
+
+button {
+    width: 35%;
+    padding: 2% 0;
+}

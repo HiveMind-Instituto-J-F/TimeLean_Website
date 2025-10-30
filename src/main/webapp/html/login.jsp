@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,10 +28,10 @@
                 <p>Login</p>
                 <div>
                     <input name="email" type="email" placeholder="Ex: timelean@hotmail.com" required
-                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
+                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
                 </div>
             </div>
-            <div class="input-div">
+            <div class="input-div input-password">
                 <p>Senha</p>
                 <div>
                     <input name="password" class="password" type="password" placeholder="Insira sua senha aqui" required>
