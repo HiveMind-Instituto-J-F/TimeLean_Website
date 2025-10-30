@@ -9,32 +9,52 @@ Company company = (Company) request.getAttribute("company");
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TIMELEAN</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/text.css">
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/icons/favicon/home-v2.png" type="image/x-icon">
+        <title>Atualizar — TIMELEAN</title>
+        
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/crud/form.css">
     </head>
     <body>
-    <%
-        Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
-        if (isLogged == null || !isLogged) {
-            response.sendRedirect(request.getContextPath() + "/html/login.jsp");
-            return;
-        }
-    %>
-        <h1>Relação COMPANY</h1>
-        <h2>UPDATE COMPANY</h2>
-        <form action="${pageContext.request.contextPath}/company/update" method="post">
-            <label for="cnpj">CNPJ:</label>
-            <input type="text" id="cnpj" name="cnpj" value="<%= company.getCNPJ() %>" required readonly><br><br>
-
-            <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" value="<%= company.getName() %>" required><br><br>
-
-            <label for="cnae">CNAE:</label>
-            <input type="text" id="cnae" name="cnae" value="<%= company.getCnae() %>" required><br><br>
-
-            <label for="registrantCpf">CPF do Registrante:</label>
-            <input type="text" id="registrantCpf" name="registrantCpf" value="<%= company.getRegistrantCpf() %>" required readonly><br><br>
-
-            <input type="submit" value="Atualizar">
-        </form>
+        <%
+            Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
+            if (isLogged == null || !isLogged) {
+                response.sendRedirect(request.getContextPath() + "/html/login.jsp");
+                return;
+            }
+        %>
+        <div class="form">
+            <div>
+                <div class="block"></div>
+                <h1 class="inter-bold">Atualizar Informações</h1>
+            </div>
+        
+            <form class="inter-thin" action="${pageContext.request.contextPath}/company/update" method="post">
+                <div>
+                    <h3 class="inter-medium">Informações da empresa</h3>
+                    
+                    <div class="input-div">
+                        <label for="name">Nome da empresa</label>
+                        <input class="always-orange" type="text" id="name" name="name" value="<%= company.getName() %>" required>
+                    </div>
+                    <div class="input-div">
+                        <label for="cnpj">CNPJ da empresa</label>
+                        <input type="text" id="cnpj" name="cnpj" value="<%= company.getCNPJ() %>" readonly>
+                    </div>
+                    <div class="input-div">
+                        <label for="cnae">CNAE</label>
+                        <input type="text" id="cnae" name="cnae" value="<%= company.getCnae() %>" required
+                        pattern="^[0-9]{7}$">
+                    </div>
+                    <div class="input-div">
+                        <label for="registrantCpf">CPF do registrante</label>
+                        <input type="text" id="registrantCpf" name="registrantCpf" value="<%= company.getRegistrantCpf() %>" readonly>
+                    </div>
+                </div>
+                <input class="button submit inter" type="submit" value="Atualizar">
+            </form>
+        </div>
     </body>
 </html>

@@ -37,7 +37,6 @@ public class Update extends HttpServlet {
             if(paramRole == null || paramRole.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'role'");
             if(paramSector == null || paramSector.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'sector'");
             if(paramLoginEmail == null || paramLoginEmail.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'loginEmail'");
-            if(paramPassword == null || paramPassword.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'password'");
             if(paramPlantCnpj == null || paramPlantCnpj.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");
 
             // [PROCESS] Hash password, create Worker object and update worker
@@ -50,6 +49,8 @@ public class Update extends HttpServlet {
             workerFromDb.setRole(paramRole);
             workerFromDb.setLoginPassword(hashedPassword);
             workerFromDb.setSector(paramSector);
+
+            if(!(paramPassword == null || paramPassword.isEmpty())) workerFromDb.setLoginPassword(paramPassword);
 
             // [DATA ACCESS] Attempt to update worker in database
             boolean updated = WorkerDAO.update(workerFromDb, oldCpf);

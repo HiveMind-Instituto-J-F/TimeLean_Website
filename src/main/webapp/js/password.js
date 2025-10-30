@@ -1,4 +1,4 @@
-const input = document.getElementsByName('password')[0];
+const input = document.getElementsByName('password')[0] || document.getElementsByName('plant-responsible-login-password')[0];;
 const button = document.getElementsByName('toggle')[0];
 const open = document.getElementById('open');
 const closed = document.getElementById('closed');

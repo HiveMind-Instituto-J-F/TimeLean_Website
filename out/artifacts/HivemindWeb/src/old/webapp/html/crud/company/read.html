@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/header.css">
+    <link rel="stylesheet" href="../../../css/sidebar.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/text.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="shortcut icon" href="../../../img/icons/favicon/home-v2.png" type="image/x-icon">
+    <title>CRUD — TIMELEAN</title>
+
+    <link rel="stylesheet" href="../../../css/crud/base.css">
+    <link rel="stylesheet" href="../../../css/crud/table.css">
+    <link rel="stylesheet" href="../../../css/crud/read.css">
+</head>
+
+<body>
+    <!-- Wrap para o Background ↓ -->
+    <div id="background-img">
+        <header class="blur">
+            <a href="#background-img" class="branding">
+                <img src="../../../img/icons/branding/TIMELEAN (black).png" alt="TIMELEAN">
+            </a>
+
+            <div id="redirects">
+                <nav class="inter navbar">
+                    <a href="html/login.html">Home</a>
+                    <a href="" target="_blank">Quem somos</a>
+                    <a href="html/crud/worker/login/login.jsp">Gestão de trabalhadores</a>
+                </nav>
+            </div>
+        </header>
+
+        <div>
+            <h1 class="inter-bold">Olá, Administrador.</h1>
+            <h3 class="inter-medium">Bem vindo ao CRUD.</h3>
+        </div>
+    </div>
+
+    <main>
+        <!-- Barra lateral ↓ -->
+        <aside id="crud-sidebar" class="sidebar inter-thin">
+            <div id="sidebar-top">
+                <img class="branding" src="../../../img/icons/branding/HIVEMIND (white).png" alt="HIVEMIND">
+                <label for="hamburguer"><img src="../../../img/icons/ui/hamburguer (white).png" alt="Menu"></label>
+                <input name="hamburguer" id="hamburguer" type="checkbox" checked>
+            </div>
+
+            <div id="summary">
+                <details>
+                    <summary class="topic-title">
+                        <h3 class="inter-hard">CRUD</h3>
+                        <i class="seta fa-solid fa-caret-right"></i>
+                    </summary>
+
+                    <ul>
+                        <li><a href="">Pagamentos</a></li>
+                        <li><a href="">Planos</a></li>
+                        <li><a href="">Inserções de planos</a></li>
+                        <li><a href="">Empresas</a></li>
+                        <li><a href="">Plantas industriais</a></li>
+                    </ul>
+                </details>
+
+                <a href="">
+                    <h3>Home</h3>
+                </a>
+                <a href="">
+                    <h3>Entrar em contato</h3>
+                </a>
+            </div>
+        </aside>
+
+        <!-- CRUD ↓ -->
+        <section> <!-- Desabilitar o display -->
+            <div class="block"></div>
+            <h1 class="inter-bold">Empresas Cadastradas</h1>
+
+            <!-- Filtro e submit ↓ -->
+            <div id="filter-bar" class="inter">
+                <form action="${pageContext.request.contextPath}/payment/read" method="get">
+                    <div>
+                        <label for="idPlanSubscription">
+                            <img src="../../../img/icons/ui/search.png" alt="Buscar">
+                        </label>
+                        <input type="number" placeholder="Digite o ID do plano aqui" name="idPlanSubscription">
+                    </div>
+                    <div>
+                        <label for="status">
+                            <img src="../../../img/icons/ui/filter.png" alt="filtrar">
+                        </label>
+                        <select class="inter" id="status" name="status">
+                            <option value="">Nenhum filtro selecionado</option>
+                            <option value="">Apenas empresas ativas</option>
+                            <option value="">Apenas empresas inativas</option>
+                            <option value="">Apenas empresas com pagamentos pendentes</option>
+                        </select>
+                    </div>
+                    <button class="inter" type="submit">Submeter</button>
+                </form>
+                <div>
+                    <a class="inter" href="${pageContext.request.contextPath}/html/crud/payment/create.jsp">Cadastrar
+                        nova empresa</a>
+                </div>
+            </div>
+
+            <!-- Table ↓ -->
+            <div id="wrap">
+                <table>
+                    <!-- Theader ↓ -->
+                    <thead class="inter-hard">
+                        <tr>
+                            <th>CNPJ</th>
+                            <th>Nome</th>
+                            <th>CNAE</th>
+                            <th>Registrante</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <!-- Estrutura principal ↓ -->
+                    <tbody class="inter-thin">
+                        <tr>
+                            <td class="sensitive" data-real="91147087000180">******************</td>
+                            <td>TechMeat Processamentos</td>
+                            <td class="sensitive" data-real="1011201">*******</td>
+                            <td class="sensitive" data-real="15859985088">**************</td>
+                            <td>Ativa</td>
+                            <td>
+                                <div class="actions">
+                                    <form action="show">
+                                        <button type="button" class="see toggle-visibility">
+                                            <img class="eye open" src="../../../img/icons/ui/eye (open).png"
+                                                alt="Mostrar">
+                                            <img class="eye closed" src="../../../img/icons/ui/eye (closed).png"
+                                                alt="Ocultar">
+                                        </button>
+                                    </form>
+                                    <form class="create" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/pencil (black).png" alt="Editar">
+                                        </button>
+                                    </form>
+                                    <form class="delete" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/trash (black).png" alt="Deletar">
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="sensitive" data-real="91147087000180">******************</td>
+                            <td>TechMeat Processamentos</td>
+                            <td class="sensitive" data-real="1011201">*******</td>
+                            <td class="sensitive" data-real="15859985088">**************</td>
+                            <td>Ativa</td>
+                            <td>
+                                <div class="actions">
+                                    <form action="show">
+                                        <button type="button" class="see toggle-visibility">
+                                            <img class="eye open" src="../../../img/icons/ui/eye (open).png"
+                                                alt="Mostrar">
+                                            <img class="eye closed" src="../../../img/icons/ui/eye (closed).png"
+                                                alt="Ocultar">
+                                        </button>
+                                    </form>
+                                    <form class="create" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/pencil (black).png" alt="Editar">
+                                        </button>
+                                    </form>
+                                    <form class="delete" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/trash (black).png" alt="Deletar">
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sensitive" data-real="91147087000180">******************</td>
+                            <td>TechMeat Processamentos</td>
+                            <td class="sensitive" data-real="1011201">*******</td>
+                            <td class="sensitive" data-real="15859985088">**************</td>
+                            <td>Ativa</td>
+                            <td>
+                                <div class="actions">
+                                    <form action="show">
+                                        <button type="button" class="see toggle-visibility">
+                                            <img class="eye open" src="../../../img/icons/ui/eye (open).png"
+                                                alt="Mostrar">
+                                            <img class="eye closed" src="../../../img/icons/ui/eye (closed).png"
+                                                alt="Ocultar">
+                                        </button>
+                                    </form>
+                                    <form class="create" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/pencil (black).png" alt="Editar">
+                                        </button>
+                                    </form>
+                                    <form class="delete" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/trash (black).png" alt="Deletar">
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sensitive" data-real="91147087000180">******************</td>
+                            <td>TechMeat Processamentos</td>
+                            <td class="sensitive" data-real="1011201">*******</td>
+                            <td class="sensitive" data-real="15859985088">**************</td>
+                            <td>Ativa</td>
+                            <td>
+                                <div class="actions">
+                                    <form action="show">
+                                        <button type="button" class="see toggle-visibility">
+                                            <img class="eye open" src="../../../img/icons/ui/eye (open).png"
+                                                alt="Mostrar">
+                                            <img class="eye closed" src="../../../img/icons/ui/eye (closed).png"
+                                                alt="Ocultar">
+                                        </button>
+                                    </form>
+                                    <form class="create" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/pencil (black).png" alt="Editar">
+                                        </button>
+                                    </form>
+                                    <form class="delete" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/trash (black).png" alt="Deletar">
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sensitive" data-real="91147087000180">******************</td>
+                            <td>TechMeat Processamentos</td>
+                            <td class="sensitive" data-real="1011201">*******</td>
+                            <td class="sensitive" data-real="15859985088">**************</td>
+                            <td>Ativa</td>
+                            <td>
+                                <div class="actions">
+                                    <form action="show">
+                                        <button type="button" class="see toggle-visibility">
+                                            <img class="eye open" src="../../../img/icons/ui/eye (open).png"
+                                                alt="Mostrar">
+                                            <img class="eye closed" src="../../../img/icons/ui/eye (closed).png"
+                                                alt="Ocultar">
+                                        </button>
+                                    </form>
+                                    <form class="create" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/pencil (black).png" alt="Editar">
+                                        </button>
+                                    </form>
+                                    <form class="delete" action="">
+                                        <button type="submit">
+                                            <img src="../../../img/icons/ui/trash (black).png" alt="Deletar">
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="inter-thin">
+        <a href="html/login.jsp">
+            <button class="branding" id="hivemind">
+                <img src="../../../img/icons/branding/HIVEMIND (white).png" alt="HIVEMIND">
+            </button>
+        </a>
+        <nav id="redirects" class="inter navbar">
+            <a href="" target="_blank">Quem somos</a>
+            <a href="html/login.html" target="">Home</a>
+            <a href="html/crud/worker/login/login.jsp">Gestão de trabalhadores</a>
+        </nav>
+        <nav class="medias">
+            <a href=""><img src="../../../img/icons/social/github.png" alt="github" class="icon"></a>
+            <a href=""><img src="../../../img/icons/social/whatsapp.png" alt="whatsapp" class="icon"></a>
+            <a href=""><img src="../../../img/icons/social/instagram.png" alt="instagram" class="icon"></a>
+        </nav>
+        <p id="copy-right" class="inter">&copy; Copyright 2025, Todos os direitos preservados</p>
+    </footer>
+</body>
+
+<script src="../../../js/dataReal.js"></script>
+
+</html>

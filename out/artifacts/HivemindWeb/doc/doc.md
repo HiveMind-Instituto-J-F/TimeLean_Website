@@ -481,15 +481,6 @@ public class SessionExpiredException extends Exception {
     }
 }
 ```
-
-#### `InvalidForeignKeyException.java`
-
-Esta exceção é utilizada para indicar que uma operação no banco de dados falhou devido a uma violação de chave estrangeira. Isso ocorre quando há uma tentativa de inserir ou atualizar dados que fazem referência a um registro inexistente em outra tabela, ou de excluir um registro que ainda é referenciado por outros. Ajuda a manter a integridade referencial do banco de dados.
-
-#### `InvalidPrimaryKeyException.java`
-
-Lançada quando uma operação no banco de dados tenta violar a restrição de chave primária, como a inserção de um registro com um ID já existente. Esta exceção garante a unicidade dos registros identificados por suas chaves primárias.
-
 ## Testes
 
 No projeto, a abordagem de testes é fundamental para garantir a qualidade e a funcionalidade do código. Embora a documentação detalhada sobre testes ainda esteja em desenvolvimento, a presença de uma classe específica para ambiente de testes demonstra a preocupação com a validação do sistema.

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/text.css">
+    <link rel="shortcut icon" href="../img/icons/favicon/home-v2.png" type="image/x-icon">
+    <title>Jornada — TIMELEAN</title>
+
+    <link rel="stylesheet" href="../css/others/toUser.css">
+</head>
+
+<body id="background-universal">
+    <div>
+        <div class="block"></div>
+        <h1 class="inter-bold">Escolha uma Ação</h1>
+        <p class="inter-thin">Por favor, selecione uma das opções abaixo para prosseguir com a sua jornada.</p>
+    </div>
+
+    <div>
+        <a class="button inter" onclick="handleContinue()">ADMIN CRUD</a>
+        <a class="button inter" onclick="handleRedirect()">Company CRUD</a>
+    </div>
+
+    <script>
+        function handleContinue() {
+            // Redireciona para sua aplicação Java (Tomcat)
+            window.location.href = '/HivemindWeb_war/login';
+        }
+
+        function handleRedirect() {
+            // Redireciona para o React local
+            window.location.href = 'http://localhost:5173/';
+        }
+    </script>
+</body>
+
+</html>
