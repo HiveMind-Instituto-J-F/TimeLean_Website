@@ -28,7 +28,7 @@ public class CompanyDAO {
 
     public static boolean update(Company company) {
         DBConnection db = new DBConnection();
-        String sql = "UPDATE company SET name = ?, cnae = ?, registrant_cpf = ? WHERE cnpj = ?";
+        String sql = "UPDATE company SET name = ?, cnae = ?, registrant_cpf = ? , is_active=? WHERE cnpj = ?";
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
 
@@ -36,6 +36,7 @@ public class CompanyDAO {
             pstm.setString(2, company.getCnae());
             pstm.setString(3, company.getRegistrantCpf());
             pstm.setString(4, company.getCNPJ());
+            pstm.setBoolean(5, company.isActive());
             return pstm.executeUpdate() > 0;
         } catch (SQLException sqle) {
             System.err.println("[ERROR] Falied in update" + sqle.getMessage());

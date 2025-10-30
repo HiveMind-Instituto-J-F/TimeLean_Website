@@ -23,15 +23,22 @@ public class Login extends HttpServlet {
 
         // [VALIDATION] Get parameters
         String paramPlantCnpj = req.getParameter("plant-cnpj");
+        if(paramPlantCnpj == null || paramPlantCnpj.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'paramPlantCnpj'");}
+
         String paramResponsibleCpf = req.getParameter("plant-responsible-cpf");
+        if(paramResponsibleCpf == null || paramResponsibleCpf.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'paramResponsibleCpf'");}
+
         String paramResponsibleLoginEmail = req.getParameter("plant-responsible-login-email");
+        if(paramResponsibleLoginEmail == null || paramResponsibleLoginEmail.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'paramResponsibleLoginEmail'");}
+
         String paramResponsibleLoginPassword = req.getParameter("plant-responsible-login-password");
+        if(paramResponsibleLoginPassword == null || paramResponsibleLoginPassword.isEmpty()){throw new IllegalArgumentException("Values Is Null, paramResponsibleLoginPassword: 'paramResponsibleLoginEmail'");}
 
         try {
             // [DATA ACCESS] Validate plant
             Plant plant = PlantDAO.selectByPlantCnpj(paramPlantCnpj);
             if (plant == null) {
-                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Plant not found for CNPJ: " + paramPlantCnpj);
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Plant not found for CNPJ: " + paramPlantCnpj);
                 req.setAttribute("errorMessage", "Planta não encontrada.");
                 req.setAttribute("errorUrl", "/html/crud/worker/login/login.jsp");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -41,7 +48,7 @@ public class Login extends HttpServlet {
             // [DATA ACCESS] Validate worker
             Worker worker = WorkerDAO.selectByCpf(paramResponsibleCpf);
             if (worker == null) {
-                System.err.println("[FAILURE LOG] [" + LocalDateTime.now() + "] Worker not found for CPF: " + paramResponsibleCpf);
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Worker not found for CPF: " + paramResponsibleCpf);
                 req.setAttribute("errorMessage", "Trabalhador não encontrado.");
                 req.setAttribute("errorUrl", "/html/crud/worker/login/login.jsp");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -79,7 +86,12 @@ public class Login extends HttpServlet {
                 req.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(req, resp);
             }
 
-        } catch (Exception e) {
+        }catch (IllegalArgumentException iae) {
+            // [FAILURE LOG] Invalid input parameter
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
+            req.setAttribute("errorMessage", "Valores Invalidos ou parâmetro ausente.");
+            req.getRequestDispatcher("/html/crud/Worker/delete.jsp").forward(req, resp);
+        }catch (Exception e) {
             // [FAILURE LOG] Catch all unexpected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error in Worker.Login: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado durante o login: " + e.getMessage());
