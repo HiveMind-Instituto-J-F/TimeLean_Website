@@ -2,7 +2,6 @@ package hivemind.hivemindweb.Servelts.crud.Plan;
 
 import java.io.IOException;
 
-import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;

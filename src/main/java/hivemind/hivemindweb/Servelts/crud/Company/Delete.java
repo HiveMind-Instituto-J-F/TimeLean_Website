@@ -55,10 +55,10 @@ public class Delete extends HttpServlet {
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch (IllegalArgumentException iae) {
+        } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid input or business rule violation
-            System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
-            req.setAttribute("errorMessage", "Erro: " + iae.getMessage());
+            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
@@ -69,12 +69,6 @@ public class Delete extends HttpServlet {
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch (Exception e) {
-            // [FAILURE LOG] Unexpected exception
-            System.err.println("[ERROR] Unexpected exception: " + e.getMessage());
-            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

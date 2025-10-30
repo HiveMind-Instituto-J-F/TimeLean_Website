@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Servelts.crud.Plan.update;
 
 import java.io.IOException;
+
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.models.Plan;
 import jakarta.servlet.ServletException;
@@ -54,7 +55,7 @@ public class Update extends HttpServlet {
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid or missing parameters
             System.err.println("[ERROR] Invalid argument in Update Servlet: " + ia.getMessage());
-            req.setAttribute("errorMessage", "Erro nos dados enviados: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + req.getParameter("id"));
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 

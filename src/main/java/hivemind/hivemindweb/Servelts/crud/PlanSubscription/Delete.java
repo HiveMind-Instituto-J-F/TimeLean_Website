@@ -1,15 +1,14 @@
 package hivemind.hivemindweb.Servelts.crud.PlanSubscription;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+
+import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-
-import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 
 @WebServlet("/plan_subscription/delete")
 public class Delete extends HttpServlet {
@@ -39,15 +38,9 @@ public class Delete extends HttpServlet {
         }catch (IllegalArgumentException | IllegalStateException | IOException e) {
             // [FAILURE LOG] Invalid arguments, deletion failure, or I/O error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro ao deletar a assinatura: " + e.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + e.getMessage());
             req.getRequestDispatcher("/html/crud/planSubscription/delete.jsp").forward(req, resp);
 
-        } catch (Exception e) {
-            // [FAILURE LOG] Catch-all unexpected errors
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
-            req.setAttribute("errorMessage", "Erro inesperado ao deletar a assinatura: " + e.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

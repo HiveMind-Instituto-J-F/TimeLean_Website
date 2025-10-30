@@ -1,9 +1,9 @@
 package hivemind.hivemindweb.Servelts.crud.Payment;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
 import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
@@ -56,10 +56,10 @@ public class Create extends HttpServlet {
             // Redirect to payment list
             resp.sendRedirect(req.getContextPath() + "/payment/read");
 
-        } catch (IllegalArgumentException iae) {
+        } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid input
-            System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
-            req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
+            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
@@ -80,12 +80,6 @@ public class Create extends HttpServlet {
             // [FAILURE LOG] NullPointerException exception
             System.err.println("[ERROR] Unexpected error: " + npe.getMessage());
             req.setAttribute("errorMessage", "Algum valor inserido é nulo");
-            req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-        } catch (Exception e) {
-            // [FAILURE LOG] Unexpected exception
-            System.err.println("[ERROR] Unexpected error: " + e.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao criar o pagamento.");
             req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }

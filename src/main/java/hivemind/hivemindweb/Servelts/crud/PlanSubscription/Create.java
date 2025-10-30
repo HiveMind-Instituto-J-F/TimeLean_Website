@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
@@ -68,7 +69,7 @@ public class Create extends HttpServlet {
         } catch (IllegalArgumentException | IllegalStateException e) {
             // [FAILURE LOG] Invalid input or business rule violation
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
-            req.setAttribute("errorMessage", "Erro ao criar a assinatura: " + e.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + e.getMessage());
             req.getRequestDispatcher("/html/crud/planSubscription/create.jsp").forward(req, resp);
 
         } catch (Exception e) {

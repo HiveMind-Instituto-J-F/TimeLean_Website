@@ -47,9 +47,8 @@ public class Create extends HttpServlet {
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception
             System.err.println("[ERROR] IllegalArgumentException occurred: " + ia.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro nos dados fornecidos: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
-
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exception
             System.err.println("[ERROR] NullPointerException occurred: " + npe.getMessage());
@@ -71,11 +70,6 @@ public class Create extends HttpServlet {
             req.setAttribute("errorUrl", "/html/crud/plan/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch (Exception e) {
-            // [FAILURE LOG] Handle unexpected exceptions
-            System.err.println("[ERROR] Unexpected exception occurred: " + e.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
-            req.getRequestDispatcher("/html/crud/plan/create.jsp").forward(req, resp);
         }
     }
 }
