@@ -25,3 +25,16 @@
 .form .input-div {
     margin-top: 1% !important;
 }
+
+.form select {
+  color: black;
+  height: 8vh !important;
+  padding-left: 1.85vh;
+}
+
+.form .button {
+    height: 5.5vh !important;
+    text-align: center !important;
+    margin-top: 10vh !important;
+    padding: 0;
+}

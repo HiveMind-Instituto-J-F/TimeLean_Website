@@ -69,7 +69,7 @@ public class LoginServlet extends HttpServlet {
                 resp.addCookie(cookie);
 
                 System.out.println("[INFO] Login Successful");
-                req.getRequestDispatcher("/html/crud/toUser.html").forward(req, resp);
+                req.getRequestDispatcher("/html/chooser.jsp").forward(req, resp);
             } else {
                 session.setAttribute("login", false);
                 throw new LoginException("Email ou senha incorretos.");

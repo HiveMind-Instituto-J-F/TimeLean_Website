@@ -3,63 +3,22 @@
 table {
     color: var(--black);
     border-collapse: collapse;
-    width: 80vw;
+    width: 100%;
 }
 
 thead {
     background-color: var(--grey);
+    user-select: none;
+}
+
+table {
+    display: table;
+    white-space: normal;
 }
 
 tbody {
-    display: block;
-    max-height: 60vh;
-    overflow-y: scroll;
-}
-
-tbody, table>:last-child {
     background-color: var(--polar);
-}
-
-thead, tbody {
-    text-align: center;
-    vertical-align: middle;
-}
-
-thead, tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed; /* mantém alinhamento */
-}
-
-th, td {
-    justify-content: center; /* centraliza horizontalmente */
-    align-items: center; 
-}
-
-th {
-    padding: 8px 0;
-}
-
-td {
-    padding: 12px 0;
-    border-bottom: solid var(--grey) 2px;
-}
-
-tr {
-    align-items: center;
-}
-
-tr>:last-child {
-    margin: auto 0;
-}
-
-tbody>:first-child>* {
-    padding-top: 16px;
-}
-
-tbody>:last-child>* {
-    padding-bottom: 16px;
-    border-bottom: transparent;
+    overflow-x: auto;
 }
 
 .actions {
@@ -118,22 +77,54 @@ tbody>:last-child>* {
 }
 
 /* Scrollbar ↓ */
-table ::-webkit-scrollbar {
+/* table ::-webkit-scrollbar {
     display: block;
     width: 8px;
 }
 
-/* Fundo da barra */
 table ::-webkit-scrollbar-track {
     background: var(--polar);
 }
 
-/* Cor do scroll */
 table ::-webkit-scrollbar-thumb {
     background: var(--grey);
 }
 
-/* Cor ao passar o mouse */
 table ::-webkit-scrollbar-thumb:hover {
     background: var(--orange);
+} */
+
+#wrap {
+    overflow: auto;
+    width: 80vw;
 }
+
+tbody tr {
+  position: relative;
+}
+
+tbody tr:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 4%;
+  width: 76%;
+  bottom: 0;
+  border-bottom: var(--border-table);
+  border-color: var(--grey);
+}
+
+th {
+    padding: 0.8% 0;
+}
+
+td {
+    padding: 1.25% 0;
+}
+
+tbody>:first-child>td {
+    padding-top: 2.2%;
+}
+
+tbody>:last-child>td {
+    padding-bottom: 2.2%;
+} 

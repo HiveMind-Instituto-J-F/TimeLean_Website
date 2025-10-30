@@ -1,41 +1,63 @@
 @import url('../variables.css');
 
 #cta>* {
-    color: var(--polar);
+    color: var(--black);
 }
 
 #cta {
+    margin: 0 !important;
+    padding: 15vh 0 40vh;
+    background-image: url('../../img/background/ctaf2.jpg');
+    background-size: cover;
+    background-position: 50% 22%;
+    background-repeat: no-repeat;
+    
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    width: 900px;
-    margin: 0 auto;
+    flex-direction: column;
+
+    text-align: center;
 }
 
-#cta>.major {
-    padding-right: 20px;
-    width: 420px;
+#cta>div {
+    padding: 0;
+    margin: 0 0 7vh;
 }
 
-#cta>.major>:first-child {
-    margin-bottom: 40px;
+@media (max-width: 1000px) {
+    #cta {
+        background-size: 170%;
+        background-position: 50% 0;
+    }
 }
 
-#cta>.major>:nth-child(2) {
-    margin-bottom: 40px;
+@media (max-width: 800px) {
+    #cta {
+        background-size: 250%;
+        background-position: 50% 0;
+        padding-bottom: 15vh;
+    }
 }
 
-#cta:last-child {
-    width: 420px;
-    padding: 420px;
+@media (max-width: 690px) {
+    #cta .title {
+        width: 90vw;
+    }
+    
+    #cta p {
+        width: 70%;
+    }
 }
 
-#cta>div>div>h1 {
-    font-size: 28px;
-    line-height: 32px;
-    margin-bottom: 8px;
-}
+@media (max-width: 400px) {
+    #cta {
+        background-size: 350%;
+        background-position: 34% 0;
+        padding-bottom: 15%;
+    }
 
-#cta img {
-    width: 200px;
+    #cta h2, #cta h1 {
+        width: 90vw;
+    }
 }

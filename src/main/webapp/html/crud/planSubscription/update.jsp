@@ -1,56 +1,99 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="hivemind.hivemindweb.models.PlanSubscription" %>
 <%@ page pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Atualizar PlanSubscription</title>
-</head>
-<body>
+
 <%
+    // Verifica login
     Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
     if (isLogged == null || !isLogged) {
         response.sendRedirect(request.getContextPath() + "/html/login.jsp");
         return;
     }
+
+    // Obtém o objeto do request (pode vir nulo)
+    PlanSubscription planSubscription = (PlanSubscription) request.getAttribute("planSubscription");
 %>
 
-<h2>Atualizar PlanSubscription</h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/text.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/crud/form.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/icons/favicon/home-v2.png" type="image/x-icon">
+    <title>Atualizar Assinatura de Plano — TIMELEAN</title>
+</head>
 
-<form action="${pageContext.request.contextPath}/plan_subscription/update" method="post">
-    <input type="hidden" name="id" value="${planSubscription.id}">
+<body>
 
-    <label for="start_date">Data de Início:</label><br>
-    <input type="date" id="start_date" name="start_date" required value="${planSubscription.startDate}"><br><br>
+<div class="form">
+    <div>
+        <div class="block"></div>
+        <h1 class="inter-bold">Atualizar Assinatura de Plano</h1>
+    </div>
 
-    <label for="cnpj_company">CNPJ da Empresa:</label><br>
-    <input type="text" id="cnpj_company" name="cnpj_company" required placeholder="00.000.000/0000-00" value="${planSubscription.cnpjCompany}" readonly><br><br>
+    <form class="inter-thin" action="${pageContext.request.contextPath}/plan_subscription/update" method="post">
+        <input type="hidden" name="id" value="<%= (planSubscription != null) ? planSubscription.getId() : "" %>">
 
-    <label for="id_plan">ID do Plano:</label><br>
-    <input type="number" id="id_plan" name="id_plan" required min="1" value="${planSubscription.idPlan}" readonly><br><br>
+        <div>
+            <h3 class="inter-medium">Informações da Assinatura</h3>
 
-    <label for="number_installments">Número de Parcelas:</label><br>
-    <input type="number" id="number_installments" name="number_installments" required min="1" value="${planSubscription.numberInstallments}" readonly><br><br>
-    
-    <label for="status">Status:</label><br>
-    <select id="status" name="status" required>
-        <option value="true" ${planSubscription.status ? 'selected' : ''}>Ativo</option>
-        <option value="false" ${!planSubscription.status ? 'selected' : ''}>Inativo</option>
-    </select><br><br>
+            <div class="input-div">
+                <label for="id_plan">ID do Plano</label>
+                <input type="number" id="id_plan" name="id_plan" min="1"
+                       value="<%= (planSubscription != null) ? planSubscription.getIdPlan() : "" %>" readonly>
+            </div>
 
+            <div class="input-div">
+                <label for="cnpj_company">CNPJ da Empresa</label>
+                <input type="text" id="cnpj_company" name="cnpj_company"
+                       value="<%= (planSubscription != null) ? planSubscription.getCnpjCompany() : "" %>" readonly>
+            </div>
 
-    <button type="submit">Atualizar</button>
-</form>
+            <div class="input-div">
+                <label for="start_date">Data de Início</label>
+                <input type="date" id="start_date" name="start_date"
+                       value="<%= (planSubscription != null && planSubscription.getStartDate() != null) ? planSubscription.getStartDate() : "" %>"
+                       required>
+            </div>
 
+            <div class="input-div">
+                <label for="number_installments">Número de Parcelas</label>
+                <input type="number" id="number_installments" name="number_installments" min="1"
+                       value="<%= (planSubscription != null) ? planSubscription.getNumberInstallments() : "" %>" readonly>
+            </div>
 
-<%
-    String msg = (String) request.getAttribute("msg");
-    String error = (String) request.getAttribute("error");
-    if (msg != null) { 
-%>
-    <p style="color: green;"><%= msg %></p>
-<% } else if (error != null) { %>
-    <p style="color: red;"><%= error %></p>
-<% } %>
+            <div class="input-div">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="true"
+                        <%= (planSubscription != null && planSubscription.isStatus()) ? "selected" : "" %>>
+                        Ativo
+                    </option>
+                    <option value="false"
+                        <%= (planSubscription != null && !planSubscription.isStatus()) ? "selected" : "" %>>
+                        Inativo
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <input class="button submit inter" type="submit" value="Atualizar">
+    </form>
+
+    <%
+        String msg = (String) request.getAttribute("msg");
+        String error = (String) request.getAttribute("error");
+        if (msg != null) {
+    %>
+        <p style="color: green;"><%= msg %></p>
+    <% } else if (error != null) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+</div>
+
 </body>
 </html>

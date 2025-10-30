@@ -26,8 +26,33 @@
   background-position: center;
   background-attachment: local;
   background-repeat: no-repeat;
+  overflow-y: hidden;
   
   z-index: 1;
+}
+
+#hero>.container {
+  margin-bottom: 8vh;
+}
+
+#hero>:nth-child(2) {
+  margin-bottom: 5vh;
+}
+
+#hero>div:first-child {
+  margin-top: 10vh;
+}
+
+#hero p {
+  width: 20vw;
+  margin: auto;
+  margin-top: 12px;
+}
+
+@media (max-width: 800px) {
+  #background-img {
+    padding-bottom: 20%;
+  }
 }
 
 @media (max-width: 1250px) {
@@ -37,35 +62,46 @@
   }
 }
 
+@media (max-width: 1000px) {
+    #background-img {
+      padding-bottom: 20%;
+    }
+}
+
 @media (max-width: 900px) {
   #background-img {
-    background-size: 400vh;
+    background-size: 400%;
     background-position: top;
   }
 }
 
-#hero>.container {
-  margin-bottom: 72px;
+@media (max-width: 800px) {
+  #background-img {
+    padding-bottom: 30%;
+  }
+  
+  #hero p {
+    width: 40vw;
+  }
 }
 
-#hero>:nth-child(2) {
-  margin-bottom: 32px;
+@media (max-width: 460px) {
+  #background-img {
+    background-size: 520%;
+  }
 }
 
-#hero>* {
-  margin-bottom: 16px;
-}
-
-#hero>div:first-child {
-  margin-top: 80px;
-}
-
-#hero>div:first-child>:nth-child(2) {
-  max-width: 300px;
-  margin: auto;
-  margin-top: 12px;
-}
-
-#hero>div:last-child {
-  margin-top: 60px;
+@media (max-width: 400px) {
+  #background-img {
+    background-size: 900%;
+    padding-bottom: 30%;
+  }
+  
+  #background-img h1 {
+    font-size: 1.6rem;
+  }
+  
+  #background-img p {
+    width: 90vw;
+  }
 }
