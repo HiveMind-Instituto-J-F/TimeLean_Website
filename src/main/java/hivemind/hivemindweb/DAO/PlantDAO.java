@@ -180,7 +180,7 @@ public class PlantDAO {
             pstm.setString(2, plant.getResponsibleCpf());
             pstm.setString(3, plant.getAddressCep());
             pstm.setInt(4, plant.getAddressNumber());
-            pstm.setString(5, plant.getCnpj());
+            pstm.setBoolean(5, plant.getOperationalStatus());
             pstm.setString(6, plant.getCnpj());
             return pstm.executeUpdate() > 0;
 

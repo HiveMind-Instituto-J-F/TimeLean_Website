@@ -21,7 +21,6 @@ public class Update extends HttpServlet {
             String cnpjParam = req.getParameter("CNPJ");
             String cnaeParam = req.getParameter("CNAE");
             String responsibleCpfParam = req.getParameter("RESPONSIBLE_CPF");
-            String operationalStatusRaw = req.getParameter("OPERATIONAL_STATUS");
             String addressCepParam = req.getParameter("ADDRESS_CEP");
             String addressNumberRaw = req.getParameter("ADDRESS_NUMBER");
             String cnpjCompanyParam = req.getParameter("CNPJ_COMPANY");
@@ -29,17 +28,14 @@ public class Update extends HttpServlet {
             if (cnpjParam == null || cnpjParam.isEmpty()) throw new IllegalArgumentException("Null value: 'CNPJ'");
             if (cnaeParam == null || cnaeParam.isEmpty()) throw new IllegalArgumentException("Null value: 'CNAE'");
             if (responsibleCpfParam == null || responsibleCpfParam.isEmpty()) throw new IllegalArgumentException("Null value: 'RESPONSIBLE_CPF'");
-            if (operationalStatusRaw == null || operationalStatusRaw.isEmpty()) throw new IllegalArgumentException("Null value: 'OPERATIONAL_STATUS'");
             if (addressCepParam == null || addressCepParam.isEmpty()) throw new IllegalArgumentException("Null value: 'ADDRESS_CEP'");
             if (addressNumberRaw == null || addressNumberRaw.isEmpty()) throw new IllegalArgumentException("Null value: 'ADDRESS_NUMBER'");
             if (cnpjCompanyParam == null || cnpjCompanyParam.isEmpty()) throw new IllegalArgumentException("Null value: 'CNPJ_COMPANY'");
 
-            boolean operationalStatus = Boolean.parseBoolean(operationalStatusRaw);
             int addressNumber = Integer.parseInt(addressNumberRaw);
 
             // [DATA ACCESS] Get plant and update
             Plant plantFromDb = PlantDAO.selectByPlantCnpj(cnpjParam);
-            plantFromDb.setOperationalStatus(operationalStatus);
             plantFromDb.setAddressCep(addressCepParam);
             plantFromDb.setAddressNumber(addressNumber);
             plantFromDb.setCnae(cnaeParam);

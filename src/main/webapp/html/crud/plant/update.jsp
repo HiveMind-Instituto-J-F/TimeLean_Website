@@ -69,21 +69,13 @@
                 <div class="input-div">
                     <label for="number">Número do endereço</label>
                     <input type="number" id="number" name="ADDRESS_NUMBER"
-                           value="<%=plant.getAddressNumber()%>
+                           value="<%=plant.getAddressNumber()%>">
                 </div>
 
                 <div class="input-div">
                     <label for="cep">CEP</label>
                     <input type="text" id="cep" name="ADDRESS_CEP"
                            value="<%= (plant.getAddressCep() != null) ? plant.getAddressCep() : "" %>">
-                </div>
-
-                <div class="input-div">
-                    <label for="status">Status operacional</label>
-                    <select id="status" name="OPERATIONAL_STATUS">
-                        <option value="true" <%= (plant.getOperationalStatus()) ? "selected" : "" %>>Ativa</option>
-                        <option value="false" <%= (!plant.getOperationalStatus()) ? "selected" : "" %>>Inativa</option>
-                    </select>
                 </div>
             </div>
 
