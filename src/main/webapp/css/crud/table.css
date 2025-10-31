@@ -55,12 +55,16 @@ tbody {
     background-color: transparent;
 }
 
-.disable {
-    color: var(--red) !important;
-}
-
 .disable>:last-child {
-    width: auto;
+    width: 40%;
+    color: var(--polar);
+    cursor: pointer;
+    background-color: var(--red);
+    text-align: center !important;
+    padding: 0;
+    height: 6vh !important;
+    border: 0;
+    text-decoration: underline;
 }
 
 .disable>:last-child>form>* {

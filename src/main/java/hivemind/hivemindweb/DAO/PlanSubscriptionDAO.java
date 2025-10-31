@@ -142,7 +142,7 @@ public class PlanSubscriptionDAO {
     
     public static boolean delete(int id) {
         DBConnection db = new DBConnection();
-        String sql = "DELETE FROM PLAN_SUBSCRIPTION WHERE id = ?";
+        String sql = "UPDATE PLAN_SUBSCRIPTION SET status = false WHERE id = ?";
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {

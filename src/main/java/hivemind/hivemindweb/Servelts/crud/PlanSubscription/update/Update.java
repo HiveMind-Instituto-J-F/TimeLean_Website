@@ -21,18 +21,15 @@ public class Update extends HttpServlet {
             // [PROCESS] Update PlanSubscription with validated parameters
             String idParam = req.getParameter("id");
             String startDateParam = req.getParameter("start_date");
-            String statusParam = req.getParameter("status");
             String cnpjCompanyParam = req.getParameter("cnpj_company");
 
             // [VALIDATION] Validate all required parameters
             if (idParam == null || idParam.isEmpty()) throw new IllegalArgumentException("Parâmetro 'id' não informado.");
             if (startDateParam == null || startDateParam.isEmpty()) throw new IllegalArgumentException("Data de início não informada.");
-            if (statusParam == null || statusParam.isEmpty()) throw new IllegalArgumentException("Status não informado.");
             if (cnpjCompanyParam == null || cnpjCompanyParam.isEmpty()) throw new IllegalArgumentException("CNPJ da empresa não informado.");
 
             int id = Integer.parseInt(idParam);
             LocalDate startDate = LocalDate.parse(startDateParam);
-            boolean status = Boolean.parseBoolean(statusParam);
 
 
             // [DATA ACCESS] select planSubscription on database
@@ -48,7 +45,6 @@ public class Update extends HttpServlet {
 
             // [PROCESS] update object
             planSubscriptionFromDb.setStartDate(startDate);
-            planSubscriptionFromDb.setStatus(status);
 
             // [DATA ACCESS] Attempt to update the subscription
             if (PlanSubscriptionDAO.update(planSubscriptionFromDb)) {

@@ -65,20 +65,6 @@
                 <input type="number" id="number_installments" name="number_installments" min="1"
                        value="<%= (planSubscription != null) ? planSubscription.getNumberInstallments() : "" %>" readonly>
             </div>
-
-            <div class="input-div">
-                <label for="status">Status</label>
-                <select id="status" name="status" required>
-                    <option value="true"
-                        <%= (planSubscription != null && planSubscription.isStatus()) ? "selected" : "" %>>
-                        Ativo
-                    </option>
-                    <option value="false"
-                        <%= (planSubscription != null && !planSubscription.isStatus()) ? "selected" : "" %>>
-                        Inativo
-                    </option>
-                </select>
-            </div>
         </div>
 
         <input class="button submit inter" type="submit" value="Atualizar">

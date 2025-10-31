@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/plan_subscription/delete")
 public class Delete extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         // [PROCESS] Handle deletion of a PlanSubscription
@@ -39,8 +38,8 @@ public class Delete extends HttpServlet {
             // [FAILURE LOG] Invalid arguments, deletion failure, or I/O error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + e.getMessage());
-            req.getRequestDispatcher("/html/crud/planSubscription/delete.jsp").forward(req, resp);
-
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

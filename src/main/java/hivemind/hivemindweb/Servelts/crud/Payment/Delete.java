@@ -32,7 +32,7 @@ public class Delete extends HttpServlet {
                         // [FAILURE LOG] Failed DB deletion
                         System.err.println("[ERROR] Failed to delete payment in DB, id: " + id);
                         req.setAttribute("errorMessage", "Pagamento não foi deletado devido a um erro no banco de dados.");
-                        req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                         return;
                     }
 
@@ -40,14 +40,15 @@ public class Delete extends HttpServlet {
                     // [FAILURE LOG] Payment already paid
                     System.err.println("[ERROR] Attempt to delete an already paid payment, id: " + id);
                     req.setAttribute("errorMessage", "Pagamento não pode ser deletado porque já foi pago.");
-                    req.getRequestDispatcher("/html/crud/payment/delete.jsp").forward(req, resp);
+                    req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
+                    req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                     return;
                 }
             } catch (NullPointerException npe) {
                 // [FAILURE LOG] Payment not found
                 System.err.println("[ERROR] Payment not found, id: " + id + ", Error: " + npe.getMessage());
                 req.setAttribute("errorMessage", "Pagamento não encontrado ou inválido.");
-                req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete?id=" + id);
+                req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                 return;
             }
@@ -59,19 +60,20 @@ public class Delete extends HttpServlet {
             // [FAILURE LOG] Invalid input
             System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
-            req.getRequestDispatcher("/html/crud/payment/delete.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe){
             // [FAILURE LOG] Null values
             System.err.println("[ERROR] IllegalArgumentException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Algum valor nulo foi inserido" + npe.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete");
+            req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao deletar o pagamento.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/delete");
+            req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
