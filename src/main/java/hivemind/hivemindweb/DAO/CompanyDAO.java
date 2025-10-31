@@ -12,7 +12,7 @@ public class CompanyDAO {
 
     public static boolean insert(Company company) {
         DBConnection db = new DBConnection();
-        String sql = "INSERT INTO company (CNPJ, cnae, name, registrant_cpf) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO company (cnpj, cnae, name, registrant_cpf) VALUES (?,?,?,?)";
         try (Connection conn = db.connected()) { // try-with-resources
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setString(1, company.getCNPJ());
@@ -35,8 +35,8 @@ public class CompanyDAO {
             pstm.setString(1, company.getName());
             pstm.setString(2, company.getCnae());
             pstm.setString(3, company.getRegistrantCpf());
-            pstm.setString(4, company.getCNPJ());
-            pstm.setBoolean(5, company.isActive());
+            pstm.setBoolean(4, company.isActive());
+            pstm.setString(5, company.getCNPJ());
             return pstm.executeUpdate() > 0;
         } catch (SQLException sqle) {
             System.err.println("[ERROR] Falied in update" + sqle.getMessage());
