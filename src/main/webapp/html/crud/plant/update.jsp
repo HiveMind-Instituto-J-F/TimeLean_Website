@@ -43,13 +43,13 @@
                 <div class="input-div">
                     <label for="cnpj">CNPJ</label>
                     <input type="text" id="cnpj" name="CNPJ"
-                           value="<%= (plant.getCNPJ() != null) ? plant.getCNPJ() : "" %>" readonly>
+                           value="<%= (plant.getCnpj() != null) ? plant.getCnpj() : "" %>" readonly>
                 </div>
 
                 <div class="input-div">
                     <label for="cnae">CNAE</label>
                     <input type="text" id="cnae" name="CNAE"
-                           value="<%= (plant.getCNAE() != null) ? plant.getCNAE() : "" %>"
+                           value="<%= (plant.getCnae() != null) ? plant.getCnae() : "" %>"
                            required pattern="^[0-9]{7}$">
                 </div>
 
@@ -69,13 +69,13 @@
                 <div class="input-div">
                     <label for="number">Número do endereço</label>
                     <input type="number" id="number" name="ADDRESS_NUMBER"
-                           value="<%= (plant.getAdressNumber() != null) ? plant.getAdressNumber() : "" %>">
+                           value="<%=plant.getAddressNumber()%>
                 </div>
 
                 <div class="input-div">
                     <label for="cep">CEP</label>
                     <input type="text" id="cep" name="ADDRESS_CEP"
-                           value="<%= (plant.getAdressCep() != null) ? plant.getAdressCep() : "" %>">
+                           value="<%= (plant.getAddressCep() != null) ? plant.getAddressCep() : "" %>">
                 </div>
 
                 <div class="input-div">

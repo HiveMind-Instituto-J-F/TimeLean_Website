@@ -181,10 +181,11 @@ public class PlantDAO {
             pstm.setString(3, plant.getAddressCep());
             pstm.setInt(4, plant.getAddressNumber());
             pstm.setString(5, plant.getCnpj());
+            pstm.setString(6, plant.getCnpj());
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in select" + sqle.getMessage());
+            System.err.println("[ERROR] Falied in update" + sqle.getMessage());
         }
         return false;
     }

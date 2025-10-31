@@ -94,32 +94,27 @@ public class WorkerDAO {
         return false;
     }
 
-    public static boolean update(Worker worker, String oldCpf) {
+    public static boolean update(Worker worker) {
         DBConnection db = new DBConnection();
         String sql = """
             UPDATE worker
-               SET cpf = ?,
-                   role = ?,
+               SET role = ?,
                    sector = ?,
                    name = ?,
                    login_email = ?,
-                   login_password = ?,
-                   cnpj_plant = ?
+                   login_password = ?
              WHERE cpf = ?
         """;
 
         try (Connection conn = db.connected();
              PreparedStatement pstm = conn.prepareStatement(sql)) {
 
-            pstm.setString(1, worker.getCpf());
-            pstm.setString(2, worker.getRole());
-            pstm.setString(3, worker.getSector());
-            pstm.setString(4, worker.getName());
-            pstm.setString(5, worker.getLoginEmail());
-            pstm.setString(6, worker.getLoginPassword());
-            pstm.setString(7, worker.getCnpjPlant());
-            pstm.setString(8, oldCpf);
-
+            pstm.setString(1, worker.getRole());
+            pstm.setString(2, worker.getSector());
+            pstm.setString(3, worker.getName());
+            pstm.setString(4, worker.getLoginEmail());
+            pstm.setString(5, worker.getLoginPassword());
+            pstm.setString(6, worker.getCpf());
             return pstm.executeUpdate() > 0;
 
         } catch (SQLException e) {
