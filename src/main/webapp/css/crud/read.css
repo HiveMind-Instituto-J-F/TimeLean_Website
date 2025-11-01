@@ -10,6 +10,8 @@
   text-align: initial;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
+  overflow-x: auto;
   height: 8vh;
 
   background-color: var(--polar);
@@ -17,7 +19,6 @@
   border-color: var(--grey);
 
   flex-wrap: wrap;
-  overflow: auto;
   gap: 2vw;
 }
 
@@ -87,6 +88,15 @@ select, input {
   cursor: pointer;
 }
 
+@media (max-width: 900px) {
+  #filter-bar>:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block; 
+  }
+}
+
 #filter-bar>div {
   display: flex;
   justify-content: space-between;
@@ -105,4 +115,34 @@ select, input {
   height: 32px;
   width: 3px;
   background-color: var(--grey) !important;
+}
+
+#filter-bar form button {
+  background-color: var(--orange);
+  color: var(--polar);
+  border-radius: 2px;
+  height: 24px;
+  width: 12% !important;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+select {
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+}
+
+@media (max-width: 860px) {
+  #filter-bar form button {
+    width: 20% !important;
+  }
+}
+
+@media (max-width: 700px) {
+  #filter-bar {
+    height: 9vh;
+  }
 }

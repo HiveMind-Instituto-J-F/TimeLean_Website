@@ -23,7 +23,7 @@
 
     <div>
         <a class="button inter" href="${pageContext.request.contextPath}/company/read">ADMIN CRUD</a>
-        <a class="button inter" href="http://localhost:5173/">Company CRUD</a>
+        <a class="button inter" href="">Company CRUD</a>
     </div>
 </body>
 </html>

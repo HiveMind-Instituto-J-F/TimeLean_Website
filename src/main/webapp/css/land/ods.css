@@ -68,7 +68,7 @@
     }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 920px) {
     .ods>:last-child {
         display: none;
     }
@@ -82,16 +82,32 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 560px) {
     #ods .title p {
         width: 75vw;
     }
 
     .ods {
-        padding: 0 5%;
+        padding: 0 10%;
+    }
+}
+
+@media (max-width: 380px) {
+    #ods .title p {
+        width: 90vw;
     }
 
-    .ods img {
-        width: 100%;
+    .ods {
+        padding: 0 25%;
+    }
+}
+
+@media (max-width: 300px) {
+    #ods .title p {
+        width: 95vw;
+    }
+
+    .ods {
+        padding: 0 50%;
     }
 }

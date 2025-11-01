@@ -42,7 +42,7 @@
         <div id="redirects">
             <nav class="inter navbar">
                 <a href="${pageContext.request.contextPath}/index.html">Home</a>
-                <a href="#" target="_blank">Quem somos</a>
+                <a href="${pageContext.request.contextPath}/html/aboutUs.html" target="_blank">Quem somos</a>
                 <a href="${pageContext.request.contextPath}/html/crud/worker/login/login.jsp">Gestão de trabalhadores</a>
             </nav>
         </div>
@@ -65,6 +65,7 @@
 
         <div id="summary">
             <a href="${pageContext.request.contextPath}/index.html"><h3>Home</h3></a>
+            <a href="${pageContext.request.contextPath}/html/aboutUs.html"><h3>Sobre nós</h3></a>
             <a href="${pageContext.request.contextPath}/html/email/send.jsp" target="_blank"><h3>Entrar em contato</h3></a>
         </div>
     </aside>
@@ -221,7 +222,7 @@
         </button>
     </a>
     <nav id="redirects" class="inter navbar">
-        <a href="#" target="_blank">Quem somos</a>
+        <a href="${pageContext.request.contextPath}/html/aboutUs.html" target="_blank">Quem somos</a>
         <a href="${pageContext.request.contextPath}/index.html">Home</a>
         <a href="${pageContext.request.contextPath}/html/crud/worker/login/login.jsp">Gestão de trabalhadores</a>
     </nav>

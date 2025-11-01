@@ -80,13 +80,37 @@ nav {
   user-select: none;
 }
 
-.navbar a {
+.navbar details {
+  position: relative;
+  display: inline-block;
+}
+
+.navbar details ul {
+  position: absolute;
+  top: 80%;
+  left: 0;
+  list-style: none;
+  display: none;
+  z-index: 100;
+}
+
+.navbar details ul>* {
+  margin: 0;
+  margin-top: 10%;
+}
+
+.navbar details[open] ul {
+  display: block;
+}
+
+
+.navbar * {
   margin: 0 1%;
   transition: transform 0.25s ease-in-out, opacity 0.4s ease;
   opacity: 100%;
 }
 
-.navbar a:hover {
+.navbar *:hover {
   transform: translateY(-3.5px);
   opacity: 75%;
 }
@@ -293,6 +317,19 @@ button.submit {
 @media (max-width: 200px) {
   .block {
     display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .block {
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 350px) {
+  .block {
+    width: 40vw;
+    min-width: 100px;
   }
 }
 

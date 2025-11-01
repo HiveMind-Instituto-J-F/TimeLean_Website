@@ -60,7 +60,8 @@
 
             <div class="input-div">
                 <label for="loginEmail">E-mail de Login</label>
-                <input type="email" id="loginEmail" name="loginEmail" placeholder="exemplo@empresa.com" required>
+                <input type="email" id="loginEmail" name="loginEmail" placeholder="exemplo@empresa.com" required
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
             </div>
 
             <div class="input-div">

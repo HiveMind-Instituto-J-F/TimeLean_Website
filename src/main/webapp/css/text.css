@@ -30,7 +30,7 @@ h3 {
     font-size: clamp(0.685rem, calc(0.715vw + 1rem), 1.15rem);
 }
 
-nav>a, li>a {
+nav>a, li>a, nav * {
     color: var(--black);
     font-size: clamp(0.550rem, calc(0.815vw + 1rem), 1rem);
     text-decoration: none;

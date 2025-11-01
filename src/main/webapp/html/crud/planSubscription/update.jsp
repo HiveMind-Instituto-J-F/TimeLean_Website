@@ -49,7 +49,7 @@
 
             <div class="input-div">
                 <label for="cnpj_company">CNPJ da Empresa</label>
-                <input type="text" id="cnpj_company" name="cnpj_company"
+                <input type="text" id="cnpj_company" name="cnpj_company" pattern="^[0-9]{14}$"
                        value="<%= (planSubscription != null) ? planSubscription.getCnpjCompany() : "" %>" readonly>
             </div>
 

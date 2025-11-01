@@ -36,8 +36,19 @@
 
             <div id="redirects">
                 <nav class="inter navbar">
-                    <a href="#">Home</a>
-                    <a href="">Quem somos</a>
+                    <details>
+                            <summary class="topic-title">
+                                <a>Home</a>
+                            </summary>
+
+                            <ul>
+                                <li><a href="#features">Funcionalidade</a></li>
+                                <li><a href="#compatibility-wrap">Compatibilidade Industrial</a></li>
+                                <li><a href="#suport-wrap">Suporte em abrangência</a></li>
+                                <li><a href="#ods">Agenda 2030</a></li>
+                            </ul>
+                        </details>
+                    <a href="html/">Quem somos</a>
                     <a href="html/crud/worker/login/login.jsp">Gestão de trabalhadores</a>
                 </nav>
             </div>
@@ -146,9 +157,9 @@
             </div>
 
             <div id="defs-wrap" class="major">
-                <div id="defs" data-aos="fade-up" data-aos-offset="300">
+                <div id="defs" data-aos="fade-up">
                     <section class="inner">
-                        <div data-aos="fade-up" data-aos-offset="300">
+                        <div data-aos="fade-up">
                             <img class="box" src="img/icons/demo/pencil.png" alt="Edição de arquivos">
                             <div>
                                 <h3 class="inter-bold">Manipulação de arquivos</h3>
@@ -156,14 +167,14 @@
                                 </p>
                             </div>
                         </div>
-                        <div data-aos="fade-up" data-aos-offset="400">
+                        <div data-aos="fade-up">
                             <img class="box" src="img/icons/demo/calendar.png" alt="Agenda de manutenções">
                             <div>
                                 <h3 class="inter-bold">Agenda de manutenções</h3>
                                 <p class="inter-thin">Possibilidade de agendar e concluir manutenções.</p>
                             </div>
                         </div>
-                        <div data-aos="fade-up" data-aos-offset="450">
+                        <div data-aos="fade-up">
                             <img class="box" src="img/icons/demo/spreadsheet.png" alt="Inserção de relatórios">
                             <div>
                                 <h3 class="inter-bold">Inserção de relatórios</h3>
@@ -171,7 +182,7 @@
                                     documentos.</p>
                             </div>
                         </div>
-                        <div data-aos="fade-up" data-aos-offset="500">
+                        <div data-aos="fade-up">
                             <img class="box" src="img/icons/demo/layers.png" alt="Histórico geral">
                             <div>
                                 <h3 class="inter-bold">Histórico geral</h3>
@@ -250,17 +261,17 @@
                     <img src="img/assets/ods/symbol-7.png" alt="icone 7">
                 </a>
                 <a href="https://brasil.un.org/pt-br/sdgs/8" target="_blank" class="ods" id="ods-8" data-aos="fade-up"
-                    data-aos-delay="800">
+                    data-aos-delay="650">
                     <img src="img/assets/ods/text-8.png" alt="missão 8">
                     <img src="img/assets/ods/symbol-8.png" alt="icone 8">
                 </a>
                 <a href="https://brasil.un.org/pt-br/sdgs/9" target="_blank" class="ods" id="ods-9" data-aos="fade-up"
-                    data-aos-delay="850">
+                    data-aos-delay="750">
                     <img src="img/assets/ods/text-9.png" alt="missão 9">
                     <img src="img/assets/ods/symbol-9.png" alt="icone 9">
                 </a>
                 <a href="https://brasil.un.org/pt-br/sdgs/12" target="_blank" class="ods" id="ods-12" data-aos="fade-up"
-                    data-aos-delay="900">
+                    data-aos-delay="800">
                     <img src="img/assets/ods/text-12.png" alt="missão 12">
                     <img src="img/assets/ods/symbol-12.png" alt="icone 12">
                 </a>
@@ -291,20 +302,18 @@
             <a href="html/crud/worker/login/login.jsp">Gestão de trabalhadores</a>
         </nav>
         <nav class="medias">
-            <a href=""><img src="img/icons/social/github.png" alt="github" class="icon"></a>
-            <a href=""><img src="img/icons/social/whatsapp.png" alt="whatsapp" class="icon"></a>
-            <a href=""><img src="img/icons/social/instagram.png" alt="instagram" class="icon"></a>
+            <a href="https://github.com/HiveMind-Instituto-J-F/TimeLean_Website"><img src="img/icons/social/github.png" alt="github" class="icon"></a>
         </nav>
         <p id="copy-right" class="inter">&copy; Copyright 2025, Todos os direitos preservados</p>
     </footer>
 </body>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/carousel.js"></script>
 <script>
     AOS.init({
         duration: 1000,
         once: false,
     });
 </script>
-
 </html>

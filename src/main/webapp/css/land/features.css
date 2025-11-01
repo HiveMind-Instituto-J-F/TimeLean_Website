@@ -25,20 +25,17 @@
 
 #carousel {
     overflow: hidden;
-    height: 30vh;
+    height: 35vh;
     width: 60vw;
+    overflow: hidden;
+    display: flex;
 }
 
 #slides-wrap {
     display: flex;
-    animation: slide 10s linear infinite;
     width: 50vw;
     gap: 2vw;
-}
-
-#carousel {
-    overflow: hidden;
-    display: flex;
+    will-change: transform;
 }
 
 .slides {
@@ -54,15 +51,6 @@
 .slide h2,
 .slide>:first-child {
     margin-bottom: 2.5%;
-}
-
-@keyframes slide {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
 }
 
 #defs-wrap {
@@ -135,7 +123,7 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 550px) {
     #defs {
         width: 90vw;
         max-height: 50vh;
@@ -155,6 +143,7 @@
     #carousel {
         overflow-x: visible;
         width: 90vw;
+        height: 32vh;
     }
 
     .slide {
