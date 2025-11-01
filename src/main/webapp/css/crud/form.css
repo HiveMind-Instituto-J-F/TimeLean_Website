@@ -5,7 +5,7 @@
 }
 
 .form {
-    width: 30vw;
+    width: 50vw;
     margin: 0 auto;
 }
 
@@ -37,4 +37,32 @@
     text-align: center !important;
     margin-top: 10vh !important;
     padding: 0;
+}
+
+@media (max-width: 900px) {
+    .form {
+        width: 60vw;
+    }
+}
+
+@media (max-width: 500px) {
+    .form {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 380px) {
+    .form {
+        width: 85vw;
+    }
+}
+
+@media (max-width: 300px) {
+    .form>:first-child {
+        width: 95vw;
+    }
+
+    .form {
+        width: 90vw;
+    }
 }
