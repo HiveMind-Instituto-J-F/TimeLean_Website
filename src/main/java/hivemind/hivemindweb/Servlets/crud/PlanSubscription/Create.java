@@ -6,7 +6,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import hivemind.hivemindweb.DAO.CompanyDAO;
+import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
+import hivemind.hivemindweb.models.Company;
+import hivemind.hivemindweb.models.Plan;
 import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,6 +44,13 @@ public class Create extends HttpServlet {
             boolean status = Boolean.parseBoolean(statusParam);
 
             PlanSubscription planSubscriptionLocal = new PlanSubscription(startDate, cnpjCompanyParam, idPlan, numberInstallments, status);
+
+            // [BUSINESS RULES] Ensure plan and company are active
+            Plan planFromDb = PlanDAO.selectByID(idPlan);
+            if (!planFromDb.isActive()) throw new IllegalArgumentException("Plano inativo.");
+
+            Company companyFromDb = CompanyDAO.select(cnpjCompanyParam);
+            if (!companyFromDb.isActive()) throw new IOException("Empresa invativa.");
 
             // [BUSINESS RULES] Ensure no active subscription exists for this company
             List<PlanSubscription> activePlans = PlanSubscriptionDAO.selectActivePlans(cnpjCompanyParam);

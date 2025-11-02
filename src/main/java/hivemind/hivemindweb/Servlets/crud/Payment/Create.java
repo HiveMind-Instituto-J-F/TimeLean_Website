@@ -9,6 +9,7 @@ import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.DAO.PlanDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import hivemind.hivemindweb.models.Payment;
+import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -38,6 +39,10 @@ public class Create extends HttpServlet {
 
             // [DATA ACCESS] Calculate payment value
             double value = PlanDAO.getPrice(idPlanSub) / PlanSubscriptionDAO.select(idPlanSub).getNumberInstallments();
+
+            // [BUSINESS RULES] Ensure planSubscription is active
+            PlanSubscription planSubscriptionFromDb = PlanSubscriptionDAO.select(idPlanSub);
+            if (!planSubscriptionFromDb.getStatus()) throw new IllegalArgumentException("Inscrição de Plano Inativa");
 
             // [LOGIC] Create payment object
             Payment paymentLocal = new Payment(value, deadline, methodParam, beneficiaryParam, status, idPlanSub);

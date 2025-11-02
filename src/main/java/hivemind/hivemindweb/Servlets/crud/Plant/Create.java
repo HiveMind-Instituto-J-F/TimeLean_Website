@@ -2,7 +2,10 @@ package hivemind.hivemindweb.Servlets.crud.Plant;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+
+import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlantDAO;
+import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.Plant;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -35,6 +38,10 @@ public class Create extends HttpServlet {
 
             int addressNumberParam = Integer.parseInt(addressNumberRaw);
             boolean operationalStatusParam = "Active".equalsIgnoreCase(operationalStatusStringParam);
+
+            // [BUSINESS RULES] Ensure company is active
+            Company companyFromDb = CompanyDAO.select(companyCnpjParam);
+            if (!companyFromDb.isActive()) throw new IllegalArgumentException("Empresa inativa.");
 
             // [LOGIC] Create Plant object
             Plant plantLocal = new Plant(cnpjParam, cnaeParam, responsibleCpfParam,

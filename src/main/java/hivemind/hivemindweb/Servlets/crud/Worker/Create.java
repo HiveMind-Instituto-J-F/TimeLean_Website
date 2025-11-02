@@ -1,8 +1,10 @@
 package hivemind.hivemindweb.Servlets.crud.Worker;
 
 import hivemind.hivemindweb.AuthService.AuthService;
+import hivemind.hivemindweb.DAO.PlantDAO;
 import hivemind.hivemindweb.DAO.WorkerDAO;
 import hivemind.hivemindweb.Exception.SessionExpiredException;
+import hivemind.hivemindweb.models.Plant;
 import hivemind.hivemindweb.models.Worker;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -46,6 +48,10 @@ public class Create extends HttpServlet {
             // [DATA ACCESS] Retrieve plant identifier from session
             String plantCnpjFromSession = (String) session.getAttribute("plantCnpj");
             if (plantCnpjFromSession == null || plantCnpjFromSession.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'plantCnpj'");
+
+            // [BUSINESS RULES] Ensure plant is active
+            Plant plantFromDb = PlantDAO.selectByPlantCnpj(plantCnpjFromSession);
+            if (!plantFromDb.getOperationalStatus()) throw new IllegalArgumentException("Planta industrial inativa.");
 
             // [PROCESS] Build worker model preserving business order of fields
             Worker worker = new Worker(paramCpf, paramRole, paramSector, paramName, paramLoginEmail, hashedPassword, plantCnpjFromSession);
