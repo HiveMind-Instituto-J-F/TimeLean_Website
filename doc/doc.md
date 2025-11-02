@@ -52,145 +52,870 @@
 **(Last Update 18/10/2025)**
 ```bash
 D:.
-├───.idea
-│   └───artifacts
-├───.mvn
-│   └───wrapper
-├───.vscode
-├───doc
-├───Drivers
-├───src
-│   ├───main
-│   │   ├───java
-│   │   │   ├───hivemind
-│   │   │   │   └───hivemindweb
-│   │   │   │       ├───AuthService
-│   │   │   │       ├───config
-│   │   │   │       ├───Connection
-│   │   │   │       ├───DAO
-│   │   │   │       ├───Exception
-│   │   │   │       ├───models
-│   │   │   │       ├───Servelts
-│   │   │   │       │   ├───Company
-│   │   │   │       │   │   └───update
-│   │   │   │       │   ├───Login
-│   │   │   │       │   ├───Payment
-│   │   │   │       │   ├───Plan
-│   │   │   │       │   ├───PlanSubscription
-│   │   │   │       │   ├───Plant
-│   │   │   │       │   └───Worker
-│   │   │   │       │       ├───login
-│   │   │   │       │       └───Update
-│   │   │   │       └───Services
-│   │   │   │           └───Enums
-│   │   │   └───test
-│   │   ├───resources
-│   │   │   └───META-INF
-│   │   └───webapp
-│   │       ├───css
-│   │       │   ├───crud
-│   │       │   ├───land
-│   │       │   └───others
-│   │       ├───html
-│   │       │   ├───crud
-│   │       │   │   ├───company
-│   │       │   │   │   └───error
-│   │       │   │   ├───plant
-│   │       │   │   └───worker
-│   │       │   │       └───login
-│   │       │   └───error
-│   │       ├───img
-│   │       │   ├───assets
-│   │       │   │   ├───fotos
-│   │       │   │   ├───ods
-│   │       │   │   └───pictures
-│   │       │   ├───background
-│   │       │   ├───favicon
-│   │       │   ├───fotos
-│   │       │   ├───icons
-│   │       │   │   ├───branding
-│   │       │   │   ├───demo
-│   │       │   │   ├───favicon
-│   │       │   │   ├───social
-│   │       │   │   └───ui
-│   │       │   └───ods
-│   │       ├───js
-│   │       └───WEB-INF
-│   └───test
-│       └───java
-└───target
-    ├───classes
-    │   ├───hivemind
-    │   │   └───hivemindweb
-    │   │       ├───AuthService
-    │   │       ├───config
-    │   │       ├───Connection
-    │   │       ├───DAO
-    │   │       ├───Exception
-    │   │       ├───models
-    │   │       ├───Servelts
-    │   │       │   ├───Company
-    │   │       │   │   └───update
-    │   │       │   ├───Login
-    │   │       │   ├───Payment
-    │   │       │   ├───Plan
-    │   │       │   ├───PlanSubscription
-    │   │       │   ├───Plant
-    │   │       │   └───Worker
-    │   │       │       ├───login
-    │   │       │       └───Update
-    │   │       └───Services
-    │   │           └───Enums
-    │   ├───META-INF
-    │   └───test
-    ├───generated-sources
-    │   └───annotations
-    ├───HivemindWeb-1.0-SNAPSHOT
-    │   ├───css
-    │   │   ├───land
-    │   │   └───others
-    │   ├───html
-    │   │   └───crud
-    │   │       └───worker
-    │   │           └───login
-    │   ├───img
-    │   │   ├───assets
-    │   │   │   ├───fotos
-    │   │   │   ├───ods
-    │   │   │   └───pictures
-    │   │   ├───background
-    │   │   └───icons
-    │   │       ├───branding
-    │   │       ├───demo
-    │   │       ├───favicon
-    │   │       ├───social
-    │   │       └───ui
-    │   ├───js
-    │   ├───META-INF
-    │   └───WEB-INF
-    │       ├───classes
-    │       │   ├───hivemind
-    │       │   │   └───hivemindweb
-    │       │   │       ├───AuthService
-    │       │   │       ├───config
-    │       │   │       ├───Connection
-    │       │   │       ├───DAO
-    │       │   │       ├───Exception
-    │       │   │       ├───models
-    │       │   │       ├───Servelts
-    │       │   │       │   ├───Login
-    │       │   │       │   ├───Plan
-    │       │   │       │   ├───PlanSubscription
-    │       │   │       │   ├───Plant
-    │       │   │       │   └───Worker
-    │       │   │       │       ├───login
-    │       │   │       │       └───Update
-    │       │   │       └───Services
-    │       │   ├───META-INF
-    │       │   └───test
-    │       └───lib
-    └───test-classes
-```
+Listagem de caminhos de pasta para o volume OS
+O n·mero de sÚrie do volume Ú 7676-3727
+C:.
+ª   .env
+ª   .gitignore
+ª   Dockerfile
+ª   estrutura.txt
+ª   LICENSE
+ª   mvnw
+ª   mvnw.cmd
+ª   pom.xml
+ª   README.md
+ª   
++---.idea
+ª   ª   .gitignore
+ª   ª   compiler.xml
+ª   ª   encodings.xml
+ª   ª   git_toolbox_blame.xml
+ª   ª   git_toolbox_prj.xml
+ª   ª   jarRepositories.xml
+ª   ª   material_theme_project_new.xml
+ª   ª   misc-IEGNTBALU1750.xml
+ª   ª   misc.xml
+ª   ª   uiDesigner.xml
+ª   ª   vcs.xml
+ª   ª   webContexts.xml
+ª   ª   workspace.xml
+ª   ª   
+ª   +---artifacts
+ª           HivemindWeb.xml
+ª           HivemindWeb_war_exploded.xml
+ª           
++---.mvn
+ª   +---wrapper
+ª           maven-wrapper.jar
+ª           maven-wrapper.properties
+ª           
++---doc
+ª       doc.md
+ª       
++---Drivers
+ª       postgresql-42.7.7.jar
+ª       
++---out
+ª   +---artifacts
+ª       +---HivemindWeb
+ª           +---.idea
+ª                   compiler.xml
+ª                   jarRepositories.xml
+ª                   workspace.xml
+ª                   
++---src
+ª   +---main
+ª       +---java
+ª       ª   +---hivemind
+ª       ª   ª   +---hivemindweb
+ª       ª   ª       +---AuthService
+ª       ª   ª       ª       AuthService.java
+ª       ª   ª       ª       
+ª       ª   ª       +---config
+ª       ª   ª       ª       EnvLoader.java
+ª       ª   ª       ª       
+ª       ª   ª       +---Connection
+ª       ª   ª       ª       DBConnection.java
+ª       ª   ª       ª       RedisManager.java
+ª       ª   ª       ª       
+ª       ª   ª       +---DAO
+ª       ª   ª       ª       AdminDAO.java
+ª       ª   ª       ª       CompanyDAO.java
+ª       ª   ª       ª       PaymentDAO.java
+ª       ª   ª       ª       PlanDAO.java
+ª       ª   ª       ª       PlanSubscriptionDAO.java
+ª       ª   ª       ª       PlantDAO.java
+ª       ª   ª       ª       WorkerDAO.java
+ª       ª   ª       ª       
+ª       ª   ª       +---Exception
+ª       ª   ª       ª       SessionExpiredException.java
+ª       ª   ª       ª       
+ª       ª   ª       +---models
+ª       ª   ª       ª       Admin.java
+ª       ª   ª       ª       Company.java
+ª       ª   ª       ª       Payment.java
+ª       ª   ª       ª       Plan.java
+ª       ª   ª       ª       PlanSubscription.java
+ª       ª   ª       ª       Plant.java
+ª       ª   ª       ª       Worker.java
+ª       ª   ª       ª       
+ª       ª   ª       +---Services
+ª       ª   ª       ª   +---AppListener
+ª       ª   ª       ª   ª       AppListener.java
+ª       ª   ª       ª   ª       
+ª       ª   ª       ª   +---Email
+ª       ª   ª       ª   ª       EmailService.java
+ª       ª   ª       ª   ª       
+ª       ª   ª       ª   +---Enums
+ª       ª   ª       ª           FilterType.java
+ª       ª   ª       ª           
+ª       ª   ª       +---Servlets
+ª       ª   ª           +---crud
+ª       ª   ª           ª   +---Company
+ª       ª   ª           ª   ª   ª   Create.java
+ª       ª   ª           ª   ª   ª   Delete.java
+ª       ª   ª           ª   ª   ª   DeleteRollback.java
+ª       ª   ª           ª   ª   ª   Read.java
+ª       ª   ª           ª   ª   ª   
+ª       ª   ª           ª   ª   +---update
+ª       ª   ª           ª   ª           Render.java
+ª       ª   ª           ª   ª           Update.java
+ª       ª   ª           ª   ª           
+ª       ª   ª           ª   +---Login
+ª       ª   ª           ª   ª       CheckSessionServlet.java
+ª       ª   ª           ª   ª       LoginServlet.java
+ª       ª   ª           ª   ª       LogoutServlet.java
+ª       ª   ª           ª   ª       
+ª       ª   ª           ª   +---Payment
+ª       ª   ª           ª   ª   ª   Create.java
+ª       ª   ª           ª   ª   ª   Delete.java
+ª       ª   ª           ª   ª   ª   Read.java
+ª       ª   ª           ª   ª   ª   
+ª       ª   ª           ª   ª   +---update
+ª       ª   ª           ª   ª           Render.java
+ª       ª   ª           ª   ª           Update.java
+ª       ª   ª           ª   ª           
+ª       ª   ª           ª   +---Plan
+ª       ª   ª           ª   ª   ª   Create.java
+ª       ª   ª           ª   ª   ª   Delete.java
+ª       ª   ª           ª   ª   ª   DeleteRollback.java
+ª       ª   ª           ª   ª   ª   Read.java
+ª       ª   ª           ª   ª   ª   
+ª       ª   ª           ª   ª   +---update
+ª       ª   ª           ª   ª           Render.java
+ª       ª   ª           ª   ª           Update.java
+ª       ª   ª           ª   ª           
+ª       ª   ª           ª   +---PlanSubscription
+ª       ª   ª           ª   ª   ª   Create.java
+ª       ª   ª           ª   ª   ª   Delete.java
+ª       ª   ª           ª   ª   ª   DeleteRollback.java
+ª       ª   ª           ª   ª   ª   Read.java
+ª       ª   ª           ª   ª   ª   
+ª       ª   ª           ª   ª   +---update
+ª       ª   ª           ª   ª           Render.java
+ª       ª   ª           ª   ª           Update.java
+ª       ª   ª           ª   ª           
+ª       ª   ª           ª   +---Plant
+ª       ª   ª           ª   ª   ª   Create.java
+ª       ª   ª           ª   ª   ª   Delete.java
+ª       ª   ª           ª   ª   ª   DeleteRollback.java
+ª       ª   ª           ª   ª   ª   Read.java
+ª       ª   ª           ª   ª   ª   
+ª       ª   ª           ª   ª   +---update
+ª       ª   ª           ª   ª           Render.java
+ª       ª   ª           ª   ª           Update.java
+ª       ª   ª           ª   ª           
+ª       ª   ª           ª   +---Worker
+ª       ª   ª           ª       ª   Create.java
+ª       ª   ª           ª       ª   Delete.java
+ª       ª   ª           ª       ª   Read.java
+ª       ª   ª           ª       ª   
+ª       ª   ª           ª       +---login
+ª       ª   ª           ª       ª       Login.java
+ª       ª   ª           ª       ª       
+ª       ª   ª           ª       +---Update
+ª       ª   ª           ª               Render.java
+ª       ª   ª           ª               Update.java
+ª       ª   ª           ª               
+ª       ª   ª           +---Email
+ª       ª   ª                   Send.java
+ª       ª   ª                   
+ª       ª   +---test
+ª       ª           TDDEnv.java
+ª       ª           
+ª       +---resources
+ª       ª   +---META-INF
+ª       ª           beans.xml
+ª       ª           context.xml
+ª       ª           persistence.xml
+ª       ª           
+ª       +---webapp
+ª           ª   .gitignore
+ª           ª   index.html
+ª           ª   LICENSE
+ª           ª   ROOT.war
+ª           ª   
+ª           +---css
+ª           ª   ª   header.css
+ª           ª   ª   sidebar.css
+ª           ª   ª   style.css
+ª           ª   ª   text.css
+ª           ª   ª   variables.css
+ª           ª   ª   
+ª           ª   +---crud
+ª           ª   ª       base.css
+ª           ª   ª       form.css
+ª           ª   ª       read.css
+ª           ª   ª       table.css
+ª           ª   ª       
+ª           ª   +---land
+ª           ª   ª       cta.css
+ª           ª   ª       features.css
+ª           ª   ª       hero.css
+ª           ª   ª       ods.css
+ª           ª   ª       target.css
+ª           ª   ª       
+ª           ª   +---others
+ª           ª           aboutUs.css
+ª           ª           contact.css
+ª           ª           error.css
+ª           ª           login.css
+ª           ª           toUser.css
+ª           ª           
+ª           +---img
+ª           ª   +---assets
+ª           ª   ª   +---fotos
+ª           ª   ª   ª       jef.jpeg
+ª           ª   ª   ª       team.jpeg
+ª           ª   ª   ª       
+ª           ª   ª   +---ods
+ª           ª   ª   ª       symbol-12.png
+ª           ª   ª   ª       symbol-7.png
+ª           ª   ª   ª       symbol-8.png
+ª           ª   ª   ª       symbol-9.png
+ª           ª   ª   ª       text-12.png
+ª           ª   ª   ª       text-7.png
+ª           ª   ª   ª       text-8.png
+ª           ª   ª   ª       text-9.png
+ª           ª   ª   ª       
+ª           ª   ª   +---pictures
+ª           ª   ª   ª       coordenador.png
+ª           ª   ª   ª       manutencista.png
+ª           ª   ª   ª       operario.jpg
+ª           ª   ª   ª       
+ª           ª   ª   +---showcase
+ª           ª   ª           def-showcase.svg
+ª           ª   ª           screen-calendar.png
+ª           ª   ª           screen-confirmation.png
+ª           ª   ª           screen-maintenance.png
+ª           ª   ª           screen-warning.png
+ª           ª   ª           
+ª           ª   +---background
+ª           ª   ª       ctaf.jpg
+ª           ª   ª       ctaf2.jpg
+ª           ª   ª       ctaf3.jpg
+ª           ª   ª       ctaf4.png
+ª           ª   ª       hero.jpg
+ª           ª   ª       hero2.jpg
+ª           ª   ª       login.png
+ª           ª   ª       
+ª           ª   +---icons
+ª           ª       +---branding
+ª           ª       ª       HIVEMIND (black).png
+ª           ª       ª       HIVEMIND (white).png
+ª           ª       ª       TIMELEAN (black).png
+ª           ª       ª       TIMELEAN (white).png
+ª           ª       ª       
+ª           ª       +---demo
+ª           ª       ª       bolt (orange).png
+ª           ª       ª       calendar.png
+ª           ª       ª       chart.png
+ª           ª       ª       clipboard.png
+ª           ª       ª       cross.png
+ª           ª       ª       document.png
+ª           ª       ª       graphic.png
+ª           ª       ª       home-settings.png
+ª           ª       ª       layers.png
+ª           ª       ª       menu.png
+ª           ª       ª       money.png
+ª           ª       ª       pencil.png
+ª           ª       ª       spreadsheet.png
+ª           ª       ª       trash.png
+ª           ª       ª       wifi.png
+ª           ª       ª       wrench.png
+ª           ª       ª       
+ª           ª       +---favicon
+ª           ª       ª       home-v1.png
+ª           ª       ª       home-v2.png
+ª           ª       ª       
+ª           ª       +---social
+ª           ª       ª       github.png
+ª           ª       ª       instagram.png
+ª           ª       ª       whatsapp.png
+ª           ª       ª       
+ª           ª       +---ui
+ª           ª               arrow (black).png
+ª           ª               arrow (orange).png
+ª           ª               at.png
+ª           ª               close.png
+ª           ª               eye (closed).png
+ª           ª               eye (open).png
+ª           ª               filter.png
+ª           ª               hamburguer (black).png
+ª           ª               hamburguer (white).png
+ª           ª               lock (black).png
+ª           ª               lock (white).png
+ª           ª               pencil (black).png
+ª           ª               search.png
+ª           ª               trash (black).png
+ª           ª               user.png
+ª           ª               
+ª           +---js
+ª           ª       carousel.js
+ª           ª       dataReal.js
+ª           ª       logout.js
+ª           ª       password.js
+ª           ª       
+ª           +---pages
+ª           ª   ª   aboutUs.html
+ª           ª   ª   chooser.jsp
+ª           ª   ª   login.jsp
+ª           ª   ª   workerLogin.jsp
+ª           ª   ª   
+ª           ª   +---create
+ª           ª   ª       company.jsp
+ª           ª   ª       payment.jsp
+ª           ª   ª       plan.jsp
+ª           ª   ª       planSubscription.jsp
+ª           ª   ª       plant.jsp
+ª           ª   ª       worker.jsp
+ª           ª   ª       
+ª           ª   +---email
+ª           ª   ª       send.jsp
+ª           ª   ª       
+ª           ª   +---error
+ª           ª           error.jsp
+ª           ª           
+ª           +---WEB-INF
+ª               ª   .env
+ª               ª   web.xml
+ª               ª   
+ª               +---view
+ª                   +---crud
+ª                       +---company
+ª                       ª       read.jsp
+ª                       ª       update.jsp
+ª                       ª       
+ª                       +---payment
+ª                       ª       read.jsp
+ª                       ª       update.jsp
+ª                       ª       
+ª                       +---plan
+ª                       ª       read.jsp
+ª                       ª       update.jsp
+ª                       ª       
+ª                       +---planSubscription
+ª                       ª       read.jsp
+ª                       ª       update.jsp
+ª                       ª       
+ª                       +---plant
+ª                       ª       read.jsp
+ª                       ª       update.jsp
+ª                       ª       
+ª                       +---worker
+ª                               read.jsp
+ª                               update.jsp
+ª                               
++---target
+    ª   HivemindWeb-1.0-SNAPSHOT.war
+    ª   
+    +---classes
+    ª   +---hivemind
+    ª   ª   +---hivemindweb
+    ª   ª       +---AuthService
+    ª   ª       ª       AuthService.class
+    ª   ª       ª       
+    ª   ª       +---config
+    ª   ª       ª       EnvLoader.class
+    ª   ª       ª       
+    ª   ª       +---Connection
+    ª   ª       ª       DBConnection.class
+    ª   ª       ª       RedisManager.class
+    ª   ª       ª       
+    ª   ª       +---DAO
+    ª   ª       ª       AdminDAO.class
+    ª   ª       ª       CompanyDAO.class
+    ª   ª       ª       PaymentDAO.class
+    ª   ª       ª       PlanDAO.class
+    ª   ª       ª       PlanSubscriptionDAO.class
+    ª   ª       ª       PlantDAO$1.class
+    ª   ª       ª       PlantDAO.class
+    ª   ª       ª       WorkerDAO.class
+    ª   ª       ª       
+    ª   ª       +---Exception
+    ª   ª       ª       SessionExpiredException.class
+    ª   ª       ª       
+    ª   ª       +---models
+    ª   ª       ª       Admin.class
+    ª   ª       ª       Company.class
+    ª   ª       ª       Payment.class
+    ª   ª       ª       Plan.class
+    ª   ª       ª       PlanSubscription.class
+    ª   ª       ª       Plant.class
+    ª   ª       ª       Worker.class
+    ª   ª       ª       
+    ª   ª       +---Servelts
+    ª   ª       ª   +---crud
+    ª   ª       ª   ª   +---Company
+    ª   ª       ª   ª   ª   +---update
+    ª   ª       ª   ª   +---Login
+    ª   ª       ª   ª   +---Payment
+    ª   ª       ª   ª   ª   +---update
+    ª   ª       ª   ª   +---Plan
+    ª   ª       ª   ª   ª   +---update
+    ª   ª       ª   ª   +---PlanSubscription
+    ª   ª       ª   ª   ª   +---update
+    ª   ª       ª   ª   +---Plant
+    ª   ª       ª   ª   ª   +---update
+    ª   ª       ª   ª   +---Worker
+    ª   ª       ª   ª       +---login
+    ª   ª       ª   ª       +---Update
+    ª   ª       ª   +---Email
+    ª   ª       ª   +---login
+    ª   ª       +---Services
+    ª   ª       ª   +---AppListener
+    ª   ª       ª   ª       AppListener.class
+    ª   ª       ª   ª       
+    ª   ª       ª   +---Email
+    ª   ª       ª   ª       EmailService$1.class
+    ª   ª       ª   ª       EmailService.class
+    ª   ª       ª   ª       
+    ª   ª       ª   +---Enums
+    ª   ª       ª           FilterType$Company.class
+    ª   ª       ª           FilterType$Payment.class
+    ª   ª       ª           FilterType$PlanSubscription.class
+    ª   ª       ª           FilterType$Plant.class
+    ª   ª       ª           FilterType$Worker.class
+    ª   ª       ª           FilterType.class
+    ª   ª       ª           
+    ª   ª       +---Servlets
+    ª   ª           +---crud
+    ª   ª           ª   +---Company
+    ª   ª           ª   ª   ª   Create.class
+    ª   ª           ª   ª   ª   Delete.class
+    ª   ª           ª   ª   ª   DeleteRollback.class
+    ª   ª           ª   ª   ª   Read.class
+    ª   ª           ª   ª   ª   
+    ª   ª           ª   ª   +---update
+    ª   ª           ª   ª           Render.class
+    ª   ª           ª   ª           Update.class
+    ª   ª           ª   ª           
+    ª   ª           ª   +---Login
+    ª   ª           ª   ª       CheckSessionServlet.class
+    ª   ª           ª   ª       LoginServlet.class
+    ª   ª           ª   ª       LogoutServlet.class
+    ª   ª           ª   ª       
+    ª   ª           ª   +---Payment
+    ª   ª           ª   ª   ª   Create.class
+    ª   ª           ª   ª   ª   Delete.class
+    ª   ª           ª   ª   ª   Read.class
+    ª   ª           ª   ª   ª   
+    ª   ª           ª   ª   +---update
+    ª   ª           ª   ª           Render.class
+    ª   ª           ª   ª           Update.class
+    ª   ª           ª   ª           
+    ª   ª           ª   +---Plan
+    ª   ª           ª   ª   ª   Create.class
+    ª   ª           ª   ª   ª   Delete.class
+    ª   ª           ª   ª   ª   DeleteRollback.class
+    ª   ª           ª   ª   ª   Read.class
+    ª   ª           ª   ª   ª   
+    ª   ª           ª   ª   +---update
+    ª   ª           ª   ª           Render.class
+    ª   ª           ª   ª           Update.class
+    ª   ª           ª   ª           
+    ª   ª           ª   +---PlanSubscription
+    ª   ª           ª   ª   ª   Create.class
+    ª   ª           ª   ª   ª   Delete.class
+    ª   ª           ª   ª   ª   DeleteRollback.class
+    ª   ª           ª   ª   ª   Read.class
+    ª   ª           ª   ª   ª   
+    ª   ª           ª   ª   +---update
+    ª   ª           ª   ª           Render.class
+    ª   ª           ª   ª           Update.class
+    ª   ª           ª   ª           
+    ª   ª           ª   +---Plant
+    ª   ª           ª   ª   ª   Create.class
+    ª   ª           ª   ª   ª   Delete.class
+    ª   ª           ª   ª   ª   DeleteRollback.class
+    ª   ª           ª   ª   ª   Read.class
+    ª   ª           ª   ª   ª   
+    ª   ª           ª   ª   +---update
+    ª   ª           ª   ª           Render.class
+    ª   ª           ª   ª           Update.class
+    ª   ª           ª   ª           
+    ª   ª           ª   +---Worker
+    ª   ª           ª       ª   Create.class
+    ª   ª           ª       ª   Delete.class
+    ª   ª           ª       ª   Read.class
+    ª   ª           ª       ª   
+    ª   ª           ª       +---login
+    ª   ª           ª       ª       Login.class
+    ª   ª           ª       ª       
+    ª   ª           ª       +---Update
+    ª   ª           ª               Render.class
+    ª   ª           ª               Update.class
+    ª   ª           ª               
+    ª   ª           +---Email
+    ª   ª                   Send.class
+    ª   ª                   
+    ª   +---META-INF
+    ª   ª       beans.xml
+    ª   ª       context.xml
+    ª   ª       persistence.xml
+    ª   ª       
+    ª   +---test
+    ª           TDDEnv.class
+    ª           
+    +---generated-sources
+    ª   +---annotations
+    +---HivemindWeb-1.0-SNAPSHOT
+        ª   .gitignore
+        ª   index.html
+        ª   LICENSE
+        ª   ROOT.war
+        ª   
+        +---css
+        ª   ª   header.css
+        ª   ª   sidebar.css
+        ª   ª   style.css
+        ª   ª   text.css
+        ª   ª   variables.css
+        ª   ª   
+        ª   +---crud
+        ª   ª       base.css
+        ª   ª       form.css
+        ª   ª       read.css
+        ª   ª       table.css
+        ª   ª       
+        ª   +---land
+        ª   ª       cta.css
+        ª   ª       features.css
+        ª   ª       hero.css
+        ª   ª       ods.css
+        ª   ª       target.css
+        ª   ª       
+        ª   +---others
+        ª           aboutUs.css
+        ª           contact.css
+        ª           error.css
+        ª           login.css
+        ª           toUser.css
+        ª           
+        +---html
+        ª   +---crud
+        ª   ª   +---company
+        ª   ª   +---payment
+        ª   ª   +---plan
+        ª   ª   +---planSubscription
+        ª   ª   +---plant
+        ª   ª   +---worker
+        ª   ª       +---login
+        ª   +---email
+        ª   +---error
+        +---img
+        ª   +---assets
+        ª   ª   +---fotos
+        ª   ª   ª       jef.jpeg
+        ª   ª   ª       team.jpeg
+        ª   ª   ª       
+        ª   ª   +---ods
+        ª   ª   ª       symbol-12.png
+        ª   ª   ª       symbol-7.png
+        ª   ª   ª       symbol-8.png
+        ª   ª   ª       symbol-9.png
+        ª   ª   ª       text-12.png
+        ª   ª   ª       text-7.png
+        ª   ª   ª       text-8.png
+        ª   ª   ª       text-9.png
+        ª   ª   ª       
+        ª   ª   +---pictures
+        ª   ª   ª       coordenador.png
+        ª   ª   ª       manutencista.png
+        ª   ª   ª       operario.jpg
+        ª   ª   ª       
+        ª   ª   +---showcase
+        ª   ª           def-showcase.svg
+        ª   ª           screen-calendar.png
+        ª   ª           screen-confirmation.png
+        ª   ª           screen-maintenance.png
+        ª   ª           screen-warning.png
+        ª   ª           
+        ª   +---background
+        ª   ª       ctaf.jpg
+        ª   ª       ctaf2.jpg
+        ª   ª       ctaf3.jpg
+        ª   ª       ctaf4.png
+        ª   ª       hero.jpg
+        ª   ª       hero2.jpg
+        ª   ª       login.png
+        ª   ª       
+        ª   +---icons
+        ª       +---branding
+        ª       ª       HIVEMIND (black).png
+        ª       ª       HIVEMIND (white).png
+        ª       ª       TIMELEAN (black).png
+        ª       ª       TIMELEAN (white).png
+        ª       ª       
+        ª       +---demo
+        ª       ª       bolt (orange).png
+        ª       ª       calendar.png
+        ª       ª       chart.png
+        ª       ª       clipboard.png
+        ª       ª       cross.png
+        ª       ª       document.png
+        ª       ª       graphic.png
+        ª       ª       home-settings.png
+        ª       ª       layers.png
+        ª       ª       menu.png
+        ª       ª       money.png
+        ª       ª       pencil.png
+        ª       ª       spreadsheet.png
+        ª       ª       trash.png
+        ª       ª       wifi.png
+        ª       ª       wrench.png
+        ª       ª       
+        ª       +---favicon
+        ª       ª       home-v1.png
+        ª       ª       home-v2.png
+        ª       ª       
+        ª       +---social
+        ª       ª       github.png
+        ª       ª       instagram.png
+        ª       ª       whatsapp.png
+        ª       ª       
+        ª       +---ui
+        ª               arrow (black).png
+        ª               arrow (orange).png
+        ª               at.png
+        ª               close.png
+        ª               eye (closed).png
+        ª               eye (open).png
+        ª               filter.png
+        ª               hamburguer (black).png
+        ª               hamburguer (white).png
+        ª               lock (black).png
+        ª               lock (white).png
+        ª               pencil (black).png
+        ª               search.png
+        ª               trash (black).png
+        ª               user.png
+        ª               
+        +---js
+        ª       carousel.js
+        ª       dataReal.js
+        ª       logout.js
+        ª       password.js
+        ª       
+        +---META-INF
+        ª       MANIFEST.MF
+        ª       
+        +---pages
+        ª   ª   aboutUs.html
+        ª   ª   chooser.jsp
+        ª   ª   login.jsp
+        ª   ª   workerLogin.jsp
+        ª   ª   
+        ª   +---create
+        ª   ª       company.jsp
+        ª   ª       payment.jsp
+        ª   ª       plan.jsp
+        ª   ª       planSubscription.jsp
+        ª   ª       plant.jsp
+        ª   ª       worker.jsp
+        ª   ª       
+        ª   +---email
+        ª   ª       send.jsp
+        ª   ª       
+        ª   +---error
+        ª           error.jsp
+        ª           
+        +---WEB-INF
+            ª   .env
+            ª   web.xml
+            ª   
+            +---classes
+            ª   +---hivemind
+            ª   ª   +---hivemindweb
+            ª   ª       +---AuthService
+            ª   ª       ª       AuthService.class
+            ª   ª       ª       
+            ª   ª       +---config
+            ª   ª       ª       EnvLoader.class
+            ª   ª       ª       
+            ª   ª       +---Connection
+            ª   ª       ª       DBConnection.class
+            ª   ª       ª       RedisManager.class
+            ª   ª       ª       
+            ª   ª       +---DAO
+            ª   ª       ª       AdminDAO.class
+            ª   ª       ª       CompanyDAO.class
+            ª   ª       ª       PaymentDAO.class
+            ª   ª       ª       PlanDAO.class
+            ª   ª       ª       PlanSubscriptionDAO.class
+            ª   ª       ª       PlantDAO$1.class
+            ª   ª       ª       PlantDAO.class
+            ª   ª       ª       WorkerDAO.class
+            ª   ª       ª       
+            ª   ª       +---Exception
+            ª   ª       ª       SessionExpiredException.class
+            ª   ª       ª       
+            ª   ª       +---models
+            ª   ª       ª       Admin.class
+            ª   ª       ª       Company.class
+            ª   ª       ª       Payment.class
+            ª   ª       ª       Plan.class
+            ª   ª       ª       PlanSubscription.class
+            ª   ª       ª       Plant.class
+            ª   ª       ª       Worker.class
+            ª   ª       ª       
+            ª   ª       +---Servelts
+            ª   ª       ª   +---crud
+            ª   ª       ª   ª   +---Company
+            ª   ª       ª   ª   ª   +---update
+            ª   ª       ª   ª   +---Login
+            ª   ª       ª   ª   +---Payment
+            ª   ª       ª   ª   ª   +---update
+            ª   ª       ª   ª   +---Plan
+            ª   ª       ª   ª   ª   +---update
+            ª   ª       ª   ª   +---PlanSubscription
+            ª   ª       ª   ª   ª   +---update
+            ª   ª       ª   ª   +---Plant
+            ª   ª       ª   ª   ª   +---update
+            ª   ª       ª   ª   +---Worker
+            ª   ª       ª   ª       +---login
+            ª   ª       ª   ª       +---Update
+            ª   ª       ª   +---Email
+            ª   ª       ª   +---login
+            ª   ª       +---Services
+            ª   ª       ª   +---AppListener
+            ª   ª       ª   ª       AppListener.class
+            ª   ª       ª   ª       
+            ª   ª       ª   +---Email
+            ª   ª       ª   ª       EmailService$1.class
+            ª   ª       ª   ª       EmailService.class
+            ª   ª       ª   ª       
+            ª   ª       ª   +---Enums
+            ª   ª       ª           FilterType$Company.class
+            ª   ª       ª           FilterType$Payment.class
+            ª   ª       ª           FilterType$PlanSubscription.class
+            ª   ª       ª           FilterType$Plant.class
+            ª   ª       ª           FilterType$Worker.class
+            ª   ª       ª           FilterType.class
+            ª   ª       ª           
+            ª   ª       +---Servlets
+            ª   ª           +---crud
+            ª   ª           ª   +---Company
+            ª   ª           ª   ª   ª   Create.class
+            ª   ª           ª   ª   ª   Delete.class
+            ª   ª           ª   ª   ª   DeleteRollback.class
+            ª   ª           ª   ª   ª   Read.class
+            ª   ª           ª   ª   ª   
+            ª   ª           ª   ª   +---update
+            ª   ª           ª   ª           Render.class
+            ª   ª           ª   ª           Update.class
+            ª   ª           ª   ª           
+            ª   ª           ª   +---Login
+            ª   ª           ª   ª       CheckSessionServlet.class
+            ª   ª           ª   ª       LoginServlet.class
+            ª   ª           ª   ª       LogoutServlet.class
+            ª   ª           ª   ª       
+            ª   ª           ª   +---Payment
+            ª   ª           ª   ª   ª   Create.class
+            ª   ª           ª   ª   ª   Delete.class
+            ª   ª           ª   ª   ª   Read.class
+            ª   ª           ª   ª   ª   
+            ª   ª           ª   ª   +---update
+            ª   ª           ª   ª           Render.class
+            ª   ª           ª   ª           Update.class
+            ª   ª           ª   ª           
+            ª   ª           ª   +---Plan
+            ª   ª           ª   ª   ª   Create.class
+            ª   ª           ª   ª   ª   Delete.class
+            ª   ª           ª   ª   ª   DeleteRollback.class
+            ª   ª           ª   ª   ª   Read.class
+            ª   ª           ª   ª   ª   
+            ª   ª           ª   ª   +---update
+            ª   ª           ª   ª           Render.class
+            ª   ª           ª   ª           Update.class
+            ª   ª           ª   ª           
+            ª   ª           ª   +---PlanSubscription
+            ª   ª           ª   ª   ª   Create.class
+            ª   ª           ª   ª   ª   Delete.class
+            ª   ª           ª   ª   ª   DeleteRollback.class
+            ª   ª           ª   ª   ª   Read.class
+            ª   ª           ª   ª   ª   
+            ª   ª           ª   ª   +---update
+            ª   ª           ª   ª           Render.class
+            ª   ª           ª   ª           Update.class
+            ª   ª           ª   ª           
+            ª   ª           ª   +---Plant
+            ª   ª           ª   ª   ª   Create.class
+            ª   ª           ª   ª   ª   Delete.class
+            ª   ª           ª   ª   ª   DeleteRollback.class
+            ª   ª           ª   ª   ª   Read.class
+            ª   ª           ª   ª   ª   
+            ª   ª           ª   ª   +---update
+            ª   ª           ª   ª           Render.class
+            ª   ª           ª   ª           Update.class
+            ª   ª           ª   ª           
+            ª   ª           ª   +---Worker
+            ª   ª           ª       ª   Create.class
+            ª   ª           ª       ª   Delete.class
+            ª   ª           ª       ª   Read.class
+            ª   ª           ª       ª   
+            ª   ª           ª       +---login
+            ª   ª           ª       ª       Login.class
+            ª   ª           ª       ª       
+            ª   ª           ª       +---Update
+            ª   ª           ª               Render.class
+            ª   ª           ª               Update.class
+            ª   ª           ª               
+            ª   ª           +---Email
+            ª   ª                   Send.class
+            ª   ª                   
+            ª   +---META-INF
+            ª   ª       beans.xml
+            ª   ª       context.xml
+            ª   ª       persistence.xml
+            ª   ª       
+            ª   +---test
+            ª           TDDEnv.class
+            ª           
+            +---lib
+            ª       angus-activation-2.0.0.jar
+            ª       angus-mail-2.0.1.jar
+            ª       checker-qual-3.42.0.jar
+            ª       commons-pool2-2.12.1.jar
+            ª       dotenv-java-3.2.0.jar
+            ª       error_prone_annotations-2.36.0.jar
+            ª       gson-2.12.1.jar
+            ª       jakarta.activation-api-2.1.1.jar
+            ª       jakarta.mail-api-2.1.1.jar
+            ª       jbcrypt-0.4.jar
+            ª       jedis-6.0.0.jar
+            ª       json-20250107.jar
+            ª       postgresql-42.7.3.jar
+            ª       redis-authx-core-0.1.1-beta2.jar
+            ª       slf4j-api-1.7.36.jar
+            ª       
+            +---view
+                +---crud
+                    +---company
+                    ª       read.jsp
+                    ª       update.jsp
+                    ª       
+                    +---payment
+                    ª       read.jsp
+                    ª       update.jsp
+                    ª       
+                    +---plan
+                    ª       read.jsp
+                    ª       update.jsp
+                    ª       
+                    +---planSubscription
+                    ª       read.jsp
+                    ª       update.jsp
+                    ª       
+                    +---plant
+                    ª       read.jsp
+                    ª       update.jsp
+                    ª       
+                    +---worker
+                            read.jsp
+                            update.jsp
+                            
+
 
 ---
 
