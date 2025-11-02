@@ -22,8 +22,8 @@ public class RedisManager {
                 throw new IllegalArgumentException("Valor Nulo: 'dotenv'");
             }
 
-            String host = dotenv.get("rds_host");
-            String password = dotenv.get("rds_password");
+            String host = dotenv.get("RDS_HOST");
+            String password = dotenv.get("RDS_PASSWORD");
 
             if (host == null) {
                 throw new IllegalArgumentException("Valor Nulo: 'rds_host'");

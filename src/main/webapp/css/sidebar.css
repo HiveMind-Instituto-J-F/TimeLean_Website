@@ -50,11 +50,6 @@
     margin-left: 5%;
 }
 
-#summary a {
-    pointer-events: none;
-    cursor: none;
-}
-
 @media (max-width: 340px) {
     #summary>details,
     #summary>a h3 {

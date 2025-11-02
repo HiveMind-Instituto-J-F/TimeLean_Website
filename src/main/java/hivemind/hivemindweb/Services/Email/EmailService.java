@@ -33,8 +33,8 @@ public class EmailService {
             }
 
             // [PROCESS] Load email credentials
-            emailName = dotenvFromDb.get("email_name");
-            emailPassword = dotenvFromDb.get("email_password");
+            emailName = dotenvFromDb.get("EMAIL_NAME");
+            emailPassword = dotenvFromDb.get("EMAIL_PASSWORD");
 
             // [PROCESS] Configure SMTP properties
             smtpProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
