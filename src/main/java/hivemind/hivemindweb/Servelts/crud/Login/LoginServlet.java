@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servlets.crud.Login;
+package hivemind.hivemindweb.Servelts.crud.Login;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
