@@ -21,8 +21,8 @@ public class Read extends HttpServlet {
         try {
             // [VALIDATION] Retrieve the current session and plantCnpj
             HttpSession session = req.getSession();
-            String plantCnpj = (String) session.getAttribute("plantCnpj");
-            if (plantCnpj == null || plantCnpj.isEmpty()) {
+            String plantCnpjParam = (String) session.getAttribute("plantCnpj");
+            if (plantCnpjParam == null || plantCnpjParam.isEmpty()) {
                 throw new IllegalArgumentException("Missing or empty plantCnpj in session");
             }
 
@@ -42,15 +42,15 @@ public class Read extends HttpServlet {
             }
 
             // [DATA ACCESS] Retrieve workers with applied filter
-            List<Worker> workers = WorkerDAO.selectFilter(filterType, filter, plantCnpj);
+            List<Worker> workers = WorkerDAO.selectFilter(filterType, filter, plantCnpjParam);
 
             // [PROCESS] Set attributes and forward to JSP
             req.setAttribute("workers", workers);
-            req.setAttribute("plantCnpj", plantCnpj);
+            req.setAttribute("plantCnpj", plantCnpjParam);
             req.getRequestDispatcher("/WEB-INF/view/crud/worker/read.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Workers retrieved successfully
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Workers retrieved for plant: " + plantCnpj);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Workers retrieved for plant: " + plantCnpjParam);
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Missing or invalid plantCnpj

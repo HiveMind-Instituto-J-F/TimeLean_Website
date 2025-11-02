@@ -20,6 +20,10 @@ public class Delete extends HttpServlet {
             if (cpfParam == null || cpfParam.isEmpty()) {
                 throw new IllegalArgumentException("CPF parameter is missing");
             }
+            if (!cpfParam.matches("^[0-9]{11}$")) {
+                throw new IllegalArgumentException("Formato inválido de CPF: " + cpfParam);
+            }
+
 
             // [DATA ACCESS] Attempt to delete worker
             boolean deleted = WorkerDAO.delete(cpfParam);

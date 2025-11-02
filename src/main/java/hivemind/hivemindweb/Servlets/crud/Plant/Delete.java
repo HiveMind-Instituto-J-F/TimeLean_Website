@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Delete extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // [PROCESS] Handle plant deletion by switching operational status to false
         try {
             // [VALIDATION] Get and validate CNPJ parameter

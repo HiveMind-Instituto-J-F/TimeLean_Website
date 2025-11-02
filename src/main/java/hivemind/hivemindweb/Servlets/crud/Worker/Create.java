@@ -29,6 +29,7 @@ public class Create extends HttpServlet {
             String paramPassword = req.getParameter("loginPassword");
 
             if (paramCpf == null || paramCpf.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'cpf'");
+            if (!paramCpf.matches("^[0-9]{11}$")) throw new IllegalArgumentException("Formato inválido de CPF: " + paramCpf);
             if (paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'name'");
             if (paramRole == null || paramRole.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'role'");
             if (paramSector == null || paramSector.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'sector'");

@@ -40,7 +40,7 @@ public class Render extends HttpServlet {
             // [SUCCESS LOG] Payment retrieved successfully
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Payment loaded successfully, id: " + id);
             req.setAttribute("payment", payment);
-            req.getRequestDispatcher("/WEB-INF/view/payment/update.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/crud/payment/update.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered

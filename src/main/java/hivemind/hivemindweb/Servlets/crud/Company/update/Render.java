@@ -32,7 +32,7 @@ public class Render extends HttpServlet {
 
             // [PROCESS] Set company attribute and forward to update page
             req.setAttribute("company", company);
-            req.getRequestDispatcher("/WEB-INF/view/company/update.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/crud/company/update.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Company render successful
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Company rendered successfully for CNPJ: " + paramCnpj);

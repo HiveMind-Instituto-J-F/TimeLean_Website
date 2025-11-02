@@ -22,44 +22,45 @@ public class Update extends HttpServlet {
             // [VALIDATION] Retrieve and validate session and parameters
             HttpSession session = req.getSession();
 
-            String cpf = req.getParameter("cpf");
-            String name = req.getParameter("name");
-            String role = req.getParameter("role");
-            String sector = req.getParameter("sector");
-            String loginEmail = req.getParameter("loginEmail");
-            String loginPassword = req.getParameter("loginPassword");
-            String plantCnpj = (String) session.getAttribute("plantCnpj");
+            String cpfParam = req.getParameter("cpf");
+            String nameParam = req.getParameter("name");
+            String roleParam = req.getParameter("role");
+            String sectorParam = req.getParameter("sector");
+            String loginEmailParam = req.getParameter("loginEmail");
+            String loginPasswordParam = req.getParameter("loginPassword");
+            String plantCnpjParam = (String) session.getAttribute("plantCnpj");
 
-            if(cpf == null || cpf.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");
-            if(name == null || name.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'name'");
-            if(role == null || role.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'role'");
-            if(sector == null || sector.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'sector'");
-            if(loginEmail == null || loginEmail.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'loginEmail'");
-            if(plantCnpj == null || plantCnpj.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");
+            if(cpfParam == null || cpfParam.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");
+            if(!cpfParam.matches("^[0-9]{11}$")) throw new IllegalArgumentException("Invalid CPF format: " + cpfParam);
+            if(nameParam == null || nameParam.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'name'");
+            if(roleParam == null || roleParam.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'role'");
+            if(sectorParam == null || sectorParam.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'sector'");
+            if(loginEmailParam == null || loginEmailParam.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'loginEmail'");
+            if(plantCnpjParam == null || plantCnpjParam.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");
 
-            // [PROCESS] Hash password, create Worker object and update worker
-            String hashedPassword = AuthService.hash(loginPassword);
+            // [DATA ACCESS] Hash password, create Worker object and update worker
+            String hashedPassword = AuthService.hash(loginPasswordParam);
 
-            Worker workerFromDb = WorkerDAO.selectByCpf(cpf);
-            if(workerFromDb == null) throw new NullPointerException("Worker not found for CPF: " + cpf);
+            Worker workerFromDb = WorkerDAO.selectByCpf(cpfParam);
+            if(workerFromDb == null) throw new NullPointerException("Worker not found for CPF: " + cpfParam);
 
-            workerFromDb.setCpf(cpf);
-            workerFromDb.setLoginEmail(loginEmail);
-            workerFromDb.setName(name);
-            workerFromDb.setRole(role);
-            workerFromDb.setSector(sector);
+            workerFromDb.setCpf(cpfParam);
+            workerFromDb.setLoginEmail(loginEmailParam);
+            workerFromDb.setName(nameParam);
+            workerFromDb.setRole(roleParam);
+            workerFromDb.setSector(sectorParam);
 
-            if(!loginPassword.isEmpty()) workerFromDb.setLoginPassword(hashedPassword);
+            if(!loginPasswordParam.isEmpty()) workerFromDb.setLoginPassword(hashedPassword);
 
             // [DATA ACCESS] Attempt to update worker in database
             boolean updated = WorkerDAO.update(workerFromDb);
             if(updated) {
                 // [SUCCESS LOG] Worker updated successfully
-                System.out.println("[INFO] [" + LocalDateTime.now() + "] Worker updated: " + cpf);
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] Worker updated: " + cpfParam);
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
             } else {
                 // [FAILURE LOG] Database update failed
-                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update worker in the database: " + cpf);
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update worker in the database: " + cpfParam);
                 req.setAttribute("errorMessage", "Não foi possível atualizar o trabalhador.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
                 req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);

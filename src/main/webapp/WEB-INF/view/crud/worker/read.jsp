@@ -90,7 +90,7 @@
                     </label>
                     <input type="text" name="sectorFilter" placeholder="Digite o setor do trabalhador aqui">
                 </div>
-                <button class="inter" type="submit">Submeter</button>
+                <button class="inter" type="submit">Aplicar Filtro</button>
             </form>
 
             <div>

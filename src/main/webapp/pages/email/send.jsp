@@ -56,7 +56,7 @@
             </section>
             
             <div id="wrap">
-                <form class="inter-thin" action="${pageContext.request.contextPath}/email/send" method="get">
+                <form class="inter-thin" action="${pageContext.request.contextPath}/email/send" method="post">
                     <div class="input-div">
                         <label for="sector">Setor</label>
                         <input name="sector" type="text" placeholder="Ex: Industrias Têxteis" required>

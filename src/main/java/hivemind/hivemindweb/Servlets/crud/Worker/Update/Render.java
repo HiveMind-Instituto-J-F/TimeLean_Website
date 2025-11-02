@@ -17,15 +17,15 @@ public class Render extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             // [VALIDATION] Get and validate parameter
-            String cpf = req.getParameter("cpf");
-            if (cpf == null || cpf.isEmpty()) {
+            String cpfParam = req.getParameter("cpf");
+            if (cpfParam == null || cpfParam.isEmpty()) {
                 throw new IllegalArgumentException("Null value: 'cpf'");
             }
 
             // [DATA ACCESS] Retrieve worker by CPF
-            Worker worker = WorkerDAO.selectByCpf(cpf);
+            Worker worker = WorkerDAO.selectByCpf(cpfParam);
             if (worker == null) {
-                throw new NullPointerException("Worker not found for CPF: " + cpf);
+                throw new NullPointerException("Worker not found for CPF: " + cpfParam);
             }
 
             // [PROCESS] Set worker attribute and forward to update page
@@ -33,7 +33,7 @@ public class Render extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/view/crud/worker/update.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Worker render successful
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Worker render successful for CPF: " + cpf);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Worker render successful for CPF: " + cpfParam);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Parameter validation error

@@ -170,7 +170,7 @@
                                         </button>
                                     </form>
                                     
-                                    <form class="delete" action="${pageContext.request.contextPath}/payment/delete" method="get">
+                                    <form class="delete" action="${pageContext.request.contextPath}/payment/delete" method="post">
                                         <button type="submit">
                                             <input type="hidden" name="id" value="<%= p.getId() %>">
                                             <img src="${pageContext.request.contextPath}/img/icons/ui/trash%20(black).png" alt="Deletar">

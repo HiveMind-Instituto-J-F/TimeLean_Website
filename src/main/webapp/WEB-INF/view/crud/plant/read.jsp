@@ -188,7 +188,7 @@
                                         </button>
                                     </form>
                                     
-                                    <form class="delete" action="${pageContext.request.contextPath}/plant/delete" method="get">
+                                    <form class="delete" action="${pageContext.request.contextPath}/plant/delete" method="post">
                                         <button type="submit">
                                             <input type="hidden" name="cnpj" value="<%= p.getCnpj() %>">
                                             <img src="${pageContext.request.contextPath}/img/icons/ui/trash%20(black).png" alt="Deletar">
