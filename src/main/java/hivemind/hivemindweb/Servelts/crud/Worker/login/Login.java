@@ -40,8 +40,8 @@ public class Login extends HttpServlet {
                 // [FAILURE LOG] Plant not found
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Plant not found for CNPJ: " + paramPlantCnpj);
                 req.setAttribute("errorMessage", "Planta não encontrada.");
-                req.setAttribute("errorUrl", "/html/crud/worker/login/login.jsp");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.setAttribute("errorUrl", "/pages/workerLogin.jsp");
+                req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                 return;
             }
 
@@ -51,7 +51,7 @@ public class Login extends HttpServlet {
                 // [FAILURE LOG] Worker not found
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Worker not found for CPF: " + paramResponsibleCpf);
                 req.setAttribute("errorMessage", "Trabalhador não encontrado.");
-                req.setAttribute("errorUrl", "/html/crud/worker/login/login.jsp");
+                req.setAttribute("errorUrl", "/pages/workerLogin.jsp");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
                 return;
             }
@@ -61,7 +61,7 @@ public class Login extends HttpServlet {
                 // [FAILURE LOG] CPF mismatch
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Plant responsible mismatch with worker CPF.");
                 req.setAttribute("status", false);
-                req.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/workerLogin.jsp").forward(req, resp);
                 return;
             }
 
@@ -85,26 +85,26 @@ public class Login extends HttpServlet {
                 // [FAILURE LOG] Invalid credentials
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Invalid credentials for worker CPF: " + paramResponsibleCpf); // [FAILURE LOG] Invalid credentials
                 req.setAttribute("status", false);
-                req.getRequestDispatcher("/html/crud/worker/login/login.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/workerLogin.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid input parameter
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Valores inválidos ou parâmetro ausente.");
-            req.getRequestDispatcher("/html/crud/Worker/delete.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/workerLogin.jsp").forward(req, resp);
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null pointer exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: valor nulo inesperado.");
-            req.setAttribute("errorUrl", "/html/crud/worker/login/login.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/workerLogin.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         } catch (Exception e) {
             // [FAILURE LOG] Catch all unexpected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error in Worker.Login: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado durante o login: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/worker/login/login.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/workerLogin.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

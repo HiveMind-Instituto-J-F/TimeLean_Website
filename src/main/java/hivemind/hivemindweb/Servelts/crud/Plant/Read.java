@@ -37,8 +37,8 @@ public class Read extends HttpServlet {
                     default -> {
                         System.err.println("[ERROR] [" + LocalDateTime.now() + "] Invalid filter: " + paramChosenFilter); // [FAILURE LOG] invalid filter
                         req.setAttribute("errorMessage", "Filtro inválido fornecido.");
-                        req.setAttribute("errorUrl", "/html/toUser.html");
-                        req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                        req.setAttribute("errorUrl", "/pages/chooser.jsp");
+                        req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                         return;
                     }
                 }
@@ -56,14 +56,14 @@ public class Read extends HttpServlet {
             // [FAILURE LOG] null pointer error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException in Plant.Read: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: dado ausente ou nulo.");
-            req.setAttribute("errorUrl", "/html/toUser.html");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         } catch (Exception e) {
             // [FAILURE LOG] unexpected error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error in Plant.Read: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao carregar plantas: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/toUser.html");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

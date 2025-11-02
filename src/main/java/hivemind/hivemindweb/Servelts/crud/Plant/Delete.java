@@ -36,21 +36,22 @@ public class Delete extends HttpServlet {
             // [FAILURE LOG] Handle missing or invalid parameter
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro ao desativar a planta: " + e.getMessage());
-            req.getRequestDispatcher("/html/crud/plant/delete.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exceptions
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro ao desativar a planta: referência nula encontrada.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Erro inesperado: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao desativar a planta: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

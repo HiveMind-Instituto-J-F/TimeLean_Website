@@ -55,21 +55,22 @@ public class DeleteRollback extends HttpServlet {
             // [FAILURE LOG] Handle expected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] DeleteRollback -> " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Erro ao reverter exclusão da planta: " + e.getMessage());
-            req.getRequestDispatcher("/html/crud/plant/delete.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exceptions
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] DeleteRollback -> NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro ao reverter exclusão da planta: referência nula encontrada.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all for unexpected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] DeleteRollback unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao reverter exclusão da planta: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

@@ -47,7 +47,7 @@ public class Read extends HttpServlet {
             // [PROCESS] Set attributes and forward to JSP
             req.setAttribute("workers", workers);
             req.setAttribute("plantCnpj", plantCnpj);
-            req.getRequestDispatcher("/html/crud/worker/read.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/crud/worker/read.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Workers retrieved successfully
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Workers retrieved for plant: " + plantCnpj);
@@ -56,28 +56,28 @@ public class Read extends HttpServlet {
             // [FAILURE LOG] Missing or invalid plantCnpj
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos da planta. Verifique as informações da sessão.");
-            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered in DAO
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno ao recuperar dados de trabalhadores ou planta.");
-            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IllegalStateException ise) {
             // [FAILURE LOG] Session or response error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalStateException: " + ise.getMessage());
             req.setAttribute("errorMessage", "Erro de sessão ou resposta. Recarregue a página.");
-            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }

@@ -57,7 +57,7 @@ public class Update extends HttpServlet {
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscription could not be updated in DB");
                 req.setAttribute("errorMessage", "Não foi possível atualizar a assinatura. Verifique se ela existe.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/render-update?id=" + id);
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                 return;
             }
 
@@ -69,28 +69,28 @@ public class Update extends HttpServlet {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // [FAILURE LOG] Invalid date format
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] DateTimeParseException: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Formato de data inválido: " + dpe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Unexpected null values
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Assinatura não encontrada ou elementos nulos: " + npe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all for unexpected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao atualizar a assinatura.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

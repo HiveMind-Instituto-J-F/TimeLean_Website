@@ -45,35 +45,35 @@ public class Delete extends HttpServlet {
             System.err.println("[ERROR] Unknown error deleting company: " + paramCnpj);
             req.setAttribute("errorMessage", "Não foi possível deletar a empresa (Erro desconhecido).");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered
             System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Não foi possível deletar a empresa (Erro interno).");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid input or business rule violation
             System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos, por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch error
             System.err.println("[ERROR] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected error
             System.err.println("[ERROR] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

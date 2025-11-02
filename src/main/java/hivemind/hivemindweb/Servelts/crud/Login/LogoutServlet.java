@@ -50,22 +50,22 @@ public class LogoutServlet extends HttpServlet {
             System.out.println("[INFO] [" + LocalDateTime.now() + "] Session successfully terminated");
 
             // [PROCESS] Redirect to login page
-            response.sendRedirect(request.getContextPath() + "/html/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/html/workerLogin.jsp");
 
         } catch (IllegalArgumentException iae) {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IAE: " + iae.getMessage());
             request.setAttribute("errorMessage", iae.getMessage());
-            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/error/error.jsp").forward(request, response);
 
         } catch (NullPointerException npe) {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NPE: " + npe.getMessage());
             request.setAttribute("errorMessage", "Erro interno: valor nulo encontrado");
-            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/error/error.jsp").forward(request, response);
 
         } catch (IOException ioe) {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IOE: " + ioe.getMessage());
             request.setAttribute("errorMessage", "Erro de I/O ao processar logout");
-            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/error/error.jsp").forward(request, response);
         }
     }
 

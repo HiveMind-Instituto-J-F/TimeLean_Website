@@ -57,47 +57,46 @@ public class Create extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
                 return;
             } else {
-                // [FAILURE LOG] Insertion failed, present user friendly message in Portuguese
+                // [FAILURE LOG] Insertion failed
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to insert worker: " + paramCpf);
                 req.setAttribute("errorMessage", "Não foi possível criar o trabalhador. Tente novamente mais tarde.");
-                req.getRequestDispatcher("/html/crud/worker/create.jsp").forward(req, resp);
-                return;
+                req.getRequestDispatcher("/pages/create/worker.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle missing or invalid parameters
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/create/worker.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Unexpected null reference
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno. Referência nula detectada.");
-            req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/create/worker.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (SessionExpiredException see) {
             // [FAILURE LOG] Session expired
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: SessionExpiredException: " + see.getMessage());
             req.setAttribute("errorMessage", "Sua sessão expirou. Faça login novamente.");
-            req.setAttribute("errorUrl", "/html/login.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/workerLogin.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Dispatcher or servlet issues
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/create/worker.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch all unexpected exceptions
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/create/worker.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

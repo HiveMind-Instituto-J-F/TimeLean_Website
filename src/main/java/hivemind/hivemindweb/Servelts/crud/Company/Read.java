@@ -42,8 +42,8 @@ public class Read extends HttpServlet {
                         // [FAILURE LOG] Invalid filter
                         System.err.println("[ERROR] Invalid filter: " + paramStatus);
                         req.setAttribute("errorMessage", "Filtro inválido.");
-                        req.setAttribute("errorUrl", "/html/toUser.html");
-                        req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                        req.setAttribute("errorUrl", "/pages/chooser.jsp");
+                        req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                         return;
                 }
             }
@@ -53,7 +53,7 @@ public class Read extends HttpServlet {
 
             // [PROCESS] Forward companies to JSP
             req.setAttribute("companies", companies);
-            req.getRequestDispatcher("/html/crud/company/read.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/crud/company/read.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Successfully retrieved companies
             System.err.println("[INFO] Companies retrieved successfully. Filter: " + filter);
@@ -62,29 +62,29 @@ public class Read extends HttpServlet {
             // [FAILURE LOG] Null reference encountered
             System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno: valor nulo encontrado.");
-            req.setAttribute("errorUrl", "/html/toUser.html");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Illegal argument encountered
             System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + iae.getMessage());
-            req.setAttribute("errorUrl", "/html/toUser.html");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch error
             System.err.println("[ERROR] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.setAttribute("errorUrl", "/html/toUser.html");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
-            req.setAttribute("errorUrl", "/html/toUser.html");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

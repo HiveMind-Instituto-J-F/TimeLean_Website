@@ -41,8 +41,8 @@ public class Read extends HttpServlet {
                         // [FAILURE LOG] Invalid filter
                         System.err.println("[ERROR] [" + LocalDate.now() + "] Invalid filter provided: " + status);
                         req.setAttribute("errorMessage", "Filtro inválido informado.");
-                        req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
-                        req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                        req.setAttribute("errorUrl", req.getContextPath() + "/pages/chooser.jsp");
+                        req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                         return;
                     }
                 }
@@ -54,35 +54,35 @@ public class Read extends HttpServlet {
 
             // [PROCESS] Forward to payment list page
             req.setAttribute("payments", paymentList);
-            req.getRequestDispatcher("/html/crud/payment/read.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/crud/payment/read.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid argument errors
             System.err.println("[ERROR] [" + LocalDate.now() + "] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados. Verifique os valores e tente novamente.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null pointer exception
             System.err.println("[ERROR] [" + LocalDate.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: dado necessário não foi encontrado.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch errors
             System.err.println("[ERROR] [" + LocalDate.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected errors
             System.err.println("[ERROR] [" + LocalDate.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao carregar os pagamentos.");
-            req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

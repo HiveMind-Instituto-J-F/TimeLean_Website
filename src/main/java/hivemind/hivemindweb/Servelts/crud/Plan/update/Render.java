@@ -30,7 +30,7 @@ public class Render extends HttpServlet {
                     System.err.println("[ERROR] [" + LocalDate.now() + "] Plan is null");
                     req.setAttribute("errorMessage", "O plano solicitado não foi encontrado.");
                     req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-                    req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                     return;
                 }
             } catch (NullPointerException npe) {
@@ -38,13 +38,13 @@ public class Render extends HttpServlet {
                 System.err.println("[ERROR] [" + LocalDate.now() + "] NullPointerException while selecting plan");
                 req.setAttribute("errorMessage", "Erro interno ao acessar o plano solicitado.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                 return;
             }
 
             // [PROCESS] Attach plan to request and render update page
             req.setAttribute("plan", planLocal);
-            req.getRequestDispatcher("/html/crud/plan/update.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/crud/plan/update.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Successful rendering
             System.out.println("[INFO] [" + LocalDate.now() + "] Plan render executed successfully");
@@ -54,35 +54,35 @@ public class Render extends HttpServlet {
             System.err.println("[ERROR] [" + LocalDate.now() + "] Invalid argument in Render Servlet: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno ao processar o plano.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] NullPointerException in Render Servlet
             System.err.println("[ERROR] [" + LocalDate.now() + "] NullPointerException in Render Servlet: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: valor nulo encontrado durante o processamento.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatching error
             System.err.println("[ERROR] [" + LocalDate.now() + "] Servlet dispatch error: " + se.getMessage());
             req.setAttribute("errorMessage", "Falha ao carregar a página de atualização do plano.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IOException ioe) {
             // [FAILURE LOG] IOException during request handling
             System.err.println("[ERROR] [" + LocalDate.now() + "] IOException while processing Render Servlet: " + ioe.getMessage());
             req.setAttribute("errorMessage", "Erro de comunicação com o servidor.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] [" + LocalDate.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao processar o plano.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

@@ -43,41 +43,41 @@ public class Create extends HttpServlet {
                     // [FAILURE LOG] Log failure when inserting plan
                     System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to insert plan into database.");
                     req.setAttribute("errorMessage", "O plano não foi adicionado devido a um erro interno.");
-                    req.getRequestDispatcher("/html/crud/plan/create.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/pages/create/plan.jsp").forward(req, resp);
                 }
             } catch (NullPointerException npe) {
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException while inserting plan: " + npe.getMessage());
                 req.setAttribute("errorMessage", "Erro interno ao acessar os dados do plano.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/plan/create");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException occurred: " + ia.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos. Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
-            req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/create/plan.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException occurred: " + npe.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro ao processar os dados. Verifique os campos e tente novamente.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/create");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Handle servlet exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException occurred: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro interno ao redirecionar a página: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/create");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IOException ioe) {
             // [FAILURE LOG] Handle IO exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IOException occurred: " + ioe.getMessage());
             req.setAttribute("errorMessage", "Erro de entrada/saída ao processar a solicitação: " + ioe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/create");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

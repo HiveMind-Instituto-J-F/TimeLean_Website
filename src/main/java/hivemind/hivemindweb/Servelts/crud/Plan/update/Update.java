@@ -40,7 +40,7 @@ public class Update extends HttpServlet {
                     System.err.println("[ERROR] [" + LocalDateTime.now() + "] Plan not found for update, id: " + id);
                     req.setAttribute("errorMessage", "O plano solicitado não foi encontrado.");
                     req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-                    req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                     return;
                 }
 
@@ -59,13 +59,13 @@ public class Update extends HttpServlet {
                     System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update plan, id: " + id);
                     req.setAttribute("errorMessage", "O plano não pôde ser atualizado devido a um erro interno.");
                     req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + id);
-                    req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
                 }
             } catch (NullPointerException npe) {
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException while updating plan: " + npe.getMessage());
                 req.setAttribute("errorMessage", "Erro interno ao acessar o plano solicitado.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException ia) {
@@ -73,27 +73,27 @@ public class Update extends HttpServlet {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Invalid argument in Update Servlet: " + ia.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos. Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Algum valor nulo foi inserido. Erro: " + npe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException in Update Servlet: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a atualização do plano.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IOException ioe) {
             // [FAILURE LOG] IOException during response handling
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IOException in Update Servlet: " + ioe.getMessage());
             req.setAttribute("errorMessage", "Erro de comunicação com o servidor.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

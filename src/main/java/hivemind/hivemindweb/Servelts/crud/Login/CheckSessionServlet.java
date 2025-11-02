@@ -76,17 +76,17 @@ public class CheckSessionServlet extends HttpServlet {
         } catch (IllegalArgumentException iae) {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IAE: " + iae.getMessage());
             request.setAttribute("errorMessage", "Valor inválido detectado: " + iae.getMessage());
-            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/error/error.jsp").forward(request, response);
 
         } catch (NullPointerException npe) {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NPE: " + npe.getMessage());
             request.setAttribute("errorMessage", "Erro interno: valor nulo encontrado");
-            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/error/error.jsp").forward(request, response);
 
         } catch (IOException ioe) {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IOE: " + ioe.getMessage());
             request.setAttribute("errorMessage", "Erro de I/O ao verificar sessão");
-            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/error/error.jsp").forward(request, response);
         }
     }
 }

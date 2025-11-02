@@ -54,35 +54,35 @@ public class Create extends HttpServlet {
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] Failed to create company: " + paramCnpj);
                 req.setAttribute("errorMessage", "Não foi possível cadastrar a empresa. Tente novamente.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Log invalid argument error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] IllegalArgumentException: Invalid Arguments");
             req.setAttribute("errorMessage", "Dados inválidos. Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
-            req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/create/company.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Log null pointer error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado: valor nulo encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // [FAILURE LOG] Log date parsing error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] DateTimeParseException: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a data: " + dpe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Log unexpected exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] Exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

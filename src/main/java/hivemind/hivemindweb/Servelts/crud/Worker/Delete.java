@@ -33,35 +33,37 @@ public class Delete extends HttpServlet {
                 // [FAILURE LOG] Worker not found or deletion failed
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Worker not found or could not be deleted: " + cpfParam);
                 req.setAttribute("errorMessage", "Não foi possível deletar o trabalhador. Verifique o CPF e tente novamente.");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
+                req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid input parameter
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "CPF inválido ou parâmetro ausente.");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno ao processar a exclusão do trabalhador.");
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IllegalStateException ise) {
             // [FAILURE LOG] Session or response error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalStateException: " + ise.getMessage());
             req.setAttribute("errorMessage", "Erro de sessão ou resposta. Recarregue a página e tente novamente.");
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         }
     }

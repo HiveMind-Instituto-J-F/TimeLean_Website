@@ -74,32 +74,32 @@ public class Send extends HttpServlet {
             }
 
             // [PROCESS] Forward to confirmation page
-            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/email/send.jsp").forward(request, response);
 
         } catch (IllegalArgumentException e) {
             // [FAILURE LOG] Log validation error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] IllegalArgumentException: " + e.getMessage());
             request.setAttribute("errorMessage", "Ocorreu um erro: " + e.getMessage());
-            request.setAttribute("errorUrl", "/html/email/send.jsp");
-            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+            request.setAttribute("errorUrl", "/pages/email/send.jsp");
+            request.getRequestDispatcher("/pages/email/send.jsp").forward(request, response);
         } catch (NullPointerException e) {
             // [FAILURE LOG] Log null pointer error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] NullPointerException: " + e.getMessage());
             request.setAttribute("errorMessage", "Erro interno: falha ao acessar recurso.");
-            request.setAttribute("errorUrl", "/html/email/send.jsp");
-            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+            request.setAttribute("errorUrl", "/pages/email/send.jsp");
+            request.getRequestDispatcher("/pages/email/send.jsp").forward(request, response);
         } catch (ServletException e) {
             // [FAILURE LOG] Log servlet error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] ServletException: " + e.getMessage());
             request.setAttribute("errorMessage", "Erro de processamento da requisição.");
-            request.setAttribute("errorUrl", "/html/email/send.jsp");
-            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+            request.setAttribute("errorUrl", "/pages/email/send.jsp");
+            request.getRequestDispatcher("/pages/email/send.jsp").forward(request, response);
         } catch (Exception e) {
             // [FAILURE LOG] Log generic error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] Exception: " + e.getMessage());
             request.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
-            request.setAttribute("errorUrl", "/html/email/send.jsp");
-            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+            request.setAttribute("errorUrl", "/pages/email/send.jsp");
+            request.getRequestDispatcher("/pages/email/send.jsp").forward(request, response);
         }
     }
 }

@@ -82,7 +82,7 @@ public class LoginServlet extends HttpServlet {
 
                 // [SUCCESS LOG] Login successful
                 System.out.println("[INFO] [" + LocalDateTime.now() + "] Login successful for email: " + email);
-                request.getRequestDispatcher("/html/chooser.jsp").forward(request, response);
+                request.getRequestDispatcher("/pages/chooser.jsp").forward(request, response);
 
             } else {
                 session.setAttribute("login", false);
@@ -93,13 +93,13 @@ public class LoginServlet extends HttpServlet {
             // [FAILURE LOG] User input or authentication failure
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
             request.setAttribute("errorMessage", e.getMessage());
-            request.getRequestDispatcher("/html/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Exception: " + e.getMessage());
             request.setAttribute("errorMessage", "Erro interno: " + e.getMessage());
-            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/error/error.jsp").forward(request, response);
         }
     }
 }

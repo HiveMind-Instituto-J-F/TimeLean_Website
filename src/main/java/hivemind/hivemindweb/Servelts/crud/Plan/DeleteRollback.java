@@ -42,42 +42,43 @@ public class DeleteRollback extends HttpServlet {
             // [FAILURE LOG] Unknown failure when updating plan
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update plan during rollback. ID: " + id);
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor ao reativar o plano.");
-            req.getRequestDispatcher("/html/crud/plan/create.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Handle invalid argument exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException occurred: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro ao processar o rollback: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException occurred: " + npe.getMessage());
             req.setAttribute("errorMessage", "O plano não foi encontrado para reativação.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Handle servlet exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException occurred: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro interno ao redirecionar a página: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IOException ioe) {
             // [FAILURE LOG] Handle IO exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IOException occurred: " + ioe.getMessage());
             req.setAttribute("errorMessage", "Erro de entrada/saída ao processar o rollback: " + ioe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Handle unexpected exceptions
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception occurred: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

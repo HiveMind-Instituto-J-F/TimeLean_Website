@@ -53,7 +53,7 @@ public class Update extends HttpServlet {
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update payment, id: " + id);
                 req.setAttribute("errorMessage", "Pagamento não foi atualizado devido a um erro no banco de dados.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + id);
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+                req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
             }
 
         } catch (NullPointerException npe) {
@@ -61,35 +61,35 @@ public class Update extends HttpServlet {
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: valor nulo encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid input parameters
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Dados inválidos: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // [FAILURE LOG] Date parsing error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] DateTimeParseException: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Data inválida: " + dpe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao atualizar o pagamento.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/render-update?id=" + req.getParameter("id"));
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

@@ -24,21 +24,21 @@ public class Read extends HttpServlet {
 
             // [PROCESS] Set attribute and forward to JSP for rendering
             req.setAttribute("plans", planList);
-            req.getRequestDispatcher("/html/crud/plan/read.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/crud/plan/read.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Handle servlet dispatching exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException occurred: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch any other unexpected exceptions
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception occurred: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", req.getContextPath() + "/pages/chooser.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }

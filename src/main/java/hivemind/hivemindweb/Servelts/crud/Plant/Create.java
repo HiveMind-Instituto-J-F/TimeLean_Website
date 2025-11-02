@@ -54,20 +54,20 @@ public class Create extends HttpServlet {
             // [FAILURE LOG] Handle validation or insertion failures
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
             req.setAttribute("errorMessage", "Erro ao criar a planta: " + e.getMessage());
-            req.getRequestDispatcher("/html/crud/plant/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/create/plant.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Handle null pointer exceptions
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro ao criar a planta: referência nula encontrada.");
-            req.getRequestDispatcher("/html/crud/plant/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/create/plant.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Erro inesperado: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao criar a planta: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/plant/create.jsp");
-            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+            req.setAttribute("errorUrl", "/pages/create/plant.jsp");
+            req.getRequestDispatcher("/pages/error/error.jsp").forward(req, resp);
         }
     }
 }
