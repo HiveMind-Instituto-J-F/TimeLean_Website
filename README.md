@@ -27,6 +27,15 @@ Contribuições são bem-vindas. Para alterações maiores, abra uma issue descr
 
 MIT License
 
+## Links de Produção
+
+**Produção – AWS (Elastic Beanstalk):**  
+http://timeleanwebenv.eba-cb5mw28p.us-east-1.elasticbeanstalk.com/
+
+**Produção – Railway:**  
+https://timeleanwebsite-production.up.railway.app/
+
 
 ---
+
 
