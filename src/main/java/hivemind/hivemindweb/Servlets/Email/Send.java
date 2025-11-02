@@ -1,4 +1,4 @@
-package hivemind.hivemindweb.Servelts.Email;
+package hivemind.hivemindweb.Servlets.Email;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

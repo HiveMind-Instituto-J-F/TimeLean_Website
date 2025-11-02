@@ -1,12 +1,12 @@
 package hivemind.hivemindweb.Connection;
 
-import hivemind.hivemindweb.config.EnvLoader;
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+
+import hivemind.hivemindweb.config.EnvLoader;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class DBConnection {
 
