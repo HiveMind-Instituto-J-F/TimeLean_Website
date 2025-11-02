@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="hivemind.hivemindweb.models.Worker" %>
+<%@ page import="java.util.List" %>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -24,8 +25,7 @@
         return;
     }
 
-    String responsibleCpf = (String) request.getAttribute("responsibleCpf");
-    List<Worker> workers = (List<Worker>) request.getAttribute("workers");
+    String msg = (String) request.getAttribute("msg");
 %>
 
 <div class="form">
@@ -74,9 +74,7 @@
     </form>
 
     <% if (msg != null) { %>
-        <p class="inter-medium" style="color:green;"><%= msg %></p>
-    <% } else if (errorMsg != null) { %>
-        <p class="inter-medium" style="color:red;">Erro: <%= errorMsg %></p>
+        <p class="inter-medium"><%= msg %></p>
     <% } %>
 </div>
 

@@ -99,15 +99,15 @@
                     <label for="cnpj_company">
                         <img src="${pageContext.request.contextPath}/img/icons/ui/search.png" alt="Buscar">
                     </label>
-                    <input type="text" name="cnpj_company" placeholder="Digite o nome da empresa dona aqui">
+                    <input type="text" name="cnpj_company" placeholder="Digite o CNPJ da empresa dona aqui">
                 </div>
                 <div>
                     <label for="id_plan">
                         <img src="${pageContext.request.contextPath}/img/icons/ui/search.png" alt="Buscar">
                     </label>
-                    <input type="text" name="id_plan" placeholder="Digite o CNPJ da empresa aqui">
+                    <input type="text" name="id_plan" placeholder="Digite o ID do plano aqui">
                 </div>
-                <button class="inter" type="submit">Submeter</button>
+                <button class="inter" type="submit">Aplicar Filtro</button>
             </form>
 
             <div>

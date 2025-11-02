@@ -3,16 +3,14 @@ package hivemind.hivemindweb.models;
 import java.time.LocalDate;
 
 public class PlanSubscription {
-    // Variables
     private int id;
     private LocalDate startDate;
-    private String cnpjCompany;
-    private int idPlan;
-    private int numberInstallments;
+    private final String cnpjCompany;
+    private final int idPlan;
+    private final int numberInstallments;
     private boolean status;
 
-    // Constructor - all values
-    public PlanSubscription(int id, LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments, boolean status){
+    public PlanSubscription(int id, LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments, boolean status) {
         this.id = id;
         this.startDate = startDate;
         this.cnpjCompany = cnpjCompany;
@@ -21,8 +19,7 @@ public class PlanSubscription {
         this.status = status;
     }
 
-    // Constructor - minimum values
-    public PlanSubscription(LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments, boolean status){
+    public PlanSubscription(LocalDate startDate, String cnpjCompany, int idPlan, int numberInstallments, boolean status) {
         this.startDate = startDate;
         this.cnpjCompany = cnpjCompany;
         this.idPlan = idPlan;
@@ -30,7 +27,6 @@ public class PlanSubscription {
         this.status = status;
     }
 
-    // Getters
     public int getId() {
         return id;
     }
@@ -55,7 +51,6 @@ public class PlanSubscription {
         return status;
     }
 
-    // Setters (only for attributes that can be modified)
     public void setStatus(boolean status) {
         this.status = status;
     }
@@ -64,17 +59,15 @@ public class PlanSubscription {
         this.startDate = startDate;
     }
 
-    // String representation of the object
     @Override
-    public String toString(){
-        return String.format(
-                "Id: %d\nStart Date: %s\nCNPJ Company: %s\nId Plan: %d\nNumber Installments: %d\nStatus: %b",
-                this.id,
-                this.startDate,
-                this.cnpjCompany,
-                this.idPlan,
-                this.numberInstallments,
-                this.status
-        );
+    public String toString() {
+        return "PlanSubscription{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", cnpjCompany='" + cnpjCompany + '\'' +
+                ", idPlan=" + idPlan +
+                ", numberInstallments=" + numberInstallments +
+                ", status=" + status +
+                '}';
     }
 }

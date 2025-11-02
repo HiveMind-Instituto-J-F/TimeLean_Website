@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
+import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,14 +20,15 @@ public class Delete extends HttpServlet {
             String idParam = req.getParameter("id");
 
             // [VALIDATION] Ensure ID parameter is provided
-            if (idParam == null || idParam.isEmpty()) {
-                throw new IllegalArgumentException("Null value: 'id'");
-            }
+            if (idParam == null || idParam.isEmpty()) throw new IllegalArgumentException("Null value: 'id'");
             int id = Integer.parseInt(idParam);
-            System.out.println("[INFO] [" + LocalDateTime.now() + "] Received id: " + id);
 
-            // [DATA ACCESS] Attempt to delete PlanSubscription
-            boolean deleted = PlanSubscriptionDAO.delete(id);
+
+            // [DATA ACCESS] Select PlanSubscription, set status to false and update
+            PlanSubscription planSubscriptionFromDb = PlanSubscriptionDAO.select(id);
+            planSubscriptionFromDb.setStatus(false);
+
+            boolean deleted = PlanSubscriptionDAO.update(planSubscriptionFromDb);
             if (!deleted) {
                 throw new IllegalStateException("Failed while trying to delete plan subscription (ID: " + id + ").");
             }

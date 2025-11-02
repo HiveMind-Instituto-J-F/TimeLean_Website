@@ -1,6 +1,7 @@
-package hivemind.hivemindweb.Servelts.crud.Login;
+package hivemind.hivemindweb.Servlets.crud.Login;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import hivemind.hivemindweb.Connection.RedisManager;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -19,9 +20,10 @@ public class CheckSessionServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
+        // [PROCESS] Retrieve dotenv from context and initialize Redis
         dotenv = (Dotenv) getServletContext().getAttribute("data");
         if (dotenv == null) {
-            System.out.println("[ERROR] Dotenv is null in ServletContext");
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Dotenv is null in ServletContext");
         } else {
             RedisManager.initialize(dotenv);
         }
@@ -34,36 +36,57 @@ public class CheckSessionServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        resp.setHeader("Access-Control-Allow-Origin", "https://area-restrita-5xoh.onrender.com");
-        resp.setHeader("Access-Control-Allow-Credentials", "true");
-        resp.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        resp.setContentType("application/json");
+        // [PROCESS] Set CORS headers and content type
+        response.setHeader("Access-Control-Allow-Origin", "https://area-restrita-5xoh.onrender.com");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        response.setContentType("application/json");
 
         try {
-            HttpSession session = req.getSession(false);
-
+            // [VALIDATION] Check if session exists
+            HttpSession session = request.getSession(false);
             if (session == null) {
-                resp.getWriter().write("{\"loggedIn\": false}");
+                response.getWriter().write("{\"loggedIn\": false}");
                 return;
             }
 
+            // [PROCESS] Construct Redis session key
             String sessionKey = "session:" + session.getId();
-            boolean exists = RedisManager.exists(sessionKey, dotenv);
-            String logged = RedisManager.getField(sessionKey, "logged", dotenv);
 
-            if (exists && "true".equals(logged)) {
-                String email = RedisManager.getField(sessionKey, "email", dotenv);
-                resp.getWriter().write("{\"loggedIn\":true,\"email\":\"" + email + "\"}");
+            // [DATA ACCESS] Check session in Redis
+            boolean sessionExists = RedisManager.exists(sessionKey, dotenv);
+            String loggedStatusFromDb = RedisManager.getField(sessionKey, "logged", dotenv);
+
+            // [BUSINESS RULES] Verify session validity
+            if (sessionExists && "true".equals(loggedStatusFromDb)) {
+                String emailFromDb = RedisManager.getField(sessionKey, "email", dotenv);
+                response.getWriter().write("{\"loggedIn\":true,\"email\":\"" + emailFromDb + "\"}");
+                // [SUCCESS LOG] Session valid
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] User session valid for email: " + emailFromDb);
             } else {
-                resp.getWriter().write("{\"loggedIn\": false}");
+                response.getWriter().write("{\"loggedIn\": false}");
+                // [FAILURE LOG] Session invalid or not logged in
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] No active session found or user not logged in");
             }
 
-        } catch (Exception e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro ao verificar sessão: " + e.getMessage());
+        } catch (IllegalArgumentException iae) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IAE: " + iae.getMessage());
+            request.setAttribute("errorMessage", "Valor inválido detectado: " + iae.getMessage());
+            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+
+        } catch (NullPointerException npe) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NPE: " + npe.getMessage());
+            request.setAttribute("errorMessage", "Erro interno: valor nulo encontrado");
+            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+
+        } catch (IOException ioe) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IOE: " + ioe.getMessage());
+            request.setAttribute("errorMessage", "Erro de I/O ao verificar sessão");
+            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
         }
     }
 }

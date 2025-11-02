@@ -1,5 +1,7 @@
 package hivemind.hivemindweb.Services.AppListener;
 
+import java.time.LocalDateTime;
+
 import hivemind.hivemindweb.Services.Email.EmailService;
 import hivemind.hivemindweb.config.EnvLoader;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -9,40 +11,49 @@ import jakarta.servlet.annotation.WebListener;
 
 @WebListener
 public class AppListener implements ServletContextListener {
-    
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        try{
-            System.out.println("=================================================");
-            System.out.println("[WARN] Application startup - Initializing services");
-            System.out.println("=================================================");
-            
-            // Informações de debug
-            System.out.println("[DEBUG] catalina.base: " + System.getProperty("catalina.base"));
-            System.out.println("[DEBUG] user.dir: " + System.getProperty("user.dir"));
-            System.out.println("[DEBUG] Context path: " + sce.getServletContext().getContextPath());
-            
-            // Inicializa o EnvLoader
-            EnvLoader.init(sce.getServletContext());
-            Dotenv dotenv = EnvLoader.getDotenv();
-            sce.getServletContext().setAttribute("data", dotenv);
 
-            // Start Email Service
-            EmailService Email = new EmailService();
-            Email.init(sce.getServletContext());
-            sce.getServletContext().setAttribute("EmailService", Email);
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        try {
+            // [PROCESS] Log application startup
             System.out.println("=================================================");
-        }
-        catch (Exception de){
-            System.out.println("[ERROR] In AppListener");
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Application startup - Initializing services");
+            System.out.println("=================================================");
+
+            // [PROCESS] Log environment debug info
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] catalina.base: " + System.getProperty("catalina.base"));
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] user.dir: " + System.getProperty("user.dir"));
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Context path: " + event.getServletContext().getContextPath());
+
+            // [PROCESS] Initialize environment loader
+            EnvLoader.init(event.getServletContext());
+            Dotenv dotenvFromDb = EnvLoader.getDotenv();
+            event.getServletContext().setAttribute("data", dotenvFromDb);
+
+            // [DATA ACCESS] Initialize and store EmailService
+            EmailService emailServiceFromDb = new EmailService();
+            emailServiceFromDb.init(event.getServletContext());
+            event.getServletContext().setAttribute("EmailService", emailServiceFromDb);
+
+            // [SUCCESS LOG] Log successful initialization
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Services initialized successfully");
+            System.out.println("=================================================");
+
+        } catch (NullPointerException e) {
+            // [FAILURE LOG] Log null pointer error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [AppListener] NullPointerException: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            // [FAILURE LOG] Log illegal argument error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [AppListener] IllegalArgumentException: " + e.getMessage());
+        } catch (Exception e) {
+            // [FAILURE LOG] Log generic error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [AppListener] Exception: " + e.getMessage());
         }
     }
 
-    // Called automatically by the servlet container
-    // when the application is shutting down. 
-    // Use this method to release resources (DB connections, threads, etc).
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("[WARN] Application shutdown");
+    public void contextDestroyed(ServletContextEvent event) {
+        // [PROCESS] Log application shutdown
+        System.out.println("[INFO] [" + LocalDateTime.now() + "] Application shutdown");
     }
 }

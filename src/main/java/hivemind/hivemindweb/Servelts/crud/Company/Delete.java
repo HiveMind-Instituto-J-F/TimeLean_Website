@@ -30,9 +30,7 @@ public class Delete extends HttpServlet {
             Company companyFromDb = CompanyDAO.select(paramCnpj);
 
             // [BUSINESS RULES] Prevent deletion if pending payments exist
-            if (pendingPayments != null && !pendingPayments.isEmpty()) {
-                throw new IllegalArgumentException("Company has pending payments and cannot be deleted");
-            }
+            if (!pendingPayments.isEmpty()) throw new IllegalArgumentException("Empresa possui pagamentos pendentes e não pode ser deletada");
 
             // [PROCESS] Attempt to switch company active status (soft delete)
             companyFromDb.setActive(false);
@@ -59,7 +57,7 @@ public class Delete extends HttpServlet {
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid input or business rule violation
             System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
-            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
@@ -70,6 +68,12 @@ public class Delete extends HttpServlet {
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
+        } catch (Exception e) {
+            // [FAILURE LOG] Unexpected error
+            System.err.println("[ERROR] Unexpected exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

@@ -1,6 +1,7 @@
-package hivemind.hivemindweb.Servelts.crud.Login;
+package hivemind.hivemindweb.Servlets.crud.Login;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javax.security.auth.login.LoginException;
 
@@ -26,7 +27,7 @@ public class LoginServlet extends HttpServlet {
         super.init();
         dotenv = (Dotenv) getServletContext().getAttribute("data");
         if (dotenv == null) {
-            System.out.println("[ERROR] Dotenv is null in ServletContext");
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Dotenv is null in ServletContext");
         } else {
             RedisManager.initialize(dotenv);
         }
@@ -39,20 +40,30 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            String email = req.getParameter("email");
-            String password = req.getParameter("password");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-            if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-                throw new IllegalArgumentException("Email ou senha incorretos");
+        try {
+            // [VALIDATION] Retrieve and validate parameters
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+
+            if (email == null || email.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'email'");
+            }
+            if (password == null || password.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'password'");
             }
 
+            // [PROCESS] Create admin object and session
             Admin adminClient = new Admin(email, password);
-            HttpSession session = req.getSession(true);
+            HttpSession session = request.getSession(true);
             session.setMaxInactiveInterval(600);
 
+            // [BUSINESS RULES] Authenticate user
             if (AuthService.login(adminClient)) {
+
+                // [DATA ACCESS] Save session info to Redis
                 String sessionKey = "session:" + session.getId();
                 RedisManager.save(sessionKey, "email", email, dotenv);
                 RedisManager.save(sessionKey, "logged", "true", dotenv);
@@ -61,26 +72,34 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("user", adminClient);
                 session.setAttribute("login", true);
 
+                // [PROCESS] Set secure session cookie
                 Cookie cookie = new Cookie("JSESSIONID", session.getId());
                 cookie.setPath("/");
                 cookie.setHttpOnly(true);
                 cookie.setSecure(true);
                 cookie.setAttribute("SameSite", "None");
-                resp.addCookie(cookie);
+                response.addCookie(cookie);
 
-                System.out.println("[INFO] Login Successful");
-                req.getRequestDispatcher("/html/chooser.jsp").forward(req, resp);
+                // [SUCCESS LOG] Login successful
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] Login successful for email: " + email);
+                request.getRequestDispatcher("/html/chooser.jsp").forward(request, response);
+
             } else {
                 session.setAttribute("login", false);
                 throw new LoginException("Email ou senha incorretos.");
             }
 
         } catch (IllegalArgumentException | LoginException e) {
-            req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("/html/login.jsp").forward(req, resp);
+            // [FAILURE LOG] User input or authentication failure
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("/html/login.jsp").forward(request, response);
+
         } catch (Exception e) {
-            System.out.println("[ERROR] Exception: " + e.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro interno: " + e.getMessage());
+            // [FAILURE LOG] Unexpected exception
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Exception: " + e.getMessage());
+            request.setAttribute("errorMessage", "Erro interno: " + e.getMessage());
+            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
         }
     }
 }

@@ -17,9 +17,7 @@ public class DeleteRollback extends HttpServlet {
         try {
             // [VALIDATION] Retrieve and validate 'cnpj' parameter
             String paramCnpj = req.getParameter("cnpj");
-            if (paramCnpj == null || paramCnpj.isEmpty()) {
-                throw new IllegalArgumentException("Null value: 'cnpj'");
-            }
+            if (paramCnpj == null || paramCnpj.isEmpty()) throw new IllegalArgumentException("CNPJ nulo ou vazio");
 
             // [DATA ACCESS] define companyFromDb using CompanyDAO
             Company companyFromDb = CompanyDAO.select(paramCnpj);
@@ -36,6 +34,13 @@ public class DeleteRollback extends HttpServlet {
             // [FAILURE LOG] Unknown error during reactivation
             System.err.println("[ERROR] Unknown error reactivating company: " + paramCnpj);
             req.setAttribute("errorMessage", "Não foi possível reativar a empresa (Erro desconhecido).");
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Null reference encountered
+            System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Não foi possível reativar a empresa (Erro interno).");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
@@ -56,7 +61,7 @@ public class DeleteRollback extends HttpServlet {
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] Unexpected exception: " + e.getMessage());
-            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }

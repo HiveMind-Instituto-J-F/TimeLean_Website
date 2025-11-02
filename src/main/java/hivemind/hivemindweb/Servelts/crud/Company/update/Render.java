@@ -17,9 +17,7 @@ public class Render extends HttpServlet {
         try {
             // [VALIDATION] Get and validate parameter
             String paramCnpj = req.getParameter("cnpj");
-            if (paramCnpj == null || paramCnpj.isEmpty()) {
-                throw new IllegalArgumentException("Null value: 'cnpjParam'");
-            }
+            if (paramCnpj == null || paramCnpj.isEmpty()) throw new IllegalArgumentException("Valor nulo: 'cnpj'");
 
             // [DATA ACCESS] Retrieve company from database
             Company company = CompanyDAO.select(paramCnpj);
@@ -37,19 +35,19 @@ public class Render extends HttpServlet {
             req.getRequestDispatcher("/html/crud/company/update.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Company render successful
-            System.err.println("[INFO] [" + LocalDateTime.now() + "] Company render successful for CNPJ: " + paramCnpj);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Company rendered successfully for CNPJ: " + paramCnpj);
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid parameter
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + iae.getMessage());
+            req.setAttribute("errorMessage", "Argumento inválido:  " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
-            req.setAttribute("errorMessage", "Erro interno: referência nula encontrada.");
+            req.setAttribute("errorMessage", "Erro interno: referência nula encontrada: " + npe.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 

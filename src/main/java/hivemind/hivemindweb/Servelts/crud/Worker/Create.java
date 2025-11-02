@@ -16,10 +16,11 @@ import java.time.LocalDateTime;
 
 @WebServlet("/worker/create")
 public class Create extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            // [VALIDATION] Get and validate form parameters
+            // [VALIDATION] Retrieve request parameters with param prefix
             String paramCpf = req.getParameter("cpf");
             String paramName = req.getParameter("name");
             String paramRole = req.getParameter("role");
@@ -27,61 +28,73 @@ public class Create extends HttpServlet {
             String paramLoginEmail = req.getParameter("loginEmail");
             String paramPassword = req.getParameter("loginPassword");
 
-            if(paramCpf == null || paramCpf.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");
-            if(paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'name'");
-            if(paramRole == null || paramRole.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'role'");
-            if(paramSector == null || paramSector.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'sector'");
-            if(paramLoginEmail == null || paramLoginEmail.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'loginEmail'");
-            if(paramPassword == null || paramPassword.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'password'");
+            if (paramCpf == null || paramCpf.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'cpf'");
+            if (paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'name'");
+            if (paramRole == null || paramRole.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'role'");
+            if (paramSector == null || paramSector.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'sector'");
+            if (paramLoginEmail == null || paramLoginEmail.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'loginEmail'");
+            if (paramPassword == null || paramPassword.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'password'");
 
-            // [PROCESS] Hash the password
+            // [PROCESS] Hash password
             String hashedPassword = AuthService.hash(paramPassword);
 
-            // [VALIDATION] Retrieve the session
+            // [VALIDATION] Validate session
             HttpSession session = req.getSession(false);
-            if(session == null) throw new SessionExpiredException("Session expired. Please log in again.");
+            if (session == null) throw new SessionExpiredException("Session expired");
 
-            String paramPlantCnpj = (String) session.getAttribute("plantCnpj");
+            // [DATA ACCESS] Retrieve plant identifier from session
+            String plantCnpjFromSession = (String) session.getAttribute("plantCnpj");
+            if (plantCnpjFromSession == null || plantCnpjFromSession.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'plantCnpj'");
 
-            // [PROCESS] Create Worker object
-            Worker worker = new Worker(paramCpf, paramRole, paramSector, paramName, paramLoginEmail, hashedPassword, paramPlantCnpj);
+            // [PROCESS] Build worker model preserving business order of fields
+            Worker worker = new Worker(paramCpf, paramRole, paramSector, paramName, paramLoginEmail, hashedPassword, plantCnpjFromSession);
 
-            // [DATA ACCESS] Insert Worker into the database
-            if(WorkerDAO.insert(worker)) {
-                // [SUCCESS LOG] Worker created successfully
-                System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker created: " + paramCpf);
+            // [DATA ACCESS] Insert worker into database
+            boolean inserted = WorkerDAO.insert(worker);
+            if (inserted) {
+                // [SUCCESS LOG] Log creation and redirect to listing
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] Worker created: " + paramCpf);
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
+                return;
             } else {
-                // [FAILURE LOG] Database insertion failed
+                // [FAILURE LOG] Insertion failed, present user friendly message in Portuguese
                 System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to insert worker: " + paramCpf);
                 req.setAttribute("errorMessage", "Não foi possível criar o trabalhador. Tente novamente mais tarde.");
-                req.getRequestDispatcher("/html/crud/Worker/create.jsp").forward(req, resp);
+                req.getRequestDispatcher("/html/crud/worker/create.jsp").forward(req, resp);
+                return;
             }
 
-        } catch(IllegalArgumentException ia) {
-            // [FAILURE LOG] Parameter validation error
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
+        } catch (IllegalArgumentException ia) {
+            // [FAILURE LOG] Handle missing or invalid parameters
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
             req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch(SessionExpiredException see) {
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Unexpected null reference
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno. Referência nula detectada.");
+            req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (SessionExpiredException see) {
             // [FAILURE LOG] Session expired
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] SessionExpiredException: " + see.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: SessionExpiredException: " + see.getMessage());
             req.setAttribute("errorMessage", "Sua sessão expirou. Faça login novamente.");
             req.setAttribute("errorUrl", "/html/login.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch(ServletException se) {
-            // [FAILURE LOG] Dispatcher error
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
+        } catch (ServletException se) {
+            // [FAILURE LOG] Dispatcher or servlet issues
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch(Exception e) {
-            // [FAILURE LOG] Unexpected error
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+        } catch (Exception e) {
+            // [FAILURE LOG] Catch all unexpected exceptions
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Create: Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", "/html/crud/worker/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

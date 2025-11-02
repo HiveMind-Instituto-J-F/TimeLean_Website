@@ -1,6 +1,7 @@
-package hivemind.hivemindweb.Servelts.Email;
+package hivemind.hivemindweb.Servlets.Email;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import hivemind.hivemindweb.Services.Email.EmailService;
 import jakarta.servlet.ServletContext;
@@ -11,49 +12,94 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/email/send")
-public class Send extends HttpServlet{
+public class Send extends HttpServlet {
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{
-            String sector = req.getParameter("sector");
-            if(sector == null || sector.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'sector'");}
-
-            String sender = req.getParameter("sender");
-            if(sender == null || sender.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'sender'");}
-
-            String subject = req.getParameter("subject");
-            if(subject == null || subject.isEmpty()){throw new IllegalArgumentException("Values Is Null, Value: 'subject'");}
-
-            String userMessage = req.getParameter("msg");
-            if(userMessage == null || userMessage.isEmpty()) {
-                throw new IllegalArgumentException("Values Is Null, Value: 'msg'");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            // [VALIDATION] Validate required input parameters
+            String paramSector = request.getParameter("sector");
+            if (paramSector == null || paramSector.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'sector'");
             }
 
-            String msg = "Olá,\n\n"
-                + "Você recebeu um novo contato de um cliente da HiveMind referente à aplicação TimeLean.\n"
-                + "Setor escolhido pelo usuário: " + sector + "\n"
-                + "Cliente/Remetente: " + sender + "\n\n"
-                + "Mensagem do cliente:\n" + userMessage + "\n\n"
-                + "Observação: Este e-mail foi enviado pelo sistema da HiveMind e será direcionado à equipe responsável.\n\n"
-                + "Atenciosamente,\n"
-                + "Equipe HiveMind";
-            
-            ServletContext context = req.getServletContext();
-            EmailService Email = (EmailService) context.getAttribute("EmailService");
-            if (Email.SendEmail("", subject, msg)) {
-                System.out.println("[INFO] Email sent successfully");
-                req.setAttribute("msg", "E-mail enviado com sucesso!");
-                req.getRequestDispatcher("/html/email/send.jsp").forward(req, resp);
-                return;
+            String paramSender = request.getParameter("sender");
+            if (paramSender == null || paramSender.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'sender'");
             }
 
-            req.setAttribute("msg", "Alguma coisa deu errado. O e-mail não foi enviado.");
-            req.getRequestDispatcher("/html/email/send.jsp").forward(req, resp);
-        }catch(IllegalArgumentException se){
-            System.err.println("[ERROR] Error In Create Servelet, Error: "+ se.getMessage());
-            req.setAttribute("error", "[ERROR] Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.getRequestDispatcher("/html/email/send.jsp").forward(req, resp);
+            String paramSubject = request.getParameter("subject");
+            if (paramSubject == null || paramSubject.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'subject'");
+            }
+
+            String paramUserMessage = request.getParameter("msg");
+            if (paramUserMessage == null || paramUserMessage.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'msg'");
+            }
+
+            // [PROCESS] Construct email message content
+            String emailContent = """
+                                    Olá,
+                                
+                                    Você recebeu um novo contato de um cliente da HiveMind referente à aplicação TimeLean.
+                                    Setor escolhido pelo usuário: %s
+                                    Cliente/Remetente: %s
+                                
+                                    Mensagem do cliente:
+                                    %s
+                                
+                                    Observação: Este e-mail foi enviado pelo sistema da HiveMind e será direcionado à equipe responsável.
+                                
+                                    Atenciosamente,
+                                    Equipe HiveMind
+                                    """.formatted(paramSector, paramSender, paramUserMessage);
+
+
+            // [DATA ACCESS] Retrieve EmailService from servlet context
+            ServletContext context = request.getServletContext();
+            EmailService emailServiceFromDb = (EmailService) context.getAttribute("EmailService");
+
+            // [BUSINESS RULES] Attempt to send email
+            boolean emailSent = emailServiceFromDb.sendEmail(paramSubject, emailContent);
+
+            if (emailSent) {
+                // [SUCCESS LOG] Log successful email sending
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] Email sent successfully");
+                request.setAttribute("msg", "E-mail enviado com sucesso!");
+            } else {
+                // [FAILURE LOG] Log failure to send email
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] EmailService: Failed to send email");
+                request.setAttribute("msg", "Houve algum erro inesperado.");
+            }
+
+            // [PROCESS] Forward to confirmation page
+            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+
+        } catch (IllegalArgumentException e) {
+            // [FAILURE LOG] Log validation error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] IllegalArgumentException: " + e.getMessage());
+            request.setAttribute("errorMessage", "Ocorreu um erro: " + e.getMessage());
+            request.setAttribute("errorUrl", "/html/email/send.jsp");
+            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+        } catch (NullPointerException e) {
+            // [FAILURE LOG] Log null pointer error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] NullPointerException: " + e.getMessage());
+            request.setAttribute("errorMessage", "Erro interno: falha ao acessar recurso.");
+            request.setAttribute("errorUrl", "/html/email/send.jsp");
+            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+        } catch (ServletException e) {
+            // [FAILURE LOG] Log servlet error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] ServletException: " + e.getMessage());
+            request.setAttribute("errorMessage", "Erro de processamento da requisição.");
+            request.setAttribute("errorUrl", "/html/email/send.jsp");
+            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
+        } catch (Exception e) {
+            // [FAILURE LOG] Log generic error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Send] Exception: " + e.getMessage());
+            request.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
+            request.setAttribute("errorUrl", "/html/email/send.jsp");
+            request.getRequestDispatcher("/html/email/send.jsp").forward(request, response);
         }
     }
-    
 }

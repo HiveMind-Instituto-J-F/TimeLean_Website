@@ -58,6 +58,13 @@ public class Read extends HttpServlet {
             // [SUCCESS LOG] Successfully retrieved companies
             System.err.println("[INFO] Companies retrieved successfully. Filter: " + filter);
 
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Null reference encountered
+            System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro interno: valor nulo encontrado.");
+            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Illegal argument encountered
             System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
@@ -75,7 +82,7 @@ public class Read extends HttpServlet {
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] Unexpected exception: " + e.getMessage());
-            req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
             req.setAttribute("errorUrl", "/html/toUser.html");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }

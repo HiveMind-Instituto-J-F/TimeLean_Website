@@ -41,7 +41,7 @@ Company company = (Company) request.getAttribute("company");
                     </div>
                     <div class="input-div">
                         <label for="cnpj">CNPJ da empresa</label>
-                        <input type="text" id="cnpj" name="cnpj" value="<%= company.getCNPJ() %>" readonly>
+                        <input type="text" id="cnpj" name="cnpj" value="<%= company.getCnpj() %>" readonly>
                     </div>
                     <div class="input-div">
                         <label for="cnae">CNAE</label>

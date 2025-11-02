@@ -16,24 +16,20 @@
 
     <body>
         <%
-            // Validação de login
             Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
             if (isLogged == null || !isLogged) {
                 response.sendRedirect(request.getContextPath() + "/html/login.jsp");
                 return;
             }
 
-            // Validação de ID
             String idParam = request.getParameter("id");
             if (idParam == null || idParam.isEmpty()) {
                 response.sendRedirect("list.jsp");
                 return;
             }
 
-            // Recupera o pagamento vindo do servlet
             Payment payment = (Payment) request.getAttribute("payment");
 
-            // Mensagens de retorno
             String msg = (String) request.getAttribute("msg");
             String errorMsg = (String) request.getAttribute("errorMsg");
         %>
@@ -79,7 +75,6 @@
                             <option value="">Selecione...</option>
                             <option value="Pendente" <%= "Pendente".equals(payment.getStatus()) ? "selected" : "" %>>Pendente</option>
                             <option value="Pago" <%= "Pago".equals(payment.getStatus()) ? "selected" : "" %>>Pago</option>
-                            <option value="Atrasado" <%= "Atrasado".equals(payment.getStatus()) ? "selected" : "" %>>Atrasado</option>
                             <option value="Cancelado" <%= "Cancelado".equals(payment.getStatus()) ? "selected" : "" %>>Cancelado</option>
                         </select>
                     </div>

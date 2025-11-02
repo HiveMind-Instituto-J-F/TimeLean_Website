@@ -1,6 +1,7 @@
 package hivemind.hivemindweb.Servelts.crud.Plan;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import hivemind.hivemindweb.DAO.PlanDAO;
@@ -19,7 +20,7 @@ public class Read extends HttpServlet {
             List<Plan> planList = PlanDAO.select();
 
             // [SUCCESS LOG] Log successful retrieval of plan list
-            System.err.println("[INFO] Plan list successfully loaded. Total: " + planList.size());
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Plan list successfully loaded. Total: " + planList.size());
 
             // [PROCESS] Set attribute and forward to JSP for rendering
             req.setAttribute("plans", planList);
@@ -27,14 +28,14 @@ public class Read extends HttpServlet {
 
         } catch (ServletException se) {
             // [FAILURE LOG] Handle servlet dispatching exception
-            System.err.println("[FAILURE LOG] ServletException occurred: " + se.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException occurred: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Catch any other unexpected exceptions
-            System.err.println("[FAILURE LOG] Unexpected exception occurred: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception occurred: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

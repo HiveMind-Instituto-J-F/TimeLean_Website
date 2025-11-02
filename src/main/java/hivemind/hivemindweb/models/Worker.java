@@ -1,7 +1,6 @@
 package hivemind.hivemindweb.models;
 
 public class Worker {
-    // Variables
     private Integer id;
     private String cpf;
     private String role;
@@ -11,7 +10,6 @@ public class Worker {
     private String loginPassword;
     private String cnpjPlant;
 
-    // Constructor - all values
     public Worker(Integer id, String cpf, String role, String sector, String name,
                   String loginEmail, String loginPassword, String cnpjPlant) {
         this.id = id;
@@ -24,7 +22,6 @@ public class Worker {
         this.cnpjPlant = cnpjPlant;
     }
 
-    // Constructor - minimum values (without id)
     public Worker(String cpf, String role, String sector, String name,
                   String loginEmail, String loginPassword, String cnpjPlant) {
         this.cpf = cpf;
@@ -36,7 +33,6 @@ public class Worker {
         this.cnpjPlant = cnpjPlant;
     }
 
-    // Constructor - minimum values
     public Worker(String cpf, String cnpjPlant, String sector, String name, String loginEmail, String loginPassword) {
         this.cpf = cpf;
         this.cnpjPlant = cnpjPlant;
@@ -46,8 +42,9 @@ public class Worker {
         this.loginPassword = loginPassword;
     }
 
-    // Getters
-    public Integer getId() { return id; }
+    public Integer getId() {
+        return id;
+    }
 
     public String getCpf() {
         return cpf;
@@ -77,7 +74,6 @@ public class Worker {
         return cnpjPlant;
     }
 
-    // Setters (only for editable attributes)
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
@@ -102,19 +98,17 @@ public class Worker {
         this.loginPassword = loginPassword;
     }
 
-    // String representation of the object
     @Override
     public String toString() {
-        return String.format(
-                "Id: %s\nCPF: %s\nRole: %s\nSector: %s\nName: %s\nLogin Email: %s\nLogin Password: %s\nCNPJ Plant: %s",
-                this.id,
-                this.cpf,
-                this.role,
-                this.sector,
-                this.name,
-                this.loginEmail,
-                this.loginPassword,
-                this.cnpjPlant
-        );
+        return "Worker{" +
+                "id=" + id +
+                ", cpf='" + cpf + '\'' +
+                ", role='" + role + '\'' +
+                ", sector='" + sector + '\'' +
+                ", name='" + name + '\'' +
+                ", loginEmail='" + loginEmail + '\'' +
+                ", loginPassword='" + loginPassword + '\'' +
+                ", cnpjPlant='" + cnpjPlant + '\'' +
+                '}';
     }
 }

@@ -35,7 +35,7 @@ public class Read extends HttpServlet {
                     case "inactive-plants" -> filterType = FilterType.Plant.INACTIVE;
                     case "all-plants" -> filterType = FilterType.Plant.ALL_VALUES;
                     default -> {
-                        System.err.println("[ERROR] [" + LocalDateTime.now() + "] Invalid filter: " + paramChosenFilter);
+                        System.err.println("[ERROR] [" + LocalDateTime.now() + "] Invalid filter: " + paramChosenFilter); // [FAILURE LOG] invalid filter
                         req.setAttribute("errorMessage", "Filtro inválido fornecido.");
                         req.setAttribute("errorUrl", "/html/toUser.html");
                         req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -50,10 +50,16 @@ public class Read extends HttpServlet {
 
             // [SUCCESS LOG] Forward to JSP
             req.getRequestDispatcher("/html/crud/plant/read.jsp").forward(req, resp);
-            System.err.println("[INFO] [" + LocalDateTime.now() + "] Plants read successfully. Total: " + (plantList != null ? plantList.size() : 0));
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Plants read successfully. Total: " + (plantList != null ? plantList.size() : 0)); // [SUCCESS LOG] read completed
 
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] null pointer error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException in Plant.Read: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Erro interno: dado ausente ou nulo.");
+            req.setAttribute("errorUrl", "/html/toUser.html");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         } catch (Exception e) {
-            // [FAILURE LOG] Handle unexpected errors
+            // [FAILURE LOG] unexpected error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error in Plant.Read: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao carregar plantas: " + e.getMessage());
             req.setAttribute("errorUrl", "/html/toUser.html");

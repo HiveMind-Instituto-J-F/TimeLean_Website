@@ -1,6 +1,10 @@
 package hivemind.hivemindweb.DAO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,119 +14,122 @@ import hivemind.hivemindweb.models.Company;
 
 public class CompanyDAO {
 
+    // [DATA ACCESS] Insert a new company
     public static boolean insert(Company company) {
-        DBConnection db = new DBConnection();
+        DBConnection dbConnection = new DBConnection();
         String sql = "INSERT INTO company (cnpj, cnae, name, registrant_cpf) VALUES (?,?,?,?)";
-        try (Connection conn = db.connected()) { // try-with-resources
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setString(1, company.getCNPJ());
-            pstm.setString(2, company.getCnae());
-            pstm.setString(3, company.getName());
-            pstm.setString(4, company.getRegistrantCpf());
-            return pstm.executeUpdate() > 0;
+
+        try (Connection connection = dbConnection.connected();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, company.getCnpj());
+            preparedStatement.setString(2, company.getCnae());
+            preparedStatement.setString(3, company.getName());
+            preparedStatement.setString(4, company.getRegistrantCpf());
+
+            return preparedStatement.executeUpdate() > 0;
+
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] CompanyDAO insert: " + sqle.getMessage());
         }
+
         return false;
     }
 
+    // [DATA ACCESS] Update a company
     public static boolean update(Company company) {
-        DBConnection db = new DBConnection();
-        String sql = "UPDATE company SET name = ?, cnae = ?, registrant_cpf = ? , is_active=? WHERE cnpj = ?";
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
+        DBConnection dbConnection = new DBConnection();
+        String sql = "UPDATE company SET name = ?, cnae = ?, registrant_cpf = ?, is_active = ? WHERE cnpj = ?";
 
-            pstm.setString(1, company.getName());
-            pstm.setString(2, company.getCnae());
-            pstm.setString(3, company.getRegistrantCpf());
-            pstm.setBoolean(4, company.isActive());
-            pstm.setString(5, company.getCNPJ());
-            return pstm.executeUpdate() > 0;
+        try (Connection connection = dbConnection.connected();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, company.getName());
+            preparedStatement.setString(2, company.getCnae());
+            preparedStatement.setString(3, company.getRegistrantCpf());
+            preparedStatement.setBoolean(4, company.isActive());
+            preparedStatement.setString(5, company.getCnpj());
+
+            return preparedStatement.executeUpdate() > 0;
+
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in update" + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] CompanyDAO update: " + sqle.getMessage());
         }
+
         return false;
     }
 
+    // [DATA ACCESS] Select companies by filter
     public static List<Company> selectFilter(FilterType.Company filter) {
-        List<Company> companysList = new ArrayList<>();
-        DBConnection db = new DBConnection();
+        List<Company> companiesList = new ArrayList<>();
+        DBConnection dbConnection = new DBConnection();
         String sql;
 
-        if (FilterType.Company.ACTIVE == filter) {
-            sql = "SELECT * FROM company WHERE IS_ACTIVE = TRUE ORDER BY CNPJ";
-        } else if (FilterType.Company.INACTIVE == filter) {
-            sql = "SELECT * FROM company WHERE IS_ACTIVE = FALSE ORDER BY CNPJ";
-        } else if (FilterType.Company.WITH_PENDING_PAYMENT == filter) {
+        if (filter == FilterType.Company.ACTIVE) {
+            sql = "SELECT * FROM company WHERE is_active = TRUE ORDER BY cnpj";
+        } else if (filter == FilterType.Company.INACTIVE) {
+            sql = "SELECT * FROM company WHERE is_active = FALSE ORDER BY cnpj";
+        } else if (filter == FilterType.Company.WITH_PENDING_PAYMENT) {
             sql = """
-                    SELECT DISTINCT c.*
-                    FROM COMPANY c
-                    JOIN PLAN_SUBSCRIPTION ps ON c.CNPJ = ps.CNPJ_COMPANY
-                    JOIN PAYMENT p ON ps.ID = p.ID_PLAN_SUBSCRIPTION
-                    WHERE p.STATUS = 'PENDING'
-                    """;
+                SELECT DISTINCT c.*
+                FROM company c
+                JOIN plan_subscription ps ON c.cnpj = ps.cnpj_company
+                JOIN payment p ON ps.id = p.id_plan_subscription
+                WHERE p.status = 'PENDING'
+                """;
         } else {
-            sql = "SELECT * FROM company ORDER BY CNPJ";
+            sql = "SELECT * FROM company ORDER BY cnpj";
         }
 
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql);
-             ResultSet rs = pstm.executeQuery()) {
+        try (Connection connection = dbConnection.connected();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            while (rs.next()) {
-                Company companyLocal = new Company(
-                        rs.getString("CNPJ"),
-                        rs.getString("name"),
-                        rs.getString("cnae"),
-                        rs.getString("registrant_cpf"),
-                        rs.getBoolean("is_active")
-                );
-                companysList.add(companyLocal);
+            while (resultSet.next()) {
+                companiesList.add(mapResultSetToCompany(resultSet));
             }
+
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Failed in select: " + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] CompanyDAO selectFilter: " + sqle.getMessage());
         }
 
-        System.out.println("[DEBUG] In select CompanyDAO, Companies found: " + companysList.size());
-        return companysList;
+        return companiesList;
     }
 
+    // [DATA ACCESS] Select a company by CNPJ
     public static Company select(String cnpj) {
-        // Variable to store the result of the query
-        Company companyLocal = null;
-        DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM company WHERE CNPJ = ? ORDER BY CNPJ";
+        DBConnection dbConnection = new DBConnection();
+        Company companyFromDb = null;
+        String sql = "SELECT * FROM company WHERE cnpj = ? ORDER BY cnpj";
 
-        // Connect to the database and prepare the statement
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection connection = dbConnection.connected();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            // Set the CNPJ parameter in the query
-            pstm.setString(1, cnpj);
+            if (cnpj == null || cnpj.isEmpty()) throw new IllegalArgumentException("Valor Nulo: 'cnpj'");
 
-            // Execute the query and get the result set
-            try (ResultSet rs = pstm.executeQuery()) {
-                // If a company is found, create a Company object
-                if (rs.next()) {
-                    companyLocal = new Company(
-                            //Wait for DB colums is create
-                            rs.getString("CNPJ"),
-                            rs.getString("name"),
-                            rs.getString("cnae"),
-                            rs.getString("registrant_cpf"),
-                            rs.getBoolean("is_active")
-                    );
+            preparedStatement.setString(1, cnpj);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    companyFromDb = mapResultSetToCompany(resultSet);
                 }
             }
-            // Handle SQL exceptions
+
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in select: " + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] CompanyDAO select: " + sqle.getMessage());
         }
 
-        // Debug log with the found company
-        System.out.println("[DEBUG] In select EmrpesaDAO ,Company found: " + companyLocal);
+        return companyFromDb;
+    }
 
-        // Return the found company (or null if not found)
-        return companyLocal;
+    // [BUSINESS RULES] Map ResultSet to Company object
+    private static Company mapResultSetToCompany(ResultSet rs) throws SQLException {
+        return new Company(
+                rs.getString("cnpj"),
+                rs.getString("name"),
+                rs.getString("cnae"),
+                rs.getString("registrant_cpf"),
+                rs.getBoolean("is_active")
+        );
     }
 }

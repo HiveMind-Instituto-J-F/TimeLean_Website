@@ -2,6 +2,7 @@ package hivemind.hivemindweb.Servelts.crud.Payment;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 import hivemind.hivemindweb.DAO.PaymentDAO;
@@ -27,9 +28,9 @@ public class Create extends HttpServlet {
             String idPlanSubParam = req.getParameter("id_plan_sub");
 
             if (methodParam != null) methodParam = methodParam.trim();
-            if (beneficiaryParam == null || beneficiaryParam.isEmpty()) throw new IllegalArgumentException("Null value: 'beneficiary'");
-            if (idPlanSubParam == null || idPlanSubParam.isEmpty()) throw new IllegalArgumentException("Null value:'id_plan_sub'");
-            if (deadlineParam == null || deadlineParam.isEmpty()) throw new IllegalArgumentException("Null value: 'deadline'");
+            if (beneficiaryParam == null || beneficiaryParam.isEmpty()) throw new IllegalArgumentException("Beneficiário nulo ou vazio");
+            if (idPlanSubParam == null || idPlanSubParam.isEmpty()) throw new IllegalArgumentException("ID da assinatura nulo ou vazio");
+            if (deadlineParam == null || deadlineParam.isEmpty()) throw new IllegalArgumentException("Prazo nulo ou vazio");
 
             LocalDate deadline = LocalDate.parse(deadlineParam);
             String status = "Pendente";
@@ -44,11 +45,11 @@ public class Create extends HttpServlet {
             // [DATA ACCESS] Insert payment into DB
             if (PaymentDAO.insert(paymentLocal)) {
                 // [SUCCESS LOG] Payment added successfully
-                System.err.println("[INFO] Payment added successfully, id_plan_sub: " + idPlanSub);
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] Payment added successfully, id_plan_sub: " + idPlanSub);
             } else {
                 // [FAILURE LOG] Failed DB insertion
-                System.err.println("[ERROR] Failed to add payment to DB, id_plan_sub: " + idPlanSub);
-                req.setAttribute("errorMessage", "Não foi possível adicionar o pagamento. Verifique os dados e tente novamente. (OBS: data dever ser maior que o dia atual)");
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to add payment to database, id_plan_sub: " + idPlanSub);
+                req.setAttribute("errorMessage", "Não foi possível adicionar o pagamento. Verifique os dados e tente novamente. (OBS: a data deve ser maior que o dia atual)");
                 req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
                 return;
             }
@@ -58,28 +59,35 @@ public class Create extends HttpServlet {
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid input
-            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
-            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
+            req.setAttribute("errorMessage", "Dados inválidos, por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.getRequestDispatcher("/html/crud/payment/create.jsp").forward(req, resp);
 
         } catch (DateTimeParseException dpe) {
             // [FAILURE LOG] Date parsing error
-            System.err.println("[ERROR] DateTimeParseException: " + dpe.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] DateTimeParseException: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Data inválida: " + dpe.getMessage());
             req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch error
-            System.err.println("[ERROR] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             // [FAILURE LOG] NullPointerException exception
-            System.err.println("[ERROR] Unexpected error: " + npe.getMessage());
-            req.setAttribute("errorMessage", "Algum valor inserido é nulo");
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Erro interno: valor nulo encontrado.");
+            req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Unexpected exception
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao adicionar o pagamento.");
             req.setAttribute("errorUrl", "/html/crud/payment/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }

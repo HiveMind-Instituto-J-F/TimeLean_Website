@@ -1,6 +1,8 @@
 package hivemind.hivemindweb.Servelts.crud.PlanSubscription.update;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
 import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
@@ -26,36 +28,38 @@ public class Render extends HttpServlet {
             // [DATA ACCESS] Retrieve plan subscription from database
             PlanSubscription planSubscription = PlanSubscriptionDAO.select(id);
             if (planSubscription == null) {
-                // [FAILURE LOG] Plan subscription not found
-                System.err.println("[ERROR] PlanSubscription not found for id: " + id);
-                req.setAttribute("errorMessage", "Assinatura não encontrada.");
-                req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
-                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
-                return;
+                throw new NullPointerException("PlanSubscription is null for id: " + id);
             }
 
             // [SUCCESS LOG] Forward plan subscription to update page
-            System.err.println("[INFO] PlanSubscription retrieved successfully: " + planSubscription);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription retrieved successfully: " + planSubscription);
             req.setAttribute("planSubscription", planSubscription);
             req.getRequestDispatcher("/html/crud/planSubscription/update.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid ID parameter
-            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados: " + ia.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Plan subscription not found
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Assinatura não encontrada.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch errors
-            System.err.println("[ERROR] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor: " + se.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected errors
-            System.err.println("[ERROR] Exception: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao carregar a assinatura.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

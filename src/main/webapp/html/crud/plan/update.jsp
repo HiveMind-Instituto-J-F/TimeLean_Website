@@ -16,21 +16,18 @@
 
     <body>
         <%
-            // Verificação de login
             Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
             if (isLogged == null || !isLogged) {
                 response.sendRedirect(request.getContextPath() + "/html/login.jsp");
                 return;
             }
 
-            // Obter o plano enviado pelo servlet
             Plan plan = (Plan) request.getAttribute("plan");
             if (plan == null) {
                 response.sendRedirect("list.jsp");
                 return;
             }
 
-            // Mensagens de retorno
             String msg = (String) request.getAttribute("msg");
             String error = (String) request.getAttribute("error");
         %>

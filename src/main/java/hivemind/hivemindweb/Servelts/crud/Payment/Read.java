@@ -2,7 +2,7 @@ package hivemind.hivemindweb.Servelts.crud.Payment;
 
 import java.io.IOException;
 import java.util.List;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import hivemind.hivemindweb.DAO.PaymentDAO;
 import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.Payment;
@@ -39,7 +39,7 @@ public class Read extends HttpServlet {
                     case "all" -> filterType = FilterType.Payment.ALL_VALUES;
                     default -> {
                         // [FAILURE LOG] Invalid filter
-                        System.err.println("[ERROR] Invalid filter provided: " + status);
+                        System.err.println("[ERROR] [" + LocalDate.now() + "] Invalid filter provided: " + status);
                         req.setAttribute("errorMessage", "Filtro inválido informado.");
                         req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
                         req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -50,7 +50,7 @@ public class Read extends HttpServlet {
 
             // [DATA ACCESS] Retrieve filtered payments
             List<Payment> paymentList = PaymentDAO.selectFilter(filterType, idPlanSubscriptionParam);
-            System.err.println("[INFO] [" + LocalDateTime.now() + "] Payment list loaded successfully. Total: " + paymentList.size());
+            System.out.println("[INFO] [" + LocalDate.now() + "] Payment list loaded successfully. Total: " + paymentList.size());
 
             // [PROCESS] Forward to payment list page
             req.setAttribute("payments", paymentList);
@@ -58,28 +58,28 @@ public class Read extends HttpServlet {
 
         } catch (IllegalArgumentException ia) {
             // [FAILURE LOG] Invalid argument errors
-            System.err.println("[ERROR] IllegalArgumentException: " + ia.getMessage());
+            System.err.println("[ERROR] [" + LocalDate.now() + "] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Erro nos parâmetros informados. Verifique os valores e tente novamente.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null pointer exception
-            System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
+            System.err.println("[ERROR] [" + LocalDate.now() + "] NullPointerException: " + npe.getMessage());
             req.setAttribute("errorMessage", "Erro interno: dado necessário não foi encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (ServletException se) {
             // [FAILURE LOG] Servlet dispatch errors
-            System.err.println("[ERROR] ServletException: " + se.getMessage());
+            System.err.println("[ERROR] [" + LocalDate.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Erro ao processar a requisição no servidor.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected errors
-            System.err.println("[ERROR] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDate.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro inesperado ao carregar os pagamentos.");
             req.setAttribute("errorUrl", req.getContextPath() + "/payment/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

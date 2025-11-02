@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,63 +14,55 @@ import hivemind.hivemindweb.Services.Enums.FilterType;
 import hivemind.hivemindweb.models.PlanSubscription;
 
 public class PlanSubscriptionDAO {
-    public static List<PlanSubscription> select(){
-        List<PlanSubscription> PlanSubscriptionList = new ArrayList<>();
-        DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM PLAN_SUBSCRIPTION ORDER BY id";
 
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql);
-             ResultSet rs = pstm.executeQuery()) {
+    // [DATA ACCESS] Select all plan subscriptions
+    public static List<PlanSubscription> select() {
+        List<PlanSubscription> planSubscriptionList = new ArrayList<>();
+        DBConnection dbConnection = new DBConnection();
+        String sql = "SELECT * FROM plan_subscription ORDER BY id";
+
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                PlanSubscription planSubscriptionLocal = new PlanSubscription(
-                    rs.getInt("id"),
-                    rs.getDate("start_date").toLocalDate(),
-                    rs.getString("cnpj_company"),
-                    rs.getInt("id_plan"),
-                    rs.getInt("number_installments"),
-                    rs.getBoolean("status")
-                );
-                PlanSubscriptionList.add(planSubscriptionLocal);
+                planSubscriptionList.add(mapResultSetToPlanSubscription(rs));
             }
-        } catch (SQLException e) {
-            System.err.println("[ERROR] Falied in select: " + e.getMessage());
+
+        } catch (SQLException sqle) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscriptionDAO select: " + sqle.getMessage());
         }
-        return PlanSubscriptionList;
+
+        return planSubscriptionList;
     }
 
-    public static PlanSubscription select(int id){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM PLAN_SUBSCRIPTION WHERE ID = ?";
+    // [DATA ACCESS] Select a plan subscription by ID
+    public static PlanSubscription select(int id) {
+        DBConnection dbConnection = new DBConnection();
+        String sql = "SELECT * FROM plan_subscription WHERE id = ?";
 
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql);) {
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstm.setInt(1, id);
-            ResultSet rs = pstm.executeQuery();
+            pstmt.setInt(1, id);
 
-            if (rs.next()) {
-                PlanSubscription planSubscriptionLocal = new PlanSubscription(
-                        rs.getInt("id"),
-                        rs.getDate("start_date").toLocalDate(),
-                        rs.getString("cnpj_company"),
-                        rs.getInt("id_plan"),
-                        rs.getInt("number_installments"),
-                        rs.getBoolean("status")
-                );
-                return planSubscriptionLocal;
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToPlanSubscription(rs);
+                }
             }
-        } catch (SQLException e) {
-            System.err.println("[ERROR] Falied in select: " + e.getMessage());
+
+        } catch (SQLException sqle) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscriptionDAO selectById: " + sqle.getMessage());
         }
 
         return null;
     }
 
-    public static List<PlanSubscription> selectFilter(FilterType.PlanSubscription filterType, String filter){
+    // [DATA ACCESS] Select plan subscriptions by filter
+    public static List<PlanSubscription> selectFilter(FilterType.PlanSubscription filterType, String filter) {
         List<PlanSubscription> planSubscriptionList = new ArrayList<>();
-        DBConnection db = new DBConnection();
+        DBConnection dbConnection = new DBConnection();
         String sql;
 
         if (filterType == null || filterType == FilterType.PlanSubscription.ALL_VALUES) {
@@ -82,143 +75,129 @@ public class PlanSubscriptionDAO {
             return planSubscriptionList;
         }
 
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             if (filterType == FilterType.PlanSubscription.ID_PLAN) {
-                pstm.setInt(1, Integer.parseInt(filter));
+                pstmt.setInt(1, Integer.parseInt(filter));
             } else if (filterType == FilterType.PlanSubscription.CNPJ_COMPANY) {
-                pstm.setString(1, filter);
+                pstmt.setString(1, filter);
             }
 
-            ResultSet rs = pstm.executeQuery();
-
-            while (rs.next()) {
-                planSubscriptionList.add(new PlanSubscription(
-                        rs.getInt("id"),
-                        rs.getDate("start_date").toLocalDate(),
-                        rs.getString("cnpj_company"),
-                        rs.getInt("id_plan"),
-                        rs.getInt("number_installments"),
-                        rs.getBoolean("status")
-                ));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("[ERROR] Failed in selectFilter: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.err.println("[ERROR] Invalid number format in filter: " + filter);
-        }
-
-        return planSubscriptionList;
-    }
-
-    public static List<PlanSubscription> selectActivePlans(String cnpjCompany) {
-        List<PlanSubscription> planSubscriptionList = new ArrayList<>();
-        DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM PLAN_SUBSCRIPTION WHERE CNPJ_COMPANY = ? AND status = true";
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-
-            pstm.setString(1, cnpjCompany);
-            try (ResultSet rs = pstm.executeQuery()) {
+            try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    planSubscriptionList.add(new PlanSubscription(
-                            rs.getInt("id"),
-                            rs.getDate("start_date").toLocalDate(),
-                            rs.getString("cnpj_company"),
-                            rs.getInt("id_plan"),
-                            rs.getInt("number_installments"),
-                            rs.getBoolean("status")
-                    ));
+                    planSubscriptionList.add(mapResultSetToPlanSubscription(rs));
                 }
             }
-        } catch (SQLException e) {
-            System.err.println("[ERROR] Failed in select: " + e.getMessage());
-        }
-        return planSubscriptionList;
-    }
-    
-    public static boolean delete(int id) {
-        DBConnection db = new DBConnection();
-        String sql = "UPDATE PLAN_SUBSCRIPTION SET status = false WHERE id = ?";
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-
-            pstm.setInt(1, id);
-            return pstm.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.out.println("[ERROR] Falied in delete" + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscriptionDAO selectFilter: " + sqle.getMessage());
+        } catch (NumberFormatException nfe) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscriptionDAO invalid number in filter: " + filter);
         }
-        return false;
+
+        return planSubscriptionList;
     }
 
+    // [DATA ACCESS] Select active plans for a company
+    public static List<PlanSubscription> selectActivePlans(String paramCnpjCompany) {
+        List<PlanSubscription> planSubscriptionList = new ArrayList<>();
+        DBConnection dbConnection = new DBConnection();
+        String sql = "SELECT * FROM plan_subscription WHERE cnpj_company = ? AND status = true";
+
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, paramCnpjCompany);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    planSubscriptionList.add(mapResultSetToPlanSubscription(rs));
+                }
+            }
+
+        } catch (SQLException sqle) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscriptionDAO selectActivePlans: " + sqle.getMessage());
+        }
+
+        return planSubscriptionList;
+    }
+
+    // [DATA ACCESS] Update a plan subscription
     public static boolean update(PlanSubscription planSubscription) {
-        DBConnection db = new DBConnection();
+        DBConnection dbConnection = new DBConnection();
         String sql = """
-            UPDATE PLAN_SUBSCRIPTION
+            UPDATE plan_subscription
             SET start_date = ?,
                 status = ?
             WHERE id = ?
         """;
 
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setDate(1,Date.valueOf(planSubscription.getStartDate()));
-            pstm.setBoolean(2, planSubscription.getStatus());
-            pstm.setInt(3, planSubscription.getId());
-            return pstm.executeUpdate() > 0;
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setDate(1, Date.valueOf(planSubscription.getStartDate()));
+            pstmt.setBoolean(2, planSubscription.getStatus());
+            pstmt.setInt(3, planSubscription.getId());
+
+            return pstmt.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in update: " + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscriptionDAO update: " + sqle.getMessage());
         }
+
         return false;
     }
 
-    public static boolean insert(PlanSubscription planSubscription, Boolean hasId){
-        DBConnection db = new DBConnection();
-        String sql = """
-            INSERT INTO PLAN_SUBSCRIPTION (id, start_date, cnpj_company, id_plan, number_installments, status)
-            VALUES (?,?, ?, ?, ?, ?)
+    // [DATA ACCESS] Insert a plan subscription
+    public static boolean insert(PlanSubscription planSubscription, boolean hasId) {
+        DBConnection dbConnection = new DBConnection();
+        String sqlWithId = """
+            INSERT INTO plan_subscription (id, start_date, cnpj_company, id_plan, number_installments, status)
+            VALUES (?, ?, ?, ?, ?, ?)
         """;
 
-        if (hasId){
-            try(Connection conn = db.connected();
-                PreparedStatement psmt = conn.prepareStatement(sql);){
-                psmt.setInt(1,planSubscription.getId());
-                psmt.setDate(2, Date.valueOf(planSubscription.getStartDate()));
-                psmt.setString(3, planSubscription.getCnpjCompany());
-                psmt.setInt(4, planSubscription.getIdPlan());
-                psmt.setInt(5, planSubscription.getNumberInstallments());
-                psmt.setBoolean(6, planSubscription.getStatus());
-
-                return psmt.executeUpdate() > 0;
-            }catch (SQLException sqle) {
-                System.err.println("[ERROR] Falied in insert" + sqle.getMessage());
-                return false;
-            }
-        }
-
-        sql = """
-            INSERT INTO PLAN_SUBSCRIPTION (start_date, cnpj_company, id_plan, number_installments, status)
+        String sqlWithoutId = """
+            INSERT INTO plan_subscription (start_date, cnpj_company, id_plan, number_installments, status)
             VALUES (?, ?, ?, ?, ?)
         """;
 
-        try(Connection conn = db.connected();
-            PreparedStatement psmt = conn.prepareStatement(sql);){
-            psmt.setDate(1, Date.valueOf(planSubscription.getStartDate()));
-            psmt.setString(2, planSubscription.getCnpjCompany());
-            psmt.setInt(3, planSubscription.getIdPlan());
-            psmt.setInt(4, planSubscription.getNumberInstallments());
-            psmt.setBoolean(5, planSubscription.getStatus());
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(hasId ? sqlWithId : sqlWithoutId)) {
 
-            return psmt.executeUpdate() > 0;
-        }catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
-            return false;
+            if (hasId) {
+                pstmt.setInt(1, planSubscription.getId());
+                pstmt.setDate(2, Date.valueOf(planSubscription.getStartDate()));
+                pstmt.setString(3, planSubscription.getCnpjCompany());
+                pstmt.setInt(4, planSubscription.getIdPlan());
+                pstmt.setInt(5, planSubscription.getNumberInstallments());
+                pstmt.setBoolean(6, planSubscription.getStatus());
+            } else {
+                pstmt.setDate(1, Date.valueOf(planSubscription.getStartDate()));
+                pstmt.setString(2, planSubscription.getCnpjCompany());
+                pstmt.setInt(3, planSubscription.getIdPlan());
+                pstmt.setInt(4, planSubscription.getNumberInstallments());
+                pstmt.setBoolean(5, planSubscription.getStatus());
+            }
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanSubscriptionDAO insert: " + sqle.getMessage());
         }
+
+        return false;
+    }
+
+    // [BUSINESS RULES] Map ResultSet to PlanSubscription object
+    private static PlanSubscription mapResultSetToPlanSubscription(ResultSet rs) throws SQLException {
+        return new PlanSubscription(
+                rs.getInt("id"),
+                rs.getDate("start_date").toLocalDate(),
+                rs.getString("cnpj_company"),
+                rs.getInt("id_plan"),
+                rs.getInt("number_installments"),
+                rs.getBoolean("status")
+        );
     }
 }

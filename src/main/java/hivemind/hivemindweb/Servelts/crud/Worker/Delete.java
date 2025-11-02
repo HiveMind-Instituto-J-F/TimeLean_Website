@@ -17,30 +17,31 @@ public class Delete extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             // [VALIDATION] Get and validate CPF parameter
-            String paramCpf = req.getParameter("cpf");
-            if (paramCpf == null || paramCpf.isEmpty()) {
+            String cpfParam = req.getParameter("cpf");
+            if (cpfParam == null || cpfParam.isEmpty()) {
                 throw new IllegalArgumentException("CPF parameter is missing");
             }
 
             // [DATA ACCESS] Attempt to delete worker
-            boolean deleted = WorkerDAO.delete(paramCpf);
+            boolean deleted = WorkerDAO.delete(cpfParam);
 
             if (deleted) {
                 // [SUCCESS LOG] Worker deleted successfully
-                System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker deleted: " + paramCpf);
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] Worker deleted: " + cpfParam);
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
             } else {
                 // [FAILURE LOG] Worker not found or deletion failed
-                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Worker not found or could not be deleted: " + paramCpf);
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Worker not found or could not be deleted: " + cpfParam);
                 req.setAttribute("errorMessage", "Não foi possível deletar o trabalhador. Verifique o CPF e tente novamente.");
-                req.getRequestDispatcher("/html/crud/Worker/delete.jsp").forward(req, resp);
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid input parameter
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "CPF inválido ou parâmetro ausente.");
-            req.getRequestDispatcher("/html/crud/Worker/delete.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
         } catch (NullPointerException npe) {
             // [FAILURE LOG] Null reference encountered
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
@@ -61,6 +62,7 @@ public class Delete extends HttpServlet {
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
         }
     }
 }

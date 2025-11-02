@@ -1,16 +1,14 @@
 package hivemind.hivemindweb.models;
 
 public class Plant {
-    // Variables
     private String cnae;
-    private String cnpj;
-    private String responsibleCpf;
+    private final String cnpj;
+    private final String responsibleCpf;
     private boolean operationalStatus;
     private int addressNumber;
-    private String cnpjCompany;
+    private final String cnpjCompany;
     private String addressCep;
 
-    // Constructor - all values
     public Plant(String cnpj, String cnae, String responsibleCpf, boolean operationalStatus, String addressCep,
                  int addressNumber, String cnpjCompany) {
         this.cnae = cnae;
@@ -22,7 +20,6 @@ public class Plant {
         this.addressCep = addressCep;
     }
 
-    // Constructor - minimum values
     public Plant(String cnpj, String responsibleCpf, boolean operationalStatus, String cnpjCompany) {
         this.cnpj = cnpj;
         this.responsibleCpf = responsibleCpf;
@@ -30,7 +27,6 @@ public class Plant {
         this.cnpjCompany = cnpjCompany;
     }
 
-    // Getters
     public String getCnae() {
         return cnae;
     }
@@ -59,7 +55,6 @@ public class Plant {
         return addressCep;
     }
 
-    // Setters (only for attributes that can be modified)
     public void setCnae(String cnae) {
         this.cnae = cnae;
     }
@@ -76,18 +71,16 @@ public class Plant {
         this.addressCep = addressCep;
     }
 
-    // String representation of the object
     @Override
     public String toString() {
-        return String.format(
-                "CNAE: %s\nCNPJ: %s\nResponsible CPF: %s\nOperational Status: %b\nAddress Number: %d\nAddress CEP: %s\nCNPJ Company: %s",
-                this.cnae,
-                this.cnpj,
-                this.responsibleCpf,
-                this.operationalStatus,
-                this.addressNumber,
-                this.addressCep,
-                this.cnpjCompany
-        );
+        return "Plant{" +
+                "cnae='" + cnae + '\'' +
+                ", cnpj='" + cnpj + '\'' +
+                ", responsibleCpf='" + responsibleCpf + '\'' +
+                ", operationalStatus=" + operationalStatus +
+                ", addressNumber=" + addressNumber +
+                ", cnpjCompany='" + cnpjCompany + '\'' +
+                ", addressCep='" + addressCep + '\'' +
+                '}';
     }
 }

@@ -37,7 +37,7 @@
 
                 <div class="input-div">
                     <label for="id_plan_sub">ID, Inscrição de plano</label>
-                    <input type="text" id="id_plan_sub" name="company-registrant-cpf" placeholder="Insira o ID de inscrição do plano aqui" min="1" required>
+                    <input type="text" id="id_plan_sub" name="id_plan_sub" placeholder="Insira o ID de inscrição do plano aqui" min="1" required>
                 </div>
 
                 <div class="input-div">
@@ -53,7 +53,6 @@
                 <div class="input-div">
                     <label for="method">Método de pagamento</label>
                     <select name="method" required>
-                        <option value="">Selecione...</option>
                         <option value="PIX">PIX</option>
                         <option value="Cartão de Crédito">Cartão de Crédito</option>
                         <option value="Cartão de Débito">Cartão de Débito</option>

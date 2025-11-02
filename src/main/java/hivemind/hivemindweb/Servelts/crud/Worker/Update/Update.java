@@ -22,42 +22,44 @@ public class Update extends HttpServlet {
             // [VALIDATION] Retrieve and validate session and parameters
             HttpSession session = req.getSession();
 
-            String paramCpf = req.getParameter("cpf");
-            String paramName = req.getParameter("name");
-            String paramRole = req.getParameter("role");
-            String paramSector = req.getParameter("sector");
-            String paramLoginEmail = req.getParameter("loginEmail");
-            String paramPassword = req.getParameter("loginPassword");
-            String paramPlantCnpj = (String) session.getAttribute("plantCnpj");
+            String cpf = req.getParameter("cpf");
+            String name = req.getParameter("name");
+            String role = req.getParameter("role");
+            String sector = req.getParameter("sector");
+            String loginEmail = req.getParameter("loginEmail");
+            String loginPassword = req.getParameter("loginPassword");
+            String plantCnpj = (String) session.getAttribute("plantCnpj");
 
-            if(paramCpf == null || paramCpf.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");
-            if(paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'name'");
-            if(paramRole == null || paramRole.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'role'");
-            if(paramSector == null || paramSector.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'sector'");
-            if(paramLoginEmail == null || paramLoginEmail.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'loginEmail'");
-            if(paramPlantCnpj == null || paramPlantCnpj.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");
+            if(cpf == null || cpf.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'cpf'");
+            if(name == null || name.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'name'");
+            if(role == null || role.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'role'");
+            if(sector == null || sector.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'sector'");
+            if(loginEmail == null || loginEmail.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'loginEmail'");
+            if(plantCnpj == null || plantCnpj.isEmpty()) throw new IllegalArgumentException("Values Is Null, Value: 'plantCnpj'");
 
             // [PROCESS] Hash password, create Worker object and update worker
-            String hashedPassword = AuthService.hash(paramPassword);
+            String hashedPassword = AuthService.hash(loginPassword);
 
-            Worker workerFromDb = WorkerDAO.selectByCpf(paramCpf);
-            workerFromDb.setCpf(paramCpf);
-            workerFromDb.setLoginEmail(paramLoginEmail);
-            workerFromDb.setName(paramName);
-            workerFromDb.setRole(paramRole);
-            workerFromDb.setSector(paramSector);
+            Worker workerFromDb = WorkerDAO.selectByCpf(cpf);
+            if(workerFromDb == null) throw new NullPointerException("Worker not found for CPF: " + cpf);
 
-            if(!(paramPassword == null || paramPassword.isEmpty())) workerFromDb.setLoginPassword(hashedPassword);
+            workerFromDb.setCpf(cpf);
+            workerFromDb.setLoginEmail(loginEmail);
+            workerFromDb.setName(name);
+            workerFromDb.setRole(role);
+            workerFromDb.setSector(sector);
+
+            if(!loginPassword.isEmpty()) workerFromDb.setLoginPassword(hashedPassword);
 
             // [DATA ACCESS] Attempt to update worker in database
             boolean updated = WorkerDAO.update(workerFromDb);
             if(updated) {
                 // [SUCCESS LOG] Worker updated successfully
-                System.err.println("[INFO] [" + LocalDateTime.now() + "] Worker updated: " + paramCpf);
+                System.out.println("[INFO] [" + LocalDateTime.now() + "] Worker updated: " + cpf);
                 resp.sendRedirect(req.getContextPath() + "/worker/read");
             } else {
                 // [FAILURE LOG] Database update failed
-                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update worker in the database: " + paramCpf);
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to update worker in the database: " + cpf);
                 req.setAttribute("errorMessage", "Não foi possível atualizar o trabalhador.");
                 req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
                 req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
@@ -67,21 +69,28 @@ public class Update extends HttpServlet {
             // [FAILURE LOG] Parameter validation error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + ia.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch(NullPointerException npe) {
+            // [FAILURE LOG] Worker not found
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Trabalhador não encontrado.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch(ServletException se) {
             // [FAILURE LOG] Dispatcher error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] ServletException: " + se.getMessage());
             req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + se.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch(Exception e) {
             // [FAILURE LOG] Unexpected error
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());
-            req.setAttribute("errorUrl", req.getContextPath() + "/worke/read");
+            req.setAttribute("errorUrl", req.getContextPath() + "/worker/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }

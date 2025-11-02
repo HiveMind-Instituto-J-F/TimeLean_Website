@@ -102,12 +102,12 @@
                         </label>
                         <select class="inter" id="status" name="status">
                             <option value="all-companies">Todas</option>
-                            <option value="active-companies">Apenas empresas ativas</option>
+                            <option value="active-companies" selected>Apenas empresas ativas</option>
                             <option value="inactive-companies">Apenas empresas inativas</option>
                             <option value="companies-with-pending-payments">Apenas empresas com pagamentos pendentes</option>
                         </select>
                     </div>
-                    <button class="inter" type="submit">Submeter</button>
+                    <button class="inter" type="submit">Aplicar Filtro</button>
                 </form>
                 <div>
                     <a class="inter" href="${pageContext.request.contextPath}/html/crud/company/create.jsp">Cadastrar
@@ -139,7 +139,7 @@
                                     boolean active = c.isActive();
                         %>
                         <tr>
-                            <td class="sensitive" data-real="<%= c.getCNPJ() %>"><%= "*".repeat(c.getCNPJ().length()) %></td>
+                            <td class="sensitive" data-real="<%= c.getCnpj() %>"><%= "*".repeat(c.getCnpj().length()) %></td>
                             <td><%= c.getName() %></td>
                             <td class="sensitive" data-real="<%= c.getCnae() %>"><%= "*".repeat(c.getCnae().length()) %></td>
                             <td class="sensitive" data-real="<%= c.getRegistrantCpf() %>"><%= "*".repeat(c.getRegistrantCpf().length()) %></td>
@@ -157,7 +157,7 @@
                                     </form>
 
                                     <form class="create" action="${pageContext.request.contextPath}/company/render-update" method="get">
-                                        <input type="hidden" name="cnpj" value="<%= c.getCNPJ() %>">
+                                        <input type="hidden" name="cnpj" value="<%= c.getCnpj() %>">
                                         <button type="submit">
                                             <img src="${pageContext.request.contextPath}/img/icons/ui/pencil (black).png" alt="Editar">
                                         </button>
@@ -165,14 +165,14 @@
                                     
                                     <form class="delete" action="${pageContext.request.contextPath}/company/delete" method="get">
                                         <button type="submit">
-                                            <input type="hidden" name="cnpj" value="<%= c.getCNPJ() %>">
+                                            <input type="hidden" name="cnpj" value="<%= c.getCnpj() %>">
                                             <img src="${pageContext.request.contextPath}/img/icons/ui/trash (black).png" alt="Deletar">
                                         </button>
                                     </form>
                                 </div>
                                 <% } else { %>
                                 <form class="disable" action="${pageContext.request.contextPath}/company/delete/rollback" method="post">
-                                    <input type="hidden" name="cnpj" value="<%= c.getCNPJ() %>">
+                                    <input type="hidden" name="cnpj" value="<%= c.getCnpj() %>">
                                     <input type="submit" value="Reativar"/>
                                 </form>
                                 <% } %>

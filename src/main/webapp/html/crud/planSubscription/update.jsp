@@ -3,14 +3,12 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <%
-    // Verifica login
     Boolean isLogged = (session != null) ? (Boolean) session.getAttribute("login") : null;
     if (isLogged == null || !isLogged) {
         response.sendRedirect(request.getContextPath() + "/html/login.jsp");
         return;
     }
 
-    // Obtém o objeto do request (pode vir nulo)
     PlanSubscription planSubscription = (PlanSubscription) request.getAttribute("planSubscription");
 %>
 

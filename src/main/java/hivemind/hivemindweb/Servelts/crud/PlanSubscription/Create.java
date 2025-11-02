@@ -52,31 +52,39 @@ public class Create extends HttpServlet {
             // [DATA ACCESS] Insert new PlanSubscription
             boolean inserted = PlanSubscriptionDAO.insert(planSubscriptionLocal, false);
             if (!inserted) {
-                throw new IllegalStateException("Failed when inserting plan subscription on database.");
+                throw new IllegalStateException("Falha ao inserir assinatura no banco de dados.");
             }
-            System.err.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription record created successfully");
 
             // [SUCCESS LOG] Redirect to read page
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] PlanSubscription record created successfully");
             resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
 
         } catch (DateTimeParseException dpe) {
             // [FAILURE LOG] Invalid date format
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] DateTimeParseException: " + dpe.getMessage());
             req.setAttribute("errorMessage", "Formato de data inválido: " + dpe.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/planSubscription/create.jsp");
+            req.setAttribute("errorUrl", req.getContextPath() + "/html/crud/planSubscription/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (IllegalArgumentException | IllegalStateException e) {
             // [FAILURE LOG] Invalid input or business rule violation
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] " + e.getClass().getSimpleName() + ": " + e.getMessage());
-            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + e.getMessage());
-            req.getRequestDispatcher("/html/crud/planSubscription/create.jsp").forward(req, resp);
+            req.setAttribute("errorMessage", "Dados inválidos, por favor preencha todos os campos corretamente. Erro: " + e.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/html/crud/planSubscription/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Unexpected null values
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Erro ao criar assinatura: elemento nulo encontrado.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/html/crud/planSubscription/create.jsp");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
         } catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao criar a assinatura: " + e.getMessage());
-            req.setAttribute("errorUrl", "/html/crud/planSubscription/create.jsp");
+            req.setAttribute("errorUrl", req.getContextPath() + "/html/crud/planSubscription/create.jsp");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }

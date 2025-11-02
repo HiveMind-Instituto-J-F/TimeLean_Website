@@ -28,7 +28,8 @@ public class Delete extends HttpServlet {
             plantFromDb.setOperationalStatus(false);
             PlantDAO.update(plantFromDb);
 
-            System.err.println("[INFO] [" + LocalDateTime.now() + "] Plant operational status set to false successfully: " + cnpjParam);
+            // [SUCCESS LOG] Plant operational status set to false successfully
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Status operacional da planta definido como falso com sucesso: " + cnpjParam);
             resp.sendRedirect(req.getContextPath() + "/plant/read");
 
         } catch (IllegalArgumentException e) {
@@ -37,9 +38,16 @@ public class Delete extends HttpServlet {
             req.setAttribute("errorMessage", "Erro ao desativar a planta: " + e.getMessage());
             req.getRequestDispatcher("/html/crud/plant/delete.jsp").forward(req, resp);
 
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Handle null pointer exceptions
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Erro ao desativar a planta: referência nula encontrada.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
         } catch (Exception e) {
             // [FAILURE LOG] Catch-all unexpected errors
-            System.err.println("[INFO] [" + LocalDateTime.now() + "] Unexpected error: " + e.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] Erro inesperado: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado ao desativar a planta: " + e.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/plant/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,220 +12,186 @@ import hivemind.hivemindweb.Connection.DBConnection;
 import hivemind.hivemindweb.models.Plan;
 
 public class PlanDAO {
+
+    // [DATA ACCESS] Insert a new plan
     public static boolean insert(Plan plan, boolean hasId) {
-        DBConnection db = new DBConnection();
-        String sql = "INSERT INTO plan (id, name, description, price, duration) " +
-                "VALUES (?,?,?,?,?)";
+        DBConnection dbConnection = new DBConnection();
+        String sqlWithId = "INSERT INTO plan (id, name, description, price, duration) VALUES (?,?,?,?,?)";
+        String sqlWithoutId = "INSERT INTO plan (name, description, price, duration) VALUES (?,?,?,?)";
 
-        if(hasId){
-            try (Connection conn = db.connected();
-                 PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(hasId ? sqlWithId : sqlWithoutId)) {
 
-                pstm.setInt(1, plan.getId());
-                pstm.setString(2, plan.getName());
-                pstm.setString(3, plan.getDescription());
-                pstm.setDouble(4,plan.getPrice());
-                pstm.setInt(5,plan.getDuration());
-
-                return pstm.executeUpdate() > 0;
-
-            } catch (SQLException sqle) {
-                System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            if (hasId) {
+                pstmt.setInt(1, plan.getId());
+                pstmt.setString(2, plan.getName());
+                pstmt.setString(3, plan.getDescription());
+                pstmt.setDouble(4, plan.getPrice());
+                pstmt.setInt(5, plan.getDuration());
+            } else {
+                pstmt.setString(1, plan.getName());
+                pstmt.setString(2, plan.getDescription());
+                pstmt.setDouble(3, plan.getPrice());
+                pstmt.setInt(4, plan.getDuration());
             }
-            return false;
-        }
 
-        sql = "INSERT INTO plan (name, description, price, duration) " +
-                "VALUES (?,?,?,?)";
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-
-            pstm.setString(1, plan.getName());
-            pstm.setString(2, plan.getDescription());
-            pstm.setDouble(3,plan.getPrice());
-            pstm.setInt(4,plan.getDuration());
-
-            return pstm.executeUpdate() > 0;
+            return pstmt.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanDAO insert: " + sqle.getMessage());
         }
+
         return false;
     }
 
+    // [DATA ACCESS] Update a plan
     public static boolean update(Plan plan) {
-        DBConnection db = new DBConnection();
-        String sql = "UPDATE plan SET name = ?, description = ?, price = ?, duration = ?, is_active = ?  WHERE id = ?";
+        DBConnection dbConnection = new DBConnection();
+        String sql = "UPDATE plan SET name = ?, description = ?, price = ?, duration = ?, is_active = ? WHERE id = ?";
 
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setString(1, plan.getName());
-            pstm.setString(2, plan.getDescription());
-            pstm.setDouble(3, plan.getPrice());
-            pstm.setInt(4, plan.getDuration());
-            pstm.setBoolean(5, plan.isActive());
-            pstm.setInt(6, plan.getId());
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            return pstm.executeUpdate() > 0;
+            pstmt.setString(1, plan.getName());
+            pstmt.setString(2, plan.getDescription());
+            pstmt.setDouble(3, plan.getPrice());
+            pstmt.setInt(4, plan.getDuration());
+            pstmt.setBoolean(5, plan.isActive());
+            pstmt.setInt(6, plan.getId());
+
+            return pstmt.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in Update: " + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanDAO update: " + sqle.getMessage());
         }
+
         return false;
     }
 
-    public static boolean delete(Plan plan) {
-        DBConnection db = new DBConnection();
-        String sql = "DELETE FROM plan WHERE id = ?";
-
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
-
-            pstm.setInt(1, plan.getId());
-            return pstm.executeUpdate() > 0;
-
-        } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in delete: " + sqle.getMessage());
-        }
-        return false;
-    }
-
+    // [DATA ACCESS] Select all plans
     public static List<Plan> select() {
         List<Plan> plansList = new ArrayList<>();
-        DBConnection db = new DBConnection();
+        DBConnection dbConnection = new DBConnection();
         String sql = "SELECT * FROM plan ORDER BY id";
 
-        try (Connection conn = db.connected();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                Plan planLocal = new Plan(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getInt("duration"),
-                        rs.getDouble("price"),
-                        rs.getBoolean("is_active")
-                );
-                plansList.add(planLocal);
+                plansList.add(mapResultSetToPlan(rs));
             }
 
-        } catch (SQLException e) {
-            System.err.println("[ERROR] Falied in select" + e.getMessage());
+        } catch (SQLException sqle) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanDAO select: " + sqle.getMessage());
         }
+
         return plansList;
     }
 
-    public static Plan select(String name){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM PLAN WHERE NAME = ?";
+    // [DATA ACCESS] Select plan by name
+    public static Plan selectByName(String paramName) {
+        DBConnection dbConnection = new DBConnection();
+        String sql = "SELECT * FROM plan WHERE name = ?";
 
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstm.setString(1, name);
+            pstmt.setString(1, paramName);
 
-            ResultSet rs = pstm.executeQuery();
-
-            if (rs.next()){
-                return new Plan(rs.getInt("ID"),
-                        rs.getString("NAME"),
-                        rs.getString("DESCRIPTION"),
-                        rs.getInt("DURATION"),
-                        rs.getDouble("PRICE"),
-                        rs.getBoolean("IS_ACTIVE")
-                );
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToPlan(rs);
+                }
             }
 
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in select: " + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanDAO selectByName: " + sqle.getMessage());
         }
+
         return null;
     }
 
-    public static Plan selectByID(int id){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT * FROM PLAN WHERE ID = ?";
+    // [DATA ACCESS] Select plan by ID
+    public static Plan selectByID(int id) {
+        DBConnection dbConnection = new DBConnection();
+        String sql = "SELECT * FROM plan WHERE id = ?";
 
-        try (Connection conn = db.connected();
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstm.setInt(1, id);
+            pstmt.setInt(1, id);
 
-            ResultSet rs = pstm.executeQuery();
-
-            if (rs.next()){
-                return new Plan(rs.getInt("ID"),
-                        rs.getString("NAME"),
-                        rs.getString("DESCRIPTION"),
-                        rs.getInt("DURATION"),
-                        rs.getDouble("PRICE"),
-                        rs.getBoolean("IS_ACTIVE")
-                );
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToPlan(rs);
+                }
             }
 
         } catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in select: " + sqle.getMessage());
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanDAO selectByID: " + sqle.getMessage());
         }
+
         return null;
     }
 
-    public static double getPrice(int id_plan){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT price FROM Plan WHERE id=?";
+    // [DATA ACCESS] Get price by plan ID
+    public static double getPrice(int id) {
+        DBConnection dbConnection = new DBConnection();
+        String sql = "SELECT price FROM plan WHERE id = ?";
         double price = 0.0;
-        try(Connection conn = db.connected();
-            PreparedStatement psmt = conn.prepareStatement(sql);){
-            psmt.setInt(1, id_plan);
 
-            try (ResultSet rs = psmt.executeQuery()) {
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     price = rs.getDouble("price");
                 }
             }
-        }catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
+
+        } catch (SQLException sqle) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanDAO getPrice: " + sqle.getMessage());
         }
+
         return price;
     }
 
-    public static String getName(int id){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT name FROM Plan WHERE id=?;";
-        String nameDB = "";
-        try(Connection conn = db.connected();
-            PreparedStatement psmt = conn.prepareStatement(sql);){
-            psmt.setInt(1, id);
+    // [DATA ACCESS] Get name by plan ID
+    public static String getName(int id) {
+        DBConnection dbConnection = new DBConnection();
+        String sql = "SELECT name FROM plan WHERE id = ?";
+        String nameFromDb = "";
 
-            try (ResultSet rs = psmt.executeQuery()) {
+        try (Connection conn = dbConnection.connected();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    nameDB = rs.getString("name");
+                    nameFromDb = rs.getString("name");
                 }
             }
-        }catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
+
+        } catch (SQLException sqle) {
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] PlanDAO getName: " + sqle.getMessage());
         }
-        return nameDB;
+
+        return nameFromDb;
     }
 
-    public static String getName(String name){
-        DBConnection db = new DBConnection();
-        String sql = "SELECT name FROM Plan WHERE id=?;";
-        String nameDB = "";
-        try(Connection conn = db.connected();
-            PreparedStatement psmt = conn.prepareStatement(sql);){
-            psmt.setString(1, name);
-
-            try (ResultSet rs = psmt.executeQuery()) {
-                if (rs.next()) {
-                    nameDB = rs.getString("name");
-                }
-            }
-        }catch (SQLException sqle) {
-            System.err.println("[ERROR] Falied in insert: " + sqle.getMessage());
-        }
-        return nameDB;
+    // [BUSINESS RULES] Map ResultSet to Plan object
+    private static Plan mapResultSetToPlan(ResultSet rs) throws SQLException {
+        return new Plan(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getInt("duration"),
+                rs.getDouble("price"),
+                rs.getBoolean("is_active")
+        );
     }
 }

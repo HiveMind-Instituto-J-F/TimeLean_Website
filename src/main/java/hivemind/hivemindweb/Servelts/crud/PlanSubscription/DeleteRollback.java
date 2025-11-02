@@ -2,9 +2,7 @@ package hivemind.hivemindweb.Servelts.crud.PlanSubscription;
 
 import java.io.IOException;
 
-import hivemind.hivemindweb.DAO.CompanyDAO;
 import hivemind.hivemindweb.DAO.PlanSubscriptionDAO;
-import hivemind.hivemindweb.models.Company;
 import hivemind.hivemindweb.models.PlanSubscription;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -31,14 +29,14 @@ public class DeleteRollback extends HttpServlet {
             planSubscriptionFromDb.setStatus(true);
             if (PlanSubscriptionDAO.update(planSubscriptionFromDb)) {
                 // [SUCCESS LOG] Company reactivated successfully
-                System.err.println("[INFO] Plan Subscription reactivated: " + id);
+                System.out.println("[INFO] Plan Subscription reactivated: " + id);
                 resp.sendRedirect(req.getContextPath() + "/plan_subscription/read");
                 return;
             }
 
             // [FAILURE LOG] Unknown error during reactivation
             System.err.println("[ERROR] Unknown error reactivating company: " + id);
-            req.setAttribute("errorMessage", "Não foi possível reativar a inscrição de plano (Erro desconhecido).");
+            req.setAttribute("errorMessage", "Não foi possível reativar a assinatura do plano (Erro desconhecido).");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
@@ -46,6 +44,13 @@ public class DeleteRollback extends HttpServlet {
             // [FAILURE LOG] Invalid input
             System.err.println("[ERROR] IllegalArgumentException: " + iae.getMessage());
             req.setAttribute("errorMessage", "Erro: " + iae.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Handle null pointer exception
+            System.err.println("[ERROR] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Erro ao reativar assinatura: elemento nulo encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/plan_subscription/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 

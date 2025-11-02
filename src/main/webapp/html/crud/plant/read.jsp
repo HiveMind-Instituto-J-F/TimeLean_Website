@@ -97,17 +97,17 @@
             <div id="filter-bar" class="inter">
                 <form action="${pageContext.request.contextPath}/plant/read" method="get">
                     <div>
-                        <label for="status">
+                        <label for="filter">
                             <img src="${pageContext.request.contextPath}/img/icons/ui/filter.png" alt="filtrar">
                         </label>
-                        <select class="inter" id="status" name="status">
-                            <option value="all-companies">Todas</option>
-                            <option value="active-companies">Apenas empresas ativas</option>
-                            <option value="inactive-companies">Apenas empresas inativas</option>
-                            <option value="companies-with-pending-payments">Apenas empresas com pagamentos pendentes</option>
+                        <select class="inter" id="status" name="filter">
+                            <option value="all-plants" selected>Todas plantas</option>
+                            <option value="active-plants">Apenas plantas ativas</option>
+                            <option value="inactive-plants">Apenas plantas inativas</option>
                         </select>
                     </div>
-                    <button class="inter" type="submit">Submeter</button>
+                    <input type="text" name="filterCompanyName" placeholder="Digite o nome da empresa dona da planta">
+                    <button class="inter" type="submit">Aplicar Filtro</button>
                 </form>
                 <div>
                     <a class="inter" href="${pageContext.request.contextPath}/html/crud/plant/create.jsp">Cadastrar

@@ -101,22 +101,22 @@
                             <img src="${pageContext.request.contextPath}/img/icons/ui/filter.png" alt="filtrar">
                         </label>
                         <select class="inter" id="status" name="status">
-                            <option value="all-companies">Nenhum filtro selecionado</option>
-                            <option value="active-companies">Apenas empresas ativas</option>
-                            <option value="inactive-companies">Apenas empresas inativas</option>
-                            <option value="companies-with-pending-payments">Apenas empresas com pagamentos pendentes</option>
+                            <option value="pending">Pagamentos Pendentes</option>
+                            <option value="paid">Pagamentos Realizados</option>
+                            <option value="canceled">Pagamentos Cancelados</option>
+                            <option value="all" selected>Todos os pagamentos</option>
                         </select>
                     </div>
                     <div>
                         <label for="idPlanSubscription">
                             <img src="${pageContext.request.contextPath}/img/icons/ui/search.png" alt="Buscar">
                         </label>
-                        <input type="number" name="idPlanSubscription" placeholder="Digite o ID do plano aqui">
+                        <input type="number" name="idPlanSubscription" placeholder="Digite o ID da inscrição de plano aqui">
                     </div>
-                    <button class="inter" type="submit">Submeter</button>
+                    <button class="inter" type="submit">Aplicar Filtro</button>
                 </form>
                 <div>
-                    <a class="inter" href="${pageContext.request.contextPath}/html/crud/payment/create.jsp">Cadastrar nova empresa</a>
+                    <a class="inter" href="${pageContext.request.contextPath}/html/crud/payment/create.jsp">Cadastrar novo pagamento</a>
                 </div>
             </div>
 

@@ -20,12 +20,10 @@ public class Update extends HttpServlet {
             String paramCnpj = req.getParameter("cnpj");
             String paramName = req.getParameter("name");
             String paramCnae = req.getParameter("cnae");
-            String paramRegistrantCpf = req.getParameter("registrantCpf");
 
-            if (paramCnpj == null || paramCnpj.isEmpty()) throw new IllegalArgumentException("Null value: 'cnpj'");
-            if (paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Null value: 'name'");
-            if (paramCnae == null || paramCnae.isEmpty()) throw new IllegalArgumentException("Null value: 'cnae'");
-            if (paramRegistrantCpf == null || paramRegistrantCpf.isEmpty()) throw new IllegalArgumentException("Null value: 'registrantCpf'");
+            if (paramCnpj == null || paramCnpj.isEmpty()) throw new IllegalArgumentException("Valor nulo: 'cnpj'");
+            if (paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Valor nulo: 'name'");
+            if (paramCnae == null || paramCnae.isEmpty()) throw new IllegalArgumentException("Valor nulo: 'cnae'");
 
             // [PROCESS] Create Company object and update data
             Company companyFromDb = CompanyDAO.select(paramCnpj);
@@ -49,7 +47,7 @@ public class Update extends HttpServlet {
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Invalid input parameters
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + iae.getMessage());
-            req.setAttribute("errorMessage", "Ocorreu um erro interno no servidor: " + iae.getMessage());
+            req.setAttribute("errorMessage", "Argumento inválido: " + iae.getMessage());
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
@@ -60,7 +58,14 @@ public class Update extends HttpServlet {
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
-        } catch (Exception e) {
+        } catch (NullPointerException npe){
+            // [FAILURE LOG] Unexpected exception
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "referência nula: " + npe.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+        }
+        catch (Exception e) {
             // [FAILURE LOG] Unexpected exception
             System.err.println("[ERROR] [" + LocalDateTime.now() + "] Unexpected exception: " + e.getMessage());
             req.setAttribute("errorMessage", "Erro inesperado: " + e.getMessage());

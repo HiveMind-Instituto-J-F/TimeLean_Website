@@ -14,48 +14,75 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/company/create")
 public class Create extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            // [VALIDATION] Retrieve and validate form parameters
+            // [VALIDATION] Validate incoming request parameters
             String paramCnpj = req.getParameter("company-cnpj");
             String paramName = req.getParameter("company-name");
             String paramCnae = req.getParameter("company-cnae");
             String paramRegistrantCpf = req.getParameter("company-registrant-cpf");
 
-            if (paramCnpj == null || paramCnpj.isEmpty()) throw new IllegalArgumentException("Null value: 'cnpj'");
-            if (paramName == null || paramName.isEmpty()) throw new IllegalArgumentException("Null value: 'name'");
-            if (paramCnae == null || paramCnae.isEmpty()) throw new IllegalArgumentException("Null value: 'cnae'");
-            if (paramRegistrantCpf == null || paramRegistrantCpf.isEmpty()) throw new IllegalArgumentException("Null value: 'registrantCpf'");
+            if (paramCnpj == null || paramCnpj.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'CNPJ'");
+            }
+            if (paramName == null || paramName.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'Nome da empresa'");
+            }
+            if (paramCnae == null || paramCnae.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'CNAE'");
+            }
+            if (paramRegistrantCpf == null || paramRegistrantCpf.isEmpty()) {
+                throw new IllegalArgumentException("Valor Nulo: 'CPF Do registrante'");
+            }
 
-            // [PROCESS] Create Company object
+            // [PROCESS] Instantiate Company object
             Company company = new Company(paramCnpj, paramName, paramCnae, paramRegistrantCpf, true);
 
-            // [DATA ACCESS] Attempt to insert company in database
-            if (CompanyDAO.insert(company)) {
-                // [SUCCESS LOG] Company inserted successfully
-                System.err.println("[INFO] [" + LocalDateTime.now() + "] Company created successfully: " + paramCnpj);
+            // [DATA ACCESS] Insert company into database
+            boolean insertSuccess = CompanyDAO.insert(company);
 
-                // [PROCESS] redirect to /company/read
+            if (insertSuccess) {
+                // [SUCCESS LOG] Log successful creation
+                System.err.println("[INFO] [" + LocalDateTime.now() + "] [Create - Company] Company created successfully: " + paramCnpj);
+
+                // [PROCESS] Redirect to company read page
                 resp.sendRedirect(req.getContextPath() + "/company/read");
             } else {
-                // [FAILURE LOG] Failed to insert company
-                System.err.println("[ERROR] [" + LocalDateTime.now() + "] Failed to create company: " + paramCnpj);
+                // [FAILURE LOG] Log failure to insert
+                System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] Failed to create company: " + paramCnpj);
+                req.setAttribute("errorMessage", "Não foi possível cadastrar a empresa. Tente novamente.");
+                req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+                req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
             }
 
         } catch (IllegalArgumentException ia) {
-            // [FAILURE LOG] Invalid input parameter
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] IllegalArgumentException: " + ia.getMessage());
-            req.setAttribute("errorMessage", "Dados inválidos, Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
+            // [FAILURE LOG] Log invalid argument error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] IllegalArgumentException: Invalid Arguments");
+            req.setAttribute("errorMessage", "Dados inválidos. Por favor, preencha todos os campos corretamente. Erro: " + ia.getMessage());
             req.getRequestDispatcher("/html/crud/company/create.jsp").forward(req, resp);
 
-        } catch (DateTimeParseException dpe) {
-            // [FAILURE LOG] Date parsing error
-            System.err.println("[ERROR] [" + LocalDateTime.now() + "] DateTimeParseException: " + dpe.getMessage());
-            req.setAttribute("errorMessage", "Dados inválidos: " + dpe.getMessage());
+        } catch (NullPointerException npe) {
+            // [FAILURE LOG] Log null pointer error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] NullPointerException: " + npe.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro inesperado: valor nulo encontrado.");
             req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
             req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
 
+        } catch (DateTimeParseException dpe) {
+            // [FAILURE LOG] Log date parsing error
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] DateTimeParseException: " + dpe.getMessage());
+            req.setAttribute("errorMessage", "Erro ao processar a data: " + dpe.getMessage());
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
+
+        } catch (Exception e) {
+            // [FAILURE LOG] Log unexpected exception
+            System.err.println("[ERROR] [" + LocalDateTime.now() + "] [Create - Company] Exception: " + e.getMessage());
+            req.setAttribute("errorMessage", "Ocorreu um erro inesperado.");
+            req.setAttribute("errorUrl", req.getContextPath() + "/company/read");
+            req.getRequestDispatcher("/html/error/error.jsp").forward(req, resp);
         }
     }
 }

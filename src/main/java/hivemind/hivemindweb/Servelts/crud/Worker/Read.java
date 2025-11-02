@@ -30,15 +30,15 @@ public class Read extends HttpServlet {
             FilterType.Worker filterType = FilterType.Worker.ALL_VALUES;
             String filter = null;
 
-            String paramCpfFilter = req.getParameter("cpfFilter");
-            String paramSectorFilter = req.getParameter("sectorFilter");
+            String cpfFilter = req.getParameter("cpfFilter");
+            String sectorFilter = req.getParameter("sectorFilter");
 
-            if (paramCpfFilter != null && !paramCpfFilter.isEmpty()) {
+            if (cpfFilter != null && !cpfFilter.isEmpty()) {
                 filterType = FilterType.Worker.CPF;
-                filter = paramCpfFilter;
-            } else if (paramSectorFilter != null && !paramSectorFilter.isEmpty()) {
+                filter = cpfFilter;
+            } else if (sectorFilter != null && !sectorFilter.isEmpty()) {
                 filterType = FilterType.Worker.SECTOR;
-                filter = paramSectorFilter;
+                filter = sectorFilter;
             }
 
             // [DATA ACCESS] Retrieve workers with applied filter
@@ -50,7 +50,7 @@ public class Read extends HttpServlet {
             req.getRequestDispatcher("/html/crud/worker/read.jsp").forward(req, resp);
 
             // [SUCCESS LOG] Workers retrieved successfully
-            System.err.println("[INFO] [" + LocalDateTime.now() + "] Workers retrieved for plant: " + plantCnpj);
+            System.out.println("[INFO] [" + LocalDateTime.now() + "] Workers retrieved for plant: " + plantCnpj);
 
         } catch (IllegalArgumentException iae) {
             // [FAILURE LOG] Missing or invalid plantCnpj
