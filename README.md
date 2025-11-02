@@ -23,10 +23,23 @@ O WAR gerado ficará em `target/`. Faça o deploy em um Tomcat (diretório `weba
 
 Contribuições são bem-vindas. Para alterações maiores, abra uma issue descrevendo a proposta e submeta um pull request com testes e documentação atualizada.
 
+---
+
+## Links de Produção
+
+**Produção – AWS (Elastic Beanstalk):**  
+http://timeleanwebenv.eba-cb5mw28p.us-east-1.elasticbeanstalk.com/
+
+**Produção – Railway:**  
+https://timeleanwebsite-production.up.railway.app/
+
+---
+
 ## Licença
 
 MIT License
 
-
 ---
+
+
 
