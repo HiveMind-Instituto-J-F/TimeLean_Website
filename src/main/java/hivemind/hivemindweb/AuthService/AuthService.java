@@ -18,7 +18,7 @@ public class AuthService {
         if (adminFromDb == null) return false;
 
         // [PROCESS] Compare hashed passwords
-        return BCrypt.checkpw(paramAdminClient.getHashPassword(), adminFromDb.getHashPassword());
+        return BCrypt.checkpw(paramAdminClient.getPassword(), adminFromDb.getPassword());
     }
 
     // [PROCESS] Generic Login
@@ -53,7 +53,7 @@ public class AuthService {
         Admin adminFromDb = AdminDAO.selectByEmail(email);
 
         // [VALIDATION] Check if admin exists and password matches
-        if (adminFromDb != null && BCrypt.checkpw(password, adminFromDb.getHashPassword())) {
+        if (adminFromDb != null && BCrypt.checkpw(password, adminFromDb.getPassword())) {
             return adminFromDb;
         }
         return null;

@@ -3,17 +3,18 @@ package hivemind.hivemindweb.models;
 public class Admin {
     private int id;
     private String email;
-    private String hashPassword;
+    private String password;
+    private String image;
 
-    public Admin(int id, String email, String hashPassword) {
+    public Admin(int id, String email, String password) {
         this.id = id;
         this.email = email;
-        this.hashPassword = hashPassword;
+        this.password = password;
     }
 
-    public Admin(String email, String hashPassword) {
+    public Admin(String email, String password) {
         this.email = email;
-        this.hashPassword = hashPassword;
+        this.password = password;
     }
 
     public int getId() {
@@ -24,16 +25,24 @@ public class Admin {
         return email;
     }
 
-    public String getHashPassword() {
-        return hashPassword;
+    public String getPassword() {
+        return password;
+    }
+
+    public String getImage(){
+        return image;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setHashPassword(String hashPassword) {
-        this.hashPassword = hashPassword;
+    public void setPassword(String hashPassword) {
+        this.password = hashPassword;
+    }
+
+    public void setImage(String image){
+        this.image = image;
     }
 
     @Override
@@ -41,7 +50,7 @@ public class Admin {
         return "Admin{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", hashPassword='" + hashPassword + '\'' +
+                ", hashPassword='" + password + '\'' +
                 '}';
     }
 }
