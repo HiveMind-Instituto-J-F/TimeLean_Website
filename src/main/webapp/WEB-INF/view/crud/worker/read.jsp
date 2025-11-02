@@ -95,7 +95,7 @@
 
             <div>
                 <a class="inter" href="${pageContext.request.contextPath}/pages/create/worker.jsp">
-                    Cadastrar novo usuario
+                    Cadastrar novo usuário
                 </a>
             </div>
         </div>

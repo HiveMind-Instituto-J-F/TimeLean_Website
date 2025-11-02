@@ -94,28 +94,8 @@
 
             <!-- Filtro e submit ↓ -->
             <div id="filter-bar" class="inter">
-                <form action="${pageContext.request.contextPath}/plan/read" method="get">
-                    <div>
-                        <label for="filterCompanyName">
-                            <img src="${pageContext.request.contextPath}/img/icons/ui/search.png" alt="Buscar">
-                        </label>
-                        <input type="text" name="filterCompanyName" placeholder="Digite o nome da empresa dona aqui">
-                    </div>
-                    <div>
-                        <label for="status">
-                            <img src="${pageContext.request.contextPath}/img/icons/ui/filter.png" alt="filtrar">
-                        </label>
-                        <select class="inter" id="status" name="status">
-                            <option value="all-companies">Todas</option>
-                            <option value="active-companies">Apenas empresas ativas</option>
-                            <option value="inactive-companies">Apenas empresas inativas</option>
-                            <option value="companies-with-pending-payments">Apenas empresas com pagamentos pendentes</option>
-                        </select>
-                    </div>
-                    <button class="inter" type="submit">Submeter</button>
-                </form>
-                <div>
-                    <a class="inter" href="${pageContext.request.contextPath}/pages/create/plan.jsp">Cadastrar
+                <div style="width: 100%;">
+                    <a class="inter" style="text-align: center; margin: 0;" href="${pageContext.request.contextPath}/pages/create/plan.jsp">Cadastrar
                         novo plano</a>
                 </div>
             </div>
